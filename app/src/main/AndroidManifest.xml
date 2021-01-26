@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lebogang.kxgenesis">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Genesis20.System">
+        <activity android:name=".ui.MusicActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.settings.EqualizerActivity" />
+        <activity android:name=".ui.settings.ExtraVolumeActivity" />
+        <activity android:name=".ui.settings.CustomisePlayerActivity" />
+        <activity android:name=".ui.settings.DisplayActivity" />
+        <activity android:name=".ui.settings.MediaActivity" />
+        <activity android:name=".ui.settings.ThemeActivity" />
+        <activity android:name=".ui.PreferencesActivity" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
