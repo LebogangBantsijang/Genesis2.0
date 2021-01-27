@@ -16,28 +16,11 @@
 
 package com.lebogang.kxgenesis.data.utils
 
-import android.database.ContentObserver
+import android.content.ContentUris
 import android.net.Uri
-import android.os.Handler
 
-class MusicObserver(handler: Handler):ContentObserver(handler) {
-    override fun deliverSelfNotifications(): Boolean {
-        return super.deliverSelfNotifications()
-    }
-
-    override fun onChange(selfChange: Boolean) {
-        super.onChange(selfChange)
-    }
-
-    override fun onChange(selfChange: Boolean, uri: Uri?) {
-        super.onChange(selfChange, uri)
-    }
-
-    override fun onChange(selfChange: Boolean, uri: Uri?, flags: Int) {
-        super.onChange(selfChange, uri, flags)
-    }
-
-    override fun onChange(selfChange: Boolean, uris: MutableCollection<Uri>, flags: Int) {
-        super.onChange(selfChange, uris, flags)
+object LocalArtUri {
+    fun getAlbumArt(albumId:Long):Uri{
+        return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId)
     }
 }

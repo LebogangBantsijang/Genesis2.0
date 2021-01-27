@@ -21,6 +21,6 @@ import android.net.Uri
 data class Artist(
         val id:Long,
         val title:String,
-        val songCount:String,
+        val albumCount:String,
         val artUri: Uri
 )

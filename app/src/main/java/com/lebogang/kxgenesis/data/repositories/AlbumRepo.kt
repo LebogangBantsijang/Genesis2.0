@@ -14,10 +14,21 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data.models
+package com.lebogang.kxgenesis.data.repositories
 
-data class PlaylistBridgeTable(
-        val id:Long,
-        val playlistId:Long,
-        val audioId:Long
-)
+import android.content.Context
+import com.lebogang.kxgenesis.data.models.Album
+import com.lebogang.kxgenesis.data.repositories.local.LocalAlbum
+
+class AlbumRepo(val context: Context) {
+    private val localAlbumRepo = LocalAlbum(context)
+
+    fun getAlbums():LinkedHashMap<String, Album>{
+        return localAlbumRepo.getAlbums()
+    }
+
+    fun getAlbums(albumName:String):LinkedHashMap<String, Album>{
+        return localAlbumRepo.getAlbums(albumName)
+    }
+
+}

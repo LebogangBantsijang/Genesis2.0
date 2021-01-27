@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data.repositories
+package com.lebogang.kxgenesis.data.repositories.local
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
@@ -28,11 +28,12 @@ import android.text.format.Formatter
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import com.lebogang.kxgenesis.data.models.Audio
+import com.lebogang.kxgenesis.data.utils.LocalArtUri
 import com.lebogang.kxgenesis.settings.AppPreferences
 import com.lebogang.kxgenesis.utils.TimeConverter
 
-const val SORT_BY_TITLE = "$TITLE ASC"
-const val SORT_BY_DATE = "$DATE_ADDED DESC"
+const val SORT_AUDIO_BY_TITLE = "$TITLE ASC"
+const val SORT_AUDIO_BY_DATE = "$DATE_ADDED DESC"
 
 class LocalAudio(private val context:Context) {
 
@@ -106,7 +107,7 @@ class LocalAudio(private val context:Context) {
                     val duration = cursor.getLong(cursor.getColumnIndex(DURATION))
                     val durationFormatted = TimeConverter.toMinutes(duration)
                     val size = Formatter.formatShortFileSize(context, cursor.getLong(cursor.getColumnIndex(SIZE)))
-                    val albumArt = getAlbumArtUri(cursor.getLong(cursor.getColumnIndex(ALBUM_ID)))
+                    val albumArt = LocalArtUri.getAlbumArt(cursor.getLong(cursor.getColumnIndex(ALBUM_ID)))
                     val uri = ContentUris.withAppendedId(EXTERNAL_CONTENT_URI, id)
                     val isFavourite = cursor.getString(cursor.getColumnIndex(IS_FAVORITE))
                     val audio = Audio(id, title, artist, album, duration, durationFormatted
@@ -122,7 +123,4 @@ class LocalAudio(private val context:Context) {
         return linkedHashMap
     }
 
-    private fun getAlbumArtUri(albumId: Long): Uri {
-        return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId)
-    }
 }
