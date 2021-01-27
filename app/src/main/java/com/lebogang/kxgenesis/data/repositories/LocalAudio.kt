@@ -17,6 +17,7 @@
 package com.lebogang.kxgenesis.data.repositories
 
 import android.annotation.SuppressLint
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
@@ -25,6 +26,7 @@ import android.net.Uri
 import android.provider.MediaStore.Audio.Media.*
 import android.text.format.Formatter
 import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.settings.AppPreferences
 import com.lebogang.kxgenesis.utils.TimeConverter
@@ -34,7 +36,7 @@ const val SORT_BY_DATE = "$DATE_ADDED DESC"
 
 class LocalAudio(private val context:Context) {
 
-    val contentResolver = context.applicationContext.contentResolver
+    val contentResolver :ContentResolver = context.applicationContext.contentResolver
     @SuppressLint("InlinedApi")
     private val projection = arrayOf(_ID, TITLE, ARTIST, ALBUM, ALBUM_ID, DURATION, SIZE, IS_FAVORITE)
     private val appPreferences = AppPreferences(context)
@@ -46,46 +48,53 @@ class LocalAudio(private val context:Context) {
         val durationFilter = appPreferences.getAudioDurationFilter()
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
                 selection, arrayOf(durationFilter.toString()), sortOrder)
-        return loopCursor(cursor)
+        return loopCursor(cursor, null)
     }
 
     @SuppressLint("InlinedApi")
-    fun getAlbumAudio(@NonNull albumName:String):LinkedHashMap<Long, Audio>{
+    fun getAlbumAudio(albumName:String):LinkedHashMap<Long, Audio>{
         val sortOrder = appPreferences.getSortOrder()
         val durationFilter = appPreferences.getAudioDurationFilter()
         val selection = "$DURATION >=? AND $ALBUM =?"
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
                 selection, arrayOf(durationFilter.toString(), albumName), sortOrder)
-        return loopCursor(cursor)
+        return loopCursor(cursor, null)
     }
 
     @SuppressLint("InlinedApi")
-    fun getArtistAudio(@NonNull artistName:String):LinkedHashMap<Long, Audio>{
+    fun getArtistAudio(artistName:String):LinkedHashMap<Long, Audio>{
         val sortOrder = appPreferences.getSortOrder()
         val durationFilter = appPreferences.getAudioDurationFilter()
         val selection = "$DURATION >=? AND $ARTIST =?"
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
                 selection, arrayOf(durationFilter.toString(), artistName), sortOrder)
-        return loopCursor(cursor)
+        return loopCursor(cursor, null)
     }
 
-    fun getAudio(@NonNull uri: Uri):LinkedHashMap<Long, Audio>{
+    fun getAudio(uri: Uri):LinkedHashMap<Long, Audio>{
         val sortOrder = appPreferences.getSortOrder()
         val cursor = contentResolver.query(uri, projection,null,
                 null , sortOrder)
-        return loopCursor(cursor)
+        return loopCursor(cursor, null)
+    }
+
+    fun getAudio(audioIdList:List<Long>):LinkedHashMap<Long, Audio>{
+        val durationFilter = appPreferences.getAudioDurationFilter()
+        val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
+                selection, arrayOf(durationFilter.toString()), null)
+        return loopCursor(cursor, audioIdList)
     }
 
     fun deleteAudio(audio: Audio){
         contentResolver.delete(EXTERNAL_CONTENT_URI, "$_ID =?", arrayOf(audio.id.toString()))
     }
 
-    fun update(audio: Audio, contentValues: ContentValues){
+    fun updateAudio(audio: Audio, contentValues: ContentValues){
         contentResolver.update(audio.uri, contentValues, "$_ID =?", arrayOf(audio.id.toString()))
     }
 
     @SuppressLint("InlinedApi")
-    private fun loopCursor(cursor: Cursor?):LinkedHashMap<Long, Audio>{
+    private fun loopCursor(cursor: Cursor?,idList: List<Long>?):LinkedHashMap<Long, Audio>{
         val linkedHashMap :LinkedHashMap<Long, Audio> = LinkedHashMap()
         cursor?.let {
             if (cursor.moveToFirst()){
@@ -102,7 +111,10 @@ class LocalAudio(private val context:Context) {
                     val isFavourite = cursor.getString(cursor.getColumnIndex(IS_FAVORITE))
                     val audio = Audio(id, title, artist, album, duration, durationFormatted
                             , size, albumArt, uri, isFavourite)
-                    linkedHashMap[id] = audio
+                    if (idList != null && idList.contains(id))
+                        linkedHashMap[id] = audio
+                    else
+                        linkedHashMap[id] = audio
                 }while (cursor.moveToNext())
             }
             cursor.close()

@@ -16,20 +16,49 @@
 
 package com.lebogang.kxgenesis.data
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.data.repositories.LocalAudio
 
 class AudioRepo(val context: Context){
     private val localAudioRepo = LocalAudio(context)
     private val contentObserver = getContentObserver()
 
-    
+    fun getAudio():LinkedHashMap<Long, Audio>{
+        return localAudioRepo.getAudio()
+    }
 
+    fun getAlbumAudio(albumName:String):LinkedHashMap<Long,Audio>{
+        return localAudioRepo.getAlbumAudio(albumName)
+    }
+
+    fun getArtistAudio(artistName:String):LinkedHashMap<Long, Audio>{
+        return localAudioRepo.getArtistAudio(artistName)
+    }
+
+    fun getAudio(uri: Uri):LinkedHashMap<Long, Audio>{
+        return localAudioRepo.getAudio(uri)
+    }
+
+    fun getAudio(audioIdList:List<Long>):LinkedHashMap<Long, Audio>{
+        return localAudioRepo.getAudio(audioIdList)
+    }
+
+    fun updateAudio(audio: Audio, contentValues: ContentValues){
+        localAudioRepo.updateAudio(audio, contentValues)
+    }
+
+    fun deleteAudio(audio: Audio){
+        localAudioRepo.deleteAudio(audio)
+    }
+
+    //not finished here
     fun registerObserver(){
         localAudioRepo.contentResolver.registerContentObserver(
             EXTERNAL_CONTENT_URI
