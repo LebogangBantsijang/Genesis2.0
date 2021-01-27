@@ -14,13 +14,21 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data.models
+package com.lebogang.kxgenesis.data.repositories
 
-import android.net.Uri
+import android.content.Context
+import com.lebogang.kxgenesis.data.models.Album
+import com.lebogang.kxgenesis.data.repositories.local.LocalAlbum
 
-data class Artist(
-        val id:Long,
-        val title:String,
-        val albumCount:String,
-        val artUri: Uri
-)
+class AlbumRepo(val context: Context) {
+    private val localAlbumRepo = LocalAlbum(context)
+
+    fun getAlbums():LinkedHashMap<String, Album>{
+        return localAlbumRepo.getAlbums()
+    }
+
+    fun getAlbums(albumName:String):LinkedHashMap<String, Album>{
+        return localAlbumRepo.getAlbums(albumName)
+    }
+
+}

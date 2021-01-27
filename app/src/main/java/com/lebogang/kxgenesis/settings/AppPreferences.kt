@@ -17,20 +17,18 @@
 package com.lebogang.kxgenesis.settings
 
 import android.content.Context
-import android.provider.MediaStore
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.lebogang.kxgenesis.R
-import com.lebogang.kxgenesis.data.repositories.LocalAudio
-import com.lebogang.kxgenesis.data.repositories.SORT_BY_TITLE
+import com.lebogang.kxgenesis.data.repositories.local.SORT_AUDIO_BY_TITLE
 
 private const val THEME_MODE = "THEME_MODE"
 private const val AUDIO_SORT = "SORT_ORDER"
 private const val AUDIO_DURATION = "AUDIO_DURATION"
 
 
-class AppPreferences(private val context: Context) : ThemeInterface, AudioInterface{
+class AppPreferences(val context: Context) : ThemeInterface, AudioInterface{
     private val primaryColorPrefKey = "PrimaryColor"
 
     private val sharedPreferences = context.getSharedPreferences(
@@ -60,7 +58,7 @@ class AppPreferences(private val context: Context) : ThemeInterface, AudioInterf
     }
 
     override fun getSortOrder(): String {
-        return sharedPreferences.getString(AUDIO_SORT, SORT_BY_TITLE)!!
+        return sharedPreferences.getString(AUDIO_SORT, SORT_AUDIO_BY_TITLE)!!
     }
 
     override fun setAudioDurationFilter(duration: Long) {

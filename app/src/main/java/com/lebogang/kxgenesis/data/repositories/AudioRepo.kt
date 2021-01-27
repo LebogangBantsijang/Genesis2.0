@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data
+package com.lebogang.kxgenesis.data.repositories
 
 import android.content.ContentValues
 import android.content.Context
@@ -22,9 +22,9 @@ import android.database.ContentObserver
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
-import android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+import android.provider.MediaStore
 import com.lebogang.kxgenesis.data.models.Audio
-import com.lebogang.kxgenesis.data.repositories.LocalAudio
+import com.lebogang.kxgenesis.data.repositories.local.LocalAudio
 
 class AudioRepo(val context: Context){
     private val localAudioRepo = LocalAudio(context)
@@ -34,7 +34,7 @@ class AudioRepo(val context: Context){
         return localAudioRepo.getAudio()
     }
 
-    fun getAlbumAudio(albumName:String):LinkedHashMap<Long,Audio>{
+    fun getAlbumAudio(albumName:String):LinkedHashMap<Long, Audio>{
         return localAudioRepo.getAlbumAudio(albumName)
     }
 
@@ -61,7 +61,7 @@ class AudioRepo(val context: Context){
     //not finished here
     fun registerObserver(){
         localAudioRepo.contentResolver.registerContentObserver(
-            EXTERNAL_CONTENT_URI
+            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
             , true, contentObserver)
     }
 
@@ -69,8 +69,8 @@ class AudioRepo(val context: Context){
         localAudioRepo.contentResolver.unregisterContentObserver(contentObserver)
     }
 
-    private fun getContentObserver():ContentObserver{
-        return object :ContentObserver(Handler(Looper.getMainLooper())){
+    private fun getContentObserver(): ContentObserver {
+        return object : ContentObserver(Handler(Looper.getMainLooper())){
             override fun deliverSelfNotifications(): Boolean {
                 return super.deliverSelfNotifications()
             }
