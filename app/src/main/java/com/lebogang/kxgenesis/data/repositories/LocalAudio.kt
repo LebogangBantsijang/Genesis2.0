@@ -17,6 +17,7 @@
 package com.lebogang.kxgenesis.data.repositories
 
 import android.annotation.SuppressLint
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
@@ -35,7 +36,7 @@ const val SORT_BY_DATE = "$DATE_ADDED DESC"
 
 class LocalAudio(private val context:Context) {
 
-    val contentResolver = context.applicationContext.contentResolver
+    val contentResolver :ContentResolver = context.applicationContext.contentResolver
     @SuppressLint("InlinedApi")
     private val projection = arrayOf(_ID, TITLE, ARTIST, ALBUM, ALBUM_ID, DURATION, SIZE, IS_FAVORITE)
     private val appPreferences = AppPreferences(context)
@@ -51,7 +52,7 @@ class LocalAudio(private val context:Context) {
     }
 
     @SuppressLint("InlinedApi")
-    fun getAlbumAudio(@NonNull albumName:String):LinkedHashMap<Long, Audio>{
+    fun getAlbumAudio(albumName:String):LinkedHashMap<Long, Audio>{
         val sortOrder = appPreferences.getSortOrder()
         val durationFilter = appPreferences.getAudioDurationFilter()
         val selection = "$DURATION >=? AND $ALBUM =?"
@@ -61,7 +62,7 @@ class LocalAudio(private val context:Context) {
     }
 
     @SuppressLint("InlinedApi")
-    fun getArtistAudio(@NonNull artistName:String):LinkedHashMap<Long, Audio>{
+    fun getArtistAudio(artistName:String):LinkedHashMap<Long, Audio>{
         val sortOrder = appPreferences.getSortOrder()
         val durationFilter = appPreferences.getAudioDurationFilter()
         val selection = "$DURATION >=? AND $ARTIST =?"
@@ -70,7 +71,7 @@ class LocalAudio(private val context:Context) {
         return loopCursor(cursor, null)
     }
 
-    fun getAudio(@NonNull uri: Uri):LinkedHashMap<Long, Audio>{
+    fun getAudio(uri: Uri):LinkedHashMap<Long, Audio>{
         val sortOrder = appPreferences.getSortOrder()
         val cursor = contentResolver.query(uri, projection,null,
                 null , sortOrder)
@@ -93,7 +94,7 @@ class LocalAudio(private val context:Context) {
     }
 
     @SuppressLint("InlinedApi")
-    private fun loopCursor(@Nullable cursor: Cursor?,@Nullable idList: List<Long>?):LinkedHashMap<Long, Audio>{
+    private fun loopCursor(cursor: Cursor?,idList: List<Long>?):LinkedHashMap<Long, Audio>{
         val linkedHashMap :LinkedHashMap<Long, Audio> = LinkedHashMap()
         cursor?.let {
             if (cursor.moveToFirst()){
