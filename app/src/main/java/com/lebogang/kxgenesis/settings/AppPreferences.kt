@@ -69,5 +69,4 @@ class AppPreferences(val context: Context) : ThemeInterface, AudioInterface{
         return sharedPreferences.getLong(AUDIO_DURATION, 0)
     }
 
-
 }
