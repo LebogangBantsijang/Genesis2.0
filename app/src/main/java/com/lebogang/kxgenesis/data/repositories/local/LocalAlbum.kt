@@ -63,5 +63,5 @@ class LocalAlbum(val context: Context) {
         }
         return linkedHashMap
     }
-    
+
 }
