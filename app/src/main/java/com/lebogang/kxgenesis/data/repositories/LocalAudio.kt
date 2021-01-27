@@ -110,10 +110,8 @@ class LocalAudio(private val context:Context) {
                     val isFavourite = cursor.getString(cursor.getColumnIndex(IS_FAVORITE))
                     val audio = Audio(id, title, artist, album, duration, durationFormatted
                             , size, albumArt, uri, isFavourite)
-                    if (idList != null)
-                        if (idList.contains(id)){
-                            linkedHashMap[id] = audio
-                        }
+                    if (idList != null && idList.contains(id))
+                        linkedHashMap[id] = audio
                     else
                         linkedHashMap[id] = audio
                 }while (cursor.moveToNext())
