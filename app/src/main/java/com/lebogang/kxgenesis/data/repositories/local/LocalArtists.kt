@@ -18,8 +18,10 @@ package com.lebogang.kxgenesis.data.repositories.local
 
 import android.content.Context
 import android.database.Cursor
-import android.provider.MediaStore
-import android.provider.MediaStore.Audio.Artists.*
+import android.provider.MediaStore.Audio.Artists._ID
+import android.provider.MediaStore.Audio.Artists.ARTIST
+import android.provider.MediaStore.Audio.Artists.NUMBER_OF_ALBUMS
+import android.provider.MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI
 import com.lebogang.kxgenesis.data.models.Artist
 
 private const val SORT_ARTIST_BY_TITLE = "$ARTIST ASC"
