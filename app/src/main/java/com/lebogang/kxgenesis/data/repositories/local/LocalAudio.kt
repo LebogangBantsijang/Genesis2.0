@@ -23,7 +23,16 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
-import android.provider.MediaStore.Audio.Media.*
+import android.provider.MediaStore.Audio.Media._ID
+import android.provider.MediaStore.Audio.Media.TITLE
+import android.provider.MediaStore.Audio.Media.ARTIST
+import android.provider.MediaStore.Audio.Media.ALBUM
+import android.provider.MediaStore.Audio.Media.ALBUM_ID
+import android.provider.MediaStore.Audio.Media.DURATION
+import android.provider.MediaStore.Audio.Media.SIZE
+import android.provider.MediaStore.Audio.Media.IS_FAVORITE
+import android.provider.MediaStore.Audio.Media.DATE_ADDED
+import android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 import android.text.format.Formatter
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
