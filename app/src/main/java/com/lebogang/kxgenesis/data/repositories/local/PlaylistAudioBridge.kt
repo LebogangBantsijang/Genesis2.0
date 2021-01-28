@@ -14,12 +14,17 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data.models
+package com.lebogang.kxgenesis.data.repositories.local
 
-import android.net.Uri
+import androidx.room.ColumnInfo
+import androidx.room.Entity
 
-data class Artist(
-        val id:Long,
-        val title:String,
-        val albumCount:String
+@Entity
+data class PlaylistAudioBridge(
+    @ColumnInfo
+    val id:Long,
+    @ColumnInfo
+    val playlistId:Long,
+    @ColumnInfo
+    val audioId:Long
 )

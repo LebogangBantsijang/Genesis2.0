@@ -21,14 +21,14 @@ import com.lebogang.kxgenesis.data.models.Album
 import com.lebogang.kxgenesis.data.repositories.local.LocalAlbum
 
 class AlbumRepo(val context: Context) {
-    private val localAlbumRepo = LocalAlbum(context)
+    private val localAlbums = LocalAlbum(context)
 
     fun getAlbums():LinkedHashMap<String, Album>{
-        return localAlbumRepo.getAlbums()
+        return localAlbums.getAlbums()
     }
 
     fun getAlbums(albumName:String):LinkedHashMap<String, Album>{
-        return localAlbumRepo.getAlbums(albumName)
+        return localAlbums.getAlbums(albumName)
     }
 
 }

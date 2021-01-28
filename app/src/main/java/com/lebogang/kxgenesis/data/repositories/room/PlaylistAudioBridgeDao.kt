@@ -14,12 +14,21 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data.models
+package com.lebogang.kxgenesis.data.repositories.room
 
-import android.net.Uri
+import androidx.room.Dao
+import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
-data class Artist(
-        val id:Long,
-        val title:String,
-        val albumCount:String
-)
+@Dao
+interface PlaylistAudioBridgeDao {
+
+    @Query("SELECT audioId FROM PlaylistAudioBridge WHERE playlistId =:playlistId")
+    fun getAudioIds(playlistId:Long): Flow<List<Long>>
+
+    @Query("DELETE FROM PlaylistAudioBridge WHERE playlistId =:playlistId AND audioId=:audioId")
+    fun delete(playlistId:Long,audioId:Long)
+
+    @Query("DELETE FROM PlaylistAudioBridge")
+    fun clearData()
+}

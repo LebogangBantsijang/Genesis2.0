@@ -16,17 +16,21 @@
 
 package com.lebogang.kxgenesis.viewmodels
 
+import android.content.ContentValues
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.lebogang.kxgenesis.data.models.Audio
+import com.lebogang.kxgenesis.data.repositories.AudioRepo
 
-class AudioViewModel:ViewModel() {
+class AudioViewModel(val context: Context):ViewModel() {
+    private val audioRepo = AudioRepo(context)
 
-
-    class Factory:ViewModelProvider.Factory{
+    class Factory(val context:Context):ViewModelProvider.Factory{
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(AudioViewModel::class.java))
-                return AudioViewModel() as T
+                return AudioViewModel(context) as T
             throw IllegalArgumentException()
         }
 
