@@ -27,46 +27,46 @@ import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.data.repositories.local.LocalAudio
 
 class AudioRepo(val context: Context){
-    private val localAudioRepo = LocalAudio(context)
+    private val localAudio = LocalAudio(context)
     private val contentObserver = getContentObserver()
 
     fun getAudio():LinkedHashMap<Long, Audio>{
-        return localAudioRepo.getAudio()
+        return localAudio.getAudio()
     }
 
     fun getAlbumAudio(albumName:String):LinkedHashMap<Long, Audio>{
-        return localAudioRepo.getAlbumAudio(albumName)
+        return localAudio.getAlbumAudio(albumName)
     }
 
     fun getArtistAudio(artistName:String):LinkedHashMap<Long, Audio>{
-        return localAudioRepo.getArtistAudio(artistName)
+        return localAudio.getArtistAudio(artistName)
     }
 
     fun getAudio(uri: Uri):LinkedHashMap<Long, Audio>{
-        return localAudioRepo.getAudio(uri)
+        return localAudio.getAudio(uri)
     }
 
     fun getAudio(audioIdList:List<Long>):LinkedHashMap<Long, Audio>{
-        return localAudioRepo.getAudio(audioIdList)
+        return localAudio.getAudio(audioIdList)
     }
 
     fun updateAudio(audio: Audio, contentValues: ContentValues){
-        localAudioRepo.updateAudio(audio, contentValues)
+        localAudio.updateAudio(audio, contentValues)
     }
 
     fun deleteAudio(audio: Audio){
-        localAudioRepo.deleteAudio(audio)
+        localAudio.deleteAudio(audio)
     }
 
     //not finished here
     fun registerObserver(){
-        localAudioRepo.contentResolver.registerContentObserver(
+        localAudio.contentResolver.registerContentObserver(
             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
             , true, contentObserver)
     }
 
     fun unregisterObserver(){
-        localAudioRepo.contentResolver.unregisterContentObserver(contentObserver)
+        localAudio.contentResolver.unregisterContentObserver(contentObserver)
     }
 
     private fun getContentObserver(): ContentObserver {

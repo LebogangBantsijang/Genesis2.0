@@ -14,12 +14,27 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data.models
+package com.lebogang.kxgenesis.data.repositories.room
 
-import android.net.Uri
+import androidx.room.*
+import com.lebogang.kxgenesis.data.models.Playlist
+import kotlinx.coroutines.flow.Flow
 
-data class Artist(
-        val id:Long,
-        val title:String,
-        val albumCount:String
-)
+@Dao
+interface PlaylistDao {
+
+    @Query("SELECT * FROM Playlist")
+    fun getPlaylist(): Flow<List<Playlist>>
+
+    @Query("SELECT * FROM Playlist WHERE id =:id")
+    fun getPlaylist(id:Long):Flow<Playlist>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(playlist: Playlist)
+
+    @Delete
+    fun delete(playlist: Playlist)
+
+    @Query("DELETE FROM Playlist")
+    fun clearData()
+}
