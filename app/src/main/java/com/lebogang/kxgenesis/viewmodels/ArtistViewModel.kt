@@ -21,49 +21,41 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.lebogang.kxgenesis.data.models.Artist
-import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.data.repositories.ArtistRepo
 import com.lebogang.kxgenesis.data.repositories.AudioRepo
 import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
 import kotlinx.coroutines.launch
 
-class ArtistViewModel(private val artistRepo: ArtistRepo,private val audioRepo: AudioRepo)
-    :ViewModel(), OnContentChanged {
-    val artistLiveData : MutableLiveData<LinkedHashMap<String, Artist>> = MutableLiveData()
-    val audioLiveData:MutableLiveData<LinkedHashMap<Long, Audio>> = MutableLiveData()
+class ArtistViewModel(private val artistRepo: ArtistRepo) : ViewModel(), OnContentChanged {
+    val liveData : MutableLiveData<LinkedHashMap<String, Artist>> = MutableLiveData()
     private var name:String? = null
 
-    fun registerContentObserver(){
-        audioRepo.registerObserver(this)
+    private fun registerContentObserver(){
+        artistRepo.registerObserver(this)
     }
 
-    fun unregisterContentContentObserver(){
-        audioRepo.unregisterObserver()
+    private fun unregisterContentContentObserver(){
+        artistRepo.unregisterObserver()
     }
 
     fun getArtists() = viewModelScope.launch {
-        artistLiveData.postValue(artistRepo.getArtists())
+        liveData.postValue(artistRepo.getArtists())
     }
 
     fun getArtists(artistName:String) = viewModelScope.launch {
-        artistLiveData.postValue(artistRepo.getArtists(artistName))
+        liveData.postValue(artistRepo.getArtists(artistName))
     }
 
-    fun getArtistAudio(artistName: String) = viewModelScope.launch {
-        audioLiveData.postValue(audioRepo.getArtistAudio(artistName))
-        name = artistName
-    }
 
-    override fun onChanged() {
-        if (name != null)
-            getArtistAudio(name!!)
+    override fun onMediaChanged() {
+        getArtists()
     }
 
     class Factory(private val artistRepo: ArtistRepo,private val audioRepo: AudioRepo):ViewModelProvider.Factory{
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ArtistViewModel::class.java))
-                return ArtistViewModel(artistRepo, audioRepo) as T
+                return ArtistViewModel(artistRepo) as T
             throw IllegalArgumentException()
         }
 

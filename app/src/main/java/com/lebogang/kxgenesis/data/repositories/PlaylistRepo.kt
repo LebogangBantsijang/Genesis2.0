@@ -33,7 +33,7 @@ class PlaylistRepo(private val playlistDao: PlaylistDao,
         return playlistDao.getPlaylist(id)
     }
 
-    fun getPlaylistAudioIds(playlistId:Long):Flow<List<Long>>{
+    fun getPlaylistAudioIds(playlistId:Long):List<Long>{
         return playlistAudioBridgeDao.getAudioIds(playlistId)
     }
 

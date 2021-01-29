@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 class AudioViewModel(private val audioRepo: AudioRepo): ViewModel(), OnContentChanged {
     val liveData:MutableLiveData<LinkedHashMap<Long,Audio>> = MutableLiveData()
     private lateinit var which: AudioEnum
-    private var name:Uri? = null
+    private var identifier:Any? = null
 
     fun registerContentObserver(){
         audioRepo.registerObserver(this)
@@ -57,17 +57,46 @@ class AudioViewModel(private val audioRepo: AudioRepo): ViewModel(), OnContentCh
     fun getAudio(uri: Uri) = viewModelScope.launch {
         liveData.postValue(audioRepo.getAudio(uri))
         which = AudioEnum.URI_AUDIO
-        name = uri
+        identifier = uri
     }
 
-    override fun onChanged() {
-        when(which){
-            AudioEnum.URI_AUDIO -> {
-                if (name!= null)
-                    getAudio(name!!)
+    fun getAlbumAudio(name:String) = viewModelScope.launch {
+        liveData.postValue(audioRepo.getAlbumAudio(name))
+        which = AudioEnum.ALBUM_AUDIO
+        identifier = name
+    }
+
+    fun getArtistAudio(name:String) = viewModelScope.launch {
+        liveData.postValue(audioRepo.getArtistAudio(name))
+        which = AudioEnum.ARTIST_AUDIO
+        identifier = name
+    }
+
+    fun getAudio(audioIdList:List<Long>) = viewModelScope.launch {
+        liveData.postValue(audioRepo.getAudio(audioIdList))
+        which = AudioEnum.LIST_AUDIO
+        identifier = audioIdList
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun onMediaChanged() {
+        if (identifier!= null)
+            when(which){
+                AudioEnum.URI_AUDIO -> {
+                    getAudio(identifier as Uri)
+                }
+                AudioEnum.ALBUM_AUDIO ->{
+                    getAlbumAudio(identifier as String)
+                }
+                AudioEnum.ARTIST_AUDIO ->{
+                    getArtistAudio(identifier as String)
+                }
+                AudioEnum.LIST_AUDIO ->{
+                    getAudio(identifier as List<Long>)
+                }
             }
-            else -> getAudio()
-        }
+        else
+            getAudio()
     }
 
     class Factory(private val audioRepo: AudioRepo):ViewModelProvider.Factory{

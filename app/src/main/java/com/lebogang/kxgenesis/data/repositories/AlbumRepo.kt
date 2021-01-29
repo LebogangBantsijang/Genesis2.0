@@ -17,11 +17,30 @@
 package com.lebogang.kxgenesis.data.repositories
 
 import android.content.Context
+import android.database.ContentObserver
+import android.net.Uri
+import android.os.Handler
+import android.os.Looper
+import android.provider.MediaStore
 import com.lebogang.kxgenesis.data.models.Album
 import com.lebogang.kxgenesis.data.repositories.local.LocalAlbum
+import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
 
 class AlbumRepo(val context: Context) {
     private val localAlbums = LocalAlbum(context)
+    private val contentObserver = getContentObserver()
+    private var onContentChanged: OnContentChanged? = null
+
+    fun registerObserver(onContentChanged: OnContentChanged){
+        localAlbums.contentResolver.registerContentObserver(
+                MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI
+                , true, contentObserver)
+        this.onContentChanged = onContentChanged
+    }
+
+    fun unregisterObserver(){
+        localAlbums.contentResolver.unregisterContentObserver(contentObserver)
+    }
 
     fun getAlbums():LinkedHashMap<String, Album>{
         return localAlbums.getAlbums()
@@ -29,6 +48,34 @@ class AlbumRepo(val context: Context) {
 
     fun getAlbums(albumName:String):LinkedHashMap<String, Album>{
         return localAlbums.getAlbums(albumName)
+    }
+
+    private fun getContentObserver(): ContentObserver {
+        return object : ContentObserver(Handler(Looper.getMainLooper())){
+            override fun deliverSelfNotifications(): Boolean {
+                return true
+            }
+
+            override fun onChange(selfChange: Boolean) {
+                super.onChange(selfChange)
+                onContentChanged?.onMediaChanged()
+            }
+
+            override fun onChange(selfChange: Boolean, uri: Uri?) {
+                super.onChange(selfChange, uri)
+                onContentChanged?.onMediaChanged()
+            }
+
+            override fun onChange(selfChange: Boolean, uri: Uri?, flags: Int) {
+                super.onChange(selfChange, uri, flags)
+                onContentChanged?.onMediaChanged()
+            }
+
+            override fun onChange(selfChange: Boolean, uris: MutableCollection<Uri>, flags: Int) {
+                super.onChange(selfChange, uris, flags)
+                onContentChanged?.onMediaChanged()
+            }
+        }
     }
 
 }

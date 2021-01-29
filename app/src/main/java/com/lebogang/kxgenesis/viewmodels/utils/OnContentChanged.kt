@@ -18,6 +18,6 @@ package com.lebogang.kxgenesis.viewmodels.utils
 
 interface OnContentChanged {
 
-    fun onChanged()
+    fun onMediaChanged()
 
 }

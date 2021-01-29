@@ -17,5 +17,5 @@
 package com.lebogang.kxgenesis.viewmodels.utils
 
 enum class AudioEnum {
-    ALL_AUDIO, ALBUM_AUDIO, ARTIST_AUDIO, LIST_AUDIO, URI_AUDIO
+    ALBUM_AUDIO, ARTIST_AUDIO, LIST_AUDIO, URI_AUDIO
 }

@@ -33,6 +33,17 @@ class AudioRepo(val context: Context){
     private val contentObserver = getContentObserver()
     private var onContentChanged: OnContentChanged? = null
 
+    fun registerObserver(onContentChanged: OnContentChanged){
+        localAudio.contentResolver.registerContentObserver(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                , true, contentObserver)
+        this.onContentChanged = onContentChanged
+    }
+
+    fun unregisterObserver(){
+        localAudio.contentResolver.unregisterContentObserver(contentObserver)
+    }
+
     fun getAudio():LinkedHashMap<Long, Audio>{
         return localAudio.getAudio()
     }
@@ -65,18 +76,6 @@ class AudioRepo(val context: Context){
         localAudio.deleteAudio(audio)
     }
 
-    //not finished here
-    fun registerObserver(onContentChanged: OnContentChanged){
-        localAudio.contentResolver.registerContentObserver(
-            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-            , true, contentObserver)
-        this.onContentChanged = onContentChanged
-    }
-
-    fun unregisterObserver(){
-        localAudio.contentResolver.unregisterContentObserver(contentObserver)
-    }
-
     private fun getContentObserver(): ContentObserver {
         return object : ContentObserver(Handler(Looper.getMainLooper())){
             override fun deliverSelfNotifications(): Boolean {
@@ -85,22 +84,22 @@ class AudioRepo(val context: Context){
 
             override fun onChange(selfChange: Boolean) {
                 super.onChange(selfChange)
-                onContentChanged?.onChanged()
+                onContentChanged?.onMediaChanged()
             }
 
             override fun onChange(selfChange: Boolean, uri: Uri?) {
                 super.onChange(selfChange, uri)
-                onContentChanged?.onChanged()
+                onContentChanged?.onMediaChanged()
             }
 
             override fun onChange(selfChange: Boolean, uri: Uri?, flags: Int) {
                 super.onChange(selfChange, uri, flags)
-                onContentChanged?.onChanged()
+                onContentChanged?.onMediaChanged()
             }
 
             override fun onChange(selfChange: Boolean, uris: MutableCollection<Uri>, flags: Int) {
                 super.onChange(selfChange, uris, flags)
-                onContentChanged?.onChanged()
+                onContentChanged?.onMediaChanged()
             }
         }
     }

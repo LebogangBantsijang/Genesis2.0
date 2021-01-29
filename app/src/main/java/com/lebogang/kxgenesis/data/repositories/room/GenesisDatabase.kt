@@ -20,10 +20,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.lebogang.kxgenesis.data.repositories.local.LocalPlaylist
-import com.lebogang.kxgenesis.data.repositories.local.PlaylistAudioBridge
+import com.lebogang.kxgenesis.data.models.Playlist
+import com.lebogang.kxgenesis.data.models.PlaylistBridgeTable
 
-@Database(entities = [LocalPlaylist::class, PlaylistAudioBridge::class],version = 1, exportSchema = false)
+@Database(entities = [Playlist::class, PlaylistBridgeTable::class],version = 1, exportSchema = false)
 abstract class GenesisDatabase:RoomDatabase() {
     abstract fun playlistDao():PlaylistDao
     abstract fun playlistAudioBridge():PlaylistAudioBridgeDao
