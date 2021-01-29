@@ -23,12 +23,15 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import androidx.annotation.WorkerThread
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.data.repositories.local.LocalAudio
+import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
 
 class AudioRepo(val context: Context){
     private val localAudio = LocalAudio(context)
     private val contentObserver = getContentObserver()
+    private var onContentChanged: OnContentChanged? = null
 
     fun getAudio():LinkedHashMap<Long, Audio>{
         return localAudio.getAudio()
@@ -46,23 +49,28 @@ class AudioRepo(val context: Context){
         return localAudio.getAudio(uri)
     }
 
-    fun getAudio(audioIdList:List<Long>):LinkedHashMap<Long, Audio>{
+    fun getAudio(audioIdList:List<Long>?):LinkedHashMap<Long, Audio>{
         return localAudio.getAudio(audioIdList)
     }
 
-    fun updateAudio(audio: Audio, contentValues: ContentValues){
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateAudio(audio: Audio, contentValues: ContentValues){
         localAudio.updateAudio(audio, contentValues)
     }
 
-    fun deleteAudio(audio: Audio){
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteAudio(audio: Audio){
         localAudio.deleteAudio(audio)
     }
 
     //not finished here
-    fun registerObserver(){
+    fun registerObserver(onContentChanged: OnContentChanged){
         localAudio.contentResolver.registerContentObserver(
             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
             , true, contentObserver)
+        this.onContentChanged = onContentChanged
     }
 
     fun unregisterObserver(){
@@ -72,23 +80,27 @@ class AudioRepo(val context: Context){
     private fun getContentObserver(): ContentObserver {
         return object : ContentObserver(Handler(Looper.getMainLooper())){
             override fun deliverSelfNotifications(): Boolean {
-                return super.deliverSelfNotifications()
+                return true
             }
 
             override fun onChange(selfChange: Boolean) {
                 super.onChange(selfChange)
+                onContentChanged?.onChanged()
             }
 
             override fun onChange(selfChange: Boolean, uri: Uri?) {
                 super.onChange(selfChange, uri)
+                onContentChanged?.onChanged()
             }
 
             override fun onChange(selfChange: Boolean, uri: Uri?, flags: Int) {
                 super.onChange(selfChange, uri, flags)
+                onContentChanged?.onChanged()
             }
 
             override fun onChange(selfChange: Boolean, uris: MutableCollection<Uri>, flags: Int) {
                 super.onChange(selfChange, uris, flags)
+                onContentChanged?.onChanged()
             }
         }
     }

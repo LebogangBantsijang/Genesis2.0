@@ -14,13 +14,10 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis
+package com.lebogang.kxgenesis.viewmodels.utils
 
-import android.app.Application
-import com.lebogang.kxgenesis.data.repositories.room.GenesisDatabase
+interface OnContentChanged {
 
-class GenesisApplication:Application() {
-    val genesisDatabase:GenesisDatabase by lazy {
-        GenesisDatabase.getDatabase(this)
-    }
+    fun onChanged()
+
 }

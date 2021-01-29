@@ -17,20 +17,60 @@
 package com.lebogang.kxgenesis.viewmodels
 
 import android.content.ContentValues
-import android.content.Context
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import android.net.Uri
+import androidx.lifecycle.*
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.data.repositories.AudioRepo
+import com.lebogang.kxgenesis.viewmodels.utils.AudioEnum
+import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
+import kotlinx.coroutines.launch
 
-class AudioViewModel(val context: Context):ViewModel() {
-    private val audioRepo = AudioRepo(context)
+class AudioViewModel(private val audioRepo: AudioRepo):ViewModel(), OnContentChanged {
+    val liveData:MutableLiveData<LinkedHashMap<Long,Audio>> = MutableLiveData()
+    private lateinit var which: AudioEnum
+    private var name:Uri? = null
 
-    class Factory(val context:Context):ViewModelProvider.Factory{
+    fun registerContentObserver(){
+        audioRepo.registerObserver(this)
+    }
+
+    fun unregisterContentContentObserver(){
+        audioRepo.unregisterObserver()
+    }
+
+    fun updateAudio(audio: Audio, contentValues: ContentValues) = viewModelScope.launch {
+        audioRepo.updateAudio(audio,contentValues)
+    }
+
+    fun deleteAudio(audio: Audio) = viewModelScope.launch {
+        audioRepo.deleteAudio(audio)
+    }
+
+    fun getAudio() = viewModelScope.launch {
+        liveData.postValue(audioRepo.getAudio())
+    }
+
+    fun getAudio(uri: Uri) = viewModelScope.launch {
+        liveData.postValue(audioRepo.getAudio(uri))
+        which = AudioEnum.URI_AUDIO
+        name = uri
+    }
+
+    override fun onChanged() {
+        when(which){
+            AudioEnum.URI_AUDIO -> {
+                if (name!= null)
+                    getAudio(name!!)
+            }
+            else -> getAudio()
+        }
+    }
+
+    class Factory(private val audioRepo: AudioRepo):ViewModelProvider.Factory{
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(AudioViewModel::class.java))
-                return AudioViewModel(context) as T
+                return AudioViewModel(audioRepo) as T
             throw IllegalArgumentException()
         }
 

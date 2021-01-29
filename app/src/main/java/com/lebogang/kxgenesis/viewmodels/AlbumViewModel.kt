@@ -14,13 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis
+package com.lebogang.kxgenesis.viewmodels
 
-import android.app.Application
-import com.lebogang.kxgenesis.data.repositories.room.GenesisDatabase
-
-class GenesisApplication:Application() {
-    val genesisDatabase:GenesisDatabase by lazy {
-        GenesisDatabase.getDatabase(this)
-    }
+class AlbumViewModel {
 }

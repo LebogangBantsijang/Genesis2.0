@@ -88,7 +88,7 @@ class LocalAudio(private val context:Context) {
         return loopCursor(cursor, null)
     }
 
-    fun getAudio(audioIdList:List<Long>):LinkedHashMap<Long, Audio>{
+    fun getAudio(audioIdList:List<Long>?):LinkedHashMap<Long, Audio>{
         val durationFilter = appPreferences.getAudioDurationFilter()
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
                 selection, arrayOf(durationFilter.toString()), null)
