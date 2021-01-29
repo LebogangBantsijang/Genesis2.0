@@ -14,13 +14,20 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis
+package com.lebogang.kxgenesis.viewmodels
 
-import android.app.Application
-import com.lebogang.kxgenesis.data.repositories.room.GenesisDatabase
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 
-class GenesisApplication:Application() {
-    val genesisDatabase:GenesisDatabase by lazy {
-        GenesisDatabase.getDatabase(this)
+class AlbumViewModel :ViewModel(){
+
+    class Factory:ViewModelProvider.Factory{
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if(modelClass.isAssignableFrom(AlbumViewModel::class.java))
+                return AlbumViewModel() as T
+            throw IllegalArgumentException()
+        }
+
     }
 }

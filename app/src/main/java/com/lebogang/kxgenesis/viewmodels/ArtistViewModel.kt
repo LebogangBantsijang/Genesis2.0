@@ -16,23 +16,22 @@
 
 package com.lebogang.kxgenesis.viewmodels
 
-import android.content.ContentValues
-import android.net.Uri
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.data.models.Audio
+import com.lebogang.kxgenesis.data.repositories.ArtistRepo
 import com.lebogang.kxgenesis.data.repositories.AudioRepo
-import com.lebogang.kxgenesis.viewmodels.utils.AudioEnum
 import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
 import kotlinx.coroutines.launch
 
-class AudioViewModel(private val audioRepo: AudioRepo): ViewModel(), OnContentChanged {
-    val liveData:MutableLiveData<LinkedHashMap<Long,Audio>> = MutableLiveData()
-    private lateinit var which: AudioEnum
-    private var name:Uri? = null
+class ArtistViewModel(private val artistRepo: ArtistRepo,private val audioRepo: AudioRepo)
+    :ViewModel(), OnContentChanged {
+    val artistLiveData : MutableLiveData<LinkedHashMap<String, Artist>> = MutableLiveData()
+    val audioLiveData:MutableLiveData<LinkedHashMap<Long, Audio>> = MutableLiveData()
+    private var name:String? = null
 
     fun registerContentObserver(){
         audioRepo.registerObserver(this)
@@ -42,39 +41,29 @@ class AudioViewModel(private val audioRepo: AudioRepo): ViewModel(), OnContentCh
         audioRepo.unregisterObserver()
     }
 
-    fun updateAudio(audio: Audio, contentValues: ContentValues) = viewModelScope.launch {
-        audioRepo.updateAudio(audio,contentValues)
+    fun getArtists() = viewModelScope.launch {
+        artistLiveData.postValue(artistRepo.getArtists())
     }
 
-    fun deleteAudio(audio: Audio) = viewModelScope.launch {
-        audioRepo.deleteAudio(audio)
+    fun getArtists(artistName:String) = viewModelScope.launch {
+        artistLiveData.postValue(artistRepo.getArtists(artistName))
     }
 
-    fun getAudio() = viewModelScope.launch {
-        liveData.postValue(audioRepo.getAudio())
-    }
-
-    fun getAudio(uri: Uri) = viewModelScope.launch {
-        liveData.postValue(audioRepo.getAudio(uri))
-        which = AudioEnum.URI_AUDIO
-        name = uri
+    fun getArtistAudio(artistName: String) = viewModelScope.launch {
+        audioLiveData.postValue(audioRepo.getArtistAudio(artistName))
+        name = artistName
     }
 
     override fun onChanged() {
-        when(which){
-            AudioEnum.URI_AUDIO -> {
-                if (name!= null)
-                    getAudio(name!!)
-            }
-            else -> getAudio()
-        }
+        if (name != null)
+            getArtistAudio(name!!)
     }
 
-    class Factory(private val audioRepo: AudioRepo):ViewModelProvider.Factory{
+    class Factory(private val artistRepo: ArtistRepo,private val audioRepo: AudioRepo):ViewModelProvider.Factory{
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(AudioViewModel::class.java))
-                return AudioViewModel(audioRepo) as T
+            if (modelClass.isAssignableFrom(ArtistViewModel::class.java))
+                return ArtistViewModel(artistRepo, audioRepo) as T
             throw IllegalArgumentException()
         }
 

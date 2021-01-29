@@ -26,8 +26,13 @@ interface PlaylistAudioBridgeDao {
     @Query("SELECT audioId FROM PlaylistAudioBridge WHERE playlistId =:playlistId")
     fun getAudioIds(playlistId:Long): Flow<List<Long>>
 
+    /**Remove one audio entry*/
     @Query("DELETE FROM PlaylistAudioBridge WHERE playlistId =:playlistId AND audioId=:audioId")
     fun delete(playlistId:Long,audioId:Long)
+
+    /**Remove all playlist audio*/
+    @Query("DELETE FROM PlaylistAudioBridge WHERE playlistId =:playlistId")
+    fun delete(playlistId: Long)
 
     @Query("DELETE FROM PlaylistAudioBridge")
     fun clearData()

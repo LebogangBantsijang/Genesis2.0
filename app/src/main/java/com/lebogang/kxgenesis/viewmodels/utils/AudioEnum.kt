@@ -14,13 +14,8 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis
+package com.lebogang.kxgenesis.viewmodels.utils
 
-import android.app.Application
-import com.lebogang.kxgenesis.data.repositories.room.GenesisDatabase
-
-class GenesisApplication:Application() {
-    val genesisDatabase:GenesisDatabase by lazy {
-        GenesisDatabase.getDatabase(this)
-    }
+enum class AudioEnum {
+    ALL_AUDIO, ALBUM_AUDIO, ARTIST_AUDIO, LIST_AUDIO, URI_AUDIO
 }

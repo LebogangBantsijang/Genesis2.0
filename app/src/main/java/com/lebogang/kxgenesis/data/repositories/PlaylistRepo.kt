@@ -37,24 +37,29 @@ class PlaylistRepo(private val playlistDao: PlaylistDao,
         return playlistAudioBridgeDao.getAudioIds(playlistId)
     }
 
+    @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    fun insertPlaylist(playlist: Playlist){
+    suspend fun insertPlaylist(playlist: Playlist){
         playlistDao.insert(playlist)
     }
 
+    @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    fun deletePlaylist(playlist: Playlist){
+    suspend fun deletePlaylist(playlist: Playlist){
+        playlistAudioBridgeDao.delete(playlist.id)
         playlistDao.delete(playlist)
     }
 
+    @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    fun clearData(){
+    suspend fun clearData(){
         playlistDao.clearData()
         playlistAudioBridgeDao.clearData()
     }
 
+    @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    fun deletePlaylistAudio(playlistId:Long, audioId:Long){
+    suspend fun deletePlaylistAudio(playlistId:Long, audioId:Long){
         playlistAudioBridgeDao.delete(playlistId, audioId)
     }
 }
