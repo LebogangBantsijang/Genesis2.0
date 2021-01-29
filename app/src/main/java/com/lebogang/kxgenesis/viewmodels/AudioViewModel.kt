@@ -18,14 +18,18 @@ package com.lebogang.kxgenesis.viewmodels
 
 import android.content.ContentValues
 import android.net.Uri
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModelProvider
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.data.repositories.AudioRepo
 import com.lebogang.kxgenesis.viewmodels.utils.AudioEnum
 import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
 import kotlinx.coroutines.launch
 
-class AudioViewModel(private val audioRepo: AudioRepo):ViewModel(), OnContentChanged {
+class AudioViewModel(private val audioRepo: AudioRepo): ViewModel(), OnContentChanged {
     val liveData:MutableLiveData<LinkedHashMap<Long,Audio>> = MutableLiveData()
     private lateinit var which: AudioEnum
     private var name:Uri? = null
