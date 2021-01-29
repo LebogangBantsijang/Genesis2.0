@@ -23,4 +23,6 @@ class GenesisApplication:Application() {
     val genesisDatabase:GenesisDatabase by lazy {
         GenesisDatabase.getDatabase(this)
     }
+
+
 }

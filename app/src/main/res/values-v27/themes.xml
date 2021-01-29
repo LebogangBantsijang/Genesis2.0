@@ -17,14 +17,16 @@
 
 <resources>
 
-    <style name="Theme.Genesis20.System" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Genesis20.System" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorAccent">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryColor</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:colorBackground">@color/systemThemeBackgroundColor</item>
+        <item name="android:navigationBarColor">@color/systemThemeBackgroundColor</item>
+        <item name="android:statusBarColor">@color/systemThemeBackgroundColor</item>
     </style>
 </resources>
