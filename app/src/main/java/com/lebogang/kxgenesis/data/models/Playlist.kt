@@ -16,10 +16,17 @@
 
 package com.lebogang.kxgenesis.data.models
 
-import android.net.Uri
+import androidx.room.ColumnInfo
+import androidx.room.Entity
 
+@Entity(tableName = "Playlist")
 data class Playlist(
-        val id:Long,
-        val title:String,
-        val albumArtUri: Uri
+    @ColumnInfo
+    val id:Long,
+    @ColumnInfo
+    val title:String,
+    @ColumnInfo
+    val coverUriToString:String,
+    @ColumnInfo
+    val audioId:Long
 )

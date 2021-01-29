@@ -23,19 +23,27 @@ import android.provider.MediaStore.Audio.Artists.ARTIST
 import android.provider.MediaStore.Audio.Artists.NUMBER_OF_ALBUMS
 import android.provider.MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI
 import com.lebogang.kxgenesis.data.models.Artist
+import kotlinx.coroutines.flow.Flow
 
 private const val SORT_ARTIST_BY_TITLE = "$ARTIST ASC"
 
 class LocalArtists(val context: Context) {
-    private val contentResolver = context.applicationContext.contentResolver
+    val contentResolver = context.applicationContext.contentResolver
     private val projection = arrayOf(_ID, ARTIST, NUMBER_OF_ALBUMS)
 
+    /**
+     * Get all artists
+     * */
     fun getArtists():LinkedHashMap<String, Artist>{
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
                 null, null, SORT_ARTIST_BY_TITLE)
         return loopCursor(cursor)
     }
 
+    /**
+     * Get all artists with the specified name
+     * @param artistName
+     * */
     fun getArtists(artistName:String):LinkedHashMap<String, Artist> {
         val selection = "$ARTIST =?"
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
@@ -43,6 +51,10 @@ class LocalArtists(val context: Context) {
         return loopCursor(cursor)
     }
 
+    /**
+     * Loop through the cursor and build media objects
+     * @param cursor]
+     * */
     private fun loopCursor(cursor: Cursor?):LinkedHashMap<String, Artist>{
         val linkedHashMap = LinkedHashMap<String, Artist>()
         cursor?.let {

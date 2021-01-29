@@ -30,15 +30,22 @@ private const val SORT_ALBUM_BY_TITLE = "$ALBUM ASC"
 
 class LocalAlbum(val context: Context) {
 
-    private val contentResolver:ContentResolver = context.applicationContext.contentResolver
+    val contentResolver:ContentResolver = context.applicationContext.contentResolver
     private val projection = arrayOf(_ID, ALBUM, ARTIST)
 
+    /**
+     * Get all albums
+     * */
     fun getAlbums():LinkedHashMap<String, Album>{
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection, null
             , null, SORT_ALBUM_BY_TITLE)
         return loopCursor(cursor)
     }
 
+    /**
+     * Get all albums with the specified name
+     * @param albumName
+     * */
     fun getAlbums(albumName:String):LinkedHashMap<String, Album>{
         val selection = "$ALBUM =?"
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection, selection
@@ -46,6 +53,10 @@ class LocalAlbum(val context: Context) {
         return loopCursor(cursor)
     }
 
+    /**
+     * Loop through the cursor and build media objects
+     * @param cursor]
+     * */
     private fun loopCursor(cursor: Cursor?):LinkedHashMap<String, Album>{
         val linkedHashMap = LinkedHashMap<String, Album>()
         cursor?.let {

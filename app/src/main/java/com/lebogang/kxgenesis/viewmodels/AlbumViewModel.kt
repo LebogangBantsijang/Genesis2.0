@@ -16,16 +16,44 @@
 
 package com.lebogang.kxgenesis.viewmodels
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.lebogang.kxgenesis.data.models.Album
+import com.lebogang.kxgenesis.data.repositories.AlbumRepo
+import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
+import kotlinx.coroutines.launch
 
-class AlbumViewModel :ViewModel(){
+class AlbumViewModel(private val albumRepo: AlbumRepo) :ViewModel(), OnContentChanged{
 
-    class Factory:ViewModelProvider.Factory{
+    val liveData :MutableLiveData<LinkedHashMap<String, Album>> = MutableLiveData()
+
+    private fun registerContentObserver(){
+        albumRepo.registerObserver(this)
+    }
+
+    private fun unregisterContentContentObserver(){
+        albumRepo.unregisterObserver()
+    }
+
+    fun getAlbums() = viewModelScope.launch {
+        liveData.postValue(albumRepo.getAlbums())
+    }
+
+    fun getAlbums(albumsName:String) = viewModelScope.launch {
+        liveData.postValue(albumRepo.getAlbums(albumsName))
+    }
+
+    override fun onMediaChanged() {
+        getAlbums()
+    }
+
+    class Factory(private val albumRepo: AlbumRepo):ViewModelProvider.Factory{
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if(modelClass.isAssignableFrom(AlbumViewModel::class.java))
-                return AlbumViewModel() as T
+                return AlbumViewModel(albumRepo) as T
             throw IllegalArgumentException()
         }
 

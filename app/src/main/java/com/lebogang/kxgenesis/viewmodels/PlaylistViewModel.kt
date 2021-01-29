@@ -31,26 +31,15 @@ import com.lebogang.kxgenesis.data.repositories.PlaylistRepo
 import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
 import kotlinx.coroutines.launch
 
-class PlaylistViewModel(private val playlistRepo: PlaylistRepo, private val audioRepo: AudioRepo):
-    ViewModel(), OnContentChanged {
-
-    val audioLiveData: MutableLiveData<LinkedHashMap<Long, Audio>> = MutableLiveData()
+class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {
 
     fun getPlaylists(): LiveData<List<Playlist>> = playlistRepo.getPlaylists().asLiveData()
 
     fun getPlaylists(id:Long):LiveData<Playlist> = playlistRepo.getPlaylist(id).asLiveData()
 
-    fun registerContentObserver(){
-        audioRepo.registerObserver(this)
-    }
 
-    fun unregisterContentContentObserver(){
-        audioRepo.unregisterObserver()
-    }
-
-    fun getPlaylistAudio(playlistId: Long) = viewModelScope.launch {
-        val idList:List<Long>? = playlistRepo.getPlaylistAudioIds(playlistId).asLiveData().value
-        audioLiveData.postValue(audioRepo.getAudio(idList))
+    fun getPlaylistAudio(playlistId: Long):List<Long> {
+        return playlistRepo.getPlaylistAudioIds(playlistId)
     }
 
     fun insertPlaylist(playlist: Playlist) = viewModelScope.launch {
@@ -69,15 +58,11 @@ class PlaylistViewModel(private val playlistRepo: PlaylistRepo, private val audi
         playlistRepo.deletePlaylistAudio(playlistId,audioId)
     }
 
-    override fun onChanged() {
-        //getPlaylistAudio()
-    }
-
-    class Factory(private val playlistRepo: PlaylistRepo, private val audioRepo: AudioRepo):ViewModelProvider.Factory{
+    class Factory(private val playlistRepo: PlaylistRepo):ViewModelProvider.Factory{
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(PlaylistViewModel::class.java))
-                return PlaylistViewModel(playlistRepo, audioRepo) as T
+                return PlaylistViewModel(playlistRepo) as T
             throw IllegalArgumentException()
         }
 

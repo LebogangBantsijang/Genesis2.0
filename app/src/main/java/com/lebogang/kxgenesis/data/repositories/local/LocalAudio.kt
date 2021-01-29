@@ -53,6 +53,9 @@ class LocalAudio(private val context:Context) {
     @SuppressLint("InlinedApi")
     private val selection = "$DURATION >=?"
 
+    /**
+     * Get all audio
+     * */
     fun getAudio():LinkedHashMap<Long, Audio>{
         val sortOrder = appPreferences.getSortOrder()
         val durationFilter = appPreferences.getAudioDurationFilter()
@@ -61,6 +64,10 @@ class LocalAudio(private val context:Context) {
         return loopCursor(cursor, null)
     }
 
+    /**
+     * Get audio with the specified album name
+     * @param albumName
+     * */
     @SuppressLint("InlinedApi")
     fun getAlbumAudio(albumName:String):LinkedHashMap<Long, Audio>{
         val sortOrder = appPreferences.getSortOrder()
@@ -71,6 +78,10 @@ class LocalAudio(private val context:Context) {
         return loopCursor(cursor, null)
     }
 
+    /**
+     * Get audio with the specified artist name
+     * @param artistName
+     * */
     @SuppressLint("InlinedApi")
     fun getArtistAudio(artistName:String):LinkedHashMap<Long, Audio>{
         val sortOrder = appPreferences.getSortOrder()
@@ -81,6 +92,10 @@ class LocalAudio(private val context:Context) {
         return loopCursor(cursor, null)
     }
 
+    /**
+     * Get audio that matches the specified Uir
+     * @param uri
+     * */
     fun getAudio(uri: Uri):LinkedHashMap<Long, Audio>{
         val sortOrder = appPreferences.getSortOrder()
         val cursor = contentResolver.query(uri, projection,null,
@@ -88,6 +103,10 @@ class LocalAudio(private val context:Context) {
         return loopCursor(cursor, null)
     }
 
+    /**
+     * Get audio that matches the specified ids
+     * @param audioIdList: list of audio ids
+     * */
     fun getAudio(audioIdList:List<Long>?):LinkedHashMap<Long, Audio>{
         val durationFilter = appPreferences.getAudioDurationFilter()
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
@@ -95,14 +114,28 @@ class LocalAudio(private val context:Context) {
         return loopCursor(cursor, audioIdList)
     }
 
+    /**
+     * delete audio
+     * @param audio
+     * */
     fun deleteAudio(audio: Audio){
         contentResolver.delete(EXTERNAL_CONTENT_URI, "$_ID =?", arrayOf(audio.id.toString()))
     }
 
+    /**
+     * update audio
+     * @param audio
+     * @param contentValues: new values
+     * */
     fun updateAudio(audio: Audio, contentValues: ContentValues){
         contentResolver.update(audio.uri, contentValues, "$_ID =?", arrayOf(audio.id.toString()))
     }
 
+    /**
+     * Loop through the cursor and build media objects
+     * @param cursor
+     * @param idList: if id is not null then return items with the id in the list
+     * */
     @SuppressLint("InlinedApi")
     private fun loopCursor(cursor: Cursor?,idList: List<Long>?):LinkedHashMap<Long, Audio>{
         val linkedHashMap :LinkedHashMap<Long, Audio> = LinkedHashMap()
