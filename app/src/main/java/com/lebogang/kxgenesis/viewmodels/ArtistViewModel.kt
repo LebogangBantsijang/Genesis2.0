@@ -16,15 +16,17 @@
 
 package com.lebogang.kxgenesis.viewmodels
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.lebogang.kxgenesis.data.models.Artist
-import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.data.repositories.ArtistRepo
 import com.lebogang.kxgenesis.data.repositories.AudioRepo
 import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
 import kotlinx.coroutines.launch
 
-class ArtistViewModel(private val artistRepo: ArtistRepo) :ViewModel(), OnContentChanged {
+class ArtistViewModel(private val artistRepo: ArtistRepo) : ViewModel(), OnContentChanged {
     val liveData : MutableLiveData<LinkedHashMap<String, Artist>> = MutableLiveData()
     private var name:String? = null
 
