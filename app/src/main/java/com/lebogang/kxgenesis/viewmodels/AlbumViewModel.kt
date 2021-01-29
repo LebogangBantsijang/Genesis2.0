@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 
 class AlbumViewModel :ViewModel(){
 
-    class Factory():ViewModelProvider.Factory{
+    class Factory:ViewModelProvider.Factory{
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if(modelClass.isAssignableFrom(AlbumViewModel::class.java))
