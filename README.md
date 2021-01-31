@@ -9,5 +9,5 @@
 List of libraries, android components and design patterns used to build this application
 * Coroutines
 * Room Database
-* MVVM
+* Model View View-Model design pattern
 * Material Design
