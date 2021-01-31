@@ -37,6 +37,7 @@ class ItemLocalSongAdapter:RecyclerView.Adapter<ItemLocalSongAdapter.ViewHolder>
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        //not finished here
     }
 
     override fun getItemCount(): Int {
