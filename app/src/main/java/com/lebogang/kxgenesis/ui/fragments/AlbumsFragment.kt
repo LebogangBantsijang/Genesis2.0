@@ -14,15 +14,14 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis
+package com.lebogang.kxgenesis.ui.fragments
 
-import android.app.Application
-import com.lebogang.kxgenesis.data.repositories.room.GenesisDatabase
+import androidx.fragment.app.Fragment
+import com.lebogang.kxgenesis.databinding.FragmentAlbumsBinding
 
-class GenesisApplication:Application() {
-    val genesisDatabase:GenesisDatabase by lazy {
-        GenesisDatabase.getDatabase(this)
+class AlbumsFragment: Fragment() {
+    private val viewBinding:FragmentAlbumsBinding by lazy {
+        FragmentAlbumsBinding.inflate(layoutInflater)
     }
-
 
 }

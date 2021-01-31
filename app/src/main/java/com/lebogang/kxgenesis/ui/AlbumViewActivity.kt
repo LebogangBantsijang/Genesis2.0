@@ -16,27 +16,20 @@
 
 package com.lebogang.kxgenesis.ui
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.lebogang.kxgenesis.databinding.ActivityPreferencesBinding
-import com.lebogang.kxgenesis.ui.settings.ThemeActivity
+import com.lebogang.kxgenesis.R
+import com.lebogang.kxgenesis.databinding.ActivityAlbumViewBinding
 
-class PreferencesActivity : AppCompatActivity() {
-    private val binding:ActivityPreferencesBinding by lazy{
-        ActivityPreferencesBinding.inflate(layoutInflater)
+class AlbumViewActivity : AppCompatActivity() {
+
+    private val viewBinding:ActivityAlbumViewBinding by lazy{
+        ActivityAlbumViewBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        initThemeClick()
-    }
-
-    private fun initThemeClick(){
-        binding.themeSettingsView.setOnClickListener {
-            startActivity(Intent(this, ThemeActivity::class.java))
-        }
+        setContentView(viewBinding.root)
     }
 
 }

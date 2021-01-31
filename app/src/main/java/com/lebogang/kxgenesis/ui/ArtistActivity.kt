@@ -14,20 +14,15 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.ui.settings
+package com.lebogang.kxgenesis.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.lebogang.kxgenesis.R
-import com.lebogang.kxgenesis.databinding.ActivityCustomisePlayerBinding
 
-class CustomisePlayerActivity : AppCompatActivity() {
-    private val binding :ActivityCustomisePlayerBinding by lazy{
-        ActivityCustomisePlayerBinding.inflate(layoutInflater)
-    }
-
+class ArtistActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_artist)
     }
 }

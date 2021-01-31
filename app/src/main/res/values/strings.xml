@@ -36,6 +36,13 @@
     <string name="select_theme">Select Theme</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="light_theme">Light Theme</string>
+    <string name="album_art">Album Art</string>
+    <string name="back_button">back button</string>
+    <string name="more">More</string>
+    <string name="playlists">Playlists</string>
+    <string name="artists">Artists</string>
+    <string name="albums">Albums</string>
+    <string name="songs">Songs</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>

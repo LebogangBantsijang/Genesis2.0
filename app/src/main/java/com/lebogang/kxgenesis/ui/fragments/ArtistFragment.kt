@@ -14,19 +14,13 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.ui.settings
+package com.lebogang.kxgenesis.ui.fragments
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.lebogang.kxgenesis.databinding.ActivityDisplayBinding
+import androidx.fragment.app.Fragment
+import com.lebogang.kxgenesis.databinding.FragmentArtistsBinding
 
-class DisplayActivity : AppCompatActivity() {
-    private val binding : ActivityDisplayBinding by lazy {
-        ActivityDisplayBinding.inflate(layoutInflater)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+class ArtistFragment: Fragment() {
+    private val viewBinding:FragmentArtistsBinding by lazy {
+        FragmentArtistsBinding.inflate(layoutInflater)
     }
 }
