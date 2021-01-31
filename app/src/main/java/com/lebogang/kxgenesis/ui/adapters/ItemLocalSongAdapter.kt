@@ -25,7 +25,9 @@ class ItemLocalSongAdapter:RecyclerView.Adapter<ItemLocalSongAdapter.ViewHolder>
 
     inner class ViewHolder(private val viewBinding:ItemLocalSongBinding)
         :RecyclerView.ViewHolder(viewBinding.root){
-
+        init {
+            viewBinding.root.setOnClickListener {  }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,7 +37,6 @@ class ItemLocalSongAdapter:RecyclerView.Adapter<ItemLocalSongAdapter.ViewHolder>
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
     }
 
     override fun getItemCount(): Int {

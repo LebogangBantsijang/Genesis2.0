@@ -25,7 +25,9 @@ class ItemLocalAlbumSongAdapter :RecyclerView.Adapter<ItemLocalAlbumSongAdapter.
 
     inner class ViewHolder(private val viewBinding:ItemLocalAlbumSongBinding)
         :RecyclerView.ViewHolder(viewBinding.root){
-
+        init {
+            viewBinding.root.setOnClickListener {  }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
