@@ -14,19 +14,13 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.ui.settings
+package com.lebogang.kxgenesis.ui.fragments
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.lebogang.kxgenesis.databinding.ActivityExtraVolumeBinding
+import androidx.fragment.app.Fragment
+import com.lebogang.kxgenesis.databinding.FragmentPlaylistBinding
 
-class ExtraVolumeActivity : AppCompatActivity() {
-    private val binding :ActivityExtraVolumeBinding by lazy {
-        ActivityExtraVolumeBinding.inflate(layoutInflater)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+class PlaylistFragment: Fragment() {
+    private val viewBinding:FragmentPlaylistBinding by lazy{
+        FragmentPlaylistBinding.inflate(layoutInflater)
     }
 }

@@ -14,19 +14,21 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.ui.settings
+package com.lebogang.kxgenesis.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.lebogang.kxgenesis.databinding.ActivityMediaBinding
+import com.lebogang.kxgenesis.R
+import com.lebogang.kxgenesis.databinding.ActivityLocalContentBinding
 
-class MediaActivity : AppCompatActivity() {
-    private val binding:ActivityMediaBinding by lazy{
-        ActivityMediaBinding.inflate(layoutInflater)
+class LocalContentActivity : AppCompatActivity() {
+    private val viewBinding:ActivityLocalContentBinding by lazy{
+        ActivityLocalContentBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setContentView(viewBinding.root)
+        setSupportActionBar(viewBinding.toolbar)
     }
 }

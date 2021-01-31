@@ -15,16 +15,14 @@
   ~    limitations under the License.
   -->
 
-<resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
 
-    <style name="Theme.Genesis20.System" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorAccent">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryColor</item>
-        <item name="android:fitsSystemWindows">true</item>
-        <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:navigationBarColor">@color/systemThemeBackgroundColor</item>
-    </style>
-</resources>
+    <gradient
+        android:angle="45"
+        android:type="linear"
+        android:startColor="@color/primaryColor"
+        android:centerColor="@color/primaryComplimentaryColor"
+        android:endColor="@color/primaryOpposite"/>
+
+</shape>

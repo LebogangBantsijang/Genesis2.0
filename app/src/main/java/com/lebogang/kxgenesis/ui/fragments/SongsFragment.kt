@@ -14,19 +14,14 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.ui.settings
+package com.lebogang.kxgenesis.ui.fragments
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.lebogang.kxgenesis.databinding.ActivityEqualizerBinding
+import androidx.fragment.app.Fragment
+import com.lebogang.kxgenesis.databinding.FragmentSongsBinding
 
-class EqualizerActivity : AppCompatActivity() {
-    private val binding:ActivityEqualizerBinding by lazy{
-        ActivityEqualizerBinding.inflate(layoutInflater)
+class SongsFragment: Fragment() {
+    private val viewBinding:FragmentSongsBinding by lazy {
+        FragmentSongsBinding.inflate(layoutInflater)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-    }
 }
