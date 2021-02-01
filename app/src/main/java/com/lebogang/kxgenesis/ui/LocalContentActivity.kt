@@ -53,12 +53,12 @@ class LocalContentActivity : AppCompatActivity() {
     private fun initViewPager(){
         viewBinding.viewPager.adapter = localContentActivityViewPagerAdapter
         TabLayoutMediator(viewBinding.tablayout, viewBinding.viewPager
-        ) { tab, position ->
-            when(position){
-                0-> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_music_24dp, theme)
-                1-> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_music_record_24dp, theme)
-                2-> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_microphone_24dp, theme)
-                3-> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_music_folder_24dp, theme)
+        ) { tab, _ ->
+            when(tab.id){
+                R.id.songsTab -> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_music_24dp, theme)
+                R.id.albumsTab -> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_music_record_24dp, theme)
+                R.id.artistsTab -> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_microphone_24dp, theme)
+                R.id.playlistsTab -> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_music_folder_24dp, theme)
             }
         }
     }
