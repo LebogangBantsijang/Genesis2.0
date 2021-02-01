@@ -16,13 +16,10 @@
 
 package com.lebogang.kxgenesis.ui
 
-import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import com.google.android.material.tabs.TabLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.ActivityLocalContentBinding
@@ -53,16 +50,15 @@ class LocalContentActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     private fun initViewPager(){
         viewBinding.viewPager.adapter = localContentActivityViewPagerAdapter
         TabLayoutMediator(viewBinding.tablayout, viewBinding.viewPager
         ) { tab, position ->
             when(position){
-                0-> tab.icon = resources.getDrawable(R.drawable.ic_music_24dp, theme)
-                1-> tab.icon = resources.getDrawable(R.drawable.ic_music_record_24dp, theme)
-                2-> tab.icon = resources.getDrawable(R.drawable.ic_microphone_24dp, theme)
-                3-> tab.icon = resources.getDrawable(R.drawable.ic_music_folder_24dp, theme)
+                0-> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_music_24dp, theme)
+                1-> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_music_record_24dp, theme)
+                2-> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_microphone_24dp, theme)
+                3-> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_music_folder_24dp, theme)
             }
         }
     }
