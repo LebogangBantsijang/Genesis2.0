@@ -19,16 +19,20 @@ package com.lebogang.kxgenesis.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.lebogang.kxgenesis.R
+import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ItemLocalAlbumSongBinding
+import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 
 class ItemLocalAlbumSongAdapter :RecyclerView.Adapter<ItemLocalAlbumSongAdapter.ViewHolder>(){
-
-    inner class ViewHolder(private val viewBinding:ItemLocalAlbumSongBinding)
-        :RecyclerView.ViewHolder(viewBinding.root){
-        init {
-            viewBinding.root.setOnClickListener {  }
-        }
-    }
+    var listener: OnAudioClickListener? = null
+    var listAudio = arrayListOf<Audio>()
+    var fallbackPrimaryTextColor:Int = 0
+    var fallbackSecondaryTextColor:Int = 0
+    var color:Int = -1
+    var audioId:Long = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -37,10 +41,34 @@ class ItemLocalAlbumSongAdapter :RecyclerView.Adapter<ItemLocalAlbumSongAdapter.
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //not finished here
+        val audio = listAudio[position]
+        val subtitle = audio.artist + "-" + audio.album
+        val counter = (1+position).toString()
+        holder.viewBinding.titleView.text = audio.title
+        holder.viewBinding.subtitleView.text = subtitle
+        holder.viewBinding.counterView.text = counter
+        updateNowPlaying(holder, audio)
+    }
+
+    private fun updateNowPlaying(holder: ViewHolder, audio: Audio){
+        if (audio.id == audioId){
+            holder.viewBinding.titleView.setTextColor(color)
+            holder.viewBinding.subtitleView.setTextColor(color)
+        }else{
+            holder.viewBinding.titleView.setTextColor(fallbackPrimaryTextColor)
+            holder.viewBinding.subtitleView.setTextColor(fallbackSecondaryTextColor)
+        }
     }
 
     override fun getItemCount(): Int {
-        return 0
+        return listAudio.size
+    }
+
+    inner class ViewHolder(val viewBinding:ItemLocalAlbumSongBinding)
+        :RecyclerView.ViewHolder(viewBinding.root){
+        init {
+            viewBinding.root.setOnClickListener { listener?.onAudioClick(listAudio[adapterPosition]) }
+            viewBinding.optionsView.setOnClickListener { listener?.onAudioClickOptions(listAudio[adapterPosition]) }
+        }
     }
 }

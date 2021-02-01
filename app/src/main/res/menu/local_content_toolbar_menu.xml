@@ -15,12 +15,21 @@
   ~    limitations under the License.
   -->
 
-<resources>
-    <color name="white">#FFFFFFFF</color>
-    <color name="primaryColor">#B71C1C</color>
-    <color name="primaryComplimentaryColor">#01579B</color>
-    <color name="primaryOpposite">#F57F17</color>
-    <color name="systemThemeBackgroundColor">#121212</color>
-    <color name="primaryTextColor">#FFFFFF</color>
-    <color name="secondaryTextColor">#99FFFFFF</color>
-</resources>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_round_search_24"
+        android:title="@string/search"
+        app:showAsAction="always" />
+
+    <item
+        android:icon="@drawable/ic_baseline_sort_24"
+        android:title="@string/sort"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_settings"
+        android:title="@string/settings"/>
+
+</menu>

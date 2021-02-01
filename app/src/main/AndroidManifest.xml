@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Genesis20.System"
         >
-        <activity android:name=".ui.ArtistActivity"/>
         <activity android:name=".ui.LocalContentActivity" />
         <activity android:name=".ui.AlbumViewActivity" />
         <activity android:name=".ui.MusicActivity">

@@ -16,19 +16,55 @@
 
 package com.lebogang.kxgenesis.ui
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.ActivityLocalContentBinding
+import com.lebogang.kxgenesis.ui.adapters.LocalContentActivityViewPagerAdapter
 
 class LocalContentActivity : AppCompatActivity() {
     private val viewBinding:ActivityLocalContentBinding by lazy{
         ActivityLocalContentBinding.inflate(layoutInflater)
     }
+    private val localContentActivityViewPagerAdapter = LocalContentActivityViewPagerAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
-        setSupportActionBar(viewBinding.toolbar)
+        initToolbar()
+        initViewPager()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.local_content_toolbar_menu, menu)
+        return true
+    }
+
+    private fun initToolbar(){
+        setSupportActionBar(viewBinding.toolbar)
+        viewBinding.toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun initViewPager(){
+        viewBinding.viewPager.adapter = localContentActivityViewPagerAdapter
+        TabLayoutMediator(viewBinding.tablayout, viewBinding.viewPager
+        ) { tab, position ->
+            when(position){
+                0-> tab.icon = resources.getDrawable(R.drawable.ic_music_24dp, theme)
+                1-> tab.icon = resources.getDrawable(R.drawable.ic_music_record_24dp, theme)
+                2-> tab.icon = resources.getDrawable(R.drawable.ic_microphone_24dp, theme)
+                3-> tab.icon = resources.getDrawable(R.drawable.ic_music_folder_24dp, theme)
+            }
+        }
+    }
+
 }

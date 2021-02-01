@@ -16,11 +16,20 @@
 
 package com.lebogang.kxgenesis.ui.fragments
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.lebogang.kxgenesis.databinding.FragmentPlaylistBinding
 
 class PlaylistFragment: Fragment() {
-    private val viewBinding:FragmentPlaylistBinding by lazy{
-        FragmentPlaylistBinding.inflate(layoutInflater)
+
+    private lateinit var viewBinding:FragmentPlaylistBinding
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewBinding = FragmentPlaylistBinding.inflate(inflater, container, false)
+        return viewBinding.root
     }
+
 }
