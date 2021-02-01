@@ -11,3 +11,4 @@ List of libraries, android components and design patterns used to build this app
 * Room Database
 * Model View View-Model design pattern
 * Material Design
+* Glide
