@@ -16,19 +16,55 @@
 
 package com.lebogang.kxgenesis.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
+import com.google.android.material.tabs.TabLayoutMediator
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.ActivityLocalContentBinding
+import com.lebogang.kxgenesis.ui.adapters.LocalContentActivityViewPagerAdapter
 
 class LocalContentActivity : AppCompatActivity() {
     private val viewBinding:ActivityLocalContentBinding by lazy{
         ActivityLocalContentBinding.inflate(layoutInflater)
     }
+    private val localContentActivityViewPagerAdapter = LocalContentActivityViewPagerAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
-        setSupportActionBar(viewBinding.toolbar)
+        initToolbar()
+        initViewPager()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.local_content_toolbar_menu, menu)
+        return true
+    }
+
+    private fun initToolbar(){
+        setSupportActionBar(viewBinding.toolbar)
+        viewBinding.toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+    }
+
+    private fun initViewPager(){
+        viewBinding.viewPager.adapter = localContentActivityViewPagerAdapter
+        TabLayoutMediator(viewBinding.tablayout, viewBinding.viewPager
+        ) { tab, _ ->
+            when(tab.id){
+                R.id.songsTab -> tab.icon =
+                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_24dp, theme)
+                R.id.albumsTab -> tab.icon =
+                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_record_24dp, theme)
+                R.id.artistsTab -> tab.icon =
+                    ResourcesCompat.getDrawable(resources,R.drawable.ic_microphone_24dp, theme)
+                R.id.playlistsTab -> tab.icon =
+                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_folder_24dp, theme)
+            }
+        }
+    }
+
 }

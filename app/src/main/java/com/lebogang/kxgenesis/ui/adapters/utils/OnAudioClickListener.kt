@@ -14,21 +14,11 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.ui.fragments
+package com.lebogang.kxgenesis.ui.adapters.utils
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.lebogang.kxgenesis.databinding.FragmentArtistsBinding
+import com.lebogang.kxgenesis.data.models.Audio
 
-class ArtistFragment: Fragment() {
-    private lateinit var viewBinding:FragmentArtistsBinding
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewBinding = FragmentArtistsBinding.inflate(inflater, container, false)
-        return viewBinding.root
-    }
-
+interface OnAudioClickListener {
+    fun onAudioClick(audio:Audio)
+    fun onAudioClickOptions(audio: Audio)
 }

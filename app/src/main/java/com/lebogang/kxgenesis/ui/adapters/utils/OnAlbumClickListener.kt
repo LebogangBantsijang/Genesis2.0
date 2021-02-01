@@ -14,15 +14,10 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.ui
+package com.lebogang.kxgenesis.ui.adapters.utils
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.lebogang.kxgenesis.R
+import com.lebogang.kxgenesis.data.models.Album
 
-class ArtistActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_artist)
-    }
+interface OnAlbumClickListener {
+    fun onAlbumClick(album:Album)
 }

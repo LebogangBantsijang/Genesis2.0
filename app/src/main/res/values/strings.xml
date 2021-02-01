@@ -43,6 +43,8 @@
     <string name="artists">Artists</string>
     <string name="albums">Albums</string>
     <string name="songs">Songs</string>
+    <string name="search">Search</string>
+    <string name="sort">Sort</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>
