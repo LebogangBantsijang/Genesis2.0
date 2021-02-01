@@ -55,10 +55,14 @@ class LocalContentActivity : AppCompatActivity() {
         TabLayoutMediator(viewBinding.tablayout, viewBinding.viewPager
         ) { tab, _ ->
             when(tab.id){
-                R.id.songsTab -> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_music_24dp, theme)
-                R.id.albumsTab -> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_music_record_24dp, theme)
-                R.id.artistsTab -> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_microphone_24dp, theme)
-                R.id.playlistsTab -> tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.ic_music_folder_24dp, theme)
+                R.id.songsTab -> tab.icon =
+                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_24dp, theme)
+                R.id.albumsTab -> tab.icon =
+                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_record_24dp, theme)
+                R.id.artistsTab -> tab.icon =
+                    ResourcesCompat.getDrawable(resources,R.drawable.ic_microphone_24dp, theme)
+                R.id.playlistsTab -> tab.icon =
+                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_folder_24dp, theme)
             }
         }
     }
