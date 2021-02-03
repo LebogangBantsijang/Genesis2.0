@@ -12,3 +12,6 @@ List of libraries, android components and design patterns used to build this app
 * Model View View-Model design pattern
 * Material Design
 * Glide
+* Retrofit
+* Gson
+* Deezer Api
