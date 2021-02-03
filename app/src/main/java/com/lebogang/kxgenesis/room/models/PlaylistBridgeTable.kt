@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data.models
+package com.lebogang.kxgenesis.room.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

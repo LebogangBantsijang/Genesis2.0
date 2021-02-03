@@ -14,14 +14,16 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data.models
+package com.lebogang.kxgenesis.network.dao
 
-import android.net.Uri
 import com.lebogang.kxgenesis.network.model.DeezerArtistModel
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Path
 
-data class Artist(
-        val id:Long,
-        val title:String,
-        val albumCount:String,
-        var deezerArtistModel:DeezerArtistModel?
-)
+interface DeezerService {
+
+    @GET("artist/{name}")
+    fun getArtistImage(@Path("name") artistName:String):Call<DeezerArtistModel>
+
+}

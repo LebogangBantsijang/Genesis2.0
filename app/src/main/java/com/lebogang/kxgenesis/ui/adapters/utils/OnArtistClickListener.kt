@@ -14,14 +14,10 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data.models
+package com.lebogang.kxgenesis.ui.adapters.utils
 
-import android.net.Uri
-import com.lebogang.kxgenesis.network.model.DeezerArtistModel
+import com.lebogang.kxgenesis.data.models.Artist
 
-data class Artist(
-        val id:Long,
-        val title:String,
-        val albumCount:String,
-        var deezerArtistModel:DeezerArtistModel?
-)
+interface OnArtistClickListener {
+    fun onArtistClick(artist: Artist)
+}

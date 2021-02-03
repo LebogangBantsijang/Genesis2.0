@@ -18,17 +18,13 @@ package com.lebogang.kxgenesis.viewmodels
 
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.ViewModelProvider
 
-import com.lebogang.kxgenesis.data.models.Audio
-import com.lebogang.kxgenesis.data.models.Playlist
-import com.lebogang.kxgenesis.data.repositories.AudioRepo
-import com.lebogang.kxgenesis.data.repositories.PlaylistRepo
-import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
+import com.lebogang.kxgenesis.room.models.Playlist
+import com.lebogang.kxgenesis.room.PlaylistRepo
 import kotlinx.coroutines.launch
 
 class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {

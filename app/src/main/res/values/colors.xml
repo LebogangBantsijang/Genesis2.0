@@ -21,6 +21,7 @@
     <color name="primaryComplimentaryColor">#01579B</color>
     <color name="primaryOpposite">#F57F17</color>
     <color name="systemThemeBackgroundColor">#121212</color>
+    <color name="toolbarColor">#A6424242</color>
     <color name="primaryTextColor">#FFFFFF</color>
     <color name="secondaryTextColor">#99FFFFFF</color>
 </resources>

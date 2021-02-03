@@ -14,28 +14,31 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data.repositories.room
+package com.lebogang.kxgenesis.room
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.lebogang.kxgenesis.data.models.Playlist
-import com.lebogang.kxgenesis.data.models.PlaylistBridgeTable
+import com.lebogang.kxgenesis.room.dao.PlaylistAudioBridgeDao
+import com.lebogang.kxgenesis.room.dao.PlaylistDao
+import com.lebogang.kxgenesis.room.models.Playlist
+import com.lebogang.kxgenesis.room.models.PlaylistBridgeTable
 
 @Database(entities = [Playlist::class, PlaylistBridgeTable::class],version = 1, exportSchema = false)
-abstract class GenesisDatabase:RoomDatabase() {
-    abstract fun playlistDao():PlaylistDao
-    abstract fun playlistAudioBridge():PlaylistAudioBridgeDao
+abstract class GenesisDatabase: RoomDatabase() {
+    abstract fun playlistDao(): PlaylistDao
+    abstract fun playlistAudioBridge(): PlaylistAudioBridgeDao
 
     companion object Database{
         @Volatile
-        private var DATABASE:GenesisDatabase? = null
+        private var DATABASE: GenesisDatabase? = null
 
-        fun getDatabase(context: Context):GenesisDatabase{
+        fun getDatabase(context: Context): GenesisDatabase {
             return DATABASE?: synchronized(this){
-                val db = Room.databaseBuilder(context, GenesisDatabase::class.java
-                    , "GenesisDatabase")
+                val db = Room.databaseBuilder(
+                    context, GenesisDatabase::class.java, "GenesisDatabase"
+                )
                     .fallbackToDestructiveMigration()
                     .build()
                 DATABASE = db

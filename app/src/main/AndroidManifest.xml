@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lebogang.kxgenesis">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,10 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Genesis20.System"
-        >
-        <activity android:name=".ui.LocalContentActivity" />
+        android:requestLegacyExternalStorage="true">
+        <activity android:name=".ui.ArtistViewActivity"/>
         <activity android:name=".ui.AlbumViewActivity" />
-        <activity android:name=".ui.MusicActivity">
+        <activity android:name=".ui.LocalContentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

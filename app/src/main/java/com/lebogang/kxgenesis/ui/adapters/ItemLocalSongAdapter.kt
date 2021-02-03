@@ -62,9 +62,12 @@ class ItemLocalSongAdapter:RecyclerView.Adapter<ItemLocalSongAdapter.ViewHolder>
         holder.viewBinding.titleView.text = audio.title
         holder.viewBinding.subtitleView.text = subtitle
         holder.viewBinding.counterView.text = counter
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
             Glide.with(holder.viewBinding.root)
                     .asBitmap()
+                    .load(audio.albumArtUri)
+                    .skipMemoryCache(false)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
                     .error(R.drawable.ic_music_24dp)
                     .into(holder.viewBinding.imageView)
@@ -72,8 +75,9 @@ class ItemLocalSongAdapter:RecyclerView.Adapter<ItemLocalSongAdapter.ViewHolder>
         }else{
             Glide.with(holder.viewBinding.root)
                     .asBitmap()
+                    .load(audio.albumArtUri)
                     .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
                     .error(R.drawable.ic_music_24dp)
                     .into(holder.viewBinding.imageView)

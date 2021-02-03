@@ -14,19 +14,12 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data.models
+package com.lebogang.kxgenesis.network.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-
-@Entity(tableName = "Playlist")
-data class Playlist(
-    @ColumnInfo
-    val id:Long,
-    @ColumnInfo
-    val title:String,
-    @ColumnInfo
-    val coverUriToString:String,
-    @ColumnInfo
-    val audioId:Long
+data class DeezerArtistModel (
+    val name:String,
+    val pictureSmall:String,
+    val pictureMedium: String,
+    val pictureBig: String,
+    val pictureXl: String
 )

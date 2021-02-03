@@ -14,22 +14,23 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data.repositories
+package com.lebogang.kxgenesis.room
 
 import androidx.annotation.WorkerThread
-import com.lebogang.kxgenesis.data.models.Playlist
-import com.lebogang.kxgenesis.data.repositories.room.PlaylistAudioBridgeDao
-import com.lebogang.kxgenesis.data.repositories.room.PlaylistDao
+import com.lebogang.kxgenesis.room.models.Playlist
+import com.lebogang.kxgenesis.room.dao.PlaylistAudioBridgeDao
+import com.lebogang.kxgenesis.room.dao.PlaylistDao
 import kotlinx.coroutines.flow.Flow
 
 class PlaylistRepo(private val playlistDao: PlaylistDao,
-                   private val playlistAudioBridgeDao: PlaylistAudioBridgeDao) {
+                   private val playlistAudioBridgeDao: PlaylistAudioBridgeDao
+) {
 
-    fun getPlaylists():Flow<List<Playlist>>{
+    fun getPlaylists(): Flow<List<Playlist>> {
         return playlistDao.getPlaylist()
     }
 
-    fun getPlaylist(id:Long):Flow<Playlist>{
+    fun getPlaylist(id:Long): Flow<Playlist> {
         return playlistDao.getPlaylist(id)
     }
 
