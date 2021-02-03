@@ -21,14 +21,60 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import com.lebogang.kxgenesis.GenesisApplication
+import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.databinding.FragmentArtistsBinding
+import com.lebogang.kxgenesis.ui.adapters.ItemLocalArtistAdapter
+import com.lebogang.kxgenesis.ui.adapters.utils.OnArtistClickListener
+import com.lebogang.kxgenesis.viewmodels.ArtistViewModel
 
-class ArtistFragment: Fragment() {
+class ArtistFragment(fragmentActivity: FragmentActivity): Fragment(), OnArtistClickListener {
     private lateinit var viewBinding:FragmentArtistsBinding
+    private val adapter = ItemLocalArtistAdapter()
+    private val genesisApplication = fragmentActivity.application as GenesisApplication
+    private val artistViewModel:ArtistViewModel by lazy {
+        ArtistViewModel.Factory(genesisApplication.artistRepo, genesisApplication.deezerService)
+            .create(ArtistViewModel::class.java)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = FragmentArtistsBinding.inflate(inflater, container, false)
         return viewBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
+        observeArtists()
+        artistViewModel.getArtists()
+    }
+
+    private fun initRecyclerView(){
+        adapter.listener = this
+        viewBinding.recyclerView.layoutManager = GridLayoutManager(context, 2)
+        viewBinding.recyclerView.adapter = adapter
+    }
+
+    private fun observeArtists(){
+        artistViewModel.liveData.observe(viewLifecycleOwner, {
+            adapter.setArtistData(it)
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        artistViewModel.registerContentObserver()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        artistViewModel.unregisterContentContentObserver()
+    }
+
+    override fun onArtistClick(artist: Artist) {
+
     }
 
 }

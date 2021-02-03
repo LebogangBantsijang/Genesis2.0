@@ -17,12 +17,32 @@
 package com.lebogang.kxgenesis
 
 import android.app.Application
-import com.lebogang.kxgenesis.data.repositories.room.GenesisDatabase
+import com.lebogang.kxgenesis.data.repositories.AlbumRepo
+import com.lebogang.kxgenesis.data.repositories.ArtistRepo
+import com.lebogang.kxgenesis.data.repositories.AudioRepo
+import com.lebogang.kxgenesis.network.DeezerRepo
+import com.lebogang.kxgenesis.network.dao.DeezerService
+import com.lebogang.kxgenesis.room.GenesisDatabase
 
 class GenesisApplication:Application() {
-    val genesisDatabase:GenesisDatabase by lazy {
+    val genesisDatabase: GenesisDatabase by lazy {
         GenesisDatabase.getDatabase(this)
     }
 
+    val audioRepo:AudioRepo by lazy {
+        AudioRepo(this)
+    }
+
+    val albumRepo:AlbumRepo by lazy {
+        AlbumRepo(this)
+    }
+
+    val artistRepo:ArtistRepo by lazy {
+        ArtistRepo(this)
+    }
+
+    val deezerService:DeezerService by lazy {
+        DeezerRepo.getDeezerService()
+    }
 
 }

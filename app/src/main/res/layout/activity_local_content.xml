@@ -38,19 +38,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="24dp">
+        android:orientation="vertical">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?colorBackgroundFloating"
+            android:paddingTop="24dp"
+            android:background="@color/toolbarColor"
             app:title="Local Content"
             app:menu="@menu/local_content_toolbar_menu"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:navigationIcon="@drawable/ic_arrow_back" />
+            android:theme="?attr/actionBarTheme" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"

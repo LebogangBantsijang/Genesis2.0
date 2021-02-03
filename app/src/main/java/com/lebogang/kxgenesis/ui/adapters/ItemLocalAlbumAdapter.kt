@@ -30,6 +30,13 @@ class ItemLocalAlbumAdapter:RecyclerView.Adapter<ItemLocalAlbumAdapter.ViewHolde
     private var listAlbum = arrayListOf<Album>()
     var listener:OnAlbumClickListener? = null
 
+    fun setAlbumData(albumMap:LinkedHashMap<String, Album>){
+        albumMap.asIterable().forEach {
+            listAlbum.add(it.value)
+            val index = listAlbum.indexOf(it.value)
+            notifyItemInserted(index)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -44,6 +51,9 @@ class ItemLocalAlbumAdapter:RecyclerView.Adapter<ItemLocalAlbumAdapter.ViewHolde
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             Glide.with(holder.viewBinding.root)
                 .asBitmap()
+                .load(album.albumArtUri)
+                .skipMemoryCache(false)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
                 .error(R.drawable.ic_music_24dp)
                 .into(holder.viewBinding.imageView)
@@ -51,8 +61,9 @@ class ItemLocalAlbumAdapter:RecyclerView.Adapter<ItemLocalAlbumAdapter.ViewHolde
         }else{
             Glide.with(holder.viewBinding.root)
                 .asBitmap()
+                .load(album.albumArtUri)
                 .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
                 .error(R.drawable.ic_music_24dp)
                 .into(holder.viewBinding.imageView)

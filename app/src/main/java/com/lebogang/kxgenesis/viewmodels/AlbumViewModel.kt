@@ -29,11 +29,11 @@ class AlbumViewModel(private val albumRepo: AlbumRepo) :ViewModel(), OnContentCh
 
     val liveData :MutableLiveData<LinkedHashMap<String, Album>> = MutableLiveData()
 
-    private fun registerContentObserver(){
+    fun registerContentObserver(){
         albumRepo.registerObserver(this)
     }
 
-    private fun unregisterContentContentObserver(){
+    fun unregisterContentContentObserver(){
         albumRepo.unregisterObserver()
     }
 

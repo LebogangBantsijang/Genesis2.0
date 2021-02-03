@@ -23,16 +23,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.FragmentSongsBinding
 import com.lebogang.kxgenesis.ui.adapters.ItemLocalSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
-class SongsFragment: Fragment(),OnAudioClickListener {
+class SongsFragment(fragmentActivity: FragmentActivity): Fragment(),OnAudioClickListener {
     private lateinit var viewBinding:FragmentSongsBinding
     private val adapter = ItemLocalSongAdapter()
+    private val genesisApplication = fragmentActivity.application as GenesisApplication
+    private val audioViewModel:AudioViewModel by lazy {
+        AudioViewModel.Factory(genesisApplication.audioRepo).create(AudioViewModel::class.java)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = FragmentSongsBinding.inflate(inflater, container, false)
@@ -42,6 +50,8 @@ class SongsFragment: Fragment(),OnAudioClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+        observeAudioData()
+        audioViewModel.getAudio()
     }
 
     private fun initRecyclerView(){
@@ -51,6 +61,23 @@ class SongsFragment: Fragment(),OnAudioClickListener {
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
         viewBinding.recyclerView.adapter = adapter
     }
+
+    private fun observeAudioData(){
+        audioViewModel.liveData.observe(viewLifecycleOwner,{
+            adapter.setAudioData(it)
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        audioViewModel.registerContentObserver()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        audioViewModel.unregisterContentContentObserver()
+    }
+
 
     override fun onAudioClick(audio: Audio) {
         //not finished here

@@ -21,15 +21,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.data.models.Album
 import com.lebogang.kxgenesis.databinding.FragmentAlbumsBinding
 import com.lebogang.kxgenesis.ui.adapters.ItemLocalAlbumAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAlbumClickListener
+import com.lebogang.kxgenesis.viewmodels.AlbumViewModel
 
-class AlbumsFragment: Fragment(), OnAlbumClickListener {
+class AlbumsFragment(fragmentActivity: FragmentActivity): Fragment(), OnAlbumClickListener {
     private lateinit var viewBinding:FragmentAlbumsBinding
     private val adapter = ItemLocalAlbumAdapter()
+    private val genesisApplication = fragmentActivity.application as GenesisApplication
+    private val albumViewModel:AlbumViewModel by lazy {
+        AlbumViewModel.Factory(genesisApplication.albumRepo).create(AlbumViewModel::class.java)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = FragmentAlbumsBinding.inflate(inflater, container, false)
@@ -39,12 +46,30 @@ class AlbumsFragment: Fragment(), OnAlbumClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+        observeAlbums()
+        albumViewModel.getAlbums()
     }
 
     private fun initRecyclerView(){
         adapter.listener = this
         viewBinding.recyclerView.layoutManager = GridLayoutManager(context, 2)
         viewBinding.recyclerView.adapter = adapter
+    }
+
+    private fun observeAlbums(){
+        albumViewModel.liveData.observe(viewLifecycleOwner,{
+            adapter.setAlbumData(it)
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        albumViewModel.registerContentObserver()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        albumViewModel.unregisterContentContentObserver()
     }
 
     override fun onAlbumClick(album: Album) {

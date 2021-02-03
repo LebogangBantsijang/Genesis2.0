@@ -14,31 +14,25 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data.repositories.room
+package com.lebogang.kxgenesis.room.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.OnConflictStrategy
-import com.lebogang.kxgenesis.data.models.Playlist
-import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface PlaylistDao {
+interface PlaylistAudioBridgeDao {
 
-    @Query("SELECT * FROM Playlist")
-    fun getPlaylist(): Flow<List<Playlist>>
+    @Query("SELECT audioId FROM PlaylistAudioBridge WHERE playlistId =:playlistId")
+    fun getAudioIds(playlistId:Long): List<Long>
 
-    @Query("SELECT * FROM Playlist WHERE id =:id")
-    fun getPlaylist(id:Long):Flow<Playlist>
+    /**Remove one audio entry*/
+    @Query("DELETE FROM PlaylistAudioBridge WHERE playlistId =:playlistId AND audioId=:audioId")
+    fun delete(playlistId:Long,audioId:Long)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(playlist: Playlist)
+    /**Remove all playlist audio*/
+    @Query("DELETE FROM PlaylistAudioBridge WHERE playlistId =:playlistId")
+    fun delete(playlistId: Long)
 
-    @Delete
-    fun delete(playlist: Playlist)
-
-    @Query("DELETE FROM Playlist")
+    @Query("DELETE FROM PlaylistAudioBridge")
     fun clearData()
 }

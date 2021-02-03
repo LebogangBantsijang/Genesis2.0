@@ -14,19 +14,10 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.data.models
+package com.lebogang.kxgenesis.ui.adapters.utils
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
+import com.lebogang.kxgenesis.data.models.Artist
 
-@Entity(tableName = "Playlist")
-data class Playlist(
-    @ColumnInfo
-    val id:Long,
-    @ColumnInfo
-    val title:String,
-    @ColumnInfo
-    val coverUriToString:String,
-    @ColumnInfo
-    val audioId:Long
-)
+interface OnArtistClickListener {
+    fun onArtistClick(artist: Artist)
+}

@@ -38,10 +38,10 @@
             <FrameLayout
                 android:background="@drawable/ic_album_background"
                 android:layout_width="match_parent"
-                android:layout_height="396dp">
+                android:layout_height="356dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/blurView"
+                    android:id="@+id/artView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
@@ -64,13 +64,6 @@
                     android:gravity="center_horizontal"
                     android:layout_gravity="bottom">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/artView"
-                        android:layout_width="156dp"
-                        android:layout_height="156dp"
-                        android:layout_margin="8dp"
-                        android:contentDescription="@string/album_art"/>
-
                     <TextView
                         android:id="@+id/titleView"
                         android:layout_width="wrap_content"
@@ -82,8 +75,20 @@
                         android:textColor="?android:textColorPrimary"
                         android:layout_marginStart="32dp"
                         android:layout_marginEnd="32dp"
-                        android:layout_marginBottom="6dp"
+                        android:layout_marginBottom="16dp"
                         />
+
+                    <TextView
+                        android:id="@+id/subtitleView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textColor="?android:textColorSecondary"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="24dp"/>
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/randomPlayView"

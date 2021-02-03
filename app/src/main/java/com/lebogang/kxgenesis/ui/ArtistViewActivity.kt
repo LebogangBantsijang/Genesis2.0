@@ -14,23 +14,20 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.ui.fragments
+package com.lebogang.kxgenesis.ui
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import com.lebogang.kxgenesis.databinding.FragmentPlaylistBinding
+import com.lebogang.kxgenesis.R
+import com.lebogang.kxgenesis.databinding.ActivityArtistViewBinding
 
-class PlaylistFragment(fragmentActivity: FragmentActivity): Fragment() {
-
-    private lateinit var viewBinding:FragmentPlaylistBinding
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewBinding = FragmentPlaylistBinding.inflate(inflater, container, false)
-        return viewBinding.root
+class ArtistViewActivity : AppCompatActivity() {
+    private val viewBinding: ActivityArtistViewBinding by lazy{
+        ActivityArtistViewBinding.inflate(layoutInflater)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(viewBinding.root)
+    }
 }
