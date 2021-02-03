@@ -74,7 +74,7 @@ class ArtistFragment(fragmentActivity: FragmentActivity): Fragment(), OnArtistCl
     }
 
     override fun onArtistClick(artist: Artist) {
-
+        //Not
     }
 
 }

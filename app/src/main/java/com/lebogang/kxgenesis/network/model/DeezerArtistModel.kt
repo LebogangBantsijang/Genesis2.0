@@ -18,8 +18,8 @@ package com.lebogang.kxgenesis.network.model
 
 data class DeezerArtistModel (
     val name:String,
-    val picture_small:String,
-    val picture_medium: String,
-    val picture_big: String,
-    val picture_xl: String
+    val pictureSmall:String,
+    val pictureMedium: String,
+    val pictureBig: String,
+    val pictureXl: String
 )

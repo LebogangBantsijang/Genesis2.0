@@ -52,7 +52,7 @@ class ItemLocalArtistAdapter:RecyclerView.Adapter<ItemLocalArtistAdapter.ViewHol
             if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
                 Glide.with(holder.viewBinding.root)
                     .asBitmap()
-                    .load(it.picture_small)
+                    .load(it.pictureSmall)
                     .skipMemoryCache(false)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
@@ -62,7 +62,7 @@ class ItemLocalArtistAdapter:RecyclerView.Adapter<ItemLocalArtistAdapter.ViewHol
             }else{
                 Glide.with(holder.viewBinding.root)
                     .asBitmap()
-                    .load(it.picture_small)
+                    .load(it.pictureSmall)
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)

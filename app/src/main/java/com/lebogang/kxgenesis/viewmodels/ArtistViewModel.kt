@@ -32,7 +32,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ArtistViewModel(private val artistRepo: ArtistRepo, private val deezerService: DeezerService) : ViewModel(), OnContentChanged {
+class ArtistViewModel(private val artistRepo: ArtistRepo, private val deezerService: DeezerService)
+    : ViewModel(), OnContentChanged {
     val liveData : MutableLiveData<LinkedHashMap<String, Artist>> = MutableLiveData(LinkedHashMap())
     private var size = 0
     private var currentMap = LinkedHashMap<String, Artist>()
@@ -66,7 +67,8 @@ class ArtistViewModel(private val artistRepo: ArtistRepo, private val deezerServ
         getArtists()
     }
 
-    class Factory(private val artistRepo: ArtistRepo,private val deezerService: DeezerService):ViewModelProvider.Factory{
+    class Factory(private val artistRepo: ArtistRepo,private val deezerService: DeezerService)
+        :ViewModelProvider.Factory{
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ArtistViewModel::class.java))
