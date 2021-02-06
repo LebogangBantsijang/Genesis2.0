@@ -21,9 +21,9 @@
         <item name="colorAccent">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryColor</item>
         <item name="android:fitsSystemWindows">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:navigationBarColor">@color/systemThemeBackgroundColor</item>
+        <item name="android:statusBarColor">?colorBackgroundFloating</item>
+        <item name="android:navigationBarColor">?colorBackgroundFloating</item>
     </style>
 
     <style name="DefaultPrimaryTextColor" parent="TextAppearance.AppCompat.Small">

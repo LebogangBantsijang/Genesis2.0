@@ -55,7 +55,8 @@ class ItemLocalAlbumAdapter:RecyclerView.Adapter<ItemLocalAlbumAdapter.ViewHolde
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
-                .error(R.drawable.ic_music_24dp)
+                .centerCrop()
+                .error(R.drawable.ic_music_record_24dp)
                 .into(holder.viewBinding.imageView)
                 .clearOnDetach()
         }else{
@@ -65,7 +66,8 @@ class ItemLocalAlbumAdapter:RecyclerView.Adapter<ItemLocalAlbumAdapter.ViewHolde
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
-                .error(R.drawable.ic_music_24dp)
+                .error(R.drawable.ic_music_record_24dp)
+                .centerCrop()
                 .into(holder.viewBinding.imageView)
                 .clearOnDetach()
         }
@@ -77,7 +79,7 @@ class ItemLocalAlbumAdapter:RecyclerView.Adapter<ItemLocalAlbumAdapter.ViewHolde
 
     inner class ViewHolder(val viewBinding:ItemLocalAlbumBinding):RecyclerView.ViewHolder(viewBinding.root){
         init {
-            viewBinding.root.setOnClickListener {  }
+            viewBinding.root.setOnClickListener { listener?.onAlbumClick(listAlbum[adapterPosition]) }
         }
     }
 }

@@ -34,10 +34,10 @@ import com.lebogang.kxgenesis.ui.adapters.ItemLocalSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
-class SongsFragment(fragmentActivity: FragmentActivity): Fragment(),OnAudioClickListener {
+class SongsFragment(): Fragment(),OnAudioClickListener {
     private lateinit var viewBinding:FragmentSongsBinding
     private val adapter = ItemLocalSongAdapter()
-    private val genesisApplication = fragmentActivity.application as GenesisApplication
+    private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val audioViewModel:AudioViewModel by lazy {
         AudioViewModel.Factory(genesisApplication.audioRepo).create(AudioViewModel::class.java)
     }
@@ -71,6 +71,7 @@ class SongsFragment(fragmentActivity: FragmentActivity): Fragment(),OnAudioClick
     override fun onResume() {
         super.onResume()
         audioViewModel.registerContentObserver()
+        activity?.title = getString(R.string.music)
     }
 
     override fun onPause() {

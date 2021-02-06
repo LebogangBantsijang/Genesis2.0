@@ -34,6 +34,14 @@ class ItemLocalAlbumSongAdapter :RecyclerView.Adapter<ItemLocalAlbumSongAdapter.
     var color:Int = -1
     var audioId:Long = -1
 
+    fun setAudioData(audioMap:LinkedHashMap<Long, Audio>){
+        audioMap.asIterable().forEach {
+            listAudio.add(it.value)
+            val index = listAudio.indexOf(it.value)
+            notifyItemInserted(index)
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val viewBinding = ItemLocalAlbumSongBinding.inflate(inflater, parent, false)

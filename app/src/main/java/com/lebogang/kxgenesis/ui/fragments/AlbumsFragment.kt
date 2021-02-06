@@ -16,6 +16,7 @@
 
 package com.lebogang.kxgenesis.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,17 +24,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.lebogang.kxgenesis.GenesisApplication
+import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Album
 import com.lebogang.kxgenesis.databinding.FragmentAlbumsBinding
+import com.lebogang.kxgenesis.ui.AlbumViewActivity
 import com.lebogang.kxgenesis.ui.adapters.ItemLocalAlbumAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAlbumClickListener
 import com.lebogang.kxgenesis.viewmodels.AlbumViewModel
 
-class AlbumsFragment(fragmentActivity: FragmentActivity): Fragment(), OnAlbumClickListener {
+class AlbumsFragment(): Fragment(), OnAlbumClickListener {
     private lateinit var viewBinding:FragmentAlbumsBinding
     private val adapter = ItemLocalAlbumAdapter()
-    private val genesisApplication = fragmentActivity.application as GenesisApplication
+    private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val albumViewModel:AlbumViewModel by lazy {
         AlbumViewModel.Factory(genesisApplication.albumRepo).create(AlbumViewModel::class.java)
     }
@@ -52,7 +56,8 @@ class AlbumsFragment(fragmentActivity: FragmentActivity): Fragment(), OnAlbumCli
 
     private fun initRecyclerView(){
         adapter.listener = this
-        viewBinding.recyclerView.layoutManager = GridLayoutManager(context, 2)
+        viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(2,
+                StaggeredGridLayoutManager.VERTICAL)
         viewBinding.recyclerView.adapter = adapter
     }
 
@@ -65,6 +70,7 @@ class AlbumsFragment(fragmentActivity: FragmentActivity): Fragment(), OnAlbumCli
     override fun onResume() {
         super.onResume()
         albumViewModel.registerContentObserver()
+        activity?.title = getString(R.string.albums)
     }
 
     override fun onPause() {
@@ -73,7 +79,8 @@ class AlbumsFragment(fragmentActivity: FragmentActivity): Fragment(), OnAlbumCli
     }
 
     override fun onAlbumClick(album: Album) {
-        //not finished here
+        startActivity(Intent(requireContext(), AlbumViewActivity::class.java)
+            .apply { putExtra("Album",album.title) })
     }
 
 }

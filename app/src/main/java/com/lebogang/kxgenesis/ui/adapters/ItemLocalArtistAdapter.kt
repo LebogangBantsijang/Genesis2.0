@@ -47,6 +47,7 @@ class ItemLocalArtistAdapter:RecyclerView.Adapter<ItemLocalArtistAdapter.ViewHol
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val artist = listArtist[position]
+        holder.viewBinding.titleView.text = artist.title
         val deezerArtist:DeezerArtistModel? = artist.deezerArtistModel
         deezerArtist?.let {
             if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {

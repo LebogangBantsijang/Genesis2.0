@@ -48,7 +48,7 @@ class LocalAudio(private val context:Context) {
 
     val contentResolver :ContentResolver = context.applicationContext.contentResolver
     @SuppressLint("InlinedApi")
-    private val projection = arrayOf(_ID, TITLE, ARTIST, ALBUM, ALBUM_ID, DURATION, SIZE, IS_FAVORITE)
+    private val projection = arrayOf(_ID, TITLE, ARTIST, ALBUM, ALBUM_ID, DURATION, SIZE)
     private val appPreferences = AppPreferences(context)
     @SuppressLint("InlinedApi")
     private val selection = "$DURATION >=?"
@@ -151,9 +151,8 @@ class LocalAudio(private val context:Context) {
                     val size = Formatter.formatShortFileSize(context, cursor.getLong(cursor.getColumnIndex(SIZE)))
                     val albumArt = LocalArtUri.getAlbumArt(cursor.getLong(cursor.getColumnIndex(ALBUM_ID)))
                     val uri = ContentUris.withAppendedId(EXTERNAL_CONTENT_URI, id)
-                    val isFavourite = cursor.getString(cursor.getColumnIndex(IS_FAVORITE))
                     val audio = Audio(id, title, artist, album, duration, durationFormatted
-                            , size, albumArt, uri, isFavourite)
+                            , size, albumArt, uri)
                     if (idList != null && idList.contains(id))
                         linkedHashMap[id] = audio
                     else

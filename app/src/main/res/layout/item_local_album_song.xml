@@ -49,6 +49,8 @@
             android:id="@+id/titleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textStyle="bold"
             android:textColor="?android:textColorPrimary"
             />
@@ -57,6 +59,8 @@
             android:id="@+id/subtitleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textColor="?android:textColorSecondary"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             />

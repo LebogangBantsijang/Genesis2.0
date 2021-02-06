@@ -46,7 +46,7 @@ class AlbumRepo(val context: Context) {
         return localAlbums.getAlbums()
     }
 
-    fun getAlbums(albumName:String):LinkedHashMap<String, Album>{
+    fun getAlbums(albumName:String):Album?{
         return localAlbums.getAlbums(albumName)
     }
 

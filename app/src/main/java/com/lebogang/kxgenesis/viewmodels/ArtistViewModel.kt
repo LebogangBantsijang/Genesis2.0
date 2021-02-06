@@ -35,7 +35,7 @@ import retrofit2.Response
 class ArtistViewModel(private val artistRepo: ArtistRepo, private val deezerService: DeezerService)
     : ViewModel(), OnContentChanged {
     val liveData : MutableLiveData<LinkedHashMap<String, Artist>> = MutableLiveData(LinkedHashMap())
-    private var size = 0
+    private var size = -1
     private var currentMap = LinkedHashMap<String, Artist>()
 
     fun registerContentObserver(){

@@ -46,11 +46,30 @@ class LocalAlbum(val context: Context) {
      * Get all albums with the specified name
      * @param albumName
      * */
-    fun getAlbums(albumName:String):LinkedHashMap<String, Album>{
+    fun getAlbums(albumName:String):Album?{
         val selection = "$ALBUM =?"
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection, selection
             , arrayOf(albumName), SORT_ALBUM_BY_TITLE)
-        return loopCursor(cursor)
+        return loopCursorItem(cursor)
+    }
+
+    /**
+     * Loop through the cursor and build media objects
+     * @param cursor]
+     * */
+    private fun loopCursorItem(cursor: Cursor?):Album?{
+        cursor?.let {
+            if (cursor.moveToFirst()){
+                val id = cursor.getLong(cursor.getColumnIndex(_ID))
+                val title = cursor.getString(cursor.getColumnIndex(ALBUM))
+                val artist = cursor.getString(cursor.getColumnIndex(ARTIST))
+                val albumArtUri = LocalArtUri.getAlbumArt(id)
+                val album = Album(id, title,artist, albumArtUri)
+                cursor.close()
+                return album
+            }
+        }
+        return null
     }
 
     /**

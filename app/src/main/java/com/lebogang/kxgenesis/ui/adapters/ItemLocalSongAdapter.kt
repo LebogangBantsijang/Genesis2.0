@@ -58,10 +58,8 @@ class ItemLocalSongAdapter:RecyclerView.Adapter<ItemLocalSongAdapter.ViewHolder>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val audio = listAudio[position]
         val subtitle = audio.artist + "-" + audio.album
-        val counter = (1+position).toString()
         holder.viewBinding.titleView.text = audio.title
         holder.viewBinding.subtitleView.text = subtitle
-        holder.viewBinding.counterView.text = counter
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
             Glide.with(holder.viewBinding.root)
                     .asBitmap()
@@ -69,6 +67,7 @@ class ItemLocalSongAdapter:RecyclerView.Adapter<ItemLocalSongAdapter.ViewHolder>
                     .skipMemoryCache(false)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
+                    .centerCrop()
                     .error(R.drawable.ic_music_24dp)
                     .into(holder.viewBinding.imageView)
                     .clearOnDetach()
@@ -79,6 +78,7 @@ class ItemLocalSongAdapter:RecyclerView.Adapter<ItemLocalSongAdapter.ViewHolder>
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
+                    .centerCrop()
                     .error(R.drawable.ic_music_24dp)
                     .into(holder.viewBinding.imageView)
                     .clearOnDetach()
@@ -90,11 +90,9 @@ class ItemLocalSongAdapter:RecyclerView.Adapter<ItemLocalSongAdapter.ViewHolder>
         if (audio.id == audioId){
             holder.viewBinding.titleView.setTextColor(color)
             holder.viewBinding.subtitleView.setTextColor(color)
-            holder.viewBinding.counterView.setTextColor(color)
         }else{
             holder.viewBinding.titleView.setTextColor(fallbackPrimaryTextColor)
             holder.viewBinding.subtitleView.setTextColor(fallbackSecondaryTextColor)
-            holder.viewBinding.counterView.setTextColor(fallbackSecondaryTextColor)
         }
     }
 
