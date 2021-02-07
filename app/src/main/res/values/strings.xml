@@ -45,6 +45,7 @@
     <string name="songs">Songs</string>
     <string name="search">Search</string>
     <string name="sort">Sort</string>
+    <string name="music">Music</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>

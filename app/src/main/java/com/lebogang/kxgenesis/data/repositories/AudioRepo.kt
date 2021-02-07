@@ -23,15 +23,21 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
-import androidx.annotation.WorkerThread
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.data.repositories.local.LocalAudio
 import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class AudioRepo(val context: Context){
     private val localAudio = LocalAudio(context)
     private val contentObserver = getContentObserver()
     private var onContentChanged: OnContentChanged? = null
+    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     fun registerObserver(onContentChanged: OnContentChanged){
         localAudio.contentResolver.registerContentObserver(
@@ -44,35 +50,46 @@ class AudioRepo(val context: Context){
         localAudio.contentResolver.unregisterContentObserver(contentObserver)
     }
 
-    fun getAudio():LinkedHashMap<Long, Audio>{
-        return localAudio.getAudio()
+    suspend fun getAudio():MutableList<Audio> = coroutineScope {
+        val deffer = async(Dispatchers.IO) {
+            localAudio.getAudio()
+        }
+        deffer.await()
     }
 
-    fun getAlbumAudio(albumName:String):LinkedHashMap<Long, Audio>{
-        return localAudio.getAlbumAudio(albumName)
+    suspend fun getAlbumAudio(albumName:String):MutableList<Audio> = coroutineScope {
+        val deffer = async {
+            localAudio.getAlbumAudio(albumName)
+        }
+        deffer.await()
     }
 
-    fun getArtistAudio(artistName:String):LinkedHashMap<Long, Audio>{
-        return localAudio.getArtistAudio(artistName)
+    suspend fun getArtistAudio(artistName:String):MutableList<Audio> = coroutineScope {
+        val deffer = async {
+            localAudio.getArtistAudio(artistName)
+        }
+        deffer.await()
     }
 
-    fun getAudio(uri: Uri):LinkedHashMap<Long, Audio>{
-        return localAudio.getAudio(uri)
+    suspend fun getAudio(uri: Uri):MutableList<Audio> = coroutineScope {
+        val deffer = async {
+            localAudio.getAudio(uri)
+        }
+        deffer.await()
     }
 
-    fun getAudio(audioIdList:List<Long>?):LinkedHashMap<Long, Audio>{
-        return localAudio.getAudio(audioIdList)
+    suspend fun getAudio(audioIdList:List<Long>?):MutableList<Audio> = coroutineScope {
+        val deffer = async {
+            localAudio.getAudio(audioIdList)
+        }
+        deffer.await()
     }
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun updateAudio(audio: Audio, contentValues: ContentValues){
+    fun updateAudio(audio: Audio, contentValues: ContentValues) = scope.launch {
         localAudio.updateAudio(audio, contentValues)
     }
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun deleteAudio(audio: Audio){
+    fun deleteAudio(audio: Audio) = scope.launch {
         localAudio.deleteAudio(audio)
     }
 

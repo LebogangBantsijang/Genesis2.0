@@ -27,6 +27,5 @@ data class Audio (
         val durationFormatted:String,
         val size:String,
         val albumArtUri:Uri,
-        val uri:Uri,
-        val isFavourite:String
+        val uri:Uri
 )

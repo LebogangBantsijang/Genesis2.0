@@ -22,9 +22,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.FragmentPlaylistBinding
 
-class PlaylistFragment(fragmentActivity: FragmentActivity): Fragment() {
+class PlaylistFragment: Fragment() {
 
     private lateinit var viewBinding:FragmentPlaylistBinding
 
@@ -33,4 +34,8 @@ class PlaylistFragment(fragmentActivity: FragmentActivity): Fragment() {
         return viewBinding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity?.title = getString(R.string.playlists)
+    }
 }

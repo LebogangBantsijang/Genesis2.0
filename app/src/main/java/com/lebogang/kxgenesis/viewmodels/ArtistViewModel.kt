@@ -22,10 +22,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.data.repositories.ArtistRepo
-import com.lebogang.kxgenesis.data.repositories.AudioRepo
-import com.lebogang.kxgenesis.network.DeezerRepo
 import com.lebogang.kxgenesis.network.dao.DeezerService
-import com.lebogang.kxgenesis.network.model.DeezerArtistModel
 import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -34,9 +31,7 @@ import retrofit2.Response
 
 class ArtistViewModel(private val artistRepo: ArtistRepo, private val deezerService: DeezerService)
     : ViewModel(), OnContentChanged {
-    val liveData : MutableLiveData<LinkedHashMap<String, Artist>> = MutableLiveData(LinkedHashMap())
-    private var size = 0
-    private var currentMap = LinkedHashMap<String, Artist>()
+    val liveData : MutableLiveData<Artist> = MutableLiveData()
 
     fun registerContentObserver(){
         artistRepo.registerObserver(this)
@@ -48,7 +43,6 @@ class ArtistViewModel(private val artistRepo: ArtistRepo, private val deezerServ
 
     fun getArtists() = viewModelScope.launch {
         val map = artistRepo.getArtists()
-        size = map.size
         map.asIterable().forEach {
             deezerService.getArtistImage(it.key).enqueue(getCallbacks(it.value))
         }
@@ -56,10 +50,6 @@ class ArtistViewModel(private val artistRepo: ArtistRepo, private val deezerServ
 
     fun getArtists(artistName:String) = viewModelScope.launch {
         val map = artistRepo.getArtists(artistName)
-        size = map.size
-        map.asIterable().forEach {
-            deezerService.getArtistImage(it.key).enqueue(getCallbacks(it.value))
-        }
     }
 
 
@@ -78,20 +68,16 @@ class ArtistViewModel(private val artistRepo: ArtistRepo, private val deezerServ
 
     }
 
-    private fun getCallbacks(artist: Artist):Callback<DeezerArtistModel>{
-        return object :Callback<DeezerArtistModel>{
-            override fun onResponse(call: Call<DeezerArtistModel>, response: Response<DeezerArtistModel>) {
+    private fun getCallbacks(artist: Artist):Callback<Artist>{
+        return object :Callback<Artist>{
+            override fun onResponse(call: Call<Artist>, response: Response<Artist>) {
                 if (response.isSuccessful){
-                    artist.deezerArtistModel = response.body()
-                    currentMap[artist.title] = artist
-                    if (size == currentMap.size)
-                        liveData.postValue(currentMap)
-                }
+                    liveData.postValue(response.body())
+                }else
+                    liveData.postValue(artist)
             }
-            override fun onFailure(call: Call<DeezerArtistModel>, t: Throwable) {
-                currentMap[artist.title] = artist
-                if (size == currentMap.size)
-                    liveData.postValue(currentMap)
+            override fun onFailure(call: Call<Artist>, t: Throwable) {
+                liveData.postValue(artist)
             }
         }
     }

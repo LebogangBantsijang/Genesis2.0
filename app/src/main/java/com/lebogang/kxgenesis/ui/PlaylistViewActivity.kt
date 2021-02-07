@@ -14,12 +14,15 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.network.model
+package com.lebogang.kxgenesis.ui
 
-data class DeezerArtistModel (
-    val name:String,
-    val pictureSmall:String,
-    val pictureMedium: String,
-    val pictureBig: String,
-    val pictureXl: String
-)
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import com.lebogang.kxgenesis.R
+
+class PlaylistViewActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_playlist_view)
+    }
+}

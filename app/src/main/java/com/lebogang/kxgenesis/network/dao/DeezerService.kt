@@ -16,7 +16,7 @@
 
 package com.lebogang.kxgenesis.network.dao
 
-import com.lebogang.kxgenesis.network.model.DeezerArtistModel
+import com.lebogang.kxgenesis.data.models.Artist
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -24,6 +24,6 @@ import retrofit2.http.Path
 interface DeezerService {
 
     @GET("artist/{name}")
-    fun getArtistImage(@Path("name") artistName:String):Call<DeezerArtistModel>
+    fun getArtistImage(@Path("name") artistName:String):Call<Artist>
 
 }

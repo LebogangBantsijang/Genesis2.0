@@ -21,7 +21,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fitsSystemWindows="true"
     tools:context=".ui.AlbumViewActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -66,8 +65,8 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/artView"
-                        android:layout_width="156dp"
-                        android:layout_height="156dp"
+                        android:layout_width="196dp"
+                        android:layout_height="196dp"
                         android:layout_margin="8dp"
                         android:contentDescription="@string/album_art"/>
 
@@ -75,7 +74,7 @@
                         android:id="@+id/titleView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
@@ -102,8 +101,8 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:background="@null"
+                    app:title=""
+                    android:background="@color/toolbarColor"
                     app:navigationIcon="@drawable/ic_arrow_back" />
 
             </FrameLayout>

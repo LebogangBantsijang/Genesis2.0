@@ -25,6 +25,9 @@ import android.provider.MediaStore
 import com.lebogang.kxgenesis.data.models.Album
 import com.lebogang.kxgenesis.data.repositories.local.LocalAlbum
 import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 
 class AlbumRepo(val context: Context) {
     private val localAlbums = LocalAlbum(context)
@@ -42,11 +45,14 @@ class AlbumRepo(val context: Context) {
         localAlbums.contentResolver.unregisterContentObserver(contentObserver)
     }
 
-    fun getAlbums():LinkedHashMap<String, Album>{
-        return localAlbums.getAlbums()
+    suspend fun getAlbums():MutableList<Album> = coroutineScope {
+        val deffer = async(Dispatchers.IO) {
+            localAlbums.getAlbums()
+        }
+        deffer.await()
     }
 
-    fun getAlbums(albumName:String):LinkedHashMap<String, Album>{
+    fun getAlbums(albumName:String):Album?{
         return localAlbums.getAlbums(albumName)
     }
 

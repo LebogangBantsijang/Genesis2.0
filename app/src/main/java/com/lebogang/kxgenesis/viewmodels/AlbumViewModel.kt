@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 class AlbumViewModel(private val albumRepo: AlbumRepo) :ViewModel(), OnContentChanged{
 
-    val liveData :MutableLiveData<LinkedHashMap<String, Album>> = MutableLiveData()
+    val liveData :MutableLiveData<MutableList<Album>> = MutableLiveData()
 
     fun registerContentObserver(){
         albumRepo.registerObserver(this)
@@ -41,9 +41,7 @@ class AlbumViewModel(private val albumRepo: AlbumRepo) :ViewModel(), OnContentCh
         liveData.postValue(albumRepo.getAlbums())
     }
 
-    fun getAlbums(albumsName:String) = viewModelScope.launch {
-        liveData.postValue(albumRepo.getAlbums(albumsName))
-    }
+    fun getAlbums(albumsName:String):Album? = albumRepo.getAlbums(albumsName)
 
     override fun onMediaChanged() {
         getAlbums()

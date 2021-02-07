@@ -16,20 +16,121 @@
 
 package com.lebogang.kxgenesis.ui
 
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
+import com.lebogang.kxgenesis.data.models.Album
+import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityAlbumViewBinding
+import com.lebogang.kxgenesis.ui.adapters.ItemLocalAlbumSongAdapter
+import com.lebogang.kxgenesis.ui.adapters.ItemLocalSongAdapter
+import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.kxgenesis.viewmodels.AlbumViewModel
+import com.lebogang.kxgenesis.viewmodels.AudioViewModel
+import jp.wasabeef.blurry.Blurry
 
-class AlbumViewActivity : AppCompatActivity() {
+class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
 
     private val viewBinding:ActivityAlbumViewBinding by lazy{
         ActivityAlbumViewBinding.inflate(layoutInflater)
     }
+    private val albumViewModel:AlbumViewModel by lazy{
+        AlbumViewModel.Factory((application as GenesisApplication).albumRepo)
+                .create(AlbumViewModel::class.java)
+    }
+    private val audioViewModel:AudioViewModel by lazy {
+        AudioViewModel.Factory((application as GenesisApplication).audioRepo)
+                .create(AudioViewModel::class.java)
+    }
+    private var album:Album? = null
+    private val adapter = ItemLocalAlbumSongAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+        album = albumViewModel.getAlbums(intent.getStringExtra("Album")!!)
+        initToolbar()
+        iniAlbumDetails()
+        initRecyclerView()
+        observeAudio()
     }
 
+    private fun initToolbar(){
+        setSupportActionBar(viewBinding.toolbar)
+        viewBinding.toolbar.setNavigationOnClickListener {onBackPressed()}
+    }
+
+    private fun iniAlbumDetails(){
+        //n
+        album?.let {
+            viewBinding.titleView.text = album!!.title
+            title = album!!.artist
+            Glide.with(this)
+                .asBitmap()
+                .load(album!!.albumArtUri)
+                    .addListener(object :RequestListener<Bitmap>{
+                        override fun onLoadFailed(e: GlideException?, model: Any?
+                                                  , target: Target<Bitmap>?, isFirstResource
+                                                  : Boolean): Boolean {
+                            return e != null
+                        }
+                        override fun onResourceReady(resource: Bitmap?, model: Any?,
+                                                     target: Target<Bitmap>?, dataSource: DataSource?
+                                                     , isFirstResource: Boolean): Boolean {
+                            if (resource!=null){
+                                Blurry.with(baseContext).async()
+                                        .radius(10)
+                                        .sampling(4)
+                                        .from(resource)
+                                        .into(viewBinding.blurView)
+                            }
+                            return true
+                        }
+
+                    })
+                    .submit()
+            Glide.with(viewBinding.artView)
+                    .asBitmap()
+                    .load(album!!.albumArtUri)
+                    .error(R.drawable.ic_music_record_24dp)
+                    .override(viewBinding.artView.width,viewBinding.artView.height)
+                    .centerCrop()
+                    .into(viewBinding.artView)
+                    .clearOnDetach()
+        }
+    }
+
+    private fun initRecyclerView(){
+        adapter.listener = this
+        adapter.fallbackPrimaryTextColor = ResourcesCompat.getColor(resources, R.color.primaryTextColor, null)
+        adapter.fallbackSecondaryTextColor = ResourcesCompat.getColor(resources, R.color.secondaryTextColor, null)
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+        viewBinding.recyclerView.adapter = adapter
+    }
+
+    private fun observeAudio(){
+        album?.let {
+            audioViewModel.getAlbumAudio(it.title)
+            audioViewModel.liveData.observe(this,{
+                adapter.setAudioData(it)
+            })
+        }
+    }
+
+    override fun onAudioClick(audio: Audio) {
+        //Not
+    }
+
+    override fun onAudioClickOptions(audio: Audio) {
+        //not
+    }
 }

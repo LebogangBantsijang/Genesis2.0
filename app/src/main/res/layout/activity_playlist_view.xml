@@ -15,16 +15,14 @@
   ~    limitations under the License.
   -->
 
-<resources>
+<com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <style name="Theme.Genesis20.System" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorAccent">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryColor</item>
-        <item name="android:fitsSystemWindows">true</item>
-        <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:navigationBarColor">@color/systemThemeBackgroundColor</item>
-    </style>
-</resources>
+
+
+</com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>

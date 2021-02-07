@@ -29,9 +29,9 @@ import com.lebogang.kxgenesis.ui.fragments.SongsFragment
 class LocalContentActivityViewPagerAdapter(fragmentActivity: FragmentActivity)
     :FragmentStateAdapter(fragmentActivity){
 
-    private val fragmentList = arrayListOf(SongsFragment(fragmentActivity)
-        , AlbumsFragment(fragmentActivity), ArtistFragment(fragmentActivity)
-        , PlaylistFragment(fragmentActivity))
+    private val fragmentList = arrayListOf(SongsFragment()
+        , AlbumsFragment(), ArtistFragment()
+        , PlaylistFragment())
 
     override fun getItemCount(): Int {
         return fragmentList.size

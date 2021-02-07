@@ -17,6 +17,7 @@
 package com.lebogang.kxgenesis.network
 
 
+import com.google.gson.GsonBuilder
 import com.lebogang.kxgenesis.network.dao.DeezerService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,13 +25,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 object DeezerRepo {
     @Volatile
     private var deezerService:DeezerService? = null
+    private val gson = GsonBuilder()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create()
 
     fun getDeezerService():DeezerService{
         return deezerService?: synchronized(this){
             val url = "https://api.deezer.com/"
             val retrofit = Retrofit.Builder()
                 .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory
+                        .create(gson))
                 .build()
             val service = retrofit.create(DeezerService::class.java)
             deezerService = service

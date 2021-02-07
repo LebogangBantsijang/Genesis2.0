@@ -16,10 +16,16 @@
 
 package com.lebogang.kxgenesis.ui
 
+import android.Manifest
+import android.content.DialogInterface
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.ActivityLocalContentBinding
@@ -29,13 +35,15 @@ class LocalContentActivity : AppCompatActivity() {
     private val viewBinding:ActivityLocalContentBinding by lazy{
         ActivityLocalContentBinding.inflate(layoutInflater)
     }
-    private val localContentActivityViewPagerAdapter = LocalContentActivityViewPagerAdapter(this)
+    private val localContentActivityViewPagerAdapter:LocalContentActivityViewPagerAdapter by lazy{
+        LocalContentActivityViewPagerAdapter(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
         initToolbar()
-        initViewPager()
+        checkPermissions()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -50,21 +58,41 @@ class LocalContentActivity : AppCompatActivity() {
         }
     }
 
-    private fun initViewPager(){
-        viewBinding.viewPager.adapter = localContentActivityViewPagerAdapter
-        TabLayoutMediator(viewBinding.tablayout, viewBinding.viewPager
-        ) { tab, _ ->
-            when(tab.id){
-                R.id.songsTab -> tab.icon =
-                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_24dp, theme)
-                R.id.albumsTab -> tab.icon =
-                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_record_24dp, theme)
-                R.id.artistsTab -> tab.icon =
-                    ResourcesCompat.getDrawable(resources,R.drawable.ic_microphone_24dp, theme)
-                R.id.playlistsTab -> tab.icon =
-                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_folder_24dp, theme)
+    private fun checkPermissions(){
+        when(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            PackageManager.PERMISSION_GRANTED -> initViewPager()
+            PackageManager.PERMISSION_DENIED -> {
+                registerForActivityResult(ActivityResultContracts.RequestPermission()){
+                    if (it)
+                        initViewPager()
+                    else{
+                        MaterialAlertDialogBuilder(this)
+                            .setTitle("Permission Error")
+                            .setPositiveButton("Close", null)
+                            .setMessage("The application needs your permission to read your music content."+
+                                    " Without access to your files then the application will not function properly.")
+                            .setOnDismissListener { finish()}
+                    }
+                }.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
         }
+    }
+
+    private fun initViewPager(){
+        viewBinding.viewPager.adapter = localContentActivityViewPagerAdapter
+        TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager
+        ) { tab, pos ->
+            when(pos){
+                0 -> tab.icon =
+                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_24dp, theme)
+                1 -> tab.icon =
+                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_record_24dp, theme)
+                2 -> tab.icon =
+                    ResourcesCompat.getDrawable(resources,R.drawable.ic_microphone_24dp, theme)
+                3 -> tab.icon =
+                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_folder_24dp, theme)
+            }
+        }.attach()
     }
 
 }
