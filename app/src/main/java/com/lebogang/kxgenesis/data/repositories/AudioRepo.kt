@@ -23,11 +23,15 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
-import androidx.annotation.WorkerThread
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.data.repositories.local.LocalAudio
 import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class AudioRepo(val context: Context){
     private val localAudio = LocalAudio(context)

@@ -53,6 +53,8 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
     }
     private var album:Album? = null
     private val adapter = ItemLocalAlbumSongAdapter()
+    private val blurryRadius = 10
+    private val blurrySample = 4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,14 +79,18 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
                 .asBitmap()
                 .load(album!!.albumArtUri)
                     .addListener(object :RequestListener<Bitmap>{
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                        override fun onLoadFailed(e: GlideException?, model: Any?
+                                                  , target: Target<Bitmap>?, isFirstResource
+                                                  : Boolean): Boolean {
                             return e != null
                         }
-                        override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                        override fun onResourceReady(resource: Bitmap?, model: Any?,
+                                                     target: Target<Bitmap>?, dataSource: DataSource?
+                                                     , isFirstResource: Boolean): Boolean {
                             if (resource!=null){
                                 Blurry.with(baseContext).async()
-                                        .radius(10)
-                                        .sampling(4)
+                                        .radius(blurryRadius)
+                                        .sampling(blurrySample)
                                         .from(resource)
                                         .into(viewBinding.blurView)
                             }
