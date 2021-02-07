@@ -53,8 +53,6 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
     }
     private var album:Album? = null
     private val adapter = ItemLocalAlbumSongAdapter()
-    private val blurryRadius = 10
-    private val blurrySample = 4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,8 +87,8 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
                                                      , isFirstResource: Boolean): Boolean {
                             if (resource!=null){
                                 Blurry.with(baseContext).async()
-                                        .radius(blurryRadius)
-                                        .sampling(blurrySample)
+                                        .radius(10)
+                                        .sampling(4)
                                         .from(resource)
                                         .into(viewBinding.blurView)
                             }

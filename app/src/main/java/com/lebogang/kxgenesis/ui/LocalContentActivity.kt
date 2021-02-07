@@ -38,10 +38,6 @@ class LocalContentActivity : AppCompatActivity() {
     private val localContentActivityViewPagerAdapter:LocalContentActivityViewPagerAdapter by lazy{
         LocalContentActivityViewPagerAdapter(this)
     }
-    private val tabOne = 0
-    private val tabTwo = 1
-    private val tabThree = 2
-    private val tabFour = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,13 +83,13 @@ class LocalContentActivity : AppCompatActivity() {
         TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager
         ) { tab, pos ->
             when(pos){
-                tabOne -> tab.icon =
+                0 -> tab.icon =
                     ResourcesCompat.getDrawable(resources,R.drawable.ic_music_24dp, theme)
-                tabTwo -> tab.icon =
+                1 -> tab.icon =
                     ResourcesCompat.getDrawable(resources,R.drawable.ic_music_record_24dp, theme)
-                tabThree -> tab.icon =
+                2 -> tab.icon =
                     ResourcesCompat.getDrawable(resources,R.drawable.ic_microphone_24dp, theme)
-                tabFour -> tab.icon =
+                3 -> tab.icon =
                     ResourcesCompat.getDrawable(resources,R.drawable.ic_music_folder_24dp, theme)
             }
         }.attach()
