@@ -14,4 +14,4 @@ List of libraries, android components and design patterns used to build this app
 * Glide
 * Retrofit
 * Gson
-* Deezer Api
+* Rest Api
