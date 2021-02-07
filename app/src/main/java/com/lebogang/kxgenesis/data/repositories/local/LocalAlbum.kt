@@ -36,7 +36,7 @@ class LocalAlbum(val context: Context) {
     /**
      * Get all albums
      * */
-    fun getAlbums():LinkedHashMap<String, Album>{
+    suspend fun getAlbums():MutableList<Album>{
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection, null
             , null, SORT_ALBUM_BY_TITLE)
         return loopCursor(cursor)
@@ -76,7 +76,7 @@ class LocalAlbum(val context: Context) {
      * Loop through the cursor and build media objects
      * @param cursor]
      * */
-    private fun loopCursor(cursor: Cursor?):LinkedHashMap<String, Album>{
+    private fun loopCursor(cursor: Cursor?):MutableList<Album>{
         val linkedHashMap = LinkedHashMap<String, Album>()
         cursor?.let {
             if (cursor.moveToFirst()){
@@ -91,6 +91,6 @@ class LocalAlbum(val context: Context) {
             }
             cursor.close()
         }
-        return linkedHashMap
+        return linkedHashMap.values.toMutableList()
     }
 }

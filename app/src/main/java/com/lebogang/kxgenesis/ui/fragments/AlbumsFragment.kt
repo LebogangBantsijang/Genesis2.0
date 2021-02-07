@@ -34,7 +34,7 @@ import com.lebogang.kxgenesis.ui.adapters.ItemLocalAlbumAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAlbumClickListener
 import com.lebogang.kxgenesis.viewmodels.AlbumViewModel
 
-class AlbumsFragment(): Fragment(), OnAlbumClickListener {
+class AlbumsFragment: Fragment(), OnAlbumClickListener {
     private lateinit var viewBinding:FragmentAlbumsBinding
     private val adapter = ItemLocalAlbumAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}

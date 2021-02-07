@@ -16,12 +16,20 @@
 
 package com.lebogang.kxgenesis.data.models
 
-import android.net.Uri
-import com.lebogang.kxgenesis.network.model.DeezerArtistModel
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 data class Artist(
         val id:Long,
         val title:String,
         val albumCount:String,
-        var deezerArtistModel:DeezerArtistModel?
+        @Expose
+        @SerializedName("picture_small")
+        val pictureSmall:String?,
+        @Expose
+        @SerializedName("picture_medium")
+        val pictureMedium: String?,
+        @Expose
+        @SerializedName("picture_big")
+        val pictureBig: String?
 )

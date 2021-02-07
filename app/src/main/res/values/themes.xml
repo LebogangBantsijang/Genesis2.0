@@ -20,7 +20,6 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorAccent">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryColor</item>
-        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">?colorBackgroundFloating</item>
         <item name="android:navigationBarColor">?colorBackgroundFloating</item>

@@ -34,7 +34,7 @@ import com.lebogang.kxgenesis.ui.adapters.ItemLocalSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
-class SongsFragment(): Fragment(),OnAudioClickListener {
+class SongsFragment: Fragment(),OnAudioClickListener {
     private lateinit var viewBinding:FragmentSongsBinding
     private val adapter = ItemLocalSongAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}

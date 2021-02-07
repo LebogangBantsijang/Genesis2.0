@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 class AlbumViewModel(private val albumRepo: AlbumRepo) :ViewModel(), OnContentChanged{
 
-    val liveData :MutableLiveData<LinkedHashMap<String, Album>> = MutableLiveData()
+    val liveData :MutableLiveData<MutableList<Album>> = MutableLiveData()
 
     fun registerContentObserver(){
         albumRepo.registerObserver(this)

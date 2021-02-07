@@ -25,7 +25,7 @@ import androidx.fragment.app.FragmentActivity
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.FragmentPlaylistBinding
 
-class PlaylistFragment(): Fragment() {
+class PlaylistFragment: Fragment() {
 
     private lateinit var viewBinding:FragmentPlaylistBinding
 

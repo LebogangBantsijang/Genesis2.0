@@ -28,17 +28,16 @@ import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 
 class ItemLocalAlbumSongAdapter :RecyclerView.Adapter<ItemLocalAlbumSongAdapter.ViewHolder>(){
     var listener: OnAudioClickListener? = null
-    var listAudio = arrayListOf<Audio>()
+    var listAudio = mutableListOf<Audio>()
     var fallbackPrimaryTextColor:Int = 0
     var fallbackSecondaryTextColor:Int = 0
     var color:Int = -1
     var audioId:Long = -1
 
-    fun setAudioData(audioMap:LinkedHashMap<Long, Audio>){
-        audioMap.asIterable().forEach {
-            listAudio.add(it.value)
-            val index = listAudio.indexOf(it.value)
-            notifyItemInserted(index)
+    fun setAudioData(mutableList: MutableList<Audio>){
+        for (x in 0..mutableList.size){
+            listAudio[x] = mutableList[x]
+            notifyItemInserted(x)
         }
     }
 

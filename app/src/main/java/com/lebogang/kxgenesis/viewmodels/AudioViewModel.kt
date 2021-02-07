@@ -30,7 +30,7 @@ import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
 import kotlinx.coroutines.launch
 
 class AudioViewModel(private val audioRepo: AudioRepo): ViewModel(), OnContentChanged {
-    val liveData:MutableLiveData<LinkedHashMap<Long,Audio>> = MutableLiveData()
+    val liveData:MutableLiveData<MutableList<Audio>> = MutableLiveData()
     private lateinit var which: AudioEnum
     private var identifier:Any? = null
 
@@ -42,13 +42,10 @@ class AudioViewModel(private val audioRepo: AudioRepo): ViewModel(), OnContentCh
         audioRepo.unregisterObserver()
     }
 
-    fun updateAudio(audio: Audio, contentValues: ContentValues) = viewModelScope.launch {
-        audioRepo.updateAudio(audio,contentValues)
-    }
+    fun updateAudio(audio: Audio, contentValues: ContentValues)
+        = audioRepo.updateAudio(audio,contentValues)
 
-    fun deleteAudio(audio: Audio) = viewModelScope.launch {
-        audioRepo.deleteAudio(audio)
-    }
+    fun deleteAudio(audio: Audio) = audioRepo.deleteAudio(audio)
 
     fun getAudio() = viewModelScope.launch {
         liveData.postValue(audioRepo.getAudio())

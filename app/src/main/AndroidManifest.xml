@@ -2,19 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lebogang.kxgenesis">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".GenesisApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Genesis20.System"
-        android:requestLegacyExternalStorage="true">
-        <activity android:name=".ui.ArtistViewActivity"/>
+        android:theme="@style/Theme.Genesis20.System">
+        <activity android:name=".ui.PlaylistViewActivity"></activity>
+        <activity android:name=".ui.ArtistViewActivity" />
         <activity android:name=".ui.AlbumViewActivity" />
         <activity android:name=".ui.LocalContentActivity">
             <intent-filter>

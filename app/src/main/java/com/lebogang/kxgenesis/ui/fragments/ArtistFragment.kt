@@ -17,6 +17,7 @@
 package com.lebogang.kxgenesis.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,7 @@ import com.lebogang.kxgenesis.ui.adapters.ItemLocalArtistAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnArtistClickListener
 import com.lebogang.kxgenesis.viewmodels.ArtistViewModel
 
-class ArtistFragment(): Fragment(), OnArtistClickListener {
+class ArtistFragment: Fragment(), OnArtistClickListener {
     private lateinit var viewBinding:FragmentArtistsBinding
     private val adapter = ItemLocalArtistAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
