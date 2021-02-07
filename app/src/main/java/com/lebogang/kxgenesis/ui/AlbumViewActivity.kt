@@ -70,6 +70,7 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
     }
 
     private fun iniAlbumDetails(){
+        //n
         album?.let {
             viewBinding.titleView.text = album!!.title
             title = album!!.artist
