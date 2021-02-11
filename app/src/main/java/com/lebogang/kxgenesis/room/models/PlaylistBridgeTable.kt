@@ -18,13 +18,12 @@ package com.lebogang.kxgenesis.room.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "PlaylistAudioBridge")
 data class PlaylistBridgeTable(
-    @ColumnInfo
+    @PrimaryKey(autoGenerate = true)
     val id:Long,
-    @ColumnInfo
     val playlistId:Long,
-    @ColumnInfo
     val audioId:Long
 )

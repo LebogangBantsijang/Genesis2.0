@@ -53,7 +53,7 @@ class ItemLocalArtistAdapter:RecyclerView.Adapter<ItemLocalArtistAdapter.ViewHol
                     .asBitmap()
                     .load(artist.pictureMedium)
                     .skipMemoryCache(false)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
                     .error(R.drawable.ic_music_24dp)
                     .into(holder.viewBinding.imageView)

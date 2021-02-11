@@ -18,23 +18,34 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="112dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <ImageView
+        android:id="@+id/artView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:contentDescription="@string/album_art"
+        />
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_text_overlay"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        />
 
     <ImageButton
-        android:id="@+id/addView"
+        android:id="@+id/optionsView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_circle"
-        android:backgroundTint="?colorPrimary"
-        android:padding="14dp"
-        android:layout_gravity="end|bottom"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="16dp"
-        android:contentDescription="@string/add"
-        app:srcCompat="@drawable/ic_round_add_24" />
+        android:layout_margin="16dp"
+        android:layout_gravity="end|center_vertical"
+        android:contentDescription="@string/edit"
+        android:background="@null"
+        android:padding="16dp"
+        app:srcCompat="@drawable/ic_baseline_edit_24" />
+
 </FrameLayout>

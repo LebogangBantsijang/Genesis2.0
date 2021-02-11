@@ -16,17 +16,22 @@
 
 package com.lebogang.kxgenesis.room.models
 
+import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "Playlist")
 data class Playlist(
-    @ColumnInfo
+    @PrimaryKey(autoGenerate = true)
     val id:Long,
-    @ColumnInfo
-    val title:String,
-    @ColumnInfo
-    val coverUriToString:String,
-    @ColumnInfo
-    val audioId:Long
-)
+    var title:String,
+    var coverUriToString:String?
+){
+    fun getCoverUri():Uri?{
+        if (coverUriToString != null){
+            return Uri.parse(coverUriToString)
+        }
+        return null
+    }
+}

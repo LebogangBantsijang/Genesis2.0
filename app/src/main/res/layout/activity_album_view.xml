@@ -102,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:title=""
-                    android:background="@color/toolbarColor"
+                    android:background="@null"
                     app:navigationIcon="@drawable/ic_arrow_back" />
 
             </FrameLayout>

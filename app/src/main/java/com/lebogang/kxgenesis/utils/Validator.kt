@@ -14,27 +14,10 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.room.dao
+package com.lebogang.kxgenesis.utils
 
-import androidx.room.*
-import com.lebogang.kxgenesis.room.models.Playlist
-import kotlinx.coroutines.flow.Flow
-
-@Dao
-interface PlaylistDao {
-
-    @Query("SELECT * FROM Playlist")
-    fun getPlaylist(): Flow<MutableList<Playlist>>
-
-    @Query("SELECT * FROM Playlist WHERE id =:id")
-    fun getPlaylist(id:Long): Flow<Playlist>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(playlist: Playlist)
-
-    @Delete
-    fun delete(playlist: Playlist)
-
-    @Query("DELETE FROM Playlist")
-    fun clearData()
+object Validator {
+    fun isValueValid(value:String?):Boolean{
+        return !value.isNullOrBlank()
+    }
 }

@@ -16,69 +16,66 @@
 
 package com.lebogang.kxgenesis.ui.adapters
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.lebogang.kxgenesis.R
-import com.lebogang.kxgenesis.data.models.Album
-import com.lebogang.kxgenesis.databinding.ItemLocalAlbumBinding
-import com.lebogang.kxgenesis.ui.adapters.utils.OnAlbumClickListener
+import com.lebogang.kxgenesis.databinding.ItemLayoutPlaylistBinding
+import com.lebogang.kxgenesis.room.models.Playlist
+import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistClickListener
 
-class ItemLocalAlbumAdapter:RecyclerView.Adapter<ItemLocalAlbumAdapter.ViewHolder>(){
-    private var listAlbum = arrayListOf<Album>()
-    var listener:OnAlbumClickListener? = null
+class ItemLocalPlaylist:RecyclerView.Adapter<ItemLocalPlaylist.ViewHolder>(){
+    var listener:OnPlaylistClickListener? = null
+    private var listPlaylist = mutableListOf<Playlist>()
 
-    fun setAlbumData(mutableList: MutableList<Album>){
+    fun setPlaylistData(mutableList: MutableList<Playlist>){
         for (x in 0 until mutableList.size){
-            listAlbum.add(mutableList[x])
+            listPlaylist.add(mutableList[x])
             notifyItemInserted(x)
+        }
+    }
+
+    inner class ViewHolder(val viewBinding:ItemLayoutPlaylistBinding):RecyclerView.ViewHolder(viewBinding.root){
+        init {
+            viewBinding.root.setOnClickListener { listener?.onPlaylistClick(listPlaylist[adapterPosition]) }
+            viewBinding.optionsView.setOnClickListener { listener?.onPlaylistOptionClick(listPlaylist[adapterPosition]) }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val viewBinding = ItemLocalAlbumBinding.inflate(inflater)
+        val viewBinding = ItemLayoutPlaylistBinding.inflate(inflater, parent, false)
         return ViewHolder(viewBinding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val album = listAlbum[position]
-        holder.viewBinding.titleView.text = album.title
-        holder.viewBinding.subtitleView.text = album.artist
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        val playlist = listPlaylist[position]
+        holder.viewBinding.titleView.text = playlist.title
+        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
             Glide.with(holder.viewBinding.root)
                 .asBitmap()
-                .load(album.albumArtUri)
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
+                .load(Uri.parse("" + playlist.coverUriToString))
+                .override(holder.viewBinding.artView.width, holder.viewBinding.artView.height)
                 .centerCrop()
-                .error(R.drawable.ic_music_record_24dp)
-                .into(holder.viewBinding.imageView)
-                .clearOnDetach()
+                .into(holder.viewBinding.artView)
         }else{
             Glide.with(holder.viewBinding.root)
                 .asBitmap()
-                .load(album.albumArtUri)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
-                .error(R.drawable.ic_music_record_24dp)
+                .load(Uri.parse(playlist.coverUriToString))
+                .override(holder.viewBinding.artView.width, holder.viewBinding.artView.height)
                 .centerCrop()
-                .into(holder.viewBinding.imageView)
-                .clearOnDetach()
+                .into(holder.viewBinding.artView)
         }
     }
 
     override fun getItemCount(): Int {
-        return listAlbum.size
-    }
-
-    inner class ViewHolder(val viewBinding:ItemLocalAlbumBinding):RecyclerView.ViewHolder(viewBinding.root){
-        init {
-            viewBinding.root.setOnClickListener { listener?.onAlbumClick(listAlbum[adapterPosition]) }
-        }
+        return listPlaylist.size
     }
 }
