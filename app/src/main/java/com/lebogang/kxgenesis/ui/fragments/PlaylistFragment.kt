@@ -78,6 +78,7 @@ class PlaylistFragment: Fragment(),OnPlaylistClickListener {
     }
 
     override fun onPlaylistClick(playlist: Playlist) {
+        //em
     }
 
     override fun onPlaylistOptionClick(playlist: Playlist) {

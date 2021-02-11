@@ -41,7 +41,8 @@ class ItemLocalPlaylist:RecyclerView.Adapter<ItemLocalPlaylist.ViewHolder>(){
     inner class ViewHolder(val viewBinding:ItemLayoutPlaylistBinding):RecyclerView.ViewHolder(viewBinding.root){
         init {
             viewBinding.root.setOnClickListener { listener?.onPlaylistClick(listPlaylist[adapterPosition]) }
-            viewBinding.optionsView.setOnClickListener { listener?.onPlaylistOptionClick(listPlaylist[adapterPosition]) }
+            viewBinding.optionsView.setOnClickListener {
+                listener?.onPlaylistOptionClick(listPlaylist[adapterPosition]) }
         }
     }
 
