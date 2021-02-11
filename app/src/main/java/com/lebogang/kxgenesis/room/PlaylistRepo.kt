@@ -20,13 +20,18 @@ import androidx.annotation.WorkerThread
 import com.lebogang.kxgenesis.room.models.Playlist
 import com.lebogang.kxgenesis.room.dao.PlaylistAudioBridgeDao
 import com.lebogang.kxgenesis.room.dao.PlaylistDao
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 class PlaylistRepo(private val playlistDao: PlaylistDao,
                    private val playlistAudioBridgeDao: PlaylistAudioBridgeDao
 ) {
+    private val scope = CoroutineScope(Dispatchers.IO)
 
-    fun getPlaylists(): Flow<List<Playlist>> {
+    fun getPlaylists(): Flow<MutableList<Playlist>> {
         return playlistDao.getPlaylist()
     }
 
@@ -38,9 +43,8 @@ class PlaylistRepo(private val playlistDao: PlaylistDao,
         return playlistAudioBridgeDao.getAudioIds(playlistId)
     }
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun insertPlaylist(playlist: Playlist){
+
+    fun insertPlaylist(playlist: Playlist) = scope.launch {
         playlistDao.insert(playlist)
     }
 

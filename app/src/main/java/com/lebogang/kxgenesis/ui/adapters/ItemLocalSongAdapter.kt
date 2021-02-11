@@ -36,8 +36,8 @@ class ItemLocalSongAdapter:RecyclerView.Adapter<ItemLocalSongAdapter.ViewHolder>
     var audioId:Long = -1
 
     fun setAudioData(mutableList: MutableList<Audio>){
-        for (x in 0..mutableList.size){
-            listAudio[x] = mutableList[x]
+        for (x in 0 until mutableList.size){
+            listAudio.add(mutableList[x])
             notifyItemInserted(x)
         }
     }
@@ -64,7 +64,7 @@ class ItemLocalSongAdapter:RecyclerView.Adapter<ItemLocalSongAdapter.ViewHolder>
                     .asBitmap()
                     .load(audio.albumArtUri)
                     .skipMemoryCache(false)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
                     .centerCrop()
                     .error(R.drawable.ic_music_24dp)

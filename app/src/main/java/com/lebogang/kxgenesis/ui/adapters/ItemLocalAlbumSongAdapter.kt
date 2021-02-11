@@ -35,8 +35,8 @@ class ItemLocalAlbumSongAdapter :RecyclerView.Adapter<ItemLocalAlbumSongAdapter.
     var audioId:Long = -1
 
     fun setAudioData(mutableList: MutableList<Audio>){
-        for (x in 0..mutableList.size){
-            listAudio[x] = mutableList[x]
+        for (x in 0 until mutableList.size){
+            listAudio.add(mutableList[x])
             notifyItemInserted(x)
         }
     }

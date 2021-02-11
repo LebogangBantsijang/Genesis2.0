@@ -67,10 +67,9 @@ class LocalContentActivity : AppCompatActivity() {
                         initViewPager()
                     else{
                         MaterialAlertDialogBuilder(this)
-                            .setTitle("Permission Error")
-                            .setPositiveButton("Close", null)
-                            .setMessage("The application needs your permission to read your music content."+
-                                    " Without access to your files then the application will not function properly.")
+                            .setTitle(getString(R.string.permission_error))
+                            .setPositiveButton(getString(R.string.close), null)
+                            .setMessage(getString(R.string.permission_error_message))
                             .setOnDismissListener { finish()}
                     }
                 }.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -83,14 +82,22 @@ class LocalContentActivity : AppCompatActivity() {
         TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager
         ) { tab, pos ->
             when(pos){
-                0 -> tab.icon =
-                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_24dp, theme)
-                1 -> tab.icon =
-                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_record_24dp, theme)
-                2 -> tab.icon =
-                    ResourcesCompat.getDrawable(resources,R.drawable.ic_microphone_24dp, theme)
-                3 -> tab.icon =
-                    ResourcesCompat.getDrawable(resources,R.drawable.ic_music_folder_24dp, theme)
+                0 -> {
+                    tab.icon =
+                        ResourcesCompat.getDrawable(resources,R.drawable.ic_music_24dp, theme)
+                }
+                1 -> {
+                    tab.icon =
+                        ResourcesCompat.getDrawable(resources, R.drawable.ic_music_record_24dp, theme)
+                }
+                2 -> {
+                    tab.icon =
+                        ResourcesCompat.getDrawable(resources, R.drawable.ic_microphone_24dp, theme)
+                }
+                3 -> {
+                    tab.icon =
+                        ResourcesCompat.getDrawable(resources,R.drawable.ic_music_folder_24dp, theme)
+                }
             }
         }.attach()
     }

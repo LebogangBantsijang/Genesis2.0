@@ -22,20 +22,66 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.FragmentPlaylistBinding
+import com.lebogang.kxgenesis.room.models.Playlist
+import com.lebogang.kxgenesis.ui.adapters.ItemLocalPlaylist
+import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistClickListener
+import com.lebogang.kxgenesis.ui.dialogs.AddEditPlaylistDialog
+import com.lebogang.kxgenesis.viewmodels.AudioViewModel
+import com.lebogang.kxgenesis.viewmodels.PlaylistViewModel
 
-class PlaylistFragment: Fragment() {
+class PlaylistFragment: Fragment(),OnPlaylistClickListener {
 
     private lateinit var viewBinding:FragmentPlaylistBinding
+    private val playlistViewModel:PlaylistViewModel  by lazy{
+        PlaylistViewModel.Factory((activity?.application as GenesisApplication).playlistRepo)
+                .create(PlaylistViewModel::class.java)
+    }
+    private val adapter = ItemLocalPlaylist()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = FragmentPlaylistBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
+        observePlaylists()
+        initAddView()
+    }
+
+    private fun initRecyclerView(){
+        adapter.listener = this
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
+        viewBinding.recyclerView.adapter = adapter
+    }
+
+    private fun initAddView(){
+        viewBinding.addView.setOnClickListener {
+            AddEditPlaylistDialog(null).show(requireActivity().supportFragmentManager, "")
+        }
+    }
+
+    private fun observePlaylists(){
+        playlistViewModel.getPlaylists().observe(viewLifecycleOwner,{
+            adapter.setPlaylistData(it)
+        })
+    }
+
     override fun onResume() {
         super.onResume()
         activity?.title = getString(R.string.playlists)
+    }
+
+    override fun onPlaylistClick(playlist: Playlist) {
+        //em
+    }
+
+    override fun onPlaylistOptionClick(playlist: Playlist) {
+        AddEditPlaylistDialog(playlist).show(requireActivity().supportFragmentManager, "")
     }
 }

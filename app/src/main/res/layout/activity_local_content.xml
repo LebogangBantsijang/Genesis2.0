@@ -15,7 +15,7 @@
   ~    limitations under the License.
   -->
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -27,12 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.5"
-        android:background="@drawable/ic_album_background"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/ic_album_image_overlay"/>
+        android:background="@drawable/ic_home_background"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,8 +38,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/toolbarColor"
-            app:title=""
+            android:background="@drawable/ic_toolbar_background"
+            app:title="Music"
+            app:titleTextAppearance="@style/ToolbarTextAppearance"
             app:menu="@menu/local_content_toolbar_menu"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme" />
@@ -53,16 +49,19 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="@drawable/ic_album_image_overlay"/>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/toolbarColor"
-            app:tabInlineLabel="true"
-            app:tabMode="fixed" />
+            android:background="?colorBackgroundFloating"
+            app:tabMode="fixed"
+            app:tabPaddingBottom="0dp"
+            app:tabPaddingTop="0dp"
+            app:tabTextAppearance="@style/TextAppearance.AppCompat.Small"/>
 
     </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

@@ -23,10 +23,15 @@ import com.lebogang.kxgenesis.data.repositories.AudioRepo
 import com.lebogang.kxgenesis.network.DeezerRepo
 import com.lebogang.kxgenesis.network.dao.DeezerService
 import com.lebogang.kxgenesis.room.GenesisDatabase
+import com.lebogang.kxgenesis.room.PlaylistRepo
 
 class GenesisApplication:Application() {
-    val genesisDatabase: GenesisDatabase by lazy {
+    private val genesisDatabase: GenesisDatabase by lazy {
         GenesisDatabase.getDatabase(this)
+    }
+
+    val playlistRepo: PlaylistRepo by lazy{
+        PlaylistRepo(genesisDatabase.playlistDao(),genesisDatabase.playlistAudioBridge())
     }
 
     val audioRepo:AudioRepo by lazy {

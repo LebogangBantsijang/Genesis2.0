@@ -22,14 +22,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.ViewModelProvider
+import com.lebogang.kxgenesis.room.GenesisDatabase
 
 import com.lebogang.kxgenesis.room.models.Playlist
 import com.lebogang.kxgenesis.room.PlaylistRepo
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {
 
-    fun getPlaylists(): LiveData<List<Playlist>> = playlistRepo.getPlaylists().asLiveData()
+    fun getPlaylists(): LiveData<MutableList<Playlist>> = playlistRepo.getPlaylists().asLiveData()
 
     fun getPlaylists(id:Long):LiveData<Playlist> = playlistRepo.getPlaylist(id).asLiveData()
 
@@ -38,9 +42,7 @@ class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {
         return playlistRepo.getPlaylistAudioIds(playlistId)
     }
 
-    fun insertPlaylist(playlist: Playlist) = viewModelScope.launch {
-        playlistRepo.insertPlaylist(playlist)
-    }
+    fun insertPlaylist(playlist: Playlist) = playlistRepo.insertPlaylist(playlist)
 
     fun deletePlaylist(playlist: Playlist) = viewModelScope.launch {
         playlistRepo.deletePlaylist(playlist)
