@@ -64,6 +64,12 @@ class AlbumsFragment: Fragment(), OnAlbumClickListener {
     private fun observeAlbums(){
         albumViewModel.liveData.observe(viewLifecycleOwner,{
             adapter.setAlbumData(it)
+            viewBinding.progressBar.visibility = View.GONE
+            if (it.size > 0){
+                viewBinding.noContentView.text = null
+            }else{
+                viewBinding.noContentView.text = getString(R.string.no_content)
+            }
         })
     }
 

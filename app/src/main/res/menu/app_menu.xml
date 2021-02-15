@@ -15,15 +15,17 @@
   ~    limitations under the License.
   -->
 
-<resources>
-    <color name="white">#FFFFFFFF</color>
-    <color name="primaryColor">#01579B</color>
-    <color name="secondaryColor">#03A9F4</color>
-    <color name="primaryComplimentaryColor">#65430F</color>
-    <color name="primaryOpposite">#650F31</color>
-    <color name="colorFloatingBackground">#212121</color>
-    <color name="systemThemeBackgroundColor">#121212</color>
-    <color name="toolbarColor">#424242</color>
-    <color name="primaryTextColor">#FFFFFF</color>
-    <color name="secondaryTextColor">#99FFFFFF</color>
-</resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="none">
+        <item
+            android:title="@string/behaviour">
+            <menu>
+                <item
+                    android:icon="@drawable/ic_baseline_settings_24"
+                    android:title="@string/settings" />
+            </menu>
+        </item>
+    </group>
+</menu>

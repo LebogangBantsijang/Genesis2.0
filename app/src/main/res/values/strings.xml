@@ -55,6 +55,11 @@
     <string name="permission_error">Permission Error</string>
     <string name="permission_error_message">\"The application needs your permission to read your music content. Without access to your files then the application will not function properly.\"</string>
     <string name="close">Close</string>
+    <string name="shuffle">shuffle</string>
+    <string name="genesis">Genesis</string>
+    <string name="enjoy_your_music">Enjoy your music</string>
+    <string name="behaviour">Behaviour</string>
+    <string name="no_content">No Content</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>

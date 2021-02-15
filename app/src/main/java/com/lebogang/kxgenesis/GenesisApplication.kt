@@ -20,8 +20,6 @@ import android.app.Application
 import com.lebogang.kxgenesis.data.repositories.AlbumRepo
 import com.lebogang.kxgenesis.data.repositories.ArtistRepo
 import com.lebogang.kxgenesis.data.repositories.AudioRepo
-import com.lebogang.kxgenesis.network.DeezerRepo
-import com.lebogang.kxgenesis.network.dao.DeezerService
 import com.lebogang.kxgenesis.room.GenesisDatabase
 import com.lebogang.kxgenesis.room.PlaylistRepo
 
@@ -44,10 +42,6 @@ class GenesisApplication:Application() {
 
     val artistRepo:ArtistRepo by lazy {
         ArtistRepo(this)
-    }
-
-    val deezerService:DeezerService by lazy {
-        DeezerRepo.getDeezerService()
     }
 
 }

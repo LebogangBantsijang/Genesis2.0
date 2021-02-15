@@ -23,19 +23,18 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Artist
+import com.lebogang.kxgenesis.data.repositories.CoverRepo
 import com.lebogang.kxgenesis.databinding.ItemLocalArtistBinding
 import com.lebogang.kxgenesis.ui.adapters.utils.OnArtistClickListener
 
 class ItemLocalArtistAdapter:RecyclerView.Adapter<ItemLocalArtistAdapter.ViewHolder>(){
     var listener:OnArtistClickListener? = null
     private var listArtist = arrayListOf<Artist>()
-    private val linkedMap = LinkedHashMap<String, Artist>()
 
-    fun setArtistData(artist: Artist){
-        if (!listArtist.contains(artist)){
-            listArtist.add(artist)
-            val index = listArtist.indexOf(artist)
-            notifyItemInserted(index)
+    fun setArtistData(mutableList: MutableList<Artist>){
+        for (x in 0 until mutableList.size){
+            listArtist.add(mutableList[x])
+            notifyItemInserted(x)
         }
     }
 
@@ -51,21 +50,21 @@ class ItemLocalArtistAdapter:RecyclerView.Adapter<ItemLocalArtistAdapter.ViewHol
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
             Glide.with(holder.viewBinding.root)
                     .asBitmap()
-                    .load(artist.pictureMedium)
+                    .load(CoverRepo.coverUris[artist.title])
                     .skipMemoryCache(false)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
-                    .error(R.drawable.ic_music_24dp)
+                    .error(R.drawable.ic_round_person_24)
                     .into(holder.viewBinding.imageView)
                     .clearOnDetach()
         }else{
             Glide.with(holder.viewBinding.root)
                     .asBitmap()
-                    .load(artist.pictureMedium)
+                    .load(CoverRepo.coverUris[artist.title])
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
-                    .error(R.drawable.ic_music_24dp)
+                    .error(R.drawable.ic_round_person_24)
                     .into(holder.viewBinding.imageView)
                     .clearOnDetach()
         }

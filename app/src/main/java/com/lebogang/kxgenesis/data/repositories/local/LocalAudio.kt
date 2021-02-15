@@ -37,6 +37,7 @@ import android.text.format.Formatter
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import com.lebogang.kxgenesis.data.models.Audio
+import com.lebogang.kxgenesis.data.repositories.CoverRepo
 import com.lebogang.kxgenesis.data.utils.LocalArtUri
 import com.lebogang.kxgenesis.settings.AppPreferences
 import com.lebogang.kxgenesis.utils.TimeConverter
@@ -157,6 +158,7 @@ class LocalAudio(private val context:Context) {
                         linkedHashMap[id] = audio
                     else
                         linkedHashMap[id] = audio
+                    CoverRepo.addCover(artist, uri)
                 }while (cursor.moveToNext())
             }
             cursor.close()

@@ -37,11 +37,11 @@ class ArtistFragment: Fragment(), OnArtistClickListener {
     private val adapter = ItemLocalArtistAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val artistViewModel:ArtistViewModel by lazy {
-        ArtistViewModel.Factory(genesisApplication.artistRepo, genesisApplication.deezerService)
+        ArtistViewModel.Factory(genesisApplication.artistRepo)
             .create(ArtistViewModel::class.java)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
         viewBinding = FragmentArtistsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
@@ -62,6 +62,12 @@ class ArtistFragment: Fragment(), OnArtistClickListener {
     private fun observeArtists(){
         artistViewModel.liveData.observe(viewLifecycleOwner, {
             adapter.setArtistData(it)
+            viewBinding.progressBar.visibility = View.GONE
+            if (it.size > 0){
+                viewBinding.noContentView.text = null
+            }else{
+                viewBinding.noContentView.text = getString(R.string.no_content)
+            }
         })
     }
 

@@ -16,20 +16,11 @@
 
 package com.lebogang.kxgenesis.data.models
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import android.net.Uri
 
 data class Artist(
         val id:Long,
         val title:String,
         val albumCount:String,
-        @Expose
-        @SerializedName("picture_small")
-        val pictureSmall:String?,
-        @Expose
-        @SerializedName("picture_medium")
-        val pictureMedium: String?,
-        @Expose
-        @SerializedName("picture_big")
-        val pictureBig: String?
+        var coverUri:Uri?
 )

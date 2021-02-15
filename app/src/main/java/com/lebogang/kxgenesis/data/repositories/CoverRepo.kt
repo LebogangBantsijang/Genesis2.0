@@ -14,16 +14,14 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.network.dao
+package com.lebogang.kxgenesis.data.repositories
 
-import com.lebogang.kxgenesis.data.models.Artist
-import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
+import android.net.Uri
 
-interface DeezerService {
+internal object CoverRepo {
+    val coverUris:HashMap<String, Uri> = HashMap()
 
-    @GET("artist/{name}")
-    fun getArtistImage(@Path("name") artistName:String):Call<Artist>
-
+    fun addCover(artistName:String, uri:Uri){
+        coverUris[artistName] = uri
+    }
 }
