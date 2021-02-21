@@ -22,16 +22,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.data.repositories.ArtistRepo
-import com.lebogang.kxgenesis.network.dao.DeezerService
 import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class ArtistViewModel(private val artistRepo: ArtistRepo, private val deezerService: DeezerService)
+class ArtistViewModel(private val artistRepo: ArtistRepo)
     : ViewModel(), OnContentChanged {
-    val liveData : MutableLiveData<Artist> = MutableLiveData()
+    val liveData : MutableLiveData<MutableList<Artist>> = MutableLiveData()
 
     fun registerContentObserver(){
         artistRepo.registerObserver(this)
@@ -42,43 +38,24 @@ class ArtistViewModel(private val artistRepo: ArtistRepo, private val deezerServ
     }
 
     fun getArtists() = viewModelScope.launch {
-        val map = artistRepo.getArtists()
-        map.asIterable().forEach {
-            deezerService.getArtistImage(it.key).enqueue(getCallbacks(it.value))
-        }
+        liveData.postValue(artistRepo.getArtists())
     }
 
-    fun getArtists(artistName:String) = viewModelScope.launch {
-        val map = artistRepo.getArtists(artistName)
-    }
+    fun getArtists(artistName:String) = artistRepo.getArtists(artistName)
 
 
     override fun onMediaChanged() {
         getArtists()
     }
 
-    class Factory(private val artistRepo: ArtistRepo,private val deezerService: DeezerService)
+    class Factory(private val artistRepo: ArtistRepo)
         :ViewModelProvider.Factory{
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ArtistViewModel::class.java))
-                return ArtistViewModel(artistRepo,deezerService) as T
+                return ArtistViewModel(artistRepo) as T
             throw IllegalArgumentException()
         }
 
-    }
-
-    private fun getCallbacks(artist: Artist):Callback<Artist>{
-        return object :Callback<Artist>{
-            override fun onResponse(call: Call<Artist>, response: Response<Artist>) {
-                if (response.isSuccessful){
-                    liveData.postValue(response.body())
-                }else
-                    liveData.postValue(artist)
-            }
-            override fun onFailure(call: Call<Artist>, t: Throwable) {
-                liveData.postValue(artist)
-            }
-        }
     }
 }

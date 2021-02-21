@@ -16,25 +16,10 @@
 
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.Genesis20.System" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.Genesis20.System" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorAccent">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryColor</item>
-        <item name="colorBackgroundFloating">@color/colorFloatingBackground</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">?colorBackgroundFloating</item>
-        <item name="android:navigationBarColor">?colorBackgroundFloating</item>
     </style>
 
-    <style name="DefaultPrimaryTextColor" parent="TextAppearance.AppCompat.Small">
-        <item name="android:textColor">?android:textColorPrimary</item>
-    </style>
-
-    <style name="DefaultSecondaryTextColor" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="ToolbarTextAppearance" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="android:textStyle">bold</item>
-    </style>
 </resources>

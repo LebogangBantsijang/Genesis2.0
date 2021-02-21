@@ -44,20 +44,6 @@ class AddEditPlaylistDialog(var playlist: Playlist?):BottomSheetDialogFragment()
                 .create(PlaylistViewModel::class.java)
     }
     private var imageUri:Uri? = playlist?.getCoverUri()
-    private lateinit var launcher : ActivityResultLauncher<String>
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-            imageUri = it
-            Glide.with(viewBinding.root)
-                    .asBitmap()
-                    .load(playlist?.getCoverUri())
-                    .override(viewBinding.artView.width, viewBinding.artView.height)
-                    .error(R.drawable.ic_round_add_24)
-                    .into(viewBinding.artView)
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = LayoutAddEditPlaylistBinding.inflate(layoutInflater, container, false)
@@ -81,7 +67,6 @@ class AddEditPlaylistDialog(var playlist: Playlist?):BottomSheetDialogFragment()
                 .error(R.drawable.ic_round_add_24)
                 .into(viewBinding.artView)
         viewBinding.artView.setOnClickListener {
-            launcher.launch("image/*")
         }
     }
 

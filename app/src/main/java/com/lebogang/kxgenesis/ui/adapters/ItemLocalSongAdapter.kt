@@ -90,8 +90,8 @@ class ItemLocalSongAdapter:RecyclerView.Adapter<ItemLocalSongAdapter.ViewHolder>
             holder.viewBinding.titleView.setTextColor(color)
             holder.viewBinding.subtitleView.setTextColor(color)
         }else{
-            holder.viewBinding.titleView.setTextColor(fallbackPrimaryTextColor)
-            holder.viewBinding.subtitleView.setTextColor(fallbackSecondaryTextColor)
+            //holder.viewBinding.titleView.setTextColor(fallbackPrimaryTextColor)
+            //holder.viewBinding.subtitleView.setTextColor(fallbackSecondaryTextColor)
         }
     }
 

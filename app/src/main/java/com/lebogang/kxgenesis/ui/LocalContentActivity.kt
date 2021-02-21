@@ -17,9 +17,10 @@
 package com.lebogang.kxgenesis.ui
 
 import android.Manifest
-import android.content.DialogInterface
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -28,12 +29,12 @@ import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lebogang.kxgenesis.R
-import com.lebogang.kxgenesis.databinding.ActivityLocalContentBinding
+import com.lebogang.kxgenesis.databinding.LayoutNavigationDrawerBinding
 import com.lebogang.kxgenesis.ui.adapters.LocalContentActivityViewPagerAdapter
 
 class LocalContentActivity : AppCompatActivity() {
-    private val viewBinding:ActivityLocalContentBinding by lazy{
-        ActivityLocalContentBinding.inflate(layoutInflater)
+    private val viewBinding: LayoutNavigationDrawerBinding by lazy{
+        LayoutNavigationDrawerBinding.inflate(layoutInflater)
     }
     private val localContentActivityViewPagerAdapter:LocalContentActivityViewPagerAdapter by lazy{
         LocalContentActivityViewPagerAdapter(this)
@@ -43,6 +44,7 @@ class LocalContentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
         initToolbar()
+        initNavigationView()
         checkPermissions()
     }
 
@@ -51,12 +53,21 @@ class LocalContentActivity : AppCompatActivity() {
         return true
     }
 
+    @SuppressLint("RtlHardcoded")
     private fun initToolbar(){
-        setSupportActionBar(viewBinding.toolbar)
-        viewBinding.toolbar.setNavigationOnClickListener {
-            onBackPressed()
+        setSupportActionBar(viewBinding.content.toolbar)
+        viewBinding.content.toolbar.setNavigationOnClickListener {
+            viewBinding.drawerLayout.openDrawer(Gravity.LEFT)
         }
     }
+
+    private fun initNavigationView(){
+        viewBinding.navigationView.setNavigationItemSelectedListener {
+            viewBinding.drawerLayout.closeDrawers()
+            true
+        }
+    }
+
 
     private fun checkPermissions(){
         when(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
@@ -72,14 +83,14 @@ class LocalContentActivity : AppCompatActivity() {
                             .setMessage(getString(R.string.permission_error_message))
                             .setOnDismissListener { finish()}
                     }
-                }.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             }
         }
     }
 
     private fun initViewPager(){
-        viewBinding.viewPager.adapter = localContentActivityViewPagerAdapter
-        TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager
+        viewBinding.content.viewPager.adapter = localContentActivityViewPagerAdapter
+        TabLayoutMediator(viewBinding.content.tabLayout, viewBinding.content.viewPager
         ) { tab, pos ->
             when(pos){
                 0 -> {
@@ -92,7 +103,7 @@ class LocalContentActivity : AppCompatActivity() {
                 }
                 2 -> {
                     tab.icon =
-                        ResourcesCompat.getDrawable(resources, R.drawable.ic_microphone_24dp, theme)
+                        ResourcesCompat.getDrawable(resources, R.drawable.ic_round_person_24, theme)
                 }
                 3 -> {
                     tab.icon =

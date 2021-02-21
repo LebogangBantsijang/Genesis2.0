@@ -42,11 +42,11 @@ class ArtistRepo(val context:Context) {
         localArtists.contentResolver.unregisterContentObserver(contentObserver)
     }
 
-    fun getArtists():LinkedHashMap<String, Artist>{
+    fun getArtists():MutableList<Artist>{
         return localArtists.getArtists()
     }
 
-    fun getArtists(artistName:String):LinkedHashMap<String, Artist>{
+    fun getArtists(artistName:String):Artist?{
         return localArtists.getArtists(artistName)
     }
 

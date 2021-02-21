@@ -44,7 +44,9 @@ class PlaylistRepo(private val playlistDao: PlaylistDao,
     }
 
 
-    fun insertPlaylist(playlist: Playlist) = scope.launch {
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertPlaylist(playlist: Playlist){
         playlistDao.insert(playlist)
     }
 

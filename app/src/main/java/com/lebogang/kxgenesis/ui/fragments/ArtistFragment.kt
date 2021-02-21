@@ -16,6 +16,7 @@
 
 package com.lebogang.kxgenesis.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -28,6 +29,7 @@ import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.databinding.FragmentArtistsBinding
+import com.lebogang.kxgenesis.ui.ArtistViewActivity
 import com.lebogang.kxgenesis.ui.adapters.ItemLocalArtistAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnArtistClickListener
 import com.lebogang.kxgenesis.viewmodels.ArtistViewModel
@@ -37,11 +39,11 @@ class ArtistFragment: Fragment(), OnArtistClickListener {
     private val adapter = ItemLocalArtistAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val artistViewModel:ArtistViewModel by lazy {
-        ArtistViewModel.Factory(genesisApplication.artistRepo, genesisApplication.deezerService)
+        ArtistViewModel.Factory(genesisApplication.artistRepo)
             .create(ArtistViewModel::class.java)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
         viewBinding = FragmentArtistsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
@@ -62,6 +64,12 @@ class ArtistFragment: Fragment(), OnArtistClickListener {
     private fun observeArtists(){
         artistViewModel.liveData.observe(viewLifecycleOwner, {
             adapter.setArtistData(it)
+            viewBinding.progressBar.visibility = View.GONE
+            if (it.size > 0){
+                viewBinding.noContentView.text = null
+            }else{
+                viewBinding.noContentView.text = getString(R.string.no_content)
+            }
         })
     }
 
@@ -77,7 +85,9 @@ class ArtistFragment: Fragment(), OnArtistClickListener {
     }
 
     override fun onArtistClick(artist: Artist) {
-        //Not
+        startActivity(Intent(context, ArtistViewActivity::class.java).apply {
+            putExtra("Artist", artist.title)
+        })
     }
 
 }

@@ -56,8 +56,8 @@ class SongsFragment: Fragment(),OnAudioClickListener {
 
     private fun initRecyclerView(){
         adapter.listener = this
-        adapter.fallbackPrimaryTextColor = ResourcesCompat.getColor(resources, R.color.primaryTextColor, null)
-        adapter.fallbackSecondaryTextColor = ResourcesCompat.getColor(resources, R.color.secondaryTextColor, null)
+        //adapter.fallbackPrimaryTextColor = ResourcesCompat.getColor(resources, R.color.primaryTextColor, null)
+        //adapter.fallbackSecondaryTextColor = ResourcesCompat.getColor(resources, R.color.secondaryTextColor, null)
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
         viewBinding.recyclerView.adapter = adapter
     }
@@ -65,6 +65,12 @@ class SongsFragment: Fragment(),OnAudioClickListener {
     private fun observeAudioData(){
         audioViewModel.liveData.observe(viewLifecycleOwner,{
             adapter.setAudioData(it)
+            viewBinding.progressBar.visibility = View.GONE
+            if (it.size > 0){
+                viewBinding.noContentView.text = null
+            }else{
+                viewBinding.noContentView.text = getString(R.string.no_content)
+            }
         })
     }
 

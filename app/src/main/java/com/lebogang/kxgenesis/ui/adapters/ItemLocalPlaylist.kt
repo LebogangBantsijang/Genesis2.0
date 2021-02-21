@@ -55,25 +55,6 @@ class ItemLocalPlaylist:RecyclerView.Adapter<ItemLocalPlaylist.ViewHolder>(){
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val playlist = listPlaylist[position]
         holder.viewBinding.titleView.text = playlist.title
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
-            Glide.with(holder.viewBinding.root)
-                .asBitmap()
-                .skipMemoryCache(false)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .load(Uri.parse("" + playlist.coverUriToString))
-                .override(holder.viewBinding.artView.width, holder.viewBinding.artView.height)
-                .centerCrop()
-                .into(holder.viewBinding.artView)
-        }else{
-            Glide.with(holder.viewBinding.root)
-                .asBitmap()
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .load(Uri.parse(playlist.coverUriToString))
-                .override(holder.viewBinding.artView.width, holder.viewBinding.artView.height)
-                .centerCrop()
-                .into(holder.viewBinding.artView)
-        }
     }
 
     override fun getItemCount(): Int {

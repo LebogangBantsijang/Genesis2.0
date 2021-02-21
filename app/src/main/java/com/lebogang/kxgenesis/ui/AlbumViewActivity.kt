@@ -70,7 +70,6 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
     }
 
     private fun iniAlbumDetails(){
-        //n
         album?.let {
             viewBinding.titleView.text = album!!.title
             title = album!!.artist
@@ -120,8 +119,8 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
     private fun observeAudio(){
         album?.let {
             audioViewModel.getAlbumAudio(it.title)
-            audioViewModel.liveData.observe(this,{
-                adapter.setAudioData(it)
+            audioViewModel.liveData.observe(this,{list->
+                adapter.setAudioData(list)
             })
         }
     }

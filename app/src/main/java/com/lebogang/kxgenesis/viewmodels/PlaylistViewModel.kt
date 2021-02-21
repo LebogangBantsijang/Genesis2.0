@@ -37,12 +37,13 @@ class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {
 
     fun getPlaylists(id:Long):LiveData<Playlist> = playlistRepo.getPlaylist(id).asLiveData()
 
-
     fun getPlaylistAudio(playlistId: Long):List<Long> {
         return playlistRepo.getPlaylistAudioIds(playlistId)
     }
 
-    fun insertPlaylist(playlist: Playlist) = playlistRepo.insertPlaylist(playlist)
+    fun insertPlaylist(playlist: Playlist) = viewModelScope.launch{
+        playlistRepo.insertPlaylist(playlist)
+    }
 
     fun deletePlaylist(playlist: Playlist) = viewModelScope.launch {
         playlistRepo.deletePlaylist(playlist)

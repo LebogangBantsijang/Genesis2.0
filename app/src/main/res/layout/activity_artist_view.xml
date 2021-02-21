@@ -15,13 +15,13 @@
   ~    limitations under the License.
   -->
 
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fitsSystemWindows="true"
     tools:context=".ui.AlbumViewActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -98,7 +98,7 @@
                         android:background="@drawable/ic_circle"
                         android:backgroundTint="?colorPrimary"
                         android:padding="12dp"
-                        android:tint="?android:textColorPrimary"
+                        android:tint="@color/white"
                         android:src="@drawable/ic_shuffle_30dp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -107,7 +107,6 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
                     android:background="@null"
                     app:navigationIcon="@drawable/ic_arrow_back" />
 

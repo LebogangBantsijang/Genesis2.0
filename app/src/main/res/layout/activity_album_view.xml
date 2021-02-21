@@ -15,7 +15,8 @@
   ~    limitations under the License.
   -->
 
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -29,7 +30,7 @@
         android:layout_weight="1"
         android:fillViewport="true">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -39,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="396dp">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <ImageView
                     android:id="@+id/blurView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -56,14 +57,14 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ic_album_image_overlay"/>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center_horizontal"
                     android:layout_gravity="bottom">
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                    <ImageView
                         android:id="@+id/artView"
                         android:layout_width="196dp"
                         android:layout_height="196dp"
@@ -84,7 +85,7 @@
                         android:layout_marginBottom="6dp"
                         />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
+                    <ImageButton
                         android:id="@+id/randomPlayView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -92,10 +93,11 @@
                         android:background="@drawable/ic_circle"
                         android:backgroundTint="?colorPrimary"
                         android:padding="12dp"
-                        android:tint="?android:textColorPrimary"
+                        android:contentDescription="@string/shuffle"
+                        android:tint="@color/white"
                         android:src="@drawable/ic_shuffle_30dp" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                </LinearLayout>
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
@@ -110,9 +112,22 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/related"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textStyle="bold"/>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/relatedRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

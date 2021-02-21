@@ -18,14 +18,16 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="112dp">
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground">
 
-    <ImageView
-        android:id="@+id/artView"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/album_art"
-        />
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="?android:attr/listDivider" />
 
     <TextView
         android:id="@+id/titleView"
@@ -34,18 +36,34 @@
         android:background="@drawable/ic_text_overlay"
         android:gravity="center_vertical"
         android:padding="8dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         />
 
-    <ImageButton
-        android:id="@+id/optionsView"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_gravity="end|center_vertical"
-        android:contentDescription="@string/edit"
-        android:background="@null"
-        android:padding="16dp"
-        app:srcCompat="@drawable/ic_baseline_edit_24" />
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/optionsView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/edit"
+            android:background="@null"
+            android:padding="16dp"
+            app:srcCompat="@drawable/ic_baseline_edit_24" />
+
+        <ImageButton
+            android:id="@+id/deleteView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/edit"
+            android:background="@null"
+            android:padding="16dp"
+            app:srcCompat="@drawable/ic_baseline_delete_24" />
+
+    </LinearLayout>
 
 </FrameLayout>
