@@ -24,14 +24,12 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lebogang.kxgenesis.R
-import com.lebogang.kxgenesis.SearchActivity
 import com.lebogang.kxgenesis.databinding.LayoutNavigationDrawerBinding
 import com.lebogang.kxgenesis.ui.adapters.LocalContentActivityViewPagerAdapter
 

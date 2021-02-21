@@ -14,22 +14,23 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis
+package com.lebogang.kxgenesis.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivitySearchBinding
 import com.lebogang.kxgenesis.ui.adapters.ItemSearchAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
-class SearchActivity : AppCompatActivity(), OnAudioClickListener{
-    private lateinit var viewBinding:ActivitySearchBinding
-    private val audioViewModel:AudioViewModel by lazy {
+class SearchActivity : AppCompatActivity(), OnAudioClickListener {
+    private lateinit var viewBinding: ActivitySearchBinding
+    private val audioViewModel: AudioViewModel by lazy {
         AudioViewModel.Factory((application as GenesisApplication).audioRepo)
             .create(AudioViewModel::class.java)
     }
@@ -52,7 +53,7 @@ class SearchActivity : AppCompatActivity(), OnAudioClickListener{
 
     private fun initSearchView(){
         viewBinding.backView.setOnClickListener { onBackPressed() }
-        viewBinding.searchView.addTextChangedListener(object:TextWatcher{
+        viewBinding.searchView.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
