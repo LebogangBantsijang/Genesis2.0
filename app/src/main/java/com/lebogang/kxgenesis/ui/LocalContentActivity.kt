@@ -18,10 +18,12 @@ package com.lebogang.kxgenesis.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -29,6 +31,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lebogang.kxgenesis.R
+import com.lebogang.kxgenesis.SearchActivity
 import com.lebogang.kxgenesis.databinding.LayoutNavigationDrawerBinding
 import com.lebogang.kxgenesis.ui.adapters.LocalContentActivityViewPagerAdapter
 
@@ -53,6 +56,16 @@ class LocalContentActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.menu_search ->{
+                startActivity(Intent(this, SearchActivity::class.java))
+                true
+            }
+            else -> false
+        }
+    }
+
     @SuppressLint("RtlHardcoded")
     private fun initToolbar(){
         setSupportActionBar(viewBinding.content.toolbar)
@@ -73,19 +86,28 @@ class LocalContentActivity : AppCompatActivity() {
         when(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             PackageManager.PERMISSION_GRANTED -> initViewPager()
             PackageManager.PERMISSION_DENIED -> {
-                registerForActivityResult(ActivityResultContracts.RequestPermission()){
-                    if (it)
-                        initViewPager()
-                    else{
-                        MaterialAlertDialogBuilder(this)
-                            .setTitle(getString(R.string.permission_error))
-                            .setPositiveButton(getString(R.string.close), null)
-                            .setMessage(getString(R.string.permission_error_message))
-                            .setOnDismissListener { finish()}
-                    }
-                }.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 121)
+                }
             }
         }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+                                            grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        var granted = false
+        grantResults.iterator().forEach {
+            granted = it == PackageManager.PERMISSION_GRANTED
+        }
+        if (granted)
+            initViewPager()
+        else
+            MaterialAlertDialogBuilder(this)
+                .setTitle(getString(R.string.permission_error))
+                .setPositiveButton(getString(R.string.close), null)
+                .setMessage(getString(R.string.permission_error_message))
+                .setOnDismissListener { finish()}
     }
 
     private fun initViewPager(){

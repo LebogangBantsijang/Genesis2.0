@@ -22,21 +22,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Album
 import com.lebogang.kxgenesis.databinding.FragmentAlbumsBinding
 import com.lebogang.kxgenesis.ui.AlbumViewActivity
-import com.lebogang.kxgenesis.ui.adapters.ItemLocalAlbumAdapter
+import com.lebogang.kxgenesis.ui.adapters.ItemAlbumAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAlbumClickListener
 import com.lebogang.kxgenesis.viewmodels.AlbumViewModel
 
 class AlbumsFragment: Fragment(), OnAlbumClickListener {
     private lateinit var viewBinding:FragmentAlbumsBinding
-    private val adapter = ItemLocalAlbumAdapter()
+    private val adapter = ItemAlbumAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val albumViewModel:AlbumViewModel by lazy {
         AlbumViewModel.Factory(genesisApplication.albumRepo).create(AlbumViewModel::class.java)

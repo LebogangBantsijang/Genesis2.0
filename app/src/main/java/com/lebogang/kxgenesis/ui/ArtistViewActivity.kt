@@ -25,7 +25,7 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityArtistViewBinding
-import com.lebogang.kxgenesis.ui.adapters.ItemLocalSongAdapter
+import com.lebogang.kxgenesis.ui.adapters.ItemSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.viewmodels.ArtistViewModel
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
@@ -42,7 +42,7 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
         ArtistViewModel.Factory((application as GenesisApplication).artistRepo)
             .create(ArtistViewModel::class.java)
     }
-    private val adapter = ItemLocalSongAdapter()
+    private val adapter = ItemSongAdapter()
     private var artist:Artist? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

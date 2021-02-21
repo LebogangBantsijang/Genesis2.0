@@ -65,5 +65,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.3.0'
+    //Fast scroll
+    implementation 'com.github.kabouzeid:recyclerview-fastscroll:1.0.16-kmod'
 
 }

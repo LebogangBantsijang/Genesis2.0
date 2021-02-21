@@ -16,18 +16,14 @@
 
 package com.lebogang.kxgenesis.ui.adapters
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.ItemLayoutPlaylistBinding
 import com.lebogang.kxgenesis.room.models.Playlist
 import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistClickListener
 
-class ItemLocalPlaylist:RecyclerView.Adapter<ItemLocalPlaylist.ViewHolder>(){
+class ItemPlaylistAdapter:RecyclerView.Adapter<ItemPlaylistAdapter.ViewHolder>(){
     var listener:OnPlaylistClickListener? = null
     private var listPlaylist = mutableListOf<Playlist>()
 

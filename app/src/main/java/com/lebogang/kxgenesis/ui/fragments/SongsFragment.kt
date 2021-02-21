@@ -16,27 +16,23 @@
 
 package com.lebogang.kxgenesis.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.FragmentSongsBinding
-import com.lebogang.kxgenesis.ui.adapters.ItemLocalSongAdapter
+import com.lebogang.kxgenesis.ui.adapters.ItemSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
 class SongsFragment: Fragment(),OnAudioClickListener {
     private lateinit var viewBinding:FragmentSongsBinding
-    private val adapter = ItemLocalSongAdapter()
+    private val adapter = ItemSongAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val audioViewModel:AudioViewModel by lazy {
         AudioViewModel.Factory(genesisApplication.audioRepo).create(AudioViewModel::class.java)

@@ -31,8 +31,7 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Album
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityAlbumViewBinding
-import com.lebogang.kxgenesis.ui.adapters.ItemLocalAlbumSongAdapter
-import com.lebogang.kxgenesis.ui.adapters.ItemLocalSongAdapter
+import com.lebogang.kxgenesis.ui.adapters.ItemAlbumSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.viewmodels.AlbumViewModel
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
@@ -52,7 +51,7 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
                 .create(AudioViewModel::class.java)
     }
     private var album:Album? = null
-    private val adapter = ItemLocalAlbumSongAdapter()
+    private val adapter = ItemAlbumSongAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

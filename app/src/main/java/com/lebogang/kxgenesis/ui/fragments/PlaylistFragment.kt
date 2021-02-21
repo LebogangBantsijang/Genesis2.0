@@ -26,7 +26,7 @@ import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.FragmentPlaylistBinding
 import com.lebogang.kxgenesis.room.models.Playlist
-import com.lebogang.kxgenesis.ui.adapters.ItemLocalPlaylist
+import com.lebogang.kxgenesis.ui.adapters.ItemPlaylistAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistClickListener
 import com.lebogang.kxgenesis.ui.dialogs.AddPlaylistDialog
 import com.lebogang.kxgenesis.ui.dialogs.UpdatePlaylistDialog
@@ -39,7 +39,7 @@ class PlaylistFragment: Fragment(),OnPlaylistClickListener {
         PlaylistViewModel.Factory((activity?.application as GenesisApplication).playlistRepo)
                 .create(PlaylistViewModel::class.java)
     }
-    private val adapter = ItemLocalPlaylist()
+    private val adapter = ItemPlaylistAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = FragmentPlaylistBinding.inflate(inflater, container, false)

@@ -19,14 +19,11 @@ package com.lebogang.kxgenesis.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ItemLocalAlbumSongBinding
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 
-class ItemLocalAlbumSongAdapter :RecyclerView.Adapter<ItemLocalAlbumSongAdapter.ViewHolder>(){
+class ItemAlbumSongAdapter :RecyclerView.Adapter<ItemAlbumSongAdapter.ViewHolder>(){
     var listener: OnAudioClickListener? = null
     var listAudio = mutableListOf<Audio>()
     var fallbackPrimaryTextColor:Int = 0

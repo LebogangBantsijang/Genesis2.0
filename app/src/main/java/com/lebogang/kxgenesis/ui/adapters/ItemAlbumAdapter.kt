@@ -26,7 +26,7 @@ import com.lebogang.kxgenesis.data.models.Album
 import com.lebogang.kxgenesis.databinding.ItemLocalAlbumBinding
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAlbumClickListener
 
-class ItemLocalAlbumAdapter:RecyclerView.Adapter<ItemLocalAlbumAdapter.ViewHolder>(){
+class ItemAlbumAdapter:RecyclerView.Adapter<ItemAlbumAdapter.ViewHolder>(){
     private var listAlbum = arrayListOf<Album>()
     var listener:OnAlbumClickListener? = null
 
