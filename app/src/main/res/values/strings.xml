@@ -61,6 +61,11 @@
     <string name="behaviour">Behaviour</string>
     <string name="no_content">No Content</string>
     <string name="related">Related</string>
+    <string name="create_playlist">Create Playlist</string>
+    <string name="playlists_require_names_give_your_playlist_a_name">Playlists require names, give your playlist a name</string>
+    <string name="update_playlist">Update Playlist</string>
+    <string name="update">Update</string>
+    <string name="update_your_playlist_information">Update your playlist information</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>

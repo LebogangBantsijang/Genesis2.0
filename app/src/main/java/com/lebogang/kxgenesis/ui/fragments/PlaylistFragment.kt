@@ -21,7 +21,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
@@ -29,8 +28,8 @@ import com.lebogang.kxgenesis.databinding.FragmentPlaylistBinding
 import com.lebogang.kxgenesis.room.models.Playlist
 import com.lebogang.kxgenesis.ui.adapters.ItemLocalPlaylist
 import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistClickListener
-import com.lebogang.kxgenesis.ui.dialogs.AddEditPlaylistDialog
-import com.lebogang.kxgenesis.viewmodels.AudioViewModel
+import com.lebogang.kxgenesis.ui.dialogs.AddPlaylistDialog
+import com.lebogang.kxgenesis.ui.dialogs.UpdatePlaylistDialog
 import com.lebogang.kxgenesis.viewmodels.PlaylistViewModel
 
 class PlaylistFragment: Fragment(),OnPlaylistClickListener {
@@ -62,7 +61,7 @@ class PlaylistFragment: Fragment(),OnPlaylistClickListener {
 
     private fun initAddView(){
         viewBinding.addView.setOnClickListener {
-            AddEditPlaylistDialog(null).show(requireActivity().supportFragmentManager, "")
+            AddPlaylistDialog().show(fragmentManager!!, "")
         }
     }
 
@@ -81,7 +80,12 @@ class PlaylistFragment: Fragment(),OnPlaylistClickListener {
         //em
     }
 
-    override fun onPlaylistOptionClick(playlist: Playlist) {
-        AddEditPlaylistDialog(playlist).show(requireActivity().supportFragmentManager, "")
+    override fun onPlaylistEditClick(playlist: Playlist) {
+        UpdatePlaylistDialog(playlist).show(fragmentManager!!, "")
     }
+
+    override fun onPlaylistDeleteClick(playlist: Playlist) {
+        playlistViewModel.deletePlaylist(playlist)
+    }
+
 }
