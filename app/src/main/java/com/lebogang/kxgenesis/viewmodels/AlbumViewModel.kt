@@ -21,13 +21,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.lebogang.kxgenesis.data.models.Album
+import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.data.repositories.AlbumRepo
+import com.lebogang.kxgenesis.data.repositories.ArtistRepo
 import com.lebogang.kxgenesis.viewmodels.utils.OnContentChanged
 import kotlinx.coroutines.launch
 
 class AlbumViewModel(private val albumRepo: AlbumRepo) :ViewModel(), OnContentChanged{
 
     val liveData :MutableLiveData<MutableList<Album>> = MutableLiveData()
+    val liveDataArtist:MutableLiveData<MutableList<Artist>> = MutableLiveData()
 
     fun registerContentObserver(){
         albumRepo.registerObserver(this)

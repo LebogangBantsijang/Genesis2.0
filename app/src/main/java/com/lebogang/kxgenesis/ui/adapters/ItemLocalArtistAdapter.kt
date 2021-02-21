@@ -23,7 +23,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Artist
-import com.lebogang.kxgenesis.data.repositories.CoverRepo
 import com.lebogang.kxgenesis.databinding.ItemLocalArtistBinding
 import com.lebogang.kxgenesis.ui.adapters.utils.OnArtistClickListener
 
@@ -50,21 +49,21 @@ class ItemLocalArtistAdapter:RecyclerView.Adapter<ItemLocalArtistAdapter.ViewHol
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
             Glide.with(holder.viewBinding.root)
                     .asBitmap()
-                    .load(CoverRepo.coverUris[artist.title])
+                    .load(artist.coverUri)
                     .skipMemoryCache(false)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
-                    .error(R.drawable.ic_round_person_24)
+                    .error(R.drawable.ic_artist)
                     .into(holder.viewBinding.imageView)
                     .clearOnDetach()
         }else{
             Glide.with(holder.viewBinding.root)
                     .asBitmap()
-                    .load(CoverRepo.coverUris[artist.title])
+                    .load(artist.coverUri)
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
-                    .error(R.drawable.ic_round_person_24)
+                    .error(R.drawable.ic_artist)
                     .into(holder.viewBinding.imageView)
                     .clearOnDetach()
         }

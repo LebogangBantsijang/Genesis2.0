@@ -18,16 +18,83 @@ package com.lebogang.kxgenesis.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
+import com.lebogang.kxgenesis.data.models.Artist
+import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityArtistViewBinding
+import com.lebogang.kxgenesis.ui.adapters.ItemLocalSongAdapter
+import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.kxgenesis.viewmodels.ArtistViewModel
+import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
-class ArtistViewActivity : AppCompatActivity() {
+class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
     private val viewBinding: ActivityArtistViewBinding by lazy{
         ActivityArtistViewBinding.inflate(layoutInflater)
     }
+    private val audioViewModel:AudioViewModel by lazy {
+        AudioViewModel.Factory((application as GenesisApplication).audioRepo)
+            .create(AudioViewModel::class.java)
+    }
+    private val artistViewModel:ArtistViewModel by lazy {
+        ArtistViewModel.Factory((application as GenesisApplication).artistRepo)
+            .create(ArtistViewModel::class.java)
+    }
+    private val adapter = ItemLocalSongAdapter()
+    private var artist:Artist? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+        artist = artistViewModel.getArtists(intent.getStringExtra("Artist")!!)
+        initToolbar()
+        initArtistDetails()
+        initRecyclerView()
+        observeData()
+    }
+
+    private fun initToolbar(){
+        setSupportActionBar(viewBinding.toolbar)
+        viewBinding.toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+    }
+
+    private fun initArtistDetails(){
+        viewBinding.titleView.text = artist?.title
+        viewBinding.subtitleView.text = artist?.albumCount
+        Glide.with(this)
+            .asBitmap()
+            .load(artist?.coverUri)
+            .error(R.drawable.ic_artist)
+            .override(viewBinding.artView.width, viewBinding.artView.height)
+            .centerCrop()
+            .into(viewBinding.artView)
+            .clearOnDetach()
+    }
+
+    private fun initRecyclerView(){
+        adapter.listener = this
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+        viewBinding.recyclerView.adapter = adapter
+    }
+
+    private fun observeData(){
+        artist?.let {
+            audioViewModel.getArtistAudio(it.title)
+            audioViewModel.liveData.observe(this, {list->
+                adapter.setAudioData(list)
+            })
+        }
+    }
+
+    override fun onAudioClick(audio: Audio) {
+        //not
+    }
+
+    override fun onAudioClickOptions(audio: Audio) {
+        //not
     }
 }

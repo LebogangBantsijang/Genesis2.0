@@ -27,18 +27,17 @@
         android:id="@+id/artView"
         android:layout_width="156dp"
         android:layout_height="156dp"
-        android:background="@drawable/ic_round_add_24"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/ic_baseline_image_24"
         app:civ_circle_background_color="?colorBackgroundFloating"
-        app:civ_border_width="2dp"
-        app:civ_border_color="?colorPrimary"
-        app:civ_border_overlay="true"/>
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:text="@string/add_cover_image"
         android:textStyle="bold"
         />
@@ -59,7 +58,8 @@
         android:id="@+id/saveView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
         app:cornerRadius="8dp"
         android:text="@string/save" />
 

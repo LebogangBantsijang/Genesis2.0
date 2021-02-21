@@ -16,22 +16,25 @@
 
 package com.lebogang.kxgenesis.data.repositories.local
 
+import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
+import android.net.Uri
+import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Artists.NUMBER_OF_ALBUMS
 import android.provider.MediaStore.Audio.Artists.ARTIST
 import android.provider.MediaStore.Audio.Artists._ID
 import android.provider.MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI
-import android.util.Log
 import com.lebogang.kxgenesis.data.models.Artist
-import com.lebogang.kxgenesis.data.repositories.CoverRepo
+import com.lebogang.kxgenesis.data.utils.LocalArtUri
 
 private const val SORT_ARTIST_BY_TITLE = "$ARTIST ASC"
 
 class LocalArtists(val context: Context) {
     val contentResolver: ContentResolver = context.applicationContext.contentResolver
     private val projection = arrayOf(_ID, ARTIST, NUMBER_OF_ALBUMS)
+    private val uriMap = HashMap<String, Uri>()
 
     /**
      * Get all artists
@@ -54,12 +57,13 @@ class LocalArtists(val context: Context) {
     }
 
     private fun loopCursorItem(cursor: Cursor?):Artist?{
+        getArtUri()
         cursor?.let{
             if (cursor.moveToFirst()){
                 val id = cursor.getLong(cursor.getColumnIndex(_ID))
                 val title = cursor.getString(cursor.getColumnIndex(ARTIST))
                 val albumCount = cursor.getString(cursor.getColumnIndex(NUMBER_OF_ALBUMS))
-                val artist = Artist(id, title, albumCount, CoverRepo.coverUris[title])
+                val artist = Artist(id, title, albumCount, uriMap[title])
                 cursor.close()
                 return artist
             }
@@ -72,6 +76,7 @@ class LocalArtists(val context: Context) {
      * @param cursor]
      * */
     private fun loopCursor(cursor: Cursor?):MutableList<Artist>{
+        getArtUri()
         val linkedHashMap = LinkedHashMap<String, Artist>()
         cursor?.let {
             if (cursor.moveToFirst()){
@@ -79,13 +84,30 @@ class LocalArtists(val context: Context) {
                     val id = cursor.getLong(cursor.getColumnIndex(_ID))
                     val title = cursor.getString(cursor.getColumnIndex(ARTIST))
                     val albumCount = cursor.getString(cursor.getColumnIndex(NUMBER_OF_ALBUMS))
-                    val artist = Artist(id, title, albumCount, CoverRepo.coverUris[title])
+                    val artist = Artist(id, title, albumCount, uriMap[title])
                     linkedHashMap[title] = artist
                 }while (cursor.moveToNext())
             }
             cursor.close()
         }
         return linkedHashMap.values.toMutableList()
+    }
+
+    @SuppressLint("InlinedApi")
+    private fun getArtUri(){
+        val cursor = contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+                arrayOf(MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ARTIST)
+                ,null,null, null)
+        if (cursor != null ){
+            if (cursor.moveToFirst()){
+                do {
+                    val title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ARTIST))
+                    val albumId = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Albums._ID))
+                    uriMap[title] = LocalArtUri.getAlbumArt(albumId)
+                }while (cursor.moveToNext())
+            }
+            cursor.close()
+        }
     }
 
 }

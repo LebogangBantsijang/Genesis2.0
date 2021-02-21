@@ -37,7 +37,6 @@ class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {
 
     fun getPlaylists(id:Long):LiveData<Playlist> = playlistRepo.getPlaylist(id).asLiveData()
 
-
     fun getPlaylistAudio(playlistId: Long):List<Long> {
         return playlistRepo.getPlaylistAudioIds(playlistId)
     }

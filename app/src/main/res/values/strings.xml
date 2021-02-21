@@ -60,6 +60,7 @@
     <string name="enjoy_your_music">Enjoy your music</string>
     <string name="behaviour">Behaviour</string>
     <string name="no_content">No Content</string>
+    <string name="related">Related</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>
