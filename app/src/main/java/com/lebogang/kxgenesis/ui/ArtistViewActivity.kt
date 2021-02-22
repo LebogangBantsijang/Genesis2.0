@@ -27,6 +27,7 @@ import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityArtistViewBinding
 import com.lebogang.kxgenesis.ui.adapters.ItemSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
 import com.lebogang.kxgenesis.viewmodels.ArtistViewModel
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
@@ -95,6 +96,6 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
     }
 
     override fun onAudioClickOptions(audio: Audio) {
-        //not
+        AudioOptionsDialog(audio).show(supportFragmentManager, "")
     }
 }

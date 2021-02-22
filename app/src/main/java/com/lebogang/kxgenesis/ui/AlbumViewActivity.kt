@@ -33,6 +33,7 @@ import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityAlbumViewBinding
 import com.lebogang.kxgenesis.ui.adapters.ItemAlbumSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
 import com.lebogang.kxgenesis.viewmodels.AlbumViewModel
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 import jp.wasabeef.blurry.Blurry
@@ -129,6 +130,6 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
     }
 
     override fun onAudioClickOptions(audio: Audio) {
-        //not
+        AudioOptionsDialog(audio).show(supportFragmentManager, "")
     }
 }

@@ -28,6 +28,7 @@ import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.FragmentSongsBinding
 import com.lebogang.kxgenesis.ui.adapters.ItemSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
 class SongsFragment: Fragment(),OnAudioClickListener {
@@ -87,7 +88,7 @@ class SongsFragment: Fragment(),OnAudioClickListener {
     }
 
     override fun onAudioClickOptions(audio: Audio) {
-        //not finished here
+        AudioOptionsDialog(audio).show(fragmentManager!!, "")
     }
 
 }

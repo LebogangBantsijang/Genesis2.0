@@ -68,6 +68,13 @@
     <string name="update_your_playlist_information">Update your playlist information</string>
     <string name="search_here">Search here</string>
     <string name="delete">Delete</string>
+    <string name="play_now">Play Now</string>
+    <string name="add_to_playlist">Add To Playlist</string>
+    <string name="info">Info</string>
+    <string name="modify">Modify</string>
+    <string name="share">Share</string>
+    <string name="view_album">View Album</string>
+    <string name="view_artist">View Artist</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>
