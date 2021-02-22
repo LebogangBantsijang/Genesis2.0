@@ -16,6 +16,7 @@
 
 package com.lebogang.kxgenesis.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,7 @@ import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.FragmentPlaylistBinding
 import com.lebogang.kxgenesis.room.models.Playlist
+import com.lebogang.kxgenesis.ui.PlaylistViewActivity
 import com.lebogang.kxgenesis.ui.adapters.ItemPlaylistAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistClickListener
 import com.lebogang.kxgenesis.ui.dialogs.AddPlaylistDialog
@@ -77,7 +79,9 @@ class PlaylistFragment: Fragment(),OnPlaylistClickListener {
     }
 
     override fun onPlaylistClick(playlist: Playlist) {
-        //em
+        startActivity(Intent(context,PlaylistViewActivity::class.java).apply {
+            putExtra("Playlist", playlist.id)
+        })
     }
 
     override fun onPlaylistEditClick(playlist: Playlist) {

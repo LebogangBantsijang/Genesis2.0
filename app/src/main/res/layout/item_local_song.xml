@@ -50,7 +50,6 @@
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textColor="?android:textColorPrimary"
             />
 
         <TextView

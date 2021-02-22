@@ -59,6 +59,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
     //room
+    implementation "androidx.room:room-runtime:2.2.6"
     implementation "androidx.room:room-ktx:2.2.6"
     kapt "androidx.room:room-compiler:2.2.6"
     //lifecycle
@@ -66,6 +67,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.3.0'
     //Fast scroll
-    implementation 'com.github.kabouzeid:recyclerview-fastscroll:1.0.16-kmod'
+    //implementation 'com.github.kabouzeid:recyclerview-fastscroll:1.0.16-kmod'
 
 }

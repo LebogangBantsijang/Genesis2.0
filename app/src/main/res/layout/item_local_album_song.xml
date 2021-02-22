@@ -52,7 +52,6 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:textStyle="bold"
-            android:textColor="?android:textColorPrimary"
             />
 
         <TextView

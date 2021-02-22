@@ -67,6 +67,7 @@
     <string name="update">Update</string>
     <string name="update_your_playlist_information">Update your playlist information</string>
     <string name="search_here">Search here</string>
+    <string name="delete">Delete</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>

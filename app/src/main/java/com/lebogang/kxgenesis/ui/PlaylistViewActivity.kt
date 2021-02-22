@@ -18,11 +18,31 @@ package com.lebogang.kxgenesis.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
+import com.lebogang.kxgenesis.databinding.ActivityPlaylistViewBinding
+import com.lebogang.kxgenesis.room.models.Playlist
+import com.lebogang.kxgenesis.viewmodels.PlaylistViewModel
 
 class PlaylistViewActivity : AppCompatActivity() {
+    private lateinit var viewBinding:ActivityPlaylistViewBinding
+    private val playlistViewModel:PlaylistViewModel by lazy {
+        PlaylistViewModel.Factory((application as GenesisApplication).playlistRepo)
+            .create(PlaylistViewModel::class.java)
+    }
+    private var playlist:Playlist? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_playlist_view)
+        viewBinding = ActivityPlaylistViewBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
+        //playlist = playlistViewModel.getPlaylists(intent.getLongExtra("Playlist",0))
     }
+
+    private fun initRecyclerView(){
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+
+    }
+
 }

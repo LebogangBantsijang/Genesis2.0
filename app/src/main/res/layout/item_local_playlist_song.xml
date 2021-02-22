@@ -22,17 +22,24 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:background="?selectableItemBackground"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp">
+    android:background="?selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:srcCompat="@drawable/ic_music_24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="6dp"
+        android:contentDescription="@string/album_art"/>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_marginStart="6dp"
-        android:layout_marginEnd="6dp">
+        android:layout_marginStart="6dp">
 
         <TextView
             android:id="@+id/titleView"
@@ -53,12 +60,6 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="4dp"
-            android:alpha="0.5"
-            android:background="?android:attr/listDivider" />
     </LinearLayout>
 
     <TextView
@@ -66,7 +67,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="2dp"
         android:maxLines="1"
         android:text="00:00"/>
+
+    <ImageButton
+        android:id="@+id/deleteView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:tint="?colorError"
+        android:layout_marginEnd="8dp"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_baseline_delete_24"
+        android:contentDescription="@string/delete" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>
