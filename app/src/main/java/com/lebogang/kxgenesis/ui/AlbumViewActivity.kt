@@ -105,6 +105,7 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
         adapter.fallbackPrimaryTextColor = ResourcesCompat.getColor(resources, R.color.primaryTextColor, null)
         adapter.fallbackSecondaryTextColor = ResourcesCompat.getColor(resources, R.color.secondaryTextColor, null)
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+        viewBinding.recyclerView.itemAnimator?.addDuration = 450
         viewBinding.recyclerView.adapter = adapter
     }
 

@@ -40,6 +40,10 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filter
     private var isUserSearching = false
 
     fun setAudioData(mutableList: MutableList<Audio>){
+        isUserSearching = false
+        filteredList.clear()
+        listAudio.clear()
+        notifyDataSetChanged()
         for (x in 0 until mutableList.size){
             listAudio.add(mutableList[x])
             notifyItemInserted(x)
@@ -88,7 +92,12 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filter
         :RecyclerView.ViewHolder(viewBinding.root){
         init {
             viewBinding.root.setOnClickListener { listener?.onAudioClick(listAudio[adapterPosition]) }
-            viewBinding.optionsView.setOnClickListener { listener?.onAudioClickOptions(listAudio[adapterPosition]) }
+            viewBinding.optionsView.setOnClickListener {
+                listener?.onAudioClickOptions(listAudio[adapterPosition]) }
+            viewBinding.root.setOnLongClickListener {
+                listener?.onAudioClickOptions(listAudio[adapterPosition])
+                true
+            }
         }
     }
 

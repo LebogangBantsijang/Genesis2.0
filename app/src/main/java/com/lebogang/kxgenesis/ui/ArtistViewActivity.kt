@@ -28,6 +28,7 @@ import com.lebogang.kxgenesis.databinding.ActivityArtistViewBinding
 import com.lebogang.kxgenesis.ui.adapters.ItemSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
+import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.viewmodels.ArtistViewModel
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
@@ -66,19 +67,13 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
     private fun initArtistDetails(){
         viewBinding.titleView.text = artist?.title
         viewBinding.subtitleView.text = artist?.albumCount
-        Glide.with(this)
-            .asBitmap()
-            .load(artist?.coverUri)
-            .error(R.drawable.ic_artist)
-            .override(viewBinding.artView.width, viewBinding.artView.height)
-            .centerCrop()
-            .into(viewBinding.artView)
-            .clearOnDetach()
+        GlobalGlide.loadArtistCover(viewBinding.root,viewBinding.artView, artist?.coverUri)
     }
 
     private fun initRecyclerView(){
         adapter.listener = this
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+        viewBinding.recyclerView.itemAnimator?.addDuration = 450
         viewBinding.recyclerView.adapter = adapter
     }
 

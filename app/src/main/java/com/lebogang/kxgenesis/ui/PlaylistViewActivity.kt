@@ -57,6 +57,7 @@ class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
     private fun initRecyclerView(){
         adapter.listener = this
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+        viewBinding.recyclerView.itemAnimator?.addDuration = 450
         viewBinding.recyclerView.adapter = adapter
     }
 

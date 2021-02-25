@@ -49,7 +49,8 @@ class AlbumsFragment: GeneralFragment(), OnAlbumClickListener {
         albumViewModel.getAlbums()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         viewBinding = FragmentAlbumsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
@@ -59,12 +60,14 @@ class AlbumsFragment: GeneralFragment(), OnAlbumClickListener {
         initRecyclerView()
         observeAlbums()
         albumViewModel.getAlbums()
+        albumViewModel.registerContentObserver()
     }
 
     private fun initRecyclerView(){
         adapter.listener = this
         viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(2,
                 StaggeredGridLayoutManager.VERTICAL)
+        viewBinding.recyclerView.itemAnimator?.addDuration = 450
         viewBinding.recyclerView.adapter = adapter
     }
 
@@ -86,12 +89,11 @@ class AlbumsFragment: GeneralFragment(), OnAlbumClickListener {
 
     override fun onResume() {
         super.onResume()
-        albumViewModel.registerContentObserver()
         activity?.title = getString(R.string.albums)
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroy() {
+        super.onDestroy()
         albumViewModel.unregisterContentContentObserver()
     }
 

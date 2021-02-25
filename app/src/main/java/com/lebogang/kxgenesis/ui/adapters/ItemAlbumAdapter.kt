@@ -36,6 +36,10 @@ class ItemAlbumAdapter:RecyclerView.Adapter<ItemAlbumAdapter.ViewHolder>(), Filt
     private var isUserSearching = false
 
     fun setAlbumData(mutableList: MutableList<Album>){
+        isUserSearching = false
+        filteredList.clear()
+        listAlbum.clear()
+        notifyDataSetChanged()
         for (x in 0 until mutableList.size){
             listAlbum.add(mutableList[x])
             notifyItemInserted(x)

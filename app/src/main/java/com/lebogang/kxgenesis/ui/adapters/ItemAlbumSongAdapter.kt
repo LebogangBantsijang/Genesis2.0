@@ -32,6 +32,8 @@ class ItemAlbumSongAdapter :RecyclerView.Adapter<ItemAlbumSongAdapter.ViewHolder
     var audioId:Long = -1
 
     fun setAudioData(mutableList: MutableList<Audio>){
+        listAudio.clear()
+        notifyDataSetChanged()
         for (x in 0 until mutableList.size){
             listAudio.add(mutableList[x])
             notifyItemInserted(x)
@@ -72,7 +74,12 @@ class ItemAlbumSongAdapter :RecyclerView.Adapter<ItemAlbumSongAdapter.ViewHolder
         :RecyclerView.ViewHolder(viewBinding.root){
         init {
             viewBinding.root.setOnClickListener { listener?.onAudioClick(listAudio[adapterPosition]) }
-            viewBinding.optionsView.setOnClickListener { listener?.onAudioClickOptions(listAudio[adapterPosition]) }
+            viewBinding.optionsView.setOnClickListener {
+                listener?.onAudioClickOptions(listAudio[adapterPosition]) }
+            viewBinding.root.setOnLongClickListener {
+                listener?.onAudioClickOptions(listAudio[adapterPosition])
+                true
+            }
         }
     }
 }

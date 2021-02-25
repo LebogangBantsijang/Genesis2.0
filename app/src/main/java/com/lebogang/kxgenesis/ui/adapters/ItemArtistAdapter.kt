@@ -36,6 +36,10 @@ class ItemArtistAdapter:RecyclerView.Adapter<ItemArtistAdapter.ViewHolder>(), Fi
     private var isUserSearching = false
 
     fun setArtistData(mutableList: MutableList<Artist>){
+        isUserSearching = false
+        filteredList.clear()
+        listArtist.clear()
+        notifyDataSetChanged()
         for (x in 0 until mutableList.size){
             listArtist.add(mutableList[x])
             notifyItemInserted(x)

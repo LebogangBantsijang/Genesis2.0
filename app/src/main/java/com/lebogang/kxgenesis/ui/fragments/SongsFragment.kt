@@ -17,26 +17,29 @@
 package com.lebogang.kxgenesis.ui.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.FragmentSongsBinding
+import com.lebogang.kxgenesis.settings.*
 import com.lebogang.kxgenesis.ui.adapters.ItemSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
-class SongsFragment: GeneralFragment(),OnAudioClickListener {
+class SongsFragment: GeneralFragment(),OnAudioClickListener,PopupMenu.OnMenuItemClickListener {
     private lateinit var viewBinding:FragmentSongsBinding
     private val adapter = ItemSongAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val audioViewModel:AudioViewModel by lazy {
         AudioViewModel.Factory(genesisApplication.audioRepo).create(AudioViewModel::class.java)
+    }
+    private val contentSettings:ContentSettings by lazy {
+        ContentSettings(context!!)
     }
 
     override fun onSearch(string: String) {
@@ -57,13 +60,32 @@ class SongsFragment: GeneralFragment(),OnAudioClickListener {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         observeAudioData()
+        initSortView()
         audioViewModel.getAudio()
+        audioViewModel.registerContentObserver()
     }
 
     private fun initRecyclerView(){
         adapter.listener = this
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
+        viewBinding.recyclerView.itemAnimator?.addDuration = 450
         viewBinding.recyclerView.adapter = adapter
+    }
+
+    private fun initSortView(){
+        viewBinding.sortView.setOnClickListener {
+            PopupMenu(context!!, it).apply {
+                setOnMenuItemClickListener(this@SongsFragment)
+                inflate(R.menu.sort_menu)
+                show()
+            }
+        }
+    }
+
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        if (v.id == R.id.sortView)
+            activity?.menuInflater?.inflate(R.menu.sort_menu, menu)
     }
 
     private fun observeAudioData(){
@@ -84,15 +106,13 @@ class SongsFragment: GeneralFragment(),OnAudioClickListener {
 
     override fun onResume() {
         super.onResume()
-        audioViewModel.registerContentObserver()
         activity?.title = getString(R.string.music)
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroy() {
+        super.onDestroy()
         audioViewModel.unregisterContentContentObserver()
     }
-
 
     override fun onAudioClick(audio: Audio) {
         //not finished here
@@ -100,6 +120,32 @@ class SongsFragment: GeneralFragment(),OnAudioClickListener {
 
     override fun onAudioClickOptions(audio: Audio) {
         AudioOptionsDialog(audio).show(fragmentManager!!, "")
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        return when(item!!.itemId){
+            R.id.titleAsc -> {
+                contentSettings.setSortOrder(TITLE_ASC)
+                audioViewModel.getAudio()
+                true
+            }
+            R.id.titleDesc -> {
+                contentSettings.setSortOrder(TITLE_DESC)
+                audioViewModel.getAudio()
+                true
+            }
+            R.id.dateAsc -> {
+                contentSettings.setSortOrder(DATE_ASC)
+                audioViewModel.getAudio()
+                true
+            }
+            R.id.dateDesc -> {
+                contentSettings.setSortOrder(DATE_DESC)
+                audioViewModel.getAudio()
+                true
+            }
+            else -> false
+        }
     }
 
 }

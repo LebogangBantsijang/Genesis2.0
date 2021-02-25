@@ -19,15 +19,16 @@ package com.lebogang.kxgenesis.settings
 import android.content.Context
 import android.content.SharedPreferences
 import android.provider.MediaStore
+import com.lebogang.kxgenesis.R
 
-val TITLE_ASC = MediaStore.Audio.Media.TITLE + " ASC"
-val TITLE_DESC = MediaStore.Audio.Media.TITLE + " DESC"
-val DATE_ASC = MediaStore.Audio.Media.DATE_MODIFIED + " ASC"
-val DATE_DESC = MediaStore.Audio.Media.DATE_MODIFIED + " DESC"
+const val TITLE_ASC = MediaStore.Audio.Media.TITLE + " ASC"
+const val TITLE_DESC = MediaStore.Audio.Media.TITLE + " DESC"
+const val DATE_ASC = MediaStore.Audio.Media.DATE_MODIFIED + " ASC"
+const val DATE_DESC = MediaStore.Audio.Media.DATE_MODIFIED + " DESC"
 
 class ContentSettings(private val context: Context) {
     private val preferences:SharedPreferences = context.applicationContext
-            .getSharedPreferences("GenesisSettings", Context.MODE_PRIVATE)
+            .getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
     private val sortKey = "SortOrder"
     private val durationKey = "AudioDurationFilter"
 

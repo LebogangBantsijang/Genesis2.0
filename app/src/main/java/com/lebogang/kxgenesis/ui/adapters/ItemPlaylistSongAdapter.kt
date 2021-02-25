@@ -29,6 +29,8 @@ class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holde
     var listener:OnPlaylistAudioClickListener? = null
 
     fun setAudioData(mutableList: MutableList<Audio>){
+        listAudio.clear()
+        notifyDataSetChanged()
         for (x in 0 until mutableList.size){
             listAudio.add(mutableList[x])
             notifyItemInserted(x)

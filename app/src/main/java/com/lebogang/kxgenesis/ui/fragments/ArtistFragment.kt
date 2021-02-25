@@ -50,7 +50,8 @@ class ArtistFragment: GeneralFragment(), OnArtistClickListener {
         artistViewModel.getArtists()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?
+                              , savedInstanceState: Bundle?): View{
         viewBinding = FragmentArtistsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
@@ -60,11 +61,13 @@ class ArtistFragment: GeneralFragment(), OnArtistClickListener {
         initRecyclerView()
         observeArtists()
         artistViewModel.getArtists()
+        artistViewModel.registerContentObserver()
     }
 
     private fun initRecyclerView(){
         adapter.listener = this
         viewBinding.recyclerView.layoutManager = GridLayoutManager(context, 2)
+        viewBinding.recyclerView.itemAnimator?.addDuration = 450
         viewBinding.recyclerView.adapter = adapter
     }
 
@@ -86,12 +89,11 @@ class ArtistFragment: GeneralFragment(), OnArtistClickListener {
 
     override fun onResume() {
         super.onResume()
-        artistViewModel.registerContentObserver()
         activity?.title = getString(R.string.artists)
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroy() {
+        super.onDestroy()
         artistViewModel.unregisterContentContentObserver()
     }
 

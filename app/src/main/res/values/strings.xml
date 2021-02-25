@@ -80,17 +80,14 @@
     <string name="album">Album</string>
     <string name="null_values">Error: Null values</string>
     <string name="refresh">Refresh</string>
+    <string name="title_asc">Title Asc</string>
+    <string name="title_desc">Title Desc</string>
+    <string name="date_asc">Date Asc</string>
+    <string name="date_desc">Date Desc</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>
         <item>Dark Theme</item>
         <item>Light Theme</item>
-    </array>
-
-    <array name="SortOptions">
-        <item>Title (Asc)</item>
-        <item>Title (Desc)</item>
-        <item>Date (Asc)</item>
-        <item>Date (Desc)</item>
     </array>
 </resources>
