@@ -17,16 +17,13 @@
 package com.lebogang.kxgenesis.viewmodels
 
 
-import androidx.lifecycle.*
-import com.lebogang.kxgenesis.room.GenesisDatabase
-
-import com.lebogang.kxgenesis.room.models.Playlist
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModelProvider
 import com.lebogang.kxgenesis.room.PlaylistRepo
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.toList
+import com.lebogang.kxgenesis.room.models.Playlist
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {
     val liveData = MutableLiveData<List<Playlist>>()

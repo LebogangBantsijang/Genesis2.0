@@ -17,15 +17,22 @@
 package com.lebogang.kxgenesis.ui.fragments
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.view.ContextMenu
 import androidx.appcompat.widget.PopupMenu
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.FragmentSongsBinding
-import com.lebogang.kxgenesis.settings.*
+import com.lebogang.kxgenesis.settings.ContentSettings
+import com.lebogang.kxgenesis.settings.DATE_ASC
+import com.lebogang.kxgenesis.settings.DATE_DESC
+import com.lebogang.kxgenesis.settings.TITLE_ASC
+import com.lebogang.kxgenesis.settings.TITLE_DESC
 import com.lebogang.kxgenesis.ui.adapters.ItemSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog

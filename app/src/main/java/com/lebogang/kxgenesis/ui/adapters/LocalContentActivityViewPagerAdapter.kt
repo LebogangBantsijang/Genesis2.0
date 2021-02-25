@@ -18,10 +18,12 @@ package com.lebogang.kxgenesis.ui.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.lebogang.kxgenesis.ui.fragments.*
+import com.lebogang.kxgenesis.ui.fragments.AlbumsFragment
+import com.lebogang.kxgenesis.ui.fragments.ArtistFragment
+import com.lebogang.kxgenesis.ui.fragments.GeneralFragment
+import com.lebogang.kxgenesis.ui.fragments.SongsFragment
+import com.lebogang.kxgenesis.ui.fragments.PlaylistFragment
 
 class LocalContentActivityViewPagerAdapter(fragmentActivity: FragmentActivity)
     :FragmentStateAdapter(fragmentActivity){
