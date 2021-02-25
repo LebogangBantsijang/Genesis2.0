@@ -14,27 +14,25 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.room.dao
+package com.lebogang.kxgenesis.utils
 
-import androidx.room.*
-import com.lebogang.kxgenesis.room.models.Playlist
-import kotlinx.coroutines.flow.Flow
+import android.text.Editable
+import android.text.TextWatcher
 
-@Dao
-interface PlaylistDao {
+abstract class TextWatcherSimplifier:TextWatcher{
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        //not needed
+    }
 
-    @Query("SELECT * FROM Playlist")
-    suspend fun getPlaylist(): List<Playlist>
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        s?.let {
+            textChanged(s.toString())
+        }
+    }
 
-    @Query("SELECT * FROM Playlist WHERE id =:id")
-    suspend fun getPlaylist(id:Long): Playlist
+    override fun afterTextChanged(s: Editable?) {
+        //not needed
+    }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(playlist: Playlist)
-
-    @Delete
-    suspend fun delete(playlist: Playlist)
-
-    @Query("DELETE FROM Playlist")
-    suspend fun clearData()
+    abstract fun textChanged(string:String)
 }

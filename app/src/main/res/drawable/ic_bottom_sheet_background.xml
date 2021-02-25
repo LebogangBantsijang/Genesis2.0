@@ -15,21 +15,13 @@
   ~    limitations under the License.
   -->
 
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
 
-    <item
-        android:id="@+id/menu_refresh"
-        android:icon="@drawable/ic_baseline_refresh_24"
-        android:title="@string/refresh"
-        app:showAsAction="always" />
+    <corners
+        android:topRightRadius="24dp"
+        android:topLeftRadius="24dp"/>
+    <solid
+        android:color="?colorSurface"/>
 
-    <item
-        android:id="@+id/menu_settings"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="@string/settings"
-        app:showAsAction="ifRoom" />
-    <item
-        android:title="@string/settings"/>
-
-</menu>
+</shape>

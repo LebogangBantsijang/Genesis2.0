@@ -36,6 +36,7 @@ import android.text.format.Formatter
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.data.utils.LocalArtUri
 import com.lebogang.kxgenesis.settings.AppPreferences
+import com.lebogang.kxgenesis.settings.ContentSettings
 import com.lebogang.kxgenesis.utils.TimeConverter
 
 const val SORT_AUDIO_BY_TITLE = "$TITLE ASC"
@@ -46,7 +47,7 @@ class LocalAudio(private val context:Context) {
     val contentResolver :ContentResolver = context.applicationContext.contentResolver
     @SuppressLint("InlinedApi")
     private val projection = arrayOf(_ID, TITLE, ARTIST, ALBUM, ALBUM_ID, DURATION, SIZE)
-    private val appPreferences = AppPreferences(context)
+    private val contentSettings = ContentSettings(context)
     @SuppressLint("InlinedApi")
     private val selection = "$DURATION >=?"
 
@@ -54,8 +55,8 @@ class LocalAudio(private val context:Context) {
      * Get all audio
      * */
     suspend fun getAudio():MutableList<Audio>{
-        val sortOrder = appPreferences.getSortOrder()
-        val durationFilter = appPreferences.getAudioDurationFilter()
+        val sortOrder = contentSettings.getSortOrder()
+        val durationFilter = contentSettings.getDurationFilter()
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
                 selection, arrayOf(durationFilter.toString()), sortOrder)
         return loopCursor(cursor, null)
@@ -67,8 +68,8 @@ class LocalAudio(private val context:Context) {
      * */
     @SuppressLint("InlinedApi")
     suspend fun getAlbumAudio(albumName:String):MutableList<Audio>{
-        val sortOrder = appPreferences.getSortOrder()
-        val durationFilter = appPreferences.getAudioDurationFilter()
+        val sortOrder = contentSettings.getSortOrder()
+        val durationFilter = contentSettings.getDurationFilter()
         val selection = "$DURATION >=? AND $ALBUM =?"
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
                 selection, arrayOf(durationFilter.toString(), albumName), sortOrder)
@@ -81,8 +82,8 @@ class LocalAudio(private val context:Context) {
      * */
     @SuppressLint("InlinedApi")
     suspend fun getArtistAudio(artistName:String):MutableList<Audio>{
-        val sortOrder = appPreferences.getSortOrder()
-        val durationFilter = appPreferences.getAudioDurationFilter()
+        val sortOrder = contentSettings.getSortOrder()
+        val durationFilter = contentSettings.getDurationFilter()
         val selection = "$DURATION >=? AND $ARTIST =?"
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
                 selection, arrayOf(durationFilter.toString(), artistName), sortOrder)
@@ -94,7 +95,7 @@ class LocalAudio(private val context:Context) {
      * @param uri
      * */
     suspend fun getAudio(uri: Uri):MutableList<Audio>{
-        val sortOrder = appPreferences.getSortOrder()
+        val sortOrder = contentSettings.getSortOrder()
         val cursor = contentResolver.query(uri, projection,null,
                 null , sortOrder)
         return loopCursor(cursor, null)
@@ -105,7 +106,7 @@ class LocalAudio(private val context:Context) {
      * @param audioIdList: list of audio ids
      * */
     suspend fun getAudio(audioIdList:List<Long>?):MutableList<Audio>{
-        val durationFilter = appPreferences.getAudioDurationFilter()
+        val durationFilter = contentSettings.getDurationFilter()
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
                 selection, arrayOf(durationFilter.toString()), null)
         return loopCursor(cursor, audioIdList)

@@ -36,5 +36,6 @@
         android:layout_marginBottom="32dp"
         android:layout_marginEnd="16dp"
         android:contentDescription="@string/add"
+        android:tint="@color/white"
         app:srcCompat="@drawable/ic_round_add_24" />
 </FrameLayout>

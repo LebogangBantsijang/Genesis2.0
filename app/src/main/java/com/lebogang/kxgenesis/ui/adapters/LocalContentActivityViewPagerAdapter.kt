@@ -21,15 +21,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.lebogang.kxgenesis.ui.fragments.AlbumsFragment
-import com.lebogang.kxgenesis.ui.fragments.ArtistFragment
-import com.lebogang.kxgenesis.ui.fragments.PlaylistFragment
-import com.lebogang.kxgenesis.ui.fragments.SongsFragment
+import com.lebogang.kxgenesis.ui.fragments.*
 
 class LocalContentActivityViewPagerAdapter(fragmentActivity: FragmentActivity)
     :FragmentStateAdapter(fragmentActivity){
 
-    private val fragmentList = arrayListOf(SongsFragment()
+    private val fragmentList:ArrayList<GeneralFragment> = arrayListOf(SongsFragment()
         , AlbumsFragment(), ArtistFragment()
         , PlaylistFragment())
 
@@ -39,6 +36,14 @@ class LocalContentActivityViewPagerAdapter(fragmentActivity: FragmentActivity)
 
     override fun createFragment(position: Int): Fragment {
         return fragmentList[position]
+    }
+
+    fun onSearch(string: String, index:Int){
+        fragmentList[index].onSearch(string)
+    }
+
+    fun onRefresh(index: Int){
+        fragmentList[index].onRefresh()
     }
 
 }

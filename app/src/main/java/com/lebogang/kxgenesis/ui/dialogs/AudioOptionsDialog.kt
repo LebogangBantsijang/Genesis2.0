@@ -24,17 +24,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.DialogAudioOptionsBinding
 import com.lebogang.kxgenesis.ui.AlbumViewActivity
 import com.lebogang.kxgenesis.ui.ArtistViewActivity
 
-class AudioOptionsDialog(private val audio:Audio) :DialogFragment(){
+class AudioOptionsDialog(private val audio:Audio) :BottomSheetDialogFragment(){
     private lateinit var viewBinding:DialogAudioOptionsBinding
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //setStyle(STYLE_NORMAL, R.style.BottomSheetTheme)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         viewBinding = DialogAudioOptionsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }

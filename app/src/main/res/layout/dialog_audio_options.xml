@@ -15,126 +15,146 @@
   ~    limitations under the License.
   -->
 
-<androidx.core.widget.NestedScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:fillViewport="true">
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/coverView"
+        android:layout_width="124dp"
+        android:layout_height="124dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="6dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/titleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginBottom="6dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:background="?selectableItemBackground"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/coverView"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:layout_gravity="center_horizontal"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/titleView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:gravity="center"
-            android:background="?selectableItemBackground"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/playView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:background="?selectableItemBackground"
-            android:text="@string/play_now"
-            android:gravity="center_vertical"
-            android:drawablePadding="8dp"
-            app:drawableStartCompat="@drawable/ic_play_button_circled_24"
-            app:drawableTint="?android:textColorSecondaryNoDisable" />
+            <TextView
+                android:id="@+id/playView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackground"
+                android:text="@string/play_now"
+                android:gravity="center_vertical"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_play_button_circled_24"
+                app:drawableTint="?colorPrimary"
+                />
 
-        <TextView
-            android:id="@+id/addToListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:background="?selectableItemBackground"
-            android:text="@string/add_to_playlist"
-            android:gravity="center_vertical"
-            android:drawablePadding="8dp"
-            app:drawableTint="?android:textColorSecondaryNoDisable"
-            app:drawableStartCompat="@drawable/ic_playlist"/>
+            <TextView
+                android:id="@+id/addToListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackground"
+                android:text="@string/add_to_playlist"
+                android:gravity="center_vertical"
+                android:drawablePadding="8dp"
+                app:drawableTint="?colorPrimary"
+                app:drawableStartCompat="@drawable/ic_playlist"/>
 
-        <TextView
-            android:id="@+id/albumView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:background="?selectableItemBackground"
-            android:text="@string/view_album"
-            android:gravity="center_vertical"
-            android:drawablePadding="8dp"
-            app:drawableTint="?android:textColorSecondaryNoDisable"
-            app:drawableStartCompat="@drawable/ic_music_record_24dp" />
+            <TextView
+                android:id="@+id/albumView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackground"
+                android:text="@string/view_album"
+                android:gravity="center_vertical"
+                android:drawablePadding="8dp"
+                app:drawableTint="?colorPrimary"
+                app:drawableStartCompat="@drawable/ic_music_record_24dp" />
 
-        <TextView
-            android:id="@+id/artistView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:background="?selectableItemBackground"
-            android:text="@string/view_artist"
-            android:gravity="center_vertical"
-            android:drawablePadding="8dp"
-            app:drawableTint="?android:textColorSecondaryNoDisable"
-            app:drawableStartCompat="@drawable/ic_round_person_24"/>
+            <TextView
+                android:id="@+id/artistView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackground"
+                android:text="@string/view_artist"
+                android:gravity="center_vertical"
+                android:drawablePadding="8dp"
+                app:drawableTint="?colorPrimary"
+                app:drawableStartCompat="@drawable/ic_round_person_24"/>
 
-        <TextView
-            android:id="@+id/infoView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:background="?selectableItemBackground"
-            android:text="@string/info"
-            android:gravity="center_vertical"
-            android:drawablePadding="8dp"
-            app:drawableTint="?android:textColorSecondaryNoDisable"
-            app:drawableStartCompat="@drawable/ic_info"/>
+            <TextView
+                android:id="@+id/infoView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackground"
+                android:text="@string/info"
+                android:gravity="center_vertical"
+                android:drawablePadding="8dp"
+                app:drawableTint="?colorPrimary"
+                app:drawableStartCompat="@drawable/ic_info"/>
 
-        <TextView
-            android:id="@+id/editView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:background="?selectableItemBackground"
-            android:text="@string/modify"
-            android:gravity="center_vertical"
-            android:drawablePadding="8dp"
-            app:drawableTint="?android:textColorSecondaryNoDisable"
-            app:drawableStartCompat="@drawable/ic_edit_file"/>
+            <TextView
+                android:id="@+id/editView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackground"
+                android:text="@string/modify"
+                android:gravity="center_vertical"
+                android:drawablePadding="8dp"
+                app:drawableTint="?colorPrimary"
+                app:drawableStartCompat="@drawable/ic_edit_file"/>
 
-        <TextView
-            android:id="@+id/shareView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:background="?selectableItemBackground"
-            android:text="@string/share"
-            android:layout_marginBottom="12dp"
-            android:gravity="center_vertical"
-            android:drawablePadding="8dp"
-            app:drawableTint="?android:textColorSecondaryNoDisable"
-            app:drawableStartCompat="@drawable/ic_connect"/>
+            <TextView
+                android:id="@+id/shareView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackground"
+                android:text="@string/share"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical"
+                android:drawablePadding="8dp"
+                app:drawableTint="?colorPrimary"
+                app:drawableStartCompat="@drawable/ic_connect"/>
 
-    </LinearLayout>
+        </LinearLayout>
 
+    </androidx.core.widget.NestedScrollView>
 
-</androidx.core.widget.NestedScrollView>
+</LinearLayout>

@@ -18,6 +18,8 @@ package com.lebogang.kxgenesis.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -25,14 +27,17 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ItemLocalSongBinding
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.kxgenesis.utils.GlobalGlide
 
-class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>() {
+class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filterable {
     var listener:OnAudioClickListener? = null
     private var listAudio = mutableListOf<Audio>()
+    private val filteredList = mutableListOf<Audio>()
     var fallbackPrimaryTextColor:Int = 0
     var fallbackSecondaryTextColor:Int = 0
     var color:Int = -1
     var audioId:Long = -1
+    private var isUserSearching = false
 
     fun setAudioData(mutableList: MutableList<Audio>){
         for (x in 0 until mutableList.size){
@@ -54,33 +59,12 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val audio = listAudio[position]
+        val audio = if(!isUserSearching) listAudio[position] else filteredList[position]
         val subtitle = audio.artist + "-" + audio.album
         holder.viewBinding.titleView.text = audio.title
         holder.viewBinding.subtitleView.text = subtitle
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
-            Glide.with(holder.viewBinding.root)
-                    .asBitmap()
-                    .load(audio.albumArtUri)
-                    .skipMemoryCache(false)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
-                    .centerCrop()
-                    .error(R.drawable.ic_music_24dp)
-                    .into(holder.viewBinding.imageView)
-                    .clearOnDetach()
-        }else{
-            Glide.with(holder.viewBinding.root)
-                    .asBitmap()
-                    .load(audio.albumArtUri)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
-                    .centerCrop()
-                    .error(R.drawable.ic_music_24dp)
-                    .into(holder.viewBinding.imageView)
-                    .clearOnDetach()
-        }
+        GlobalGlide.loadAudioCover(holder.viewBinding.root, holder.viewBinding.imageView
+                , audio.albumArtUri)
         updateNowPlaying(holder, audio)
     }
 
@@ -95,6 +79,8 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
+        if (isUserSearching)
+            return filteredList.size
         return listAudio.size
     }
 
@@ -103,6 +89,30 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>() {
         init {
             viewBinding.root.setOnClickListener { listener?.onAudioClick(listAudio[adapterPosition]) }
             viewBinding.optionsView.setOnClickListener { listener?.onAudioClickOptions(listAudio[adapterPosition]) }
+        }
+    }
+
+    override fun getFilter(): Filter {
+        return object:Filter(){
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                isUserSearching = false
+                constraint?.let {
+                    isUserSearching = true
+                    filteredList.clear()
+                    for (x in 0 until listAudio.size){
+                        val audio = listAudio[x]
+                        if (audio.title.toLowerCase().contains(it.toString().toLowerCase())){
+                            filteredList.add(audio)
+                        }
+                    }
+                }
+                return FilterResults()
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                notifyDataSetChanged()
+            }
+
         }
     }
 }

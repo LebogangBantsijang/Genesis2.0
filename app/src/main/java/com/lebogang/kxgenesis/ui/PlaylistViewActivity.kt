@@ -21,28 +21,76 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
+import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityPlaylistViewBinding
 import com.lebogang.kxgenesis.room.models.Playlist
+import com.lebogang.kxgenesis.ui.adapters.ItemPlaylistSongAdapter
+import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistAudioClickListener
+import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 import com.lebogang.kxgenesis.viewmodels.PlaylistViewModel
 
-class PlaylistViewActivity : AppCompatActivity() {
+class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
     private lateinit var viewBinding:ActivityPlaylistViewBinding
     private val playlistViewModel:PlaylistViewModel by lazy {
         PlaylistViewModel.Factory((application as GenesisApplication).playlistRepo)
             .create(PlaylistViewModel::class.java)
     }
-    private var playlist:Playlist? = null
+    private val audioViewModel:AudioViewModel by lazy {
+        AudioViewModel.Factory((application as GenesisApplication).audioRepo)
+                .create(AudioViewModel::class.java)
+    }
+    private val adapter = ItemPlaylistSongAdapter()
+    private var playlistId:Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityPlaylistViewBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-        //playlist = playlistViewModel.getPlaylists(intent.getLongExtra("Playlist",0))
+        playlistId = intent.getLongExtra("Playlist", 0)
+        initToolbar()
+        initRecyclerView()
+        observePlaylist()
+        observePlaylistAudio()
+        observeAudioData()
     }
 
     private fun initRecyclerView(){
+        adapter.listener = this
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+        viewBinding.recyclerView.adapter = adapter
+    }
 
+    private fun initToolbar(){
+        setSupportActionBar(viewBinding.toolbar)
+        viewBinding.toolbar.setNavigationOnClickListener { onBackPressed() }
+    }
+
+    private fun observePlaylist(){
+        playlistViewModel.getPlaylists(playlistId)
+        playlistViewModel.livePlaylist.observe(this, {
+            playlistViewModel.getPlaylistAudio(it.id)
+            viewBinding.toolbar.title = it.title
+        })
+    }
+
+    private fun observePlaylistAudio(){
+        playlistViewModel.audioLiveData.observe(this, {
+            audioViewModel.getAudio(it)
+        })
+    }
+
+    private fun observeAudioData(){
+        audioViewModel.liveData.observe(this, {
+            adapter.setAudioData(it)
+        })
+    }
+
+    override fun onAudioClick(audio: Audio) {
+        //play audio
+    }
+
+    override fun onAudioDeleteClick(audio: Audio) {
+        playlistViewModel.deletePlaylistAudio(playlistId, audio.id)
     }
 
 }

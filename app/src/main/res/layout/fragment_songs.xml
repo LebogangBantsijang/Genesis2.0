@@ -17,7 +17,8 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/noContentView"
@@ -41,4 +42,17 @@
         android:indeterminate="true"/>
 
 
+    <ImageButton
+        android:id="@+id/addView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_circle"
+        android:backgroundTint="?colorPrimary"
+        android:padding="14dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/add"
+        android:tint="@color/white"
+        app:srcCompat="@drawable/ic_baseline_sort_24" />
 </FrameLayout>

@@ -14,27 +14,13 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.room.dao
+package com.lebogang.kxgenesis.ui.fragments
 
-import androidx.room.*
-import com.lebogang.kxgenesis.room.models.Playlist
-import kotlinx.coroutines.flow.Flow
+import androidx.fragment.app.Fragment
 
-@Dao
-interface PlaylistDao {
+abstract class GeneralFragment:Fragment() {
+    abstract fun onSearch(string: String)
 
-    @Query("SELECT * FROM Playlist")
-    suspend fun getPlaylist(): List<Playlist>
+    abstract fun onRefresh()
 
-    @Query("SELECT * FROM Playlist WHERE id =:id")
-    suspend fun getPlaylist(id:Long): Playlist
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(playlist: Playlist)
-
-    @Delete
-    suspend fun delete(playlist: Playlist)
-
-    @Query("DELETE FROM Playlist")
-    suspend fun clearData()
 }

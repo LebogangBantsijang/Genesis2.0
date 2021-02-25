@@ -20,34 +20,44 @@ import androidx.annotation.WorkerThread
 import com.lebogang.kxgenesis.room.models.Playlist
 import com.lebogang.kxgenesis.room.dao.PlaylistAudioBridgeDao
 import com.lebogang.kxgenesis.room.dao.PlaylistDao
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import com.lebogang.kxgenesis.room.models.PlaylistBridgeTable
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 
 class PlaylistRepo(private val playlistDao: PlaylistDao,
-                   private val playlistAudioBridgeDao: PlaylistAudioBridgeDao
-) {
-    private val scope = CoroutineScope(Dispatchers.IO)
+                   private val playlistAudioBridgeDao: PlaylistAudioBridgeDao) {
 
-    fun getPlaylists(): Flow<MutableList<Playlist>> {
-        return playlistDao.getPlaylist()
+    suspend fun getPlaylists(): List<Playlist> = coroutineScope{
+        val deff = async {
+            playlistDao.getPlaylist()
+        }
+        deff.await()
     }
 
-    fun getPlaylist(id:Long): Flow<Playlist> {
-        return playlistDao.getPlaylist(id)
+    suspend fun getPlaylist(id:Long): Playlist = coroutineScope{
+        val deff = async {
+            playlistDao.getPlaylist(id)
+        }
+        deff.await()
     }
 
-    fun getPlaylistAudioIds(playlistId:Long):List<Long>{
-        return playlistAudioBridgeDao.getAudioIds(playlistId)
+    suspend fun getPlaylistAudioIds(playlistId:Long):List<Long> = coroutineScope{
+        val deff = async {
+            playlistAudioBridgeDao.getAudioIds(playlistId)
+        }
+        deff.await()
     }
-
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insertPlaylist(playlist: Playlist){
         playlistDao.insert(playlist)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertAudioPlaylist(id:Long, audioId:Long){
+        playlistAudioBridgeDao.insertAudio(PlaylistBridgeTable(0, id, audioId))
     }
 
     @Suppress("RedundantSuspendModifier")
@@ -69,4 +79,5 @@ class PlaylistRepo(private val playlistDao: PlaylistDao,
     suspend fun deletePlaylistAudio(playlistId:Long, audioId:Long){
         playlistAudioBridgeDao.delete(playlistId, audioId)
     }
+
 }

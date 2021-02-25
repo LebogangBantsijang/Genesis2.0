@@ -31,12 +31,21 @@ import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
-class SongsFragment: Fragment(),OnAudioClickListener {
+class SongsFragment: GeneralFragment(),OnAudioClickListener {
     private lateinit var viewBinding:FragmentSongsBinding
     private val adapter = ItemSongAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val audioViewModel:AudioViewModel by lazy {
         AudioViewModel.Factory(genesisApplication.audioRepo).create(AudioViewModel::class.java)
+    }
+
+    override fun onSearch(string: String) {
+        adapter.filter.filter(string)
+    }
+
+    override fun onRefresh() {
+        viewBinding.progressBar.visibility = View.VISIBLE
+        audioViewModel.getAudio()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,8 +62,6 @@ class SongsFragment: Fragment(),OnAudioClickListener {
 
     private fun initRecyclerView(){
         adapter.listener = this
-        //adapter.fallbackPrimaryTextColor = ResourcesCompat.getColor(resources, R.color.primaryTextColor, null)
-        //adapter.fallbackSecondaryTextColor = ResourcesCompat.getColor(resources, R.color.secondaryTextColor, null)
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
         viewBinding.recyclerView.adapter = adapter
     }
@@ -62,13 +69,17 @@ class SongsFragment: Fragment(),OnAudioClickListener {
     private fun observeAudioData(){
         audioViewModel.liveData.observe(viewLifecycleOwner,{
             adapter.setAudioData(it)
-            viewBinding.progressBar.visibility = View.GONE
-            if (it.size > 0){
-                viewBinding.noContentView.text = null
-            }else{
-                viewBinding.noContentView.text = getString(R.string.no_content)
-            }
+            loadingView(it.size > 0)
         })
+    }
+
+    private fun loadingView(hasContent:Boolean){
+        viewBinding.progressBar.visibility = View.GONE
+        if (hasContent){
+            viewBinding.noContentView.text = null
+        }else{
+            viewBinding.noContentView.text = getString(R.string.no_content)
+        }
     }
 
     override fun onResume() {

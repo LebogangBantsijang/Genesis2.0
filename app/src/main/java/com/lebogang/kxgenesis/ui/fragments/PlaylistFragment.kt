@@ -34,7 +34,7 @@ import com.lebogang.kxgenesis.ui.dialogs.AddPlaylistDialog
 import com.lebogang.kxgenesis.ui.dialogs.UpdatePlaylistDialog
 import com.lebogang.kxgenesis.viewmodels.PlaylistViewModel
 
-class PlaylistFragment: Fragment(),OnPlaylistClickListener {
+class PlaylistFragment: GeneralFragment(),OnPlaylistClickListener {
 
     private lateinit var viewBinding:FragmentPlaylistBinding
     private val playlistViewModel:PlaylistViewModel  by lazy{
@@ -43,7 +43,15 @@ class PlaylistFragment: Fragment(),OnPlaylistClickListener {
     }
     private val adapter = ItemPlaylistAdapter()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onSearch(string: String) {
+        //Not Needed
+    }
+
+    override fun onRefresh() {
+        //not needed
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         viewBinding = FragmentPlaylistBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
@@ -68,7 +76,8 @@ class PlaylistFragment: Fragment(),OnPlaylistClickListener {
     }
 
     private fun observePlaylists(){
-        playlistViewModel.getPlaylists().observe(viewLifecycleOwner,{
+        playlistViewModel.getPlaylists()
+        playlistViewModel.liveData.observe(viewLifecycleOwner, {
             adapter.setPlaylistData(it)
         })
     }

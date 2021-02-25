@@ -75,10 +75,22 @@
     <string name="share">Share</string>
     <string name="view_album">View Album</string>
     <string name="view_artist">View Artist</string>
+    <string name="title">Title</string>
+    <string name="artist">Artist</string>
+    <string name="album">Album</string>
+    <string name="null_values">Error: Null values</string>
+    <string name="refresh">Refresh</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>
         <item>Dark Theme</item>
         <item>Light Theme</item>
+    </array>
+
+    <array name="SortOptions">
+        <item>Title (Asc)</item>
+        <item>Title (Desc)</item>
+        <item>Date (Asc)</item>
+        <item>Date (Desc)</item>
     </array>
 </resources>

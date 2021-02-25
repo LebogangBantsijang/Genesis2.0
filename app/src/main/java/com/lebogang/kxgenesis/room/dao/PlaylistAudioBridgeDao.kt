@@ -17,22 +17,28 @@
 package com.lebogang.kxgenesis.room.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.lebogang.kxgenesis.room.models.PlaylistBridgeTable
 
 @Dao
 interface PlaylistAudioBridgeDao {
 
     @Query("SELECT audioId FROM PlaylistAudioBridge WHERE playlistId =:playlistId")
-    fun getAudioIds(playlistId:Long): List<Long>
+    suspend fun getAudioIds(playlistId:Long): List<Long>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAudio(playlistBridgeTable: PlaylistBridgeTable)
 
     /**Remove one audio entry*/
     @Query("DELETE FROM PlaylistAudioBridge WHERE playlistId =:playlistId AND audioId=:audioId")
-    fun delete(playlistId:Long,audioId:Long)
+    suspend fun delete(playlistId:Long,audioId:Long)
 
     /**Remove all playlist audio*/
     @Query("DELETE FROM PlaylistAudioBridge WHERE playlistId =:playlistId")
-    fun delete(playlistId: Long)
+    suspend fun delete(playlistId: Long)
 
     @Query("DELETE FROM PlaylistAudioBridge")
-    fun clearData()
+    suspend fun clearData()
 }

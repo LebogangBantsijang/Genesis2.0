@@ -32,13 +32,22 @@ import com.lebogang.kxgenesis.ui.adapters.ItemArtistAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnArtistClickListener
 import com.lebogang.kxgenesis.viewmodels.ArtistViewModel
 
-class ArtistFragment: Fragment(), OnArtistClickListener {
+class ArtistFragment: GeneralFragment(), OnArtistClickListener {
     private lateinit var viewBinding:FragmentArtistsBinding
     private val adapter = ItemArtistAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val artistViewModel:ArtistViewModel by lazy {
         ArtistViewModel.Factory(genesisApplication.artistRepo)
             .create(ArtistViewModel::class.java)
+    }
+
+    override fun onSearch(string: String) {
+        adapter.filter.filter(string)
+    }
+
+    override fun onRefresh() {
+        viewBinding.progressBar.visibility = View.VISIBLE
+        artistViewModel.getArtists()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
@@ -62,13 +71,17 @@ class ArtistFragment: Fragment(), OnArtistClickListener {
     private fun observeArtists(){
         artistViewModel.liveData.observe(viewLifecycleOwner, {
             adapter.setArtistData(it)
-            viewBinding.progressBar.visibility = View.GONE
-            if (it.size > 0){
-                viewBinding.noContentView.text = null
-            }else{
-                viewBinding.noContentView.text = getString(R.string.no_content)
-            }
+            loadingView(it.size > 0)
         })
+    }
+
+    private fun loadingView(hasContent:Boolean){
+        viewBinding.progressBar.visibility = View.GONE
+        if (hasContent){
+            viewBinding.noContentView.text = null
+        }else{
+            viewBinding.noContentView.text = getString(R.string.no_content)
+        }
     }
 
     override fun onResume() {

@@ -18,6 +18,8 @@ package com.lebogang.kxgenesis.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -25,10 +27,13 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Album
 import com.lebogang.kxgenesis.databinding.ItemLocalAlbumBinding
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAlbumClickListener
+import com.lebogang.kxgenesis.utils.GlobalGlide
 
-class ItemAlbumAdapter:RecyclerView.Adapter<ItemAlbumAdapter.ViewHolder>(){
+class ItemAlbumAdapter:RecyclerView.Adapter<ItemAlbumAdapter.ViewHolder>(), Filterable{
+    private val filteredList = arrayListOf<Album>()
     private var listAlbum = arrayListOf<Album>()
     var listener:OnAlbumClickListener? = null
+    private var isUserSearching = false
 
     fun setAlbumData(mutableList: MutableList<Album>){
         for (x in 0 until mutableList.size){
@@ -44,41 +49,45 @@ class ItemAlbumAdapter:RecyclerView.Adapter<ItemAlbumAdapter.ViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val album = listAlbum[position]
+        val album = if(!isUserSearching) listAlbum[position] else filteredList[position]
         holder.viewBinding.titleView.text = album.title
         holder.viewBinding.subtitleView.text = album.artist
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            Glide.with(holder.viewBinding.root)
-                .asBitmap()
-                .load(album.albumArtUri)
-                .skipMemoryCache(false)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
-                .centerCrop()
-                .error(R.drawable.ic_music_record_24dp)
-                .into(holder.viewBinding.imageView)
-                .clearOnDetach()
-        }else{
-            Glide.with(holder.viewBinding.root)
-                .asBitmap()
-                .load(album.albumArtUri)
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
-                .error(R.drawable.ic_music_record_24dp)
-                .centerCrop()
-                .into(holder.viewBinding.imageView)
-                .clearOnDetach()
-        }
+        GlobalGlide.loadAlbumCover(holder.viewBinding.root, holder.viewBinding.imageView
+                , album.albumArtUri)
     }
 
     override fun getItemCount(): Int {
+        if (isUserSearching)
+            return filteredList.size
         return listAlbum.size
     }
 
     inner class ViewHolder(val viewBinding:ItemLocalAlbumBinding):RecyclerView.ViewHolder(viewBinding.root){
         init {
             viewBinding.root.setOnClickListener { listener?.onAlbumClick(listAlbum[adapterPosition]) }
+        }
+    }
+
+    override fun getFilter(): Filter {
+        return object :Filter(){
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                isUserSearching = false
+                constraint?.let {
+                    isUserSearching = true
+                    filteredList.clear()
+                    for(x in 0 until listAlbum.size){
+                        val album = listAlbum[x]
+                        if (album.title.toLowerCase().contains(it.toString().toLowerCase())){
+                            filteredList.add(album)
+                        }
+                    }
+                }
+                return FilterResults()
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                notifyDataSetChanged()
+            }
         }
     }
 }

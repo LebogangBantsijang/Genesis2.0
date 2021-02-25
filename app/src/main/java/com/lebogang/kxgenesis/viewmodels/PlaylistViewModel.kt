@@ -17,31 +17,35 @@
 package com.lebogang.kxgenesis.viewmodels
 
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.lebogang.kxgenesis.room.GenesisDatabase
 
 import com.lebogang.kxgenesis.room.models.Playlist
 import com.lebogang.kxgenesis.room.PlaylistRepo
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {
+    val liveData = MutableLiveData<List<Playlist>>()
+    val audioLiveData = MutableLiveData<List<Long>>()
+    val livePlaylist = MutableLiveData<Playlist>()
 
-    fun getPlaylists(): LiveData<MutableList<Playlist>> = playlistRepo.getPlaylists().asLiveData()
-
-    fun getPlaylists(id:Long):LiveData<Playlist> = playlistRepo.getPlaylist(id).asLiveData()
-
-    fun getPlaylistAudio(playlistId: Long):List<Long> {
-        return playlistRepo.getPlaylistAudioIds(playlistId)
+    fun getPlaylists() = viewModelScope.launch{
+        liveData.postValue(playlistRepo.getPlaylists())
     }
 
-    fun insertPlaylist(playlist: Playlist) = viewModelScope.launch{
+    fun getPlaylists(id:Long) = viewModelScope.launch{
+        livePlaylist.postValue(playlistRepo.getPlaylist(id))
+    }
+
+    fun getPlaylistAudio(playlistId: Long) = viewModelScope.launch {
+        audioLiveData.postValue(playlistRepo.getPlaylistAudioIds(playlistId))
+    }
+
+    fun insertPlaylist(playlist: Playlist) = viewModelScope.launch {
         playlistRepo.insertPlaylist(playlist)
     }
 

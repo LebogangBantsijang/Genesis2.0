@@ -34,6 +34,7 @@ import com.lebogang.kxgenesis.databinding.ActivityAlbumViewBinding
 import com.lebogang.kxgenesis.ui.adapters.ItemAlbumSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
+import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.viewmodels.AlbumViewModel
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 import jp.wasabeef.blurry.Blurry
@@ -85,26 +86,17 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
                         override fun onResourceReady(resource: Bitmap?, model: Any?,
                                                      target: Target<Bitmap>?, dataSource: DataSource?
                                                      , isFirstResource: Boolean): Boolean {
-                            if (resource!=null){
+                            if (resource!=null)
                                 Blurry.with(baseContext).async()
                                         .radius(10)
                                         .sampling(4)
                                         .from(resource)
                                         .into(viewBinding.blurView)
-                            }
                             return true
                         }
-
                     })
                     .submit()
-            Glide.with(viewBinding.artView)
-                    .asBitmap()
-                    .load(album!!.albumArtUri)
-                    .error(R.drawable.ic_music_record_24dp)
-                    .override(viewBinding.artView.width,viewBinding.artView.height)
-                    .centerCrop()
-                    .into(viewBinding.artView)
-                    .clearOnDetach()
+            GlobalGlide.loadAlbumCover(viewBinding.root, viewBinding.artView,album?.albumArtUri)
         }
     }
 

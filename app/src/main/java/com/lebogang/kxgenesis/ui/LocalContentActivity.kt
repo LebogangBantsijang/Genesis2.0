@@ -18,12 +18,12 @@ package com.lebogang.kxgenesis.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -32,14 +32,13 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.LayoutNavigationDrawerBinding
 import com.lebogang.kxgenesis.ui.adapters.LocalContentActivityViewPagerAdapter
+import com.lebogang.kxgenesis.utils.TextWatcherSimplifier
 
 class LocalContentActivity : AppCompatActivity() {
     private val viewBinding: LayoutNavigationDrawerBinding by lazy{
         LayoutNavigationDrawerBinding.inflate(layoutInflater)
     }
-    private val localContentActivityViewPagerAdapter:LocalContentActivityViewPagerAdapter by lazy{
-        LocalContentActivityViewPagerAdapter(this)
-    }
+    private var adapter:LocalContentActivityViewPagerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,8 +55,8 @@ class LocalContentActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
-            R.id.menu_search ->{
-                startActivity(Intent(this, SearchActivity::class.java))
+            R.id.menu_refresh ->{
+                adapter?.onRefresh(viewBinding.content.viewPager.currentItem)
                 true
             }
             else -> false
@@ -73,6 +72,7 @@ class LocalContentActivity : AppCompatActivity() {
     }
 
     private fun initNavigationView(){
+        viewBinding.content.viewPager.currentItem
         viewBinding.navigationView.setNavigationItemSelectedListener {
             viewBinding.drawerLayout.closeDrawers()
             true
@@ -82,7 +82,10 @@ class LocalContentActivity : AppCompatActivity() {
 
     private fun checkPermissions(){
         when(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            PackageManager.PERMISSION_GRANTED -> initViewPager()
+            PackageManager.PERMISSION_GRANTED -> {
+                initViewPager()
+                initSearchView()
+            }
             PackageManager.PERMISSION_DENIED -> {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                     requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 121)
@@ -98,8 +101,10 @@ class LocalContentActivity : AppCompatActivity() {
         grantResults.iterator().forEach {
             granted = it == PackageManager.PERMISSION_GRANTED
         }
-        if (granted)
+        if (granted){
             initViewPager()
+            initSearchView()
+        }
         else
             MaterialAlertDialogBuilder(this)
                 .setTitle(getString(R.string.permission_error))
@@ -109,28 +114,30 @@ class LocalContentActivity : AppCompatActivity() {
     }
 
     private fun initViewPager(){
-        viewBinding.content.viewPager.adapter = localContentActivityViewPagerAdapter
+        adapter = LocalContentActivityViewPagerAdapter(this)
+        viewBinding.content.viewPager.adapter = adapter
+        viewBinding.content.viewPager.offscreenPageLimit = 4
         TabLayoutMediator(viewBinding.content.tabLayout, viewBinding.content.viewPager
         ) { tab, pos ->
             when(pos){
-                0 -> {
-                    tab.icon =
+                0 -> tab.icon =
                         ResourcesCompat.getDrawable(resources,R.drawable.ic_music_24dp, theme)
-                }
-                1 -> {
-                    tab.icon =
+                1 -> tab.icon =
                         ResourcesCompat.getDrawable(resources, R.drawable.ic_music_record_24dp, theme)
-                }
-                2 -> {
-                    tab.icon =
+                2 -> tab.icon =
                         ResourcesCompat.getDrawable(resources, R.drawable.ic_round_person_24, theme)
-                }
-                3 -> {
-                    tab.icon =
+                3 -> tab.icon =
                         ResourcesCompat.getDrawable(resources,R.drawable.ic_music_folder_24dp, theme)
-                }
             }
         }.attach()
+    }
+
+    private fun initSearchView(){
+        viewBinding.content.searchView.addTextChangedListener(object :TextWatcherSimplifier(){
+            override fun textChanged(string: String) {
+                adapter?.onSearch(string, viewBinding.content.viewPager.currentItem)
+            }
+        })
     }
 
 }

@@ -25,13 +25,11 @@ import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistClickListener
 
 class ItemPlaylistAdapter:RecyclerView.Adapter<ItemPlaylistAdapter.ViewHolder>(){
     var listener:OnPlaylistClickListener? = null
-    private var listPlaylist = mutableListOf<Playlist>()
+    private var listPlaylist:List<Playlist> = arrayListOf()
 
-    fun setPlaylistData(mutableList: MutableList<Playlist>){
-        for (x in 0 until mutableList.size){
-            listPlaylist.add(mutableList[x])
-            notifyItemInserted(x)
-        }
+    fun setPlaylistData(list: List<Playlist>){
+        listPlaylist = list
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(val viewBinding:ItemLayoutPlaylistBinding):RecyclerView.ViewHolder(viewBinding.root){

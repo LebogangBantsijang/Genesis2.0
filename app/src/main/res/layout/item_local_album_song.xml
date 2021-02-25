@@ -65,6 +65,15 @@
             />
     </LinearLayout>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/equalizer"
+        app:lottie_repeatMode="restart"
+        app:lottie_colorFilter="?colorPrimary"/>
+
     <ImageButton
         android:id="@+id/optionsView"
         android:layout_width="wrap_content"

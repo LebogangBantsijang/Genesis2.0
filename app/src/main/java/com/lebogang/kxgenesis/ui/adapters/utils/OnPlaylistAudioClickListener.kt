@@ -14,27 +14,12 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.room.dao
+package com.lebogang.kxgenesis.ui.adapters.utils
 
-import androidx.room.*
-import com.lebogang.kxgenesis.room.models.Playlist
-import kotlinx.coroutines.flow.Flow
+import com.lebogang.kxgenesis.data.models.Audio
 
-@Dao
-interface PlaylistDao {
+interface OnPlaylistAudioClickListener {
+    fun onAudioClick(audio: Audio)
 
-    @Query("SELECT * FROM Playlist")
-    suspend fun getPlaylist(): List<Playlist>
-
-    @Query("SELECT * FROM Playlist WHERE id =:id")
-    suspend fun getPlaylist(id:Long): Playlist
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(playlist: Playlist)
-
-    @Delete
-    suspend fun delete(playlist: Playlist)
-
-    @Query("DELETE FROM Playlist")
-    suspend fun clearData()
+    fun onAudioDeleteClick(audio: Audio)
 }

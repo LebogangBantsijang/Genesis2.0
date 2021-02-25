@@ -32,12 +32,21 @@ import com.lebogang.kxgenesis.ui.adapters.ItemAlbumAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAlbumClickListener
 import com.lebogang.kxgenesis.viewmodels.AlbumViewModel
 
-class AlbumsFragment: Fragment(), OnAlbumClickListener {
+class AlbumsFragment: GeneralFragment(), OnAlbumClickListener {
     private lateinit var viewBinding:FragmentAlbumsBinding
     private val adapter = ItemAlbumAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val albumViewModel:AlbumViewModel by lazy {
         AlbumViewModel.Factory(genesisApplication.albumRepo).create(AlbumViewModel::class.java)
+    }
+
+    override fun onSearch(string: String) {
+        adapter.filter.filter(string)
+    }
+
+    override fun onRefresh() {
+        viewBinding.progressBar.visibility = View.VISIBLE
+        albumViewModel.getAlbums()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,13 +71,17 @@ class AlbumsFragment: Fragment(), OnAlbumClickListener {
     private fun observeAlbums(){
         albumViewModel.liveData.observe(viewLifecycleOwner,{
             adapter.setAlbumData(it)
-            viewBinding.progressBar.visibility = View.GONE
-            if (it.size > 0){
-                viewBinding.noContentView.text = null
-            }else{
-                viewBinding.noContentView.text = getString(R.string.no_content)
-            }
+            loadingView(it.size > 0)
         })
+    }
+
+    private fun loadingView(hasContent:Boolean){
+        viewBinding.progressBar.visibility = View.GONE
+        if (hasContent){
+            viewBinding.noContentView.text = null
+        }else{
+            viewBinding.noContentView.text = getString(R.string.no_content)
+        }
     }
 
     override fun onResume() {
