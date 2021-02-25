@@ -70,7 +70,7 @@ class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
         playlistViewModel.getPlaylists(playlistId)
         playlistViewModel.livePlaylist.observe(this, {
             playlistViewModel.getPlaylistAudio(it.id)
-            viewBinding.toolbar.title = it.title
+            title = it.title
         })
     }
 

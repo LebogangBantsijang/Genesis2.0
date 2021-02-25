@@ -23,21 +23,26 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
-        android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark"
-        android:layout_height="156dp"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:background="@null"
         >
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:toolbarId="@+id/toolbar"
+            android:layout_height="wrap_content"
+            app:toolbarId="@id/toolbar"
             app:expandedTitleTextAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             app:expandedTitleGravity="center"
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
             app:layout_scrollInterpolator="@android:anim/decelerate_interpolator"
             app:contentScrim="?attr/colorPrimary">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="156dp"
+                android:background="?colorPrimary"/>
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
