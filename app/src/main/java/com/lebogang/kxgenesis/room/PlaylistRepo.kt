@@ -23,30 +23,19 @@ import com.lebogang.kxgenesis.room.models.Playlist
 import com.lebogang.kxgenesis.room.models.PlaylistBridgeTable
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
 
 class PlaylistRepo(private val playlistDao: PlaylistDao,
                    private val playlistAudioBridgeDao: PlaylistAudioBridgeDao) {
 
-    suspend fun getPlaylists(): List<Playlist> = coroutineScope{
-        val deff = async {
-            playlistDao.getPlaylist()
-        }
-        deff.await()
+    fun getPlaylists(): Flow<List<Playlist>> = playlistDao.getPlaylist()
+
+    suspend fun getPlaylist(id:Long): Playlist{
+        return playlistDao.getPlaylist(id)
     }
 
-    suspend fun getPlaylist(id:Long): Playlist = coroutineScope{
-        val deff = async {
-            playlistDao.getPlaylist(id)
-        }
-        deff.await()
-    }
-
-    suspend fun getPlaylistAudioIds(playlistId:Long):List<Long> = coroutineScope{
-        val deff = async {
+    suspend fun getPlaylistAudioIds(playlistId:Long):List<Long> =
             playlistAudioBridgeDao.getAudioIds(playlistId)
-        }
-        deff.await()
-    }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -72,6 +61,12 @@ class PlaylistRepo(private val playlistDao: PlaylistDao,
     suspend fun clearData(){
         playlistDao.clearData()
         playlistAudioBridgeDao.clearData()
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun clearAudioData(playlistId: Long){
+        playlistAudioBridgeDao.delete(playlistId)
     }
 
     @Suppress("RedundantSuspendModifier")

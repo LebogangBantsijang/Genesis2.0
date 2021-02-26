@@ -55,31 +55,17 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/playView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?selectableItemBackground"
-                android:text="@string/play_now"
-                android:gravity="center_vertical"
-                android:drawablePadding="8dp"
-                app:drawableStartCompat="@drawable/ic_play_button_circled_24"
-                app:drawableTint="?colorPrimary"
-                />
-
-            <TextView
                 android:id="@+id/addToListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?selectableItemBackground"
                 android:text="@string/add_to_playlist"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
+                app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
                 app:drawableTint="?colorPrimary"
                 app:drawableStartCompat="@drawable/ic_playlist"/>
 
@@ -87,27 +73,29 @@
                 android:id="@+id/albumView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?selectableItemBackground"
                 android:text="@string/view_album"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
+                app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
                 app:drawableTint="?colorPrimary"
-                app:drawableStartCompat="@drawable/ic_music_record_24dp" />
+                app:drawableStartCompat="@drawable/ic_music_record_24dp_small" />
 
             <TextView
                 android:id="@+id/artistView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?selectableItemBackground"
                 android:text="@string/view_artist"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
+                app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
                 app:drawableTint="?colorPrimary"
                 app:drawableStartCompat="@drawable/ic_round_person_24"/>
 
@@ -115,13 +103,14 @@
                 android:id="@+id/infoView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?selectableItemBackground"
                 android:text="@string/info"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
+                app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
                 app:drawableTint="?colorPrimary"
                 app:drawableStartCompat="@drawable/ic_info"/>
 
@@ -129,13 +118,14 @@
                 android:id="@+id/editView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?selectableItemBackground"
                 android:text="@string/modify"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
+                app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
                 app:drawableTint="?colorPrimary"
                 app:drawableStartCompat="@drawable/ic_edit_file"/>
 
@@ -143,7 +133,7 @@
                 android:id="@+id/shareView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?selectableItemBackground"
@@ -152,7 +142,8 @@
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
                 app:drawableTint="?colorPrimary"
-                app:drawableStartCompat="@drawable/ic_connect"/>
+                app:drawableStartCompat="@drawable/ic_connect"
+                app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
 
         </LinearLayout>
 

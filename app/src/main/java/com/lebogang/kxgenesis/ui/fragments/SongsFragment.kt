@@ -58,7 +58,7 @@ class SongsFragment: GeneralFragment(),OnAudioClickListener,PopupMenu.OnMenuItem
         audioViewModel.getAudio()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         viewBinding = FragmentSongsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
@@ -98,7 +98,7 @@ class SongsFragment: GeneralFragment(),OnAudioClickListener,PopupMenu.OnMenuItem
     private fun observeAudioData(){
         audioViewModel.liveData.observe(viewLifecycleOwner,{
             adapter.setAudioData(it)
-            loadingView(it.size > 0)
+            loadingView(it.isNotEmpty())
         })
     }
 
@@ -126,7 +126,7 @@ class SongsFragment: GeneralFragment(),OnAudioClickListener,PopupMenu.OnMenuItem
     }
 
     override fun onAudioClickOptions(audio: Audio) {
-        AudioOptionsDialog(audio).show(fragmentManager!!, "")
+        AudioOptionsDialog(audio, true).show(fragmentManager!!, "")
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {

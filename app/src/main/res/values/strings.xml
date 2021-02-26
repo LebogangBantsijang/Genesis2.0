@@ -84,6 +84,11 @@
     <string name="title_desc">Title Desc</string>
     <string name="date_asc">Date Asc</string>
     <string name="date_desc">Date Desc</string>
+    <string name="add_playlist">Add Playlist</string>
+    <string name="clear_all_playlist">Clear All Playlist</string>
+    <string name="clear_all">Clear All Audio</string>
+    <string name="select_playlist">Select Playlist</string>
+    <string name="cancel">Cancel</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>

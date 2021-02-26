@@ -22,10 +22,6 @@
         <item name="colorPrimaryDark">@color/primaryColor</item>
     </style>
 
-    <style name="BottomSheetTheme" parent="Theme.Genesis20.System">
-        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
-    </style>
-    <style name="BottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
-        <item name="background">@drawable/ic_bottom_sheet_background</item>
-    </style>
+    <style name="BottomSheetTheme" parent="ThemeOverlay.MaterialComponents"/>
+
 </resources>

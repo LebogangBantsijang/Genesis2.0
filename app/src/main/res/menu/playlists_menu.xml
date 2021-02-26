@@ -17,18 +17,10 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group>
-        <item
-            android:id="@+id/titleAsc"
-            android:title="@string/title_asc" />
-        <item
-            android:id="@+id/titleDesc"
-            android:title="@string/title_desc" />
-        <item
-            android:id="@+id/dateAsc"
-            android:title="@string/date_asc" />
-        <item
-            android:id="@+id/dateDesc"
-            android:title="@string/date_desc" />
-    </group>
+    <item
+        android:id="@+id/addMenu"
+        android:title="@string/add_playlist" />
+    <item
+        android:id="@+id/clearMenu"
+        android:title="@string/clear_all_playlist" />
 </menu>

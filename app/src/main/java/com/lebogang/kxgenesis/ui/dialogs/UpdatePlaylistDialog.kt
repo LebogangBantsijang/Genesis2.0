@@ -42,6 +42,7 @@ class UpdatePlaylistDialog(val playlist:Playlist):DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initSaveView()
+        viewBinding.playlistNameView.setText(playlist.title)
     }
 
     private fun initSaveView(){

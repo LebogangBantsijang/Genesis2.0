@@ -30,14 +30,12 @@ import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.DialogAudioOptionsBinding
 import com.lebogang.kxgenesis.ui.AlbumViewActivity
 import com.lebogang.kxgenesis.ui.ArtistViewActivity
+import com.lebogang.kxgenesis.ui.EditAudioActivity
+import com.lebogang.kxgenesis.ui.InfoActivity
+import com.lebogang.kxgenesis.utils.GlobalGlide
 
-class AudioOptionsDialog(private val audio:Audio) :BottomSheetDialogFragment(){
+class AudioOptionsDialog(private val audio:Audio, private val enableModify:Boolean) :BottomSheetDialogFragment(){
     private lateinit var viewBinding:DialogAudioOptionsBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //setStyle(STYLE_NORMAL, R.style.BottomSheetTheme)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -51,20 +49,10 @@ class AudioOptionsDialog(private val audio:Audio) :BottomSheetDialogFragment(){
     }
 
     private fun initViews(){
-        Glide.with(this)
-                .asBitmap()
-                .load(audio.albumArtUri)
-                .error(R.drawable.ic_music_24dp)
-                .skipMemoryCache(false)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(viewBinding.coverView.width, viewBinding.coverView.height)
-                .centerCrop()
-                .into(viewBinding.coverView)
+        GlobalGlide.loadAudioCover(viewBinding.root, viewBinding.coverView, audio.albumArtUri)
         viewBinding.titleView.text = audio.title
-        viewBinding.playView.setOnClickListener {
-            dismissAllowingStateLoss()
-        }
         viewBinding.addToListView.setOnClickListener {
+            SelectPlaylistDialog(audio).show(activity?.supportFragmentManager!!, "")
             dismissAllowingStateLoss()
         }
         viewBinding.artistView.setOnClickListener {
@@ -78,10 +66,20 @@ class AudioOptionsDialog(private val audio:Audio) :BottomSheetDialogFragment(){
                     .apply { putExtra("Album",audio.album) })
             dismissAllowingStateLoss()
         }
-        viewBinding.editView.setOnClickListener {
-            dismissAllowingStateLoss()
-        }
+        if(enableModify)
+            viewBinding.editView.setOnClickListener {
+                startActivity(Intent(requireContext(), EditAudioActivity::class.java).apply {
+                    putExtra("Audio", audio.id)
+                })
+                dismissAllowingStateLoss()
+            }
+        else
+            viewBinding.editView.visibility = View.GONE
+
         viewBinding.infoView.setOnClickListener {
+            startActivity(Intent(requireContext(), InfoActivity::class.java).apply {
+                putExtra("Audio", audio.id)
+            })
             dismissAllowingStateLoss()
         }
         viewBinding.shareView.setOnClickListener {

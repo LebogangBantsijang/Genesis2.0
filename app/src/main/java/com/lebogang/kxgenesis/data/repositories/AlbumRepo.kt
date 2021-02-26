@@ -63,22 +63,22 @@ class AlbumRepo(val context: Context) {
             }
 
             override fun onChange(selfChange: Boolean) {
-                super.onChange(selfChange)
+                //super.onChange(selfChange)
                 onContentChanged?.onMediaChanged()
             }
 
             override fun onChange(selfChange: Boolean, uri: Uri?) {
-                super.onChange(selfChange, uri)
+                //super.onChange(selfChange, uri)
                 onContentChanged?.onMediaChanged()
             }
 
             override fun onChange(selfChange: Boolean, uri: Uri?, flags: Int) {
-                super.onChange(selfChange, uri, flags)
+                //super.onChange(selfChange, uri, flags)
                 onContentChanged?.onMediaChanged()
             }
 
             override fun onChange(selfChange: Boolean, uris: MutableCollection<Uri>, flags: Int) {
-                super.onChange(selfChange, uris, flags)
+                //super.onChange(selfChange, uris, flags)
                 onContentChanged?.onMediaChanged()
             }
         }

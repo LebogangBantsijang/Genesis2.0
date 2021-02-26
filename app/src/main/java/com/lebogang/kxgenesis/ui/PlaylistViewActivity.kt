@@ -18,6 +18,9 @@ package com.lebogang.kxgenesis.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
@@ -40,7 +43,7 @@ class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
                 .create(AudioViewModel::class.java)
     }
     private val adapter = ItemPlaylistSongAdapter()
-    private var playlistId:Long = 0
+    private var playlistId:Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +62,22 @@ class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
         viewBinding.recyclerView.itemAnimator?.addDuration = 450
         viewBinding.recyclerView.adapter = adapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.playlist_item_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.clearAllMenu ->{
+                playlistViewModel.clearAudioData(playlistId)
+                playlistViewModel.getPlaylistAudio(playlistId)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun initToolbar(){
@@ -83,7 +102,17 @@ class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
     private fun observeAudioData(){
         audioViewModel.liveData.observe(this, {
             adapter.setAudioData(it)
+            loadingView(it.size > 0)
         })
+    }
+
+    private fun loadingView(hasContent:Boolean){
+        viewBinding.progressBar.visibility = View.GONE
+        if (hasContent){
+            viewBinding.noContentView.text = null
+        }else{
+            viewBinding.noContentView.text = getString(R.string.no_content)
+        }
     }
 
     override fun onAudioClick(audio: Audio) {
@@ -92,6 +121,7 @@ class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
 
     override fun onAudioDeleteClick(audio: Audio) {
         playlistViewModel.deletePlaylistAudio(playlistId, audio.id)
+        playlistViewModel.getPlaylistAudio(playlistId)
     }
 
 }

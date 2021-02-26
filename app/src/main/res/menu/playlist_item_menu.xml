@@ -15,20 +15,12 @@
   ~    limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group>
-        <item
-            android:id="@+id/titleAsc"
-            android:title="@string/title_asc" />
-        <item
-            android:id="@+id/titleDesc"
-            android:title="@string/title_desc" />
-        <item
-            android:id="@+id/dateAsc"
-            android:title="@string/date_asc" />
-        <item
-            android:id="@+id/dateDesc"
-            android:title="@string/date_desc" />
-    </group>
+    <item
+        android:id="@+id/clearAllMenu"
+        android:icon="@drawable/ic_baseline_delete_24"
+        android:title="@string/clear_all"
+        app:showAsAction="never" />
 </menu>

@@ -15,20 +15,17 @@
   ~    limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <group>
-        <item
-            android:id="@+id/titleAsc"
-            android:title="@string/title_asc" />
-        <item
-            android:id="@+id/titleDesc"
-            android:title="@string/title_desc" />
-        <item
-            android:id="@+id/dateAsc"
-            android:title="@string/date_asc" />
-        <item
-            android:id="@+id/dateDesc"
-            android:title="@string/date_desc" />
-    </group>
-</menu>
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:padding="16dp"/>
+
+</FrameLayout>

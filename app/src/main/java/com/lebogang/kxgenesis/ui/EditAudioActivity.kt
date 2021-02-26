@@ -32,6 +32,7 @@ import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityEditAudioBinding
+import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.utils.TextWatcherSimplifier
 import com.lebogang.kxgenesis.utils.Validator
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
@@ -43,12 +44,13 @@ class EditAudioActivity: AppCompatActivity() {
         AudioViewModel.Factory((application as GenesisApplication).audioRepo)
                 .create(AudioViewModel::class.java)
     }
-    lateinit var audio: Audio
+    private var audio:Audio? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityEditAudioBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+        audio = audioViewModel.getAudio(intent.getLongExtra("Audio",0))
         initToolbar()
         initImageView()
         initUpdateView()
@@ -62,7 +64,7 @@ class EditAudioActivity: AppCompatActivity() {
     private fun initImageView(){
         Glide.with(this)
                 .asBitmap()
-                .load(audio.albumArtUri)
+                .load(audio?.albumArtUri)
                 .addListener(object : RequestListener<Bitmap> {
                     override fun onLoadFailed(e: GlideException?, model: Any?
                                               , target: Target<Bitmap>?, isFirstResource
@@ -84,18 +86,14 @@ class EditAudioActivity: AppCompatActivity() {
 
                 })
                 .submit()
-        Glide.with(this)
-                .asBitmap()
-                .load(audio.albumArtUri)
-                .error(R.drawable.ic_music_record_24dp)
-                .override(viewBinding.coverView.width,viewBinding.coverView.height)
-                .centerCrop()
-                .into(viewBinding.coverView)
-                .clearOnDetach()
+        GlobalGlide.loadAudioCover(viewBinding.root, viewBinding.coverView, audio?.albumArtUri)
     }
 
     @SuppressLint("InlinedApi")
     private fun initUpdateView(){
+        viewBinding.titleView.setText(audio?.title)
+        viewBinding.artistView.setText(audio?.artist)
+        viewBinding.albumView.setText(audio?.album)
         viewBinding.updateView.setOnClickListener {
             val title = viewBinding.titleView.text?.toString()
             val artist = viewBinding.artistView.text?.toString()
@@ -106,7 +104,7 @@ class EditAudioActivity: AppCompatActivity() {
                 values.put(MediaStore.Audio.Media.TITLE, title)
                 values.put(MediaStore.Audio.Media.ARTIST, artist)
                 values.put(MediaStore.Audio.Media.ALBUM, album)
-                audioViewModel.updateAudio(audio, values)
+                audioViewModel.updateAudio(audio!!, values)
                 onBackPressed()
             }else{
                 Snackbar.make(viewBinding.root, getString(R.string.null_values), Snackbar.LENGTH_SHORT)

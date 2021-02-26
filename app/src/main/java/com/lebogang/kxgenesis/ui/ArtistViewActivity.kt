@@ -91,6 +91,6 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
     }
 
     override fun onAudioClickOptions(audio: Audio) {
-        AudioOptionsDialog(audio).show(supportFragmentManager, "")
+        AudioOptionsDialog(audio, false).show(supportFragmentManager, "")
     }
 }

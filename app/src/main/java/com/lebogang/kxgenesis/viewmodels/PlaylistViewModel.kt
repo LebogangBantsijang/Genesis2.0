@@ -17,25 +17,18 @@
 package com.lebogang.kxgenesis.viewmodels
 
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.lebogang.kxgenesis.room.PlaylistRepo
 import com.lebogang.kxgenesis.room.models.Playlist
 import kotlinx.coroutines.launch
 
 class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {
-    val liveData = MutableLiveData<List<Playlist>>()
-    val audioLiveData = MutableLiveData<List<Long>>()
-    val livePlaylist = MutableLiveData<Playlist>()
-
-    fun getPlaylists() = viewModelScope.launch{
-        liveData.postValue(playlistRepo.getPlaylists())
-    }
+    val liveData: LiveData<List<Playlist>> = playlistRepo.getPlaylists().asLiveData()
+    val audioLiveData :MutableLiveData<List<Long>> = MutableLiveData()
+    val livePlaylist :MutableLiveData<Playlist> = MutableLiveData()
 
     fun getPlaylists(id:Long) = viewModelScope.launch{
-        livePlaylist.postValue(playlistRepo.getPlaylist(id))
+        livePlaylist.value = playlistRepo.getPlaylist(id)
     }
 
     fun getPlaylistAudio(playlistId: Long) = viewModelScope.launch {
@@ -46,12 +39,20 @@ class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {
         playlistRepo.insertPlaylist(playlist)
     }
 
+    fun insertPlaylistAudio(playlistId: Long, audioId:Long) = viewModelScope.launch{
+        playlistRepo.insertAudioPlaylist(playlistId, audioId)
+    }
+
     fun deletePlaylist(playlist: Playlist) = viewModelScope.launch {
         playlistRepo.deletePlaylist(playlist)
     }
 
     fun clearData() = viewModelScope.launch {
         playlistRepo.clearData()
+    }
+
+    fun clearAudioData(playlistId: Long) = viewModelScope.launch {
+        playlistRepo.clearAudioData(playlistId)
     }
 
     fun deletePlaylistAudio(playlistId:Long, audioId:Long) = viewModelScope.launch {

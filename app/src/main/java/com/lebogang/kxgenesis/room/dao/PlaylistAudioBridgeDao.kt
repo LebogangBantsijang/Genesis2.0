@@ -21,6 +21,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.lebogang.kxgenesis.room.models.PlaylistBridgeTable
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlaylistAudioBridgeDao {

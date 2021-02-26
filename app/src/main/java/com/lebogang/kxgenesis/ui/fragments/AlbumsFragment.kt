@@ -50,7 +50,7 @@ class AlbumsFragment: GeneralFragment(), OnAlbumClickListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         viewBinding = FragmentAlbumsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
@@ -74,7 +74,7 @@ class AlbumsFragment: GeneralFragment(), OnAlbumClickListener {
     private fun observeAlbums(){
         albumViewModel.liveData.observe(viewLifecycleOwner,{
             adapter.setAlbumData(it)
-            loadingView(it.size > 0)
+            loadingView(it.isNotEmpty())
         })
     }
 

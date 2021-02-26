@@ -74,7 +74,7 @@ class ArtistFragment: GeneralFragment(), OnArtistClickListener {
     private fun observeArtists(){
         artistViewModel.liveData.observe(viewLifecycleOwner, {
             adapter.setArtistData(it)
-            loadingView(it.size > 0)
+            loadingView(it.isNotEmpty())
         })
     }
 

@@ -37,7 +37,8 @@ abstract class GenesisDatabase: RoomDatabase() {
         fun getDatabase(context: Context): GenesisDatabase {
             return DATABASE?: synchronized(this){
                 val db = Room.databaseBuilder(
-                    context, GenesisDatabase::class.java, "GenesisDatabase"
+                    context.applicationContext, GenesisDatabase::class.java
+                        , "GenesisDatabase"
                 )
                     .fallbackToDestructiveMigration()
                     .build()
