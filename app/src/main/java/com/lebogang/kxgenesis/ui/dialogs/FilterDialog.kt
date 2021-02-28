@@ -24,6 +24,7 @@ import android.widget.SeekBar
 import androidx.fragment.app.DialogFragment
 import com.lebogang.kxgenesis.databinding.DialogFilterBinding
 import com.lebogang.kxgenesis.settings.ContentSettings
+import com.lebogang.kxgenesis.utils.SeekBarListenerSimplified
 
 class FilterDialog: DialogFragment(){
     private lateinit var viewBinding:DialogFilterBinding
@@ -43,18 +44,10 @@ class FilterDialog: DialogFragment(){
 
     private fun initSeekView(){
         viewBinding.seekBar.progress = (contentSettings.getDurationFilter()/10).toInt()
-        viewBinding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (fromUser){
-                    val duration:Long = (progress*10).toLong()
-                    contentSettings.setDurationFilter(duration)
-                }
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+        viewBinding.seekBar.setOnSeekBarChangeListener(object : SeekBarListenerSimplified(){
+            override fun progressChanged(progress: Int) {
+                val duration:Long = (progress*10).toLong()
+                contentSettings.setDurationFilter(duration)
             }
         })
     }
