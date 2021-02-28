@@ -17,22 +17,17 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:background="?colorBackgroundFloating">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    android:background="?colorSurface">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/imageView"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:background="?colorPrimary"
+            android:contentDescription="@string/add_cover_image"
             app:srcCompat="@drawable/ic_music_24dp" />
 
         <LinearLayout
@@ -44,13 +39,14 @@
             android:layout_marginStart="6dp">
 
             <TextView
+                android:id="@+id/titleView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="?android:textColorPrimary"/>
+                android:ellipsize="end"/>
 
             <TextView
+                android:id="@+id/subtitleView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
@@ -60,15 +56,4 @@
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <SeekBar
-        style="@android:style/Widget.Material.SeekBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="10"
-        android:paddingStart="0dp"
-        android:paddingEnd="0dp"
-        android:progress="4"
-        android:thumb="@null" />
 </LinearLayout>

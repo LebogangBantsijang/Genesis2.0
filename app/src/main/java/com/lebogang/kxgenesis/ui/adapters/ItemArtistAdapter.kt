@@ -18,6 +18,8 @@ package com.lebogang.kxgenesis.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -25,12 +27,19 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.databinding.ItemLocalArtistBinding
 import com.lebogang.kxgenesis.ui.adapters.utils.OnArtistClickListener
+import com.lebogang.kxgenesis.utils.GlobalGlide
 
-class ItemLocalArtistAdapter:RecyclerView.Adapter<ItemLocalArtistAdapter.ViewHolder>(){
+class ItemArtistAdapter:RecyclerView.Adapter<ItemArtistAdapter.ViewHolder>(), Filterable{
     var listener:OnArtistClickListener? = null
     private var listArtist = arrayListOf<Artist>()
+    private val filteredList = arrayListOf<Artist>()
+    private var isUserSearching = false
 
     fun setArtistData(mutableList: MutableList<Artist>){
+        isUserSearching = false
+        filteredList.clear()
+        listArtist.clear()
+        notifyDataSetChanged()
         for (x in 0 until mutableList.size){
             listArtist.add(mutableList[x])
             notifyItemInserted(x)
@@ -44,32 +53,15 @@ class ItemLocalArtistAdapter:RecyclerView.Adapter<ItemLocalArtistAdapter.ViewHol
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val artist = listArtist[position]
+        val artist = if(!isUserSearching) listArtist[position] else filteredList[position]
         holder.viewBinding.titleView.text = artist.title
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
-            Glide.with(holder.viewBinding.root)
-                    .asBitmap()
-                    .load(artist.coverUri)
-                    .skipMemoryCache(false)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
-                    .error(R.drawable.ic_artist)
-                    .into(holder.viewBinding.imageView)
-                    .clearOnDetach()
-        }else{
-            Glide.with(holder.viewBinding.root)
-                    .asBitmap()
-                    .load(artist.coverUri)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .override(holder.viewBinding.imageView.width, holder.viewBinding.imageView.height)
-                    .error(R.drawable.ic_artist)
-                    .into(holder.viewBinding.imageView)
-                    .clearOnDetach()
-        }
+        GlobalGlide.loadArtistCover(holder.viewBinding.root, holder.viewBinding.imageView
+                , artist.coverUri)
     }
 
     override fun getItemCount(): Int {
+        if (isUserSearching)
+            return filteredList.size
         return listArtist.size
     }
 
@@ -77,6 +69,29 @@ class ItemLocalArtistAdapter:RecyclerView.Adapter<ItemLocalArtistAdapter.ViewHol
         init {
             viewBinding.root.setOnClickListener {
                 listener?.onArtistClick(listArtist[adapterPosition])
+            }
+        }
+    }
+
+    override fun getFilter(): Filter {
+        return object :Filter(){
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                isUserSearching = false
+                constraint?.let {
+                    isUserSearching = true
+                    filteredList.clear()
+                    for(x in 0 until listArtist.size){
+                        val artist = listArtist[x]
+                        if (artist.title.toLowerCase().contains(it.toString().toLowerCase())){
+                            filteredList.add(artist)
+                        }
+                    }
+                }
+                return FilterResults()
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                notifyDataSetChanged()
             }
         }
     }

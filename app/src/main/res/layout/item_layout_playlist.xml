@@ -25,8 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_gravity="bottom"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:background="?android:attr/listDivider" />
 
     <TextView
@@ -36,7 +36,9 @@
         android:background="@drawable/ic_text_overlay"
         android:gravity="center_vertical"
         android:padding="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         />
 
     <LinearLayout
@@ -47,12 +49,14 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/optionsView"
+            android:id="@+id/editView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/edit"
-            android:background="@null"
-            android:padding="16dp"
+            android:background="@drawable/ic_circle"
+            android:backgroundTint="?colorButtonNormal"
+            android:padding="8dp"
+            android:layout_margin="4dp"
             app:srcCompat="@drawable/ic_baseline_edit_24" />
 
         <ImageButton
@@ -60,8 +64,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/edit"
-            android:background="@null"
-            android:padding="16dp"
+            android:background="@drawable/ic_circle"
+            android:backgroundTint="?colorButtonNormal"
+            android:padding="8dp"
+            android:layout_margin="4dp"
+            android:tint="?colorError"
             app:srcCompat="@drawable/ic_baseline_delete_24" />
 
     </LinearLayout>

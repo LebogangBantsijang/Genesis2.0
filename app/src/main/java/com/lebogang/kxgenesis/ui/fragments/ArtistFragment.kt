@@ -18,32 +18,40 @@ package com.lebogang.kxgenesis.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.databinding.FragmentArtistsBinding
 import com.lebogang.kxgenesis.ui.ArtistViewActivity
-import com.lebogang.kxgenesis.ui.adapters.ItemLocalArtistAdapter
+import com.lebogang.kxgenesis.ui.adapters.ItemArtistAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnArtistClickListener
 import com.lebogang.kxgenesis.viewmodels.ArtistViewModel
 
-class ArtistFragment: Fragment(), OnArtistClickListener {
+class ArtistFragment: GeneralFragment(), OnArtistClickListener {
     private lateinit var viewBinding:FragmentArtistsBinding
-    private val adapter = ItemLocalArtistAdapter()
+    private val adapter = ItemArtistAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val artistViewModel:ArtistViewModel by lazy {
         ArtistViewModel.Factory(genesisApplication.artistRepo)
             .create(ArtistViewModel::class.java)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
+    override fun onSearch(string: String) {
+        adapter.filter.filter(string)
+    }
+
+    override fun onRefresh() {
+        viewBinding.progressBar.visibility = View.VISIBLE
+        artistViewModel.getArtists()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?
+                              , savedInstanceState: Bundle?): View{
         viewBinding = FragmentArtistsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
@@ -53,34 +61,39 @@ class ArtistFragment: Fragment(), OnArtistClickListener {
         initRecyclerView()
         observeArtists()
         artistViewModel.getArtists()
+        artistViewModel.registerContentObserver()
     }
 
     private fun initRecyclerView(){
         adapter.listener = this
         viewBinding.recyclerView.layoutManager = GridLayoutManager(context, 2)
+        viewBinding.recyclerView.itemAnimator?.addDuration = 450
         viewBinding.recyclerView.adapter = adapter
     }
 
     private fun observeArtists(){
         artistViewModel.liveData.observe(viewLifecycleOwner, {
             adapter.setArtistData(it)
-            viewBinding.progressBar.visibility = View.GONE
-            if (it.size > 0){
-                viewBinding.noContentView.text = null
-            }else{
-                viewBinding.noContentView.text = getString(R.string.no_content)
-            }
+            loadingView(it.isNotEmpty())
         })
+    }
+
+    private fun loadingView(hasContent:Boolean){
+        viewBinding.progressBar.visibility = View.GONE
+        if (hasContent){
+            viewBinding.noContentView.text = null
+        }else{
+            viewBinding.noContentView.text = getString(R.string.no_content)
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        artistViewModel.registerContentObserver()
         activity?.title = getString(R.string.artists)
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroy() {
+        super.onDestroy()
         artistViewModel.unregisterContentContentObserver()
     }
 

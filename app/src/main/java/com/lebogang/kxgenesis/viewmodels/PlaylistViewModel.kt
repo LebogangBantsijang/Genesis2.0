@@ -17,32 +17,35 @@
 package com.lebogang.kxgenesis.viewmodels
 
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.ViewModelProvider
-import com.lebogang.kxgenesis.room.GenesisDatabase
-
-import com.lebogang.kxgenesis.room.models.Playlist
+import androidx.lifecycle.asLiveData
 import com.lebogang.kxgenesis.room.PlaylistRepo
-import kotlinx.coroutines.CoroutineScope
+import com.lebogang.kxgenesis.room.models.Playlist
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {
+    val liveData: LiveData<List<Playlist>> = playlistRepo.getPlaylists().asLiveData()
+    val audioLiveData :MutableLiveData<List<Long>> = MutableLiveData()
+    val livePlaylist :MutableLiveData<Playlist> = MutableLiveData()
 
-    fun getPlaylists(): LiveData<MutableList<Playlist>> = playlistRepo.getPlaylists().asLiveData()
-
-    fun getPlaylists(id:Long):LiveData<Playlist> = playlistRepo.getPlaylist(id).asLiveData()
-
-    fun getPlaylistAudio(playlistId: Long):List<Long> {
-        return playlistRepo.getPlaylistAudioIds(playlistId)
+    fun getPlaylists(id:Long) = viewModelScope.launch{
+        livePlaylist.value = playlistRepo.getPlaylist(id)
     }
 
-    fun insertPlaylist(playlist: Playlist) = viewModelScope.launch{
+    fun getPlaylistAudio(playlistId: Long) = viewModelScope.launch {
+        audioLiveData.postValue(playlistRepo.getPlaylistAudioIds(playlistId))
+    }
+
+    fun insertPlaylist(playlist: Playlist) = viewModelScope.launch {
         playlistRepo.insertPlaylist(playlist)
+    }
+
+    fun insertPlaylistAudio(playlistId: Long, audioId:Long) = viewModelScope.launch{
+        playlistRepo.insertAudioPlaylist(playlistId, audioId)
     }
 
     fun deletePlaylist(playlist: Playlist) = viewModelScope.launch {
@@ -51,6 +54,10 @@ class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {
 
     fun clearData() = viewModelScope.launch {
         playlistRepo.clearData()
+    }
+
+    fun clearAudioData(playlistId: Long) = viewModelScope.launch {
+        playlistRepo.clearAudioData(playlistId)
     }
 
     fun deletePlaylistAudio(playlistId:Long, audioId:Long) = viewModelScope.launch {

@@ -15,16 +15,20 @@
   ~    limitations under the License.
   -->
 
-<resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Theme.Genesis20.System" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorAccent">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryColor</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="statusBarScrim">?colorSurface</item>
-        <item name="android:statusBarColor">?colorSurface</item>
-        <item name="android:navigationBarColor">?colorSurface</item>
-        <item name="android:enforceNavigationBarContrast">true</item>
-    </style>
-</resources>
+    <group>
+        <item
+            android:id="@+id/titleAsc"
+            android:title="@string/title_asc" />
+        <item
+            android:id="@+id/titleDesc"
+            android:title="@string/title_desc" />
+        <item
+            android:id="@+id/dateAsc"
+            android:title="@string/date_asc" />
+        <item
+            android:id="@+id/dateDesc"
+            android:title="@string/date_desc" />
+    </group>
+</menu>

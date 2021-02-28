@@ -14,21 +14,12 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.settings
+package com.lebogang.kxgenesis.ui.adapters.utils
 
-interface ThemeInterface {
+import com.lebogang.kxgenesis.data.models.Audio
 
-    /**
-     * Set the theme mode
-     * @param mode : AppCompatDelegate.MODE_NIGHT_NO
-     * , AppCompatDelegate.MODE_NIGHT_YES or AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-     * */
-    fun setThemeMode(mode:Int)
+interface OnPlaylistAudioClickListener {
+    fun onAudioClick(audio: Audio)
 
-    fun getThemeMode():Int
-
-    fun setPrimaryColor(colorRes:Int)
-
-    fun getPrimaryColor():Int
-
+    fun onAudioDeleteClick(audio: Audio)
 }

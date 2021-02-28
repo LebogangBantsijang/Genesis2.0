@@ -14,8 +14,8 @@
   ~    limitations under the License.
   -->
 
-<vector android:height="24dp" android:viewportHeight="30"
-    android:viewportWidth="30" android:width="24dp"
+<vector android:height="200dp" android:viewportHeight="30"
+    android:viewportWidth="30" android:width="200dp"
     android:tint="?android:textColorSecondaryNoDisable"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#034460" android:pathData="M23,3A1,1 0,0 0,22.873 3.0078L22.8516,3.0117A1,1 0,0 0,22.8223 3.0156L9.8574,5.0098A1,1 0,0 0,9 6L9,19.2109C9,20.3999 8.8639,21 6.5039,21C3.8979,21 3,22.5208 3,24.0078C3,25.2168 3.706,27.0078 6.5,27.0078C9.629,27.0078 11,25.0906 11,23.3926L11,10.4395L22,8.6465L22,17.2109C22,18.3999 21.8639,19.002 19.5039,19.002C16.8979,19.001 16,20.5208 16,22.0078C16,23.2168 16.706,25.0078 19.5,25.0078C22.629,25.0078 24,22.9011 24,21.2031L24,4A1,1 0,0 0,23 3z"/>

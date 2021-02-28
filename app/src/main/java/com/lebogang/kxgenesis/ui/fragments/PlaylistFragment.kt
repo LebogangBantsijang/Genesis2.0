@@ -16,33 +16,44 @@
 
 package com.lebogang.kxgenesis.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.FragmentPlaylistBinding
 import com.lebogang.kxgenesis.room.models.Playlist
-import com.lebogang.kxgenesis.ui.adapters.ItemLocalPlaylist
+import com.lebogang.kxgenesis.ui.PlaylistViewActivity
+import com.lebogang.kxgenesis.ui.adapters.ItemPlaylistAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistClickListener
-import com.lebogang.kxgenesis.ui.dialogs.AddEditPlaylistDialog
-import com.lebogang.kxgenesis.viewmodels.AudioViewModel
+import com.lebogang.kxgenesis.ui.dialogs.AddPlaylistDialog
+import com.lebogang.kxgenesis.ui.dialogs.UpdatePlaylistDialog
 import com.lebogang.kxgenesis.viewmodels.PlaylistViewModel
 
-class PlaylistFragment: Fragment(),OnPlaylistClickListener {
+class PlaylistFragment: GeneralFragment(),OnPlaylistClickListener, PopupMenu.OnMenuItemClickListener {
 
     private lateinit var viewBinding:FragmentPlaylistBinding
     private val playlistViewModel:PlaylistViewModel  by lazy{
         PlaylistViewModel.Factory((activity?.application as GenesisApplication).playlistRepo)
                 .create(PlaylistViewModel::class.java)
     }
-    private val adapter = ItemLocalPlaylist()
+    private val adapter = ItemPlaylistAdapter()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onSearch(string: String) {
+        //Not Needed
+    }
+
+    override fun onRefresh() {
+        //not needed
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         viewBinding = FragmentPlaylistBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
@@ -51,7 +62,7 @@ class PlaylistFragment: Fragment(),OnPlaylistClickListener {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         observePlaylists()
-        initAddView()
+        initMenuView()
     }
 
     private fun initRecyclerView(){
@@ -60,16 +71,30 @@ class PlaylistFragment: Fragment(),OnPlaylistClickListener {
         viewBinding.recyclerView.adapter = adapter
     }
 
-    private fun initAddView(){
-        viewBinding.addView.setOnClickListener {
-            AddEditPlaylistDialog(null).show(requireActivity().supportFragmentManager, "")
+    private fun initMenuView(){
+        viewBinding.menuView.setOnClickListener {
+            PopupMenu(context!!, it).apply {
+                setOnMenuItemClickListener(this@PlaylistFragment)
+                inflate(R.menu.playlists_menu)
+                show()
+            }
         }
     }
 
     private fun observePlaylists(){
-        playlistViewModel.getPlaylists().observe(viewLifecycleOwner,{
+        playlistViewModel.liveData.observe(viewLifecycleOwner, {
             adapter.setPlaylistData(it)
+            loadingView(it.isNotEmpty())
         })
+    }
+
+    private fun loadingView(hasContent:Boolean){
+        viewBinding.progressBar.visibility = View.GONE
+        if (hasContent){
+            viewBinding.noContentView.text = null
+        }else{
+            viewBinding.noContentView.text = getString(R.string.no_content)
+        }
     }
 
     override fun onResume() {
@@ -78,10 +103,31 @@ class PlaylistFragment: Fragment(),OnPlaylistClickListener {
     }
 
     override fun onPlaylistClick(playlist: Playlist) {
-        //em
+        startActivity(Intent(context,PlaylistViewActivity::class.java).apply {
+            putExtra("Playlist", playlist.id)
+        })
     }
 
-    override fun onPlaylistOptionClick(playlist: Playlist) {
-        AddEditPlaylistDialog(playlist).show(requireActivity().supportFragmentManager, "")
+    override fun onPlaylistEditClick(playlist: Playlist) {
+        UpdatePlaylistDialog(playlist).show(fragmentManager!!, "")
     }
+
+    override fun onPlaylistDeleteClick(playlist: Playlist) {
+        playlistViewModel.deletePlaylist(playlist)
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        return when(item?.itemId){
+            R.id.addMenu ->{
+                AddPlaylistDialog().show(fragmentManager!!, "")
+                true
+            }
+            R.id.clearMenu ->{
+                playlistViewModel.clearData()
+                true
+            }
+            else -> false
+        }
+    }
+
 }

@@ -16,33 +16,30 @@
 
 package com.lebogang.kxgenesis.ui.adapters
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.ItemLayoutPlaylistBinding
 import com.lebogang.kxgenesis.room.models.Playlist
 import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistClickListener
 
-class ItemLocalPlaylist:RecyclerView.Adapter<ItemLocalPlaylist.ViewHolder>(){
+class ItemPlaylistAdapter:RecyclerView.Adapter<ItemPlaylistAdapter.ViewHolder>(){
     var listener:OnPlaylistClickListener? = null
-    private var listPlaylist = mutableListOf<Playlist>()
+    private var listPlaylist:List<Playlist> = arrayListOf()
 
-    fun setPlaylistData(mutableList: MutableList<Playlist>){
-        for (x in 0 until mutableList.size){
-            listPlaylist.add(mutableList[x])
-            notifyItemInserted(x)
-        }
+    fun setPlaylistData(list: List<Playlist>){
+        listPlaylist = list
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(val viewBinding:ItemLayoutPlaylistBinding):RecyclerView.ViewHolder(viewBinding.root){
         init {
             viewBinding.root.setOnClickListener { listener?.onPlaylistClick(listPlaylist[adapterPosition]) }
-            viewBinding.optionsView.setOnClickListener {
-                listener?.onPlaylistOptionClick(listPlaylist[adapterPosition]) }
+            viewBinding.editView.setOnClickListener {
+                listener?.onPlaylistEditClick(listPlaylist[adapterPosition]) }
+            viewBinding.deleteView.setOnClickListener {
+                listener?.onPlaylistDeleteClick(listPlaylist[adapterPosition])
+            }
         }
     }
 

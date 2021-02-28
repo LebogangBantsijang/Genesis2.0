@@ -14,7 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Genesis20.System">
-        <activity android:name=".ui.PlaylistViewActivity"/>
+        <activity android:name=".ui.SettingsActivity" />
+        <activity android:name=".ui.InfoActivity" />
+        <activity android:name=".ui.EditAudioActivity" />
+        <activity android:name=".ui.PlaylistViewActivity" />
         <activity android:name=".ui.ArtistViewActivity" />
         <activity android:name=".ui.AlbumViewActivity" />
         <activity android:name=".ui.LocalContentActivity">

@@ -17,13 +17,12 @@
 
 <resources>
     <color name="white">#FFFFFFFF</color>
-    <color name="primaryColor">#B84724</color>
+    <color name="primaryColor">#3095A1</color>
     <color name="secondaryColor">#03A9F4</color>
     <color name="primaryComplimentaryColor">#65430F</color>
     <color name="primaryOpposite">#650F31</color>
-    <color name="colorFloatingBackground">#212121</color>
-    <color name="systemThemeBackgroundColor">#121212</color>
-    <color name="toolbarColor">#424242</color>
+    <color name="darkSurfaceColor">#121212</color>
+    <color name="lightSurfaceColor">#FFFFFF</color>
     <color name="primaryTextColor">#FFFFFF</color>
     <color name="secondaryTextColor">#99FFFFFF</color>
 </resources>

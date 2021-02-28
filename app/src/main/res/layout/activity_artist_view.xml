@@ -22,6 +22,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".ui.AlbumViewActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -117,7 +118,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-
         </androidx.appcompat.widget.LinearLayoutCompat>
+
     </androidx.core.widget.NestedScrollView>
+
+    <include
+        layout="@layout/layout_now_playing"/>
+
 </androidx.appcompat.widget.LinearLayoutCompat>

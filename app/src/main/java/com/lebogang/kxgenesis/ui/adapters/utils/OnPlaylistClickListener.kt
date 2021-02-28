@@ -22,5 +22,7 @@ interface OnPlaylistClickListener {
 
     fun onPlaylistClick(playlist: Playlist)
 
-    fun onPlaylistOptionClick(playlist: Playlist)
+    fun onPlaylistEditClick(playlist: Playlist)
+
+    fun onPlaylistDeleteClick(playlist: Playlist)
 }

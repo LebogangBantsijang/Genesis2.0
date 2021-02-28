@@ -25,8 +25,11 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityArtistViewBinding
-import com.lebogang.kxgenesis.ui.adapters.ItemLocalSongAdapter
+import com.lebogang.kxgenesis.settings.ThemeSettings
+import com.lebogang.kxgenesis.ui.adapters.ItemSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
+import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.viewmodels.ArtistViewModel
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
@@ -42,11 +45,15 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
         ArtistViewModel.Factory((application as GenesisApplication).artistRepo)
             .create(ArtistViewModel::class.java)
     }
-    private val adapter = ItemLocalSongAdapter()
+    private val themeSettings: ThemeSettings by lazy{
+        ThemeSettings(this)
+    }
+    private val adapter = ItemSongAdapter()
     private var artist:Artist? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(themeSettings.getThemeResource())
         setContentView(viewBinding.root)
         artist = artistViewModel.getArtists(intent.getStringExtra("Artist")!!)
         initToolbar()
@@ -65,19 +72,13 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
     private fun initArtistDetails(){
         viewBinding.titleView.text = artist?.title
         viewBinding.subtitleView.text = artist?.albumCount
-        Glide.with(this)
-            .asBitmap()
-            .load(artist?.coverUri)
-            .error(R.drawable.ic_artist)
-            .override(viewBinding.artView.width, viewBinding.artView.height)
-            .centerCrop()
-            .into(viewBinding.artView)
-            .clearOnDetach()
+        GlobalGlide.loadArtistCover(viewBinding.root,viewBinding.artView, artist?.coverUri)
     }
 
     private fun initRecyclerView(){
         adapter.listener = this
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+        viewBinding.recyclerView.itemAnimator?.addDuration = 450
         viewBinding.recyclerView.adapter = adapter
     }
 
@@ -95,6 +96,6 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
     }
 
     override fun onAudioClickOptions(audio: Audio) {
-        //not
+        AudioOptionsDialog(audio, false).show(supportFragmentManager, "")
     }
 }

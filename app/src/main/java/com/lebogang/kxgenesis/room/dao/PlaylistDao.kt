@@ -24,17 +24,17 @@ import kotlinx.coroutines.flow.Flow
 interface PlaylistDao {
 
     @Query("SELECT * FROM Playlist")
-    fun getPlaylist(): Flow<MutableList<Playlist>>
+    fun getPlaylist(): Flow<List<Playlist>>
 
     @Query("SELECT * FROM Playlist WHERE id =:id")
-    fun getPlaylist(id:Long): Flow<Playlist>
+    suspend fun getPlaylist(id:Long): Playlist
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(playlist: Playlist)
+    suspend fun insert(playlist: Playlist)
 
     @Delete
-    fun delete(playlist: Playlist)
+    suspend fun delete(playlist: Playlist)
 
     @Query("DELETE FROM Playlist")
-    fun clearData()
+    suspend fun clearData()
 }
