@@ -67,6 +67,7 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filter
         val subtitle = audio.artist + "-" + audio.album
         holder.viewBinding.titleView.text = audio.title
         holder.viewBinding.subtitleView.text = subtitle
+        holder.viewBinding.durationView.text = audio.durationFormatted
         GlobalGlide.loadAudioCover(holder.viewBinding.root, holder.viewBinding.imageView
                 , audio.albumArtUri)
         updateNowPlaying(holder, audio)

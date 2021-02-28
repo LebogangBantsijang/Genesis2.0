@@ -73,6 +73,15 @@
         app:lottie_repeatMode="restart"
         app:lottie_colorFilter="?colorPrimary"/>
 
+    <TextView
+        android:id="@+id/durationView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:textColor="?android:textColorSecondary"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        />
+
     <ImageButton
         android:id="@+id/optionsView"
         android:layout_width="wrap_content"

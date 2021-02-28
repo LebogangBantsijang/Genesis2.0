@@ -25,6 +25,7 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityArtistViewBinding
+import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.ItemSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
@@ -44,11 +45,15 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
         ArtistViewModel.Factory((application as GenesisApplication).artistRepo)
             .create(ArtistViewModel::class.java)
     }
+    private val themeSettings: ThemeSettings by lazy{
+        ThemeSettings(this)
+    }
     private val adapter = ItemSongAdapter()
     private var artist:Artist? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(themeSettings.getThemeResource())
         setContentView(viewBinding.root)
         artist = artistViewModel.getArtists(intent.getStringExtra("Artist")!!)
         initToolbar()

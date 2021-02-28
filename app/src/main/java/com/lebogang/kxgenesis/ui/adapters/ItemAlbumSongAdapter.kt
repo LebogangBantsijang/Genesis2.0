@@ -17,6 +17,7 @@
 package com.lebogang.kxgenesis.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.kxgenesis.data.models.Audio
@@ -53,17 +54,15 @@ class ItemAlbumSongAdapter :RecyclerView.Adapter<ItemAlbumSongAdapter.ViewHolder
         holder.viewBinding.titleView.text = audio.title
         holder.viewBinding.subtitleView.text = subtitle
         holder.viewBinding.counterView.text = counter
+        holder.viewBinding.durationView.text = audio.durationFormatted
         updateNowPlaying(holder, audio)
     }
 
     private fun updateNowPlaying(holder: ViewHolder, audio: Audio){
-        if (audio.id == audioId){
-            holder.viewBinding.titleView.setTextColor(color)
-            holder.viewBinding.subtitleView.setTextColor(color)
-        }else{
-            //holder.viewBinding.titleView.setTextColor(fallbackPrimaryTextColor)
-            //holder.viewBinding.subtitleView.setTextColor(fallbackSecondaryTextColor)
-        }
+        if (audio.id == audioId)
+            holder.viewBinding.lottieView.visibility = View.GONE
+        else
+            holder.viewBinding.lottieView.visibility = View.VISIBLE
     }
 
     override fun getItemCount(): Int {

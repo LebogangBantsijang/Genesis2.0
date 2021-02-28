@@ -21,6 +21,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".ui.AlbumViewActivity">
 
@@ -28,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:paddingTop="0dp"
         android:fillViewport="true">
 
         <LinearLayout
@@ -103,7 +105,6 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:title=""
                     android:background="@null"
                     app:navigationIcon="@drawable/ic_arrow_back" />
 

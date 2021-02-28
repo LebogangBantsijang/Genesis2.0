@@ -16,13 +16,21 @@
 
 package com.lebogang.kxgenesis.settings
 
-interface AudioInterface {
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatDelegate
+import com.lebogang.kxgenesis.R
 
-    fun setSortOrder(order:String)
+class ThemeSettings(private val context: Context) {
+    private val preferences: SharedPreferences = context.applicationContext
+            .getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
+    private val themeKey = "ThemeResource"
 
-    fun getSortOrder():String
+    fun getThemeResource():Int{
+        return preferences.getInt(themeKey, R.style.Theme_Genesis20_System)
+    }
 
-    fun setAudioDurationFilter(duration:Long)
-
-    fun getAudioDurationFilter():Long
+    fun setThemeResource(resource:Int){
+        preferences.edit().putInt(themeKey, resource).apply()
+    }
 }

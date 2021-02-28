@@ -35,7 +35,6 @@ import android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 import android.text.format.Formatter
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.data.utils.LocalArtUri
-import com.lebogang.kxgenesis.settings.AppPreferences
 import com.lebogang.kxgenesis.settings.ContentSettings
 import com.lebogang.kxgenesis.utils.TimeConverter
 

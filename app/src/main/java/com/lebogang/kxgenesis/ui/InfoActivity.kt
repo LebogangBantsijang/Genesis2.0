@@ -27,6 +27,7 @@ import com.bumptech.glide.request.target.Target
 import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityInfoBinding
+import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 import jp.wasabeef.blurry.Blurry
@@ -40,9 +41,13 @@ class InfoActivity : AppCompatActivity() {
         AudioViewModel.Factory((application as GenesisApplication).audioRepo)
             .create(AudioViewModel::class.java)
     }
+    private val themeSettings: ThemeSettings by lazy{
+        ThemeSettings(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(themeSettings.getThemeResource())
         setContentView(viewBinding.root)
         audio = audioViewModel.getAudio(intent.getLongExtra("Audio",0))
         initToolbar()

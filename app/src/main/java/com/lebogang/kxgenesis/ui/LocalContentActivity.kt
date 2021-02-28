@@ -18,6 +18,7 @@ package com.lebogang.kxgenesis.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Gravity
@@ -25,13 +26,17 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.LayoutNavigationDrawerBinding
+import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.LocalContentActivityViewPagerAdapter
+import com.lebogang.kxgenesis.ui.dialogs.ThemeDialog
 import com.lebogang.kxgenesis.utils.TextWatcherSimplifier
 
 class LocalContentActivity : AppCompatActivity() {
@@ -39,9 +44,13 @@ class LocalContentActivity : AppCompatActivity() {
         LayoutNavigationDrawerBinding.inflate(layoutInflater)
     }
     private var adapter:LocalContentActivityViewPagerAdapter? = null
+    private val themeSettings:ThemeSettings by lazy{
+        ThemeSettings(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(themeSettings.getThemeResource())
         setContentView(viewBinding.root)
         initToolbar()
         initNavigationView()
@@ -57,6 +66,10 @@ class LocalContentActivity : AppCompatActivity() {
         return when(item.itemId){
             R.id.menu_refresh ->{
                 adapter?.onRefresh(viewBinding.content.viewPager.currentItem)
+                true
+            }
+            R.id.menu_settings ->{
+                startActivity(Intent(this,SettingsActivity::class.java))
                 true
             }
             else -> false
@@ -77,8 +90,16 @@ class LocalContentActivity : AppCompatActivity() {
             viewBinding.drawerLayout.closeDrawers()
             true
         }
+        viewBinding.navigationView.setNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.menu_settings->{
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
     }
-
 
     private fun checkPermissions(){
         when(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
@@ -106,7 +127,11 @@ class LocalContentActivity : AppCompatActivity() {
             initSearchView()
         }
         else
-            MaterialAlertDialogBuilder(this)
+            showPermissionDialog()
+    }
+
+    private fun showPermissionDialog(){
+        MaterialAlertDialogBuilder(this)
                 .setTitle(getString(R.string.permission_error))
                 .setPositiveButton(getString(R.string.close), null)
                 .setMessage(getString(R.string.permission_error_message))

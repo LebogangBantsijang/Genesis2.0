@@ -20,6 +20,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".ui.EditAudioActivity">
 
@@ -52,6 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/album_art"
+                    android:scaleType="centerCrop"
                     android:alpha="0.5"/>
 
                 <ImageView
@@ -59,8 +61,7 @@
                     android:layout_width="196dp"
                     android:layout_height="196dp"
                     android:contentDescription="@string/album_art"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp" />
+                    android:layout_gravity="center" />
             </FrameLayout>
 
             <com.google.android.material.textfield.TextInputLayout

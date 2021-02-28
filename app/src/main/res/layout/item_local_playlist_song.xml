@@ -68,19 +68,27 @@
         android:layout_height="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:lottie_autoPlay="true"
         app:lottie_rawRes="@raw/equalizer"
         app:lottie_repeatMode="restart"
         app:lottie_colorFilter="?colorPrimary"/>
 
+    <TextView
+        android:id="@+id/durationView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:textColor="?android:textColorSecondary"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        />
+
     <ImageButton
         android:id="@+id/deleteView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_circle"
-        android:backgroundTint="?colorButtonNormal"
-        android:tint="@color/white"
+        android:background="@null"
+        android:tint="?colorError"
         android:layout_marginEnd="6dp"
         android:padding="7dp"
         app:srcCompat="@drawable/ic_baseline_delete_24"

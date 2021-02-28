@@ -16,8 +16,6 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -28,7 +26,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:gravity="center"
         android:padding="16dp"
-        android:text="@string/select_playlist" />
+        android:text="@string/select_theme" />
 
     <View
         android:layout_width="match_parent"
@@ -37,20 +35,37 @@
         android:layout_marginEnd="24dp"
         android:background="?android:attr/listDivider" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:checkedButton="@id/lightButton"
+        android:orientation="vertical">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/cancelView"
+        <RadioButton
+            android:id="@+id/lightButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/light" />
+
+        <RadioButton
+            android:id="@+id/darkButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dark" />
+
+    </RadioGroup>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
-        app:cornerRadius="16dp"
-        android:text="@string/cancel" />
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:text="@string/theme_note"/>
 
 </LinearLayout>

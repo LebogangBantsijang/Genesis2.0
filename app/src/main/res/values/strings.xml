@@ -32,7 +32,6 @@
     <string name="about">About</string>
     <string name="equalizer">Equalizer</string>
     <string name="adjust_the_equalizer_settings">Adjust the equalizer settings</string>
-    <string name="follow_system">Follow System</string>
     <string name="select_theme">Select Theme</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="light_theme">Light Theme</string>
@@ -89,6 +88,17 @@
     <string name="clear_all">Clear All Audio</string>
     <string name="select_playlist">Select Playlist</string>
     <string name="cancel">Cancel</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="follow_system">Follow System</string>
+    <string name="theme_note">Theme setting will take effect when the application restarts</string>
+    <string name="filter">Filter</string>
+    <string name="audio_filter">Audio Filter</string>
+    <string name="duration">Duration (sec)</string>
+    <string name="_0">0</string>
+    <string name="_120">120</string>
+    <string name="_60">60</string>
+    <string name="reload">Reload content when you are done</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>

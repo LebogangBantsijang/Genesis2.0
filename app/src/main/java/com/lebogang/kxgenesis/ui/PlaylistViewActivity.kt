@@ -27,6 +27,7 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityPlaylistViewBinding
 import com.lebogang.kxgenesis.room.models.Playlist
+import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.ItemPlaylistSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistAudioClickListener
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
@@ -42,12 +43,16 @@ class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
         AudioViewModel.Factory((application as GenesisApplication).audioRepo)
                 .create(AudioViewModel::class.java)
     }
+    private val themeSettings: ThemeSettings by lazy{
+        ThemeSettings(this)
+    }
     private val adapter = ItemPlaylistSongAdapter()
     private var playlistId:Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityPlaylistViewBinding.inflate(layoutInflater)
+        setTheme(themeSettings.getThemeResource())
         setContentView(viewBinding.root)
         playlistId = intent.getLongExtra("Playlist", 0)
         initToolbar()
