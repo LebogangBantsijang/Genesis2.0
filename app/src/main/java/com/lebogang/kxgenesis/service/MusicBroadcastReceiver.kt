@@ -14,23 +14,16 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.settings
+package com.lebogang.kxgenesis.service
 
+import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatDelegate
-import com.lebogang.kxgenesis.R
+import android.content.Intent
 
-class ThemeSettings(private val context: Context) {
-    private val preferences: SharedPreferences = context.applicationContext
-            .getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
-    private val themeKey = "ThemeResource"
+class MusicBroadcastReceiver : BroadcastReceiver() {
 
-    fun getThemeResource():Int{
-        return preferences.getInt(themeKey, R.style.Theme_Genesis20_System_Dark)
-    }
-
-    fun setThemeResource(resource:Int){
-        preferences.edit().putInt(themeKey, resource).apply()
+    override fun onReceive(context: Context, intent: Intent) {
+        // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
+        TODO("MusicBroadcastReceiver.onReceive() is not implemented")
     }
 }

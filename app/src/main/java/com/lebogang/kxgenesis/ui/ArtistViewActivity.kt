@@ -71,7 +71,7 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
 
     private fun initArtistDetails(){
         viewBinding.titleView.text = artist?.title
-        viewBinding.subtitleView.text = artist?.albumCount
+        title = artist?.title
         GlobalGlide.loadArtistCover(viewBinding.root,viewBinding.artView, artist?.coverUri)
     }
 

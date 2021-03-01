@@ -79,18 +79,6 @@
                         android:layout_marginBottom="16dp"
                         />
 
-                    <TextView
-                        android:id="@+id/subtitleView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:textColor="?android:textColorSecondary"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginEnd="32dp"
-                        android:layout_marginBottom="24dp"/>
-
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/randomPlayView"
                         android:layout_width="wrap_content"

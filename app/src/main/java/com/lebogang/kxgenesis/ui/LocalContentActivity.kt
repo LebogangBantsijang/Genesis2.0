@@ -24,19 +24,15 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.LayoutNavigationDrawerBinding
 import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.LocalContentActivityViewPagerAdapter
-import com.lebogang.kxgenesis.ui.dialogs.ThemeDialog
 import com.lebogang.kxgenesis.utils.TextWatcherSimplifier
 
 class LocalContentActivity : AppCompatActivity() {
@@ -146,7 +142,7 @@ class LocalContentActivity : AppCompatActivity() {
         ) { tab, pos ->
             when(pos){
                 0 -> tab.icon =
-                        ResourcesCompat.getDrawable(resources,R.drawable.ic_music_24dp, theme)
+                        ResourcesCompat.getDrawable(resources,R.drawable.ic_music_note_24dp, theme)
                 1 -> tab.icon =
                         ResourcesCompat.getDrawable(resources, R.drawable.ic_music_record_24dp, theme)
                 2 -> tab.icon =

@@ -34,7 +34,7 @@ object GlobalGlide {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(imageView.width, imageView.height)
                     .centerCrop()
-                    .error(R.drawable.ic_music_24dp)
+                    .error(R.drawable.ic_custom_song)
                     .into(imageView)
                     .clearOnDetach()
         }else{
@@ -45,7 +45,33 @@ object GlobalGlide {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(imageView.width, imageView.height)
                     .centerCrop()
-                    .error(R.drawable.ic_music_24dp)
+                    .error(R.drawable.ic_custom_song)
+                    .into(imageView)
+                    .clearOnDetach()
+        }
+    }
+
+    fun loadAlbumCoverForRecyclerView(root: View, imageView: ImageView, uri:Uri?){
+        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+            Glide.with(root)
+                    .asBitmap()
+                    .load(uri)
+                    .skipMemoryCache(false)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(imageView.width, imageView.height)
+                    .centerCrop()
+                    .error(R.drawable.ic_custom_album)
+                    .into(imageView)
+                    .clearOnDetach()
+        }else{
+            Glide.with(root)
+                    .asBitmap()
+                    .load(uri)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(imageView.width, imageView.height)
+                    .centerCrop()
+                    .error(R.drawable.ic_custom_album)
                     .into(imageView)
                     .clearOnDetach()
         }
@@ -60,7 +86,7 @@ object GlobalGlide {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(imageView.width, imageView.height)
                     .centerCrop()
-                    .error(R.drawable.ic_music_record_24dp)
+                    .error(R.drawable.ic_music_record_light)
                     .into(imageView)
                     .clearOnDetach()
         }else{
@@ -71,7 +97,33 @@ object GlobalGlide {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(imageView.width, imageView.height)
                     .centerCrop()
-                    .error(R.drawable.ic_music_record_24dp)
+                    .error(R.drawable.ic_music_record_light)
+                    .into(imageView)
+                    .clearOnDetach()
+        }
+    }
+
+    fun loadArtistCoverForRecyclerView(root: View, imageView: ImageView, uri:Uri?){
+        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+            Glide.with(root)
+                    .asBitmap()
+                    .load(uri)
+                    .skipMemoryCache(false)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(imageView.width, imageView.height)
+                    .centerCrop()
+                    .error(R.drawable.ic_custom_artist)
+                    .into(imageView)
+                    .clearOnDetach()
+        }else{
+            Glide.with(root)
+                    .asBitmap()
+                    .load(uri)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(imageView.width, imageView.height)
+                    .centerCrop()
+                    .error(R.drawable.ic_custom_artist)
                     .into(imageView)
                     .clearOnDetach()
         }
@@ -86,7 +138,7 @@ object GlobalGlide {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(imageView.width, imageView.height)
                     .centerCrop()
-                    .error(R.drawable.ic_artist)
+                    .error(R.drawable.ic_artist_light)
                     .into(imageView)
                     .clearOnDetach()
         }else{
@@ -97,7 +149,7 @@ object GlobalGlide {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(imageView.width, imageView.height)
                     .centerCrop()
-                    .error(R.drawable.ic_artist)
+                    .error(R.drawable.ic_artist_light)
                     .into(imageView)
                     .clearOnDetach()
         }

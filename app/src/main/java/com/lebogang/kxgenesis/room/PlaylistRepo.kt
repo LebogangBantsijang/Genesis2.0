@@ -34,8 +34,7 @@ class PlaylistRepo(private val playlistDao: PlaylistDao,
         return playlistDao.getPlaylist(id)
     }
 
-    suspend fun getPlaylistAudioIds(playlistId:Long):List<Long> =
-            playlistAudioBridgeDao.getAudioIds(playlistId)
+    fun getPlaylistAudioIds(playlistId:Long):Flow<List<Long>> = playlistAudioBridgeDao.getAudioIds(playlistId)
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread

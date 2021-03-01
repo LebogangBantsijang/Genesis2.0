@@ -15,14 +15,20 @@
   ~    limitations under the License.
   -->
 
-<resources>
-    <color name="white">#FFFFFFFF</color>
-    <color name="primaryColor">#3095A1</color>
-    <color name="secondaryColor">#03A9F4</color>
-    <color name="primaryComplimentaryColor">#65430F</color>
-    <color name="primaryOpposite">#650F31</color>
-    <color name="darkSurfaceColor">#22262B</color>
-    <color name="lightSurfaceColor">#FFFFFF</color>
-    <color name="primaryTextColor">#FFFFFF</color>
-    <color name="secondaryTextColor">#99FFFFFF</color>
-</resources>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape
+            android:shape="rectangle"
+            android:tint="?colorButtonNormal">
+
+            <corners
+                android:radius="16dp"/>
+        </shape>
+    </item>
+
+    <item>
+        <inset
+            android:drawable="@drawable/ic_music_record_24dp"/>
+    </item>
+</layer-list>

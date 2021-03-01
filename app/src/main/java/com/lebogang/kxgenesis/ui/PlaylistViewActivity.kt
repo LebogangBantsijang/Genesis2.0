@@ -58,7 +58,6 @@ class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
         initToolbar()
         initRecyclerView()
         observePlaylist()
-        observePlaylistAudio()
         observeAudioData()
     }
 
@@ -93,13 +92,13 @@ class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
     private fun observePlaylist(){
         playlistViewModel.getPlaylists(playlistId)
         playlistViewModel.livePlaylist.observe(this, {
-            playlistViewModel.getPlaylistAudio(it.id)
+            observePlaylistAudio(it.id)
             title = it.title
         })
     }
 
-    private fun observePlaylistAudio(){
-        playlistViewModel.audioLiveData.observe(this, {
+    private fun observePlaylistAudio(id:Long){
+        playlistViewModel.getPlaylistAudio(id).observe(this, {
             audioViewModel.getAudio(it)
         })
     }
