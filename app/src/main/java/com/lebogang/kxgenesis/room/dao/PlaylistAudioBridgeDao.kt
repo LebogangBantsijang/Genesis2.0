@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.Flow
 interface PlaylistAudioBridgeDao {
 
     @Query("SELECT audioId FROM PlaylistAudioBridge WHERE playlistId =:playlistId")
-    suspend fun getAudioIds(playlistId:Long): List<Long>
+    fun getAudioIds(playlistId:Long): Flow<List<Long>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAudio(playlistBridgeTable: PlaylistBridgeTable)

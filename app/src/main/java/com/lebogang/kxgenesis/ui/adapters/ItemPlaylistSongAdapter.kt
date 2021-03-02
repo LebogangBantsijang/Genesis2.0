@@ -17,6 +17,7 @@
 package com.lebogang.kxgenesis.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.kxgenesis.data.models.Audio
@@ -25,7 +26,8 @@ import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistAudioClickListener
 import com.lebogang.kxgenesis.utils.GlobalGlide
 
 class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holder>(){
-    private var listAudio = mutableListOf<Audio>()
+    private var audioId:Long = -1
+    var listAudio = mutableListOf<Audio>()
     var listener:OnPlaylistAudioClickListener? = null
 
     fun setAudioData(mutableList: MutableList<Audio>){
@@ -35,6 +37,11 @@ class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holde
             listAudio.add(mutableList[x])
             notifyItemInserted(x)
         }
+    }
+
+    fun setNowPlaying(audioId:Long){
+        this.audioId = audioId
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -51,6 +58,14 @@ class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holde
         holder.viewBinding.durationView.text = audio.durationFormatted
         GlobalGlide.loadAudioCover(holder.viewBinding.root, holder.viewBinding.imageView
                 , audio.albumArtUri)
+        updateNowPlaying(holder, audio)
+    }
+
+    private fun updateNowPlaying(holder: Holder, audio: Audio){
+        if (audio.id == audioId)
+            holder.viewBinding.lottieView.visibility = View.VISIBLE
+        else
+            holder.viewBinding.lottieView.visibility = View.GONE
     }
 
     override fun getItemCount(): Int {

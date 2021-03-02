@@ -56,7 +56,7 @@ class ItemAlbumAdapter:RecyclerView.Adapter<ItemAlbumAdapter.ViewHolder>(), Filt
         val album = if(!isUserSearching) listAlbum[position] else filteredList[position]
         holder.viewBinding.titleView.text = album.title
         holder.viewBinding.subtitleView.text = album.artist
-        GlobalGlide.loadAlbumCover(holder.viewBinding.root, holder.viewBinding.imageView
+        GlobalGlide.loadAlbumCoverForRecyclerView(holder.viewBinding.root, holder.viewBinding.imageView
                 , album.albumArtUri)
     }
 

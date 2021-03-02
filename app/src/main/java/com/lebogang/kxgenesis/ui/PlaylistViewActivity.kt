@@ -21,15 +21,18 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityPlaylistViewBinding
 import com.lebogang.kxgenesis.room.models.Playlist
+import com.lebogang.kxgenesis.service.Queue
 import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.ItemPlaylistSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistAudioClickListener
+import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 import com.lebogang.kxgenesis.viewmodels.PlaylistViewModel
 
@@ -51,15 +54,15 @@ class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityPlaylistViewBinding.inflate(layoutInflater)
         setTheme(themeSettings.getThemeResource())
+        viewBinding = ActivityPlaylistViewBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         playlistId = intent.getLongExtra("Playlist", 0)
         initToolbar()
         initRecyclerView()
         observePlaylist()
-        observePlaylistAudio()
         observeAudioData()
+        observeCurrentAudio()
     }
 
     private fun initRecyclerView(){
@@ -93,13 +96,13 @@ class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
     private fun observePlaylist(){
         playlistViewModel.getPlaylists(playlistId)
         playlistViewModel.livePlaylist.observe(this, {
-            playlistViewModel.getPlaylistAudio(it.id)
+            observePlaylistAudio(it.id)
             title = it.title
         })
     }
 
-    private fun observePlaylistAudio(){
-        playlistViewModel.audioLiveData.observe(this, {
+    private fun observePlaylistAudio(id:Long){
+        playlistViewModel.getPlaylistAudio(id).observe(this, {
             audioViewModel.getAudio(it)
         })
     }
@@ -108,6 +111,16 @@ class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
         audioViewModel.liveData.observe(this, {
             adapter.setAudioData(it)
             loadingView(it.size > 0)
+        })
+    }
+
+    private fun observeCurrentAudio(){
+        Queue.currentAudio.observe(this,{
+            if(!viewBinding.playingView.launcherView.isVisible)
+                viewBinding.playingView.launcherView.visibility = View.VISIBLE
+            GlobalGlide.loadAudioCover(this,viewBinding.playingView.imageView,it.albumArtUri)
+            viewBinding.playingView.titleView.text = it.title
+            viewBinding.playingView.subtitleView.text = it.artist
         })
     }
 
@@ -121,7 +134,8 @@ class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
     }
 
     override fun onAudioClick(audio: Audio) {
-        //play audio
+        Queue.setCurrentAudio(audio,adapter.listAudio)
+        adapter.setNowPlaying(audio.id)
     }
 
     override fun onAudioDeleteClick(audio: Audio) {

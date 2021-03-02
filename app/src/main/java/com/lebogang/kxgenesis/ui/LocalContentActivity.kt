@@ -26,17 +26,19 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.databinding.LayoutNavigationDrawerBinding
+import com.lebogang.kxgenesis.service.Queue
 import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.LocalContentActivityViewPagerAdapter
-import com.lebogang.kxgenesis.ui.dialogs.ThemeDialog
+import com.lebogang.kxgenesis.ui.dialogs.QueueDialog
+import com.lebogang.kxgenesis.utils.GlobalBlurry
+import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.utils.TextWatcherSimplifier
 
 class LocalContentActivity : AppCompatActivity() {
@@ -55,6 +57,8 @@ class LocalContentActivity : AppCompatActivity() {
         initToolbar()
         initNavigationView()
         checkPermissions()
+        observeCurrentAudio()
+        initNowPlayingViews()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -146,7 +150,7 @@ class LocalContentActivity : AppCompatActivity() {
         ) { tab, pos ->
             when(pos){
                 0 -> tab.icon =
-                        ResourcesCompat.getDrawable(resources,R.drawable.ic_music_24dp, theme)
+                        ResourcesCompat.getDrawable(resources,R.drawable.ic_music_note_24dp, theme)
                 1 -> tab.icon =
                         ResourcesCompat.getDrawable(resources, R.drawable.ic_music_record_24dp, theme)
                 2 -> tab.icon =
@@ -163,6 +167,23 @@ class LocalContentActivity : AppCompatActivity() {
                 adapter?.onSearch(string, viewBinding.content.viewPager.currentItem)
             }
         })
+    }
+
+    private fun observeCurrentAudio(){
+        Queue.currentAudio.observe(this,{
+            if(!viewBinding.content.playingView.launcherView.isVisible)
+                viewBinding.content.playingView.launcherView.visibility = View.VISIBLE
+            GlobalBlurry.loadBlurryResource(this, it.albumArtUri, viewBinding.content.backView)
+            GlobalGlide.loadAudioCover(this,viewBinding.content.playingView.imageView,it.albumArtUri)
+            viewBinding.content.playingView.titleView.text = it.title
+            viewBinding.content.playingView.subtitleView.text = it.artist
+        })
+    }
+
+    private fun initNowPlayingViews(){
+        viewBinding.content.playingView.queueView.setOnClickListener {
+            QueueDialog().show(supportFragmentManager,"")
+        }
     }
 
 }

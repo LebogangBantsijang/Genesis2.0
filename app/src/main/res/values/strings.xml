@@ -99,6 +99,9 @@
     <string name="_120">120</string>
     <string name="_60">60</string>
     <string name="reload">Reload content when you are done</string>
+    <string name="play">Play</string>
+    <string name="queue">Queue</string>
+    <string name="minimise">Minimise</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>

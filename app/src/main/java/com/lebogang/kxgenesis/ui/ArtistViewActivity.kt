@@ -18,6 +18,8 @@ package com.lebogang.kxgenesis.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.lebogang.kxgenesis.GenesisApplication
@@ -25,6 +27,7 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityArtistViewBinding
+import com.lebogang.kxgenesis.service.Queue
 import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.ItemSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
@@ -60,6 +63,7 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
         initArtistDetails()
         initRecyclerView()
         observeData()
+        observeCurrentAudio()
     }
 
     private fun initToolbar(){
@@ -71,8 +75,8 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
 
     private fun initArtistDetails(){
         viewBinding.titleView.text = artist?.title
-        viewBinding.subtitleView.text = artist?.albumCount
-        GlobalGlide.loadArtistCover(viewBinding.root,viewBinding.artView, artist?.coverUri)
+        title = artist?.title
+        GlobalGlide.loadArtistCover(this,viewBinding.artView, artist?.coverUri)
     }
 
     private fun initRecyclerView(){
@@ -92,7 +96,18 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
     }
 
     override fun onAudioClick(audio: Audio) {
-        //not
+        Queue.setCurrentAudio(audio, adapter.getList())
+        adapter.setNowPlaying(audio.id)
+    }
+
+    private fun observeCurrentAudio(){
+        Queue.currentAudio.observe(this,{
+            if(!viewBinding.playingView.launcherView.isVisible)
+                viewBinding.playingView.launcherView.visibility = View.VISIBLE
+            GlobalGlide.loadAudioCover(this,viewBinding.playingView.imageView,it.albumArtUri)
+            viewBinding.playingView.titleView.text = it.title
+            viewBinding.playingView.subtitleView.text = it.artist
+        })
     }
 
     override fun onAudioClickOptions(audio: Audio) {

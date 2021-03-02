@@ -28,6 +28,7 @@ import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityInfoBinding
 import com.lebogang.kxgenesis.settings.ThemeSettings
+import com.lebogang.kxgenesis.utils.GlobalBlurry
 import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 import jp.wasabeef.blurry.Blurry
@@ -68,31 +69,8 @@ class InfoActivity : AppCompatActivity() {
             viewBinding.albumView.text = it.album
             viewBinding.durationView.text = it.durationFormatted
             viewBinding.sizeView.text = it.size
-            GlobalGlide.loadAudioCover(viewBinding.root, viewBinding.coverView, it.albumArtUri)
+            GlobalGlide.loadAudioCover(this, viewBinding.coverView, it.albumArtUri)
+            GlobalBlurry.loadBlurryResource(this,it.albumArtUri,viewBinding.blurView)
         }
-        Glide.with(this)
-            .asBitmap()
-            .load(audio?.albumArtUri)
-            .addListener(object : RequestListener<Bitmap> {
-                override fun onLoadFailed(e: GlideException?, model: Any?
-                                          , target: Target<Bitmap>?, isFirstResource
-                                          : Boolean): Boolean {
-                    return e != null
-                }
-                override fun onResourceReady(resource: Bitmap?, model: Any?,
-                                             target: Target<Bitmap>?, dataSource: DataSource?
-                                             , isFirstResource: Boolean): Boolean {
-                    if (resource!=null){
-                        Blurry.with(baseContext).async()
-                            .radius(10)
-                            .sampling(4)
-                            .from(resource)
-                            .into(viewBinding.blurView)
-                    }
-                    return true
-                }
-
-            })
-            .submit()
     }
 }

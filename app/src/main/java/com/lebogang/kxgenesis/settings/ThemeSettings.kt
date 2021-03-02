@@ -27,7 +27,7 @@ class ThemeSettings(private val context: Context) {
     private val themeKey = "ThemeResource"
 
     fun getThemeResource():Int{
-        return preferences.getInt(themeKey, R.style.Theme_Genesis20_System)
+        return preferences.getInt(themeKey, R.style.Theme_Genesis20_System_Dark)
     }
 
     fun setThemeResource(resource:Int){

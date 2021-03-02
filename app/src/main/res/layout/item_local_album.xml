@@ -25,14 +25,21 @@
     android:paddingBottom="16dp"
     android:background="?selectableItemBackground">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="166dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        app:srcCompat="@drawable/ic_music_record_24dp"
-        android:contentDescription="@string/album_art" />
+        android:layout_marginEnd="5dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="166dp"
+            app:srcCompat="@drawable/ic_music_record_24dp"
+            android:contentDescription="@string/album_art" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/titleView"

@@ -29,15 +29,14 @@ import kotlinx.coroutines.launch
 
 class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {
     val liveData: LiveData<List<Playlist>> = playlistRepo.getPlaylists().asLiveData()
-    val audioLiveData :MutableLiveData<List<Long>> = MutableLiveData()
     val livePlaylist :MutableLiveData<Playlist> = MutableLiveData()
 
     fun getPlaylists(id:Long) = viewModelScope.launch{
         livePlaylist.value = playlistRepo.getPlaylist(id)
     }
 
-    fun getPlaylistAudio(playlistId: Long) = viewModelScope.launch {
-        audioLiveData.postValue(playlistRepo.getPlaylistAudioIds(playlistId))
+    fun getPlaylistAudio(playlistId: Long):LiveData<List<Long>>{
+        return playlistRepo.getPlaylistAudioIds(playlistId).asLiveData()
     }
 
     fun insertPlaylist(playlist: Playlist) = viewModelScope.launch {

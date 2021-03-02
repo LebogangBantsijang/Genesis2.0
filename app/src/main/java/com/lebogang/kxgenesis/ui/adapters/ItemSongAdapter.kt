@@ -17,6 +17,7 @@
 package com.lebogang.kxgenesis.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
@@ -33,9 +34,6 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filter
     var listener:OnAudioClickListener? = null
     private var listAudio = mutableListOf<Audio>()
     private val filteredList = mutableListOf<Audio>()
-    var fallbackPrimaryTextColor:Int = 0
-    var fallbackSecondaryTextColor:Int = 0
-    var color:Int = -1
     var audioId:Long = -1
     private var isUserSearching = false
 
@@ -50,10 +48,15 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filter
         }
     }
 
-    fun setNowPlaying(audioId:Long, color:Int){
+    fun setNowPlaying(audioId:Long){
         this.audioId = audioId
-        this.color = color
         notifyDataSetChanged()
+    }
+
+    fun getList():MutableList<Audio>{
+        if (isUserSearching)
+            return filteredList
+        return listAudio
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -74,13 +77,10 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filter
     }
 
     private fun updateNowPlaying(holder: ViewHolder, audio: Audio){
-        if (audio.id == audioId){
-            holder.viewBinding.titleView.setTextColor(color)
-            holder.viewBinding.subtitleView.setTextColor(color)
-        }else{
-            //holder.viewBinding.titleView.setTextColor(fallbackPrimaryTextColor)
-            //holder.viewBinding.subtitleView.setTextColor(fallbackSecondaryTextColor)
-        }
+        if (audio.id == audioId)
+            holder.viewBinding.lottieView.visibility = View.VISIBLE
+        else
+            holder.viewBinding.lottieView.visibility = View.GONE
     }
 
     override fun getItemCount(): Int {

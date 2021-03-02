@@ -21,7 +21,7 @@
     <color name="secondaryColor">#03A9F4</color>
     <color name="primaryComplimentaryColor">#65430F</color>
     <color name="primaryOpposite">#650F31</color>
-    <color name="darkSurfaceColor">#121212</color>
+    <color name="darkSurfaceColor">#22262B</color>
     <color name="lightSurfaceColor">#FFFFFF</color>
     <color name="primaryTextColor">#FFFFFF</color>
     <color name="secondaryTextColor">#99FFFFFF</color>

@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Genesis20.System">
+
         <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.InfoActivity" />
         <activity android:name=".ui.EditAudioActivity" />

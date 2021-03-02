@@ -55,7 +55,7 @@ class ItemArtistAdapter:RecyclerView.Adapter<ItemArtistAdapter.ViewHolder>(), Fi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val artist = if(!isUserSearching) listArtist[position] else filteredList[position]
         holder.viewBinding.titleView.text = artist.title
-        GlobalGlide.loadArtistCover(holder.viewBinding.root, holder.viewBinding.imageView
+        GlobalGlide.loadArtistCoverForRecyclerView(holder.viewBinding.root, holder.viewBinding.imageView
                 , artist.coverUri)
     }
 

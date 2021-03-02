@@ -28,6 +28,7 @@ import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.FragmentSongsBinding
+import com.lebogang.kxgenesis.service.Queue
 import com.lebogang.kxgenesis.settings.ContentSettings
 import com.lebogang.kxgenesis.settings.DATE_ASC
 import com.lebogang.kxgenesis.settings.DATE_DESC
@@ -122,7 +123,8 @@ class SongsFragment: GeneralFragment(),OnAudioClickListener,PopupMenu.OnMenuItem
     }
 
     override fun onAudioClick(audio: Audio) {
-        //not finished here
+        Queue.setCurrentAudio(audio, adapter.getList())
+        adapter.setNowPlaying(audio.id)
     }
 
     override fun onAudioClickOptions(audio: Audio) {
