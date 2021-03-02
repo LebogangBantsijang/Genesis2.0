@@ -9,6 +9,10 @@
 List of libraries, android components and design patterns used to build this application so far
 * Coroutines
 * Room Database
+* MediaBrowser Service
 * Model View View-Model design pattern
 * Material Design
 * Glide
+* Singletons
+* Media Style Notifications
+* 
