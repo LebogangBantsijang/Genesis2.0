@@ -111,6 +111,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <include
+        android:id="@+id/playingView"
         layout="@layout/layout_now_playing"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -30,6 +30,8 @@
         android:layout_width="match_parent"
         app:navigationIcon="@drawable/ic_arrow_back"
         android:background="@null"
+        android:theme="?attr/theme"
+        app:popupTheme="?attr/popupTheme"
         app:menu="@menu/playlist_item_menu"/>
 
     <FrameLayout
@@ -61,5 +63,6 @@
     </FrameLayout>
 
     <include
+        android:id="@+id/playingView"
         layout="@layout/layout_now_playing"/>
 </LinearLayout>

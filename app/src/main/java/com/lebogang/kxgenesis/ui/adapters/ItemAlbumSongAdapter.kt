@@ -29,7 +29,6 @@ class ItemAlbumSongAdapter :RecyclerView.Adapter<ItemAlbumSongAdapter.ViewHolder
     var listAudio = mutableListOf<Audio>()
     var fallbackPrimaryTextColor:Int = 0
     var fallbackSecondaryTextColor:Int = 0
-    var color:Int = -1
     var audioId:Long = -1
 
     fun setAudioData(mutableList: MutableList<Audio>){
@@ -39,6 +38,11 @@ class ItemAlbumSongAdapter :RecyclerView.Adapter<ItemAlbumSongAdapter.ViewHolder
             listAudio.add(mutableList[x])
             notifyItemInserted(x)
         }
+    }
+
+    fun setNowPlaying(audioId:Long){
+        this.audioId = audioId
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -60,9 +64,9 @@ class ItemAlbumSongAdapter :RecyclerView.Adapter<ItemAlbumSongAdapter.ViewHolder
 
     private fun updateNowPlaying(holder: ViewHolder, audio: Audio){
         if (audio.id == audioId)
-            holder.viewBinding.lottieView.visibility = View.GONE
-        else
             holder.viewBinding.lottieView.visibility = View.VISIBLE
+        else
+            holder.viewBinding.lottieView.visibility = View.GONE
     }
 
     override fun getItemCount(): Int {

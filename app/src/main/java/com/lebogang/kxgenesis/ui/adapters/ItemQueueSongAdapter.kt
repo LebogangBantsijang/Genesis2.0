@@ -21,14 +21,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.kxgenesis.data.models.Audio
-import com.lebogang.kxgenesis.databinding.ItemLocalPlaylistSongBinding
-import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistAudioClickListener
-import com.lebogang.kxgenesis.utils.GlobalGlide
+import com.lebogang.kxgenesis.databinding.ItemLocalQueueSongBinding
+import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 
-class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holder>(){
-    private var audioId:Long = -1
+class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder>(){
+    var listener: OnAudioClickListener? = null
     var listAudio = mutableListOf<Audio>()
-    var listener:OnPlaylistAudioClickListener? = null
+    var audioId:Long = -1
 
     fun setAudioData(mutableList: MutableList<Audio>){
         listAudio.clear()
@@ -44,24 +43,24 @@ class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holde
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val viewBinding = ItemLocalPlaylistSongBinding.inflate(inflater, parent, false)
-        return Holder(viewBinding)
+        val viewBinding = ItemLocalQueueSongBinding.inflate(inflater, parent, false)
+        return ViewHolder(viewBinding)
     }
 
-    override fun onBindViewHolder(holder: Holder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val audio = listAudio[position]
         val subtitle = audio.artist + "-" + audio.album
+        val counter = (1+position).toString()
         holder.viewBinding.titleView.text = audio.title
         holder.viewBinding.subtitleView.text = subtitle
+        holder.viewBinding.counterView.text = counter
         holder.viewBinding.durationView.text = audio.durationFormatted
-        GlobalGlide.loadAudioCover(holder.viewBinding.root, holder.viewBinding.imageView
-                , audio.albumArtUri)
         updateNowPlaying(holder, audio)
     }
 
-    private fun updateNowPlaying(holder: Holder, audio: Audio){
+    private fun updateNowPlaying(holder: ViewHolder, audio: Audio){
         if (audio.id == audioId)
             holder.viewBinding.lottieView.visibility = View.VISIBLE
         else
@@ -72,12 +71,16 @@ class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holde
         return listAudio.size
     }
 
-    inner class Holder(val viewBinding:ItemLocalPlaylistSongBinding):RecyclerView.ViewHolder(viewBinding.root){
+    inner class ViewHolder(val viewBinding:ItemLocalQueueSongBinding)
+        :RecyclerView.ViewHolder(viewBinding.root){
         init {
-            viewBinding.root.setOnClickListener {
-                listener?.onAudioClick(listAudio[adapterPosition]) }
-            viewBinding.deleteView.setOnClickListener {
-                listener?.onAudioDeleteClick(listAudio[adapterPosition]) }
+            viewBinding.root.setOnClickListener { listener?.onAudioClick(listAudio[adapterPosition]) }
+            viewBinding.optionsView.setOnClickListener {
+                listener?.onAudioClickOptions(listAudio[adapterPosition]) }
+            viewBinding.root.setOnLongClickListener {
+                listener?.onAudioClickOptions(listAudio[adapterPosition])
+                true
+            }
         }
     }
 }

@@ -33,6 +33,7 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityEditAudioBinding
 import com.lebogang.kxgenesis.settings.ThemeSettings
+import com.lebogang.kxgenesis.utils.GlobalBlurry
 import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.utils.TextWatcherSimplifier
 import com.lebogang.kxgenesis.utils.Validator
@@ -67,31 +68,8 @@ class EditAudioActivity: AppCompatActivity() {
     }
 
     private fun initImageView(){
-        Glide.with(this)
-                .asBitmap()
-                .load(audio?.albumArtUri)
-                .addListener(object : RequestListener<Bitmap> {
-                    override fun onLoadFailed(e: GlideException?, model: Any?
-                                              , target: Target<Bitmap>?, isFirstResource
-                                              : Boolean): Boolean {
-                        return e != null
-                    }
-                    override fun onResourceReady(resource: Bitmap?, model: Any?,
-                                                 target: Target<Bitmap>?, dataSource: DataSource?
-                                                 , isFirstResource: Boolean): Boolean {
-                        if (resource!=null){
-                            Blurry.with(baseContext).async()
-                                    .radius(10)
-                                    .sampling(4)
-                                    .from(resource)
-                                    .into(viewBinding.blurView)
-                        }
-                        return true
-                    }
-
-                })
-                .submit()
-        GlobalGlide.loadAudioCover(viewBinding.root, viewBinding.coverView, audio?.albumArtUri)
+        GlobalBlurry.loadBlurryResource(this, audio?.albumArtUri, viewBinding.blurView)
+        GlobalGlide.loadAudioCover(this, viewBinding.coverView, audio?.albumArtUri)
     }
 
     @SuppressLint("InlinedApi")

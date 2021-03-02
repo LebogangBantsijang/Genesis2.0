@@ -19,7 +19,9 @@ package com.lebogang.kxgenesis.ui
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -31,10 +33,12 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Album
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityAlbumViewBinding
+import com.lebogang.kxgenesis.service.Queue
 import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.ItemAlbumSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
+import com.lebogang.kxgenesis.utils.GlobalBlurry
 import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.viewmodels.AlbumViewModel
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
@@ -68,6 +72,7 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
         iniAlbumDetails()
         initRecyclerView()
         observeAudio()
+        observeCurrentAudio()
     }
 
     private fun initToolbar(){
@@ -79,29 +84,8 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
         album?.let {
             viewBinding.titleView.text = album!!.title
             title = album!!.artist
-            Glide.with(this)
-                .asBitmap()
-                .load(album!!.albumArtUri)
-                    .addListener(object :RequestListener<Bitmap>{
-                        override fun onLoadFailed(e: GlideException?, model: Any?
-                                                  , target: Target<Bitmap>?, isFirstResource
-                                                  : Boolean): Boolean {
-                            return e != null
-                        }
-                        override fun onResourceReady(resource: Bitmap?, model: Any?,
-                                                     target: Target<Bitmap>?, dataSource: DataSource?
-                                                     , isFirstResource: Boolean): Boolean {
-                            if (resource!=null)
-                                Blurry.with(baseContext).async()
-                                        .radius(10)
-                                        .sampling(4)
-                                        .from(resource)
-                                        .into(viewBinding.blurView)
-                            return true
-                        }
-                    })
-                    .submit()
-            GlobalGlide.loadAlbumCover(viewBinding.root, viewBinding.artView,album?.albumArtUri)
+            GlobalBlurry.loadBlurryResource(this, album?.albumArtUri, viewBinding.blurView)
+            GlobalGlide.loadAlbumCover(this, viewBinding.artView,album?.albumArtUri)
         }
     }
 
@@ -124,7 +108,18 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
     }
 
     override fun onAudioClick(audio: Audio) {
-        //Not
+        Queue.setCurrentAudio(audio,adapter.listAudio)
+        adapter.setNowPlaying(audio.id)
+    }
+
+    private fun observeCurrentAudio(){
+        Queue.currentAudio.observe(this,{
+            if(!viewBinding.playingView.launcherView.isVisible)
+                viewBinding.playingView.launcherView.visibility = View.VISIBLE
+            GlobalGlide.loadAudioCover(this,viewBinding.playingView.imageView,it.albumArtUri)
+            viewBinding.playingView.titleView.text = it.title
+            viewBinding.playingView.subtitleView.text = it.artist
+        })
     }
 
     override fun onAudioClickOptions(audio: Audio) {

@@ -22,31 +22,28 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:background="?selectableItemBackground">
+    android:background="?selectableItemBackground"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp">
 
-    <com.google.android.material.card.MaterialCardView
+    <TextView
+        android:id="@+id/counterView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="6dp">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            app:srcCompat="@drawable/ic_music_note_24dp"
-            android:contentDescription="@string/album_art"/>
-
-    </com.google.android.material.card.MaterialCardView>
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:ems="2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColor="?android:textColorSecondary"
+        android:gravity="center"/>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_marginStart="6dp">
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp">
 
         <TextView
             android:id="@+id/titleView"
@@ -66,18 +63,15 @@
             android:textColor="?android:textColorSecondary"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             />
-
     </LinearLayout>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieView"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:visibility="gone"
-        app:lottie_loop="true"
         app:lottie_autoPlay="true"
+        app:lottie_loop="true"
         app:lottie_rawRes="@raw/equalizer"
         app:lottie_repeatMode="restart"
         app:lottie_colorFilter="?colorPrimary"/>
@@ -92,14 +86,12 @@
         />
 
     <ImageButton
-        android:id="@+id/deleteView"
+        android:id="@+id/optionsView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@null"
-        android:tint="?colorError"
-        android:layout_marginEnd="6dp"
-        android:padding="7dp"
-        app:srcCompat="@drawable/ic_baseline_close_24"
-        android:contentDescription="@string/delete" />
-
+        android:layout_marginEnd="8dp"
+        android:background="?selectableItemBackground"
+        android:contentDescription="@string/more"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_baseline_close_24" />
 </androidx.appcompat.widget.LinearLayoutCompat>

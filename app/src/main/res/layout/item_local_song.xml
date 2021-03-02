@@ -74,6 +74,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:visibility="gone"
+        app:lottie_loop="true"
         app:lottie_autoPlay="true"
         app:lottie_rawRes="@raw/equalizer"
         app:lottie_repeatMode="restart"
