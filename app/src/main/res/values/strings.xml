@@ -102,6 +102,9 @@
     <string name="play">Play</string>
     <string name="queue">Queue</string>
     <string name="minimise">Minimise</string>
+    <string name="_44hz">44Hz</string>
+    <string name="frequency">Frequency</string>
+    <string name="_48hz">48Hz</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>

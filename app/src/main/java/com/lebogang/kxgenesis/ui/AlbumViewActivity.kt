@@ -109,7 +109,6 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
 
     override fun onAudioClick(audio: Audio) {
         Queue.setCurrentAudio(audio,adapter.listAudio)
-        adapter.setNowPlaying(audio.id)
     }
 
     private fun observeCurrentAudio(){
@@ -119,6 +118,7 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
             GlobalGlide.loadAudioCover(this,viewBinding.playingView.imageView,it.albumArtUri)
             viewBinding.playingView.titleView.text = it.title
             viewBinding.playingView.subtitleView.text = it.artist
+            adapter.setNowPlaying(it.id)
         })
     }
 

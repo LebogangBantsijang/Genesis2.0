@@ -37,6 +37,7 @@ import com.lebogang.kxgenesis.service.Queue
 import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.LocalContentActivityViewPagerAdapter
 import com.lebogang.kxgenesis.ui.dialogs.QueueDialog
+import com.lebogang.kxgenesis.ui.players.PlayerFragment
 import com.lebogang.kxgenesis.utils.GlobalBlurry
 import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.utils.TextWatcherSimplifier
@@ -184,6 +185,9 @@ class LocalContentActivity : AppCompatActivity() {
         viewBinding.content.playingView.queueView.setOnClickListener {
             QueueDialog().show(supportFragmentManager,"")
         }
+        /*viewBinding.content.playingView.launcherView.setOnClickListener {
+            PlayerFragment().show(supportFragmentManager, "")
+        }*/
     }
 
 }
