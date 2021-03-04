@@ -20,6 +20,7 @@ import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.lebogang.kxgenesis.R
@@ -53,6 +54,32 @@ object GlobalGlide {
     }
 
     fun loadAudioCover(root: AppCompatActivity, imageView: ImageView, uri:Uri?){
+        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+            Glide.with(root)
+                    .asBitmap()
+                    .load(uri)
+                    .skipMemoryCache(false)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(imageView.width, imageView.height)
+                    .centerCrop()
+                    .error(R.drawable.ic_custom_song)
+                    .into(imageView)
+                    .clearOnDetach()
+        }else{
+            Glide.with(root)
+                    .asBitmap()
+                    .load(uri)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(imageView.width, imageView.height)
+                    .centerCrop()
+                    .error(R.drawable.ic_custom_song)
+                    .into(imageView)
+                    .clearOnDetach()
+        }
+    }
+
+    fun loadAudioCover(root: Fragment, imageView: ImageView, uri:Uri?){
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
             Glide.with(root)
                     .asBitmap()

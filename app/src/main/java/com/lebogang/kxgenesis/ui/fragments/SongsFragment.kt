@@ -69,6 +69,7 @@ class SongsFragment: GeneralFragment(),OnAudioClickListener,PopupMenu.OnMenuItem
         initRecyclerView()
         observeAudioData()
         initSortView()
+        observeCurrentAudio()
         audioViewModel.getAudio()
         audioViewModel.registerContentObserver()
     }
@@ -103,6 +104,12 @@ class SongsFragment: GeneralFragment(),OnAudioClickListener,PopupMenu.OnMenuItem
         })
     }
 
+    private fun observeCurrentAudio(){
+        Queue.currentAudio.observe(viewLifecycleOwner, {
+            adapter.setNowPlaying(it.id)
+        })
+    }
+
     private fun loadingView(hasContent:Boolean){
         viewBinding.progressBar.visibility = View.GONE
         if (hasContent){
@@ -124,7 +131,6 @@ class SongsFragment: GeneralFragment(),OnAudioClickListener,PopupMenu.OnMenuItem
 
     override fun onAudioClick(audio: Audio) {
         Queue.setCurrentAudio(audio, adapter.getList())
-        adapter.setNowPlaying(audio.id)
     }
 
     override fun onAudioClickOptions(audio: Audio) {
