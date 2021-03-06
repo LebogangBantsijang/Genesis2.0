@@ -105,6 +105,9 @@
     <string name="_44hz">44Hz</string>
     <string name="frequency">Frequency</string>
     <string name="_48hz">48Hz</string>
+    <string name="background_image">Background Image</string>
+    <string name="volume">Volume</string>
+    <string name="adjust_the_system_volume">Adjust the system volume</string>
 
     <array name="ThemeOptions">
         <item>Follow System</item>

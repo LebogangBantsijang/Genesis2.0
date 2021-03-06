@@ -28,7 +28,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.isVisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lebogang.kxgenesis.R
@@ -37,7 +36,6 @@ import com.lebogang.kxgenesis.service.Queue
 import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.LocalContentActivityViewPagerAdapter
 import com.lebogang.kxgenesis.ui.dialogs.QueueDialog
-import com.lebogang.kxgenesis.ui.players.PlayerFragment
 import com.lebogang.kxgenesis.utils.GlobalBlurry
 import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.utils.TextWatcherSimplifier
@@ -58,8 +56,6 @@ class LocalContentActivity : AppCompatActivity() {
         initToolbar()
         initNavigationView()
         checkPermissions()
-        observeCurrentAudio()
-        initNowPlayingViews()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -110,7 +106,8 @@ class LocalContentActivity : AppCompatActivity() {
         when(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             PackageManager.PERMISSION_GRANTED -> {
                 initViewPager()
-                initSearchView()
+                initOtherView()
+                observeAudio()
             }
             PackageManager.PERMISSION_DENIED -> {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -129,7 +126,8 @@ class LocalContentActivity : AppCompatActivity() {
         }
         if (granted){
             initViewPager()
-            initSearchView()
+            initOtherView()
+            observeAudio()
         }
         else
             showPermissionDialog()
@@ -162,32 +160,40 @@ class LocalContentActivity : AppCompatActivity() {
         }.attach()
     }
 
-    private fun initSearchView(){
+    private fun initOtherView(){
         viewBinding.content.searchView.addTextChangedListener(object :TextWatcherSimplifier(){
             override fun textChanged(string: String) {
                 adapter?.onSearch(string, viewBinding.content.viewPager.currentItem)
             }
         })
+        viewBinding.content.launcherView.root.setOnClickListener {
+            startActivity(Intent(this, PlayerActivity::class.java))
+        }
+        viewBinding.content.launcherView.queueView.setOnClickListener {
+            QueueDialog().show(supportFragmentManager,"") }
+        viewBinding.content.launcherView.playPauseView.setOnClickListener {
+            //not finished
+        }
     }
 
-    private fun observeCurrentAudio(){
-        Queue.currentAudio.observe(this,{
-            if(!viewBinding.content.playingView.launcherView.isVisible)
-                viewBinding.content.playingView.launcherView.visibility = View.VISIBLE
-            GlobalBlurry.loadBlurryResource(this, it.albumArtUri, viewBinding.content.backView)
-            GlobalGlide.loadAudioCover(this,viewBinding.content.playingView.imageView,it.albumArtUri)
-            viewBinding.content.playingView.titleView.text = it.title
-            viewBinding.content.playingView.subtitleView.text = it.artist
+    private fun observeAudio(){
+        Queue.currentAudio.observe(this, {
+            if (themeSettings.isBackgroundImageVisible()){
+                GlobalBlurry.loadBlurryResource(this, it.albumArtUri, viewBinding.content.backView)
+            }
+            if (viewBinding.content.launcherView.root.visibility == View.GONE)
+                viewBinding.content.launcherView.root.visibility = View.VISIBLE
+            viewBinding.content.launcherView.titleView.text = it.title
+            viewBinding.content.launcherView.subtitleView.text = it.artist
+            GlobalGlide.loadAudioCover(this,viewBinding.content.launcherView.imageView, it.albumArtUri)
         })
     }
 
-    private fun initNowPlayingViews(){
-        viewBinding.content.playingView.queueView.setOnClickListener {
-            QueueDialog().show(supportFragmentManager,"")
-        }
-        /*viewBinding.content.playingView.launcherView.setOnClickListener {
-            PlayerFragment().show(supportFragmentManager, "")
-        }*/
+    override fun onResume() {
+        super.onResume()
+        if (!themeSettings.isBackgroundImageVisible())
+            viewBinding.content.backView.visibility = View.INVISIBLE
+        else
+            viewBinding.content.backView.visibility = View.VISIBLE
     }
-
 }

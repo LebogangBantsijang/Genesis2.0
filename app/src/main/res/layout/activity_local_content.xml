@@ -28,7 +28,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
+        android:alpha="0.7"
         android:contentDescription="@string/album_art"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_album_image_overlay"/>
 
     <View
         android:layout_width="match_parent"
@@ -91,7 +97,7 @@
             android:layout_weight="1" />
 
         <include
-            android:id="@+id/playingView"
+            android:id="@+id/launcherView"
             layout="@layout/layout_now_playing"/>
 
     </LinearLayout>

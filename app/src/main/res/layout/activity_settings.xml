@@ -20,7 +20,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".ui.SettingsActivity">
 
@@ -78,6 +77,24 @@
                 android:drawablePadding="6dp"
                 app:drawableStartCompat="@drawable/ic_timer"
                 app:drawableTint="?colorPrimary"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/backgroundView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/background_image"
+                android:drawableStart="@drawable/ic_baseline_image_24"
+                app:drawableTint="?colorPrimary"
+                android:drawablePadding="6dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:padding="16dp"/>
 
             <View
                 android:layout_width="match_parent"

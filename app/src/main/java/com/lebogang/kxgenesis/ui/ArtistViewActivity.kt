@@ -16,14 +16,12 @@
 
 package com.lebogang.kxgenesis.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.lebogang.kxgenesis.GenesisApplication
-import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityArtistViewBinding
@@ -32,6 +30,7 @@ import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.ItemSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
+import com.lebogang.kxgenesis.ui.dialogs.QueueDialog
 import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.viewmodels.ArtistViewModel
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
@@ -62,8 +61,9 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
         initToolbar()
         initArtistDetails()
         initRecyclerView()
-        observeData()
-        observeCurrentAudio()
+        initOtherView()
+        observeAudioData()
+        observeAudio()
     }
 
     private fun initToolbar(){
@@ -86,7 +86,18 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
         viewBinding.recyclerView.adapter = adapter
     }
 
-    private fun observeData(){
+    private fun initOtherView(){
+        viewBinding.launcherView.root.setOnClickListener {
+            startActivity(Intent(this, PlayerActivity::class.java))
+        }
+        viewBinding.launcherView.queueView.setOnClickListener {
+            QueueDialog().show(supportFragmentManager,"") }
+        viewBinding.launcherView.playPauseView.setOnClickListener {
+            //not finished
+        }
+    }
+
+    private fun observeAudioData(){
         artist?.let {
             audioViewModel.getArtistAudio(it.title)
             audioViewModel.liveData.observe(this, {list->
@@ -95,19 +106,19 @@ class ArtistViewActivity : AppCompatActivity(), OnAudioClickListener {
         }
     }
 
-    override fun onAudioClick(audio: Audio) {
-        Queue.setCurrentAudio(audio, adapter.getList())
-    }
-
-    private fun observeCurrentAudio(){
-        Queue.currentAudio.observe(this,{
-            if(!viewBinding.playingView.launcherView.isVisible)
-                viewBinding.playingView.launcherView.visibility = View.VISIBLE
-            GlobalGlide.loadAudioCover(this,viewBinding.playingView.imageView,it.albumArtUri)
-            viewBinding.playingView.titleView.text = it.title
-            viewBinding.playingView.subtitleView.text = it.artist
+    private fun observeAudio(){
+        Queue.currentAudio.observe(this, {
+            if (viewBinding.launcherView.root.visibility == View.GONE)
+                viewBinding.launcherView.root.visibility = View.VISIBLE
+            viewBinding.launcherView.titleView.text = it.title
+            viewBinding.launcherView.subtitleView.text = it.artist
+            GlobalGlide.loadAudioCover(this,viewBinding.launcherView.imageView, it.albumArtUri)
             adapter.setNowPlaying(it.id)
         })
+    }
+
+    override fun onAudioClick(audio: Audio) {
+        Queue.setCurrentAudio(audio, adapter.getList())
     }
 
     override fun onAudioClickOptions(audio: Audio) {

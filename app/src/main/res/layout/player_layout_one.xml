@@ -21,6 +21,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/root"
+    android:background="?colorSurface"
     tools:viewBindingIgnore="true">
 
     <ImageView
@@ -36,149 +38,93 @@
         android:layout_height="match_parent"
         android:background="@drawable/ic_album_image_overlay"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_album_image_overlay"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/coverView"
-                android:layout_width="56dp"
-                android:layout_height="56dp"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/titleView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    />
-
-                <TextView
-                    android:id="@+id/subtitleView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                    />
-
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/minimiseView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:padding="10dp"
-                android:tint="?colorPrimary"
-                android:backgroundTint="?colorButtonNormal"
-                android:contentDescription="@string/minimise"
-                android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
-
-        </LinearLayout>
+            android:background="@null"
+            app:menu="@menu/player_menu"
+            app:popupTheme="?popupTheme"
+            android:theme="?theme"
+            app:navigationIcon="@drawable/ic_arrow_back"/>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp"
-            android:gravity="center">
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/shareView"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/titleView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:backgroundTint="?colorButtonNormal"
-                android:padding="6dp"
-                android:layout_margin="4dp"
-                android:tint="?colorPrimary"
-                android:contentDescription="@string/share"
-                android:src="@drawable/ic_connect" />
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                />
 
-            <ImageButton
-                android:id="@+id/volumeView"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/subtitleView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:backgroundTint="?colorButtonNormal"
-                android:padding="6dp"
-                android:layout_margin="4dp"
-                android:tint="?colorPrimary"
-                android:contentDescription="@string/share"
-                android:src="@drawable/ic_round_volume_up_24" />
-
-            <ImageButton
-                android:id="@+id/queueView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:backgroundTint="?colorButtonNormal"
-                android:padding="6dp"
-                android:layout_margin="4dp"
-                android:tint="?colorPrimary"
-                android:contentDescription="@string/share"
-                android:src="@drawable/ic_playlist" />
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                />
 
         </LinearLayout>
-
-        <View
-            android:layout_width="156dp"
-            android:layout_height="1dp"
-            android:layout_marginBottom="16dp"
-            android:layout_gravity="center_horizontal"
-            android:background="?android:attr/listDivider" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp">
+            android:layout_marginEnd="8dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minEms="3"
-                android:text="00:00"/>
-
-            <SeekBar
+                android:id="@+id/timerView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="00:00"/>
 
             <TextView
                 android:id="@+id/durationView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:minEms="3"/>
+                android:layout_weight="1"
+                android:gravity="end"/>
 
         </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -188,53 +134,60 @@
             android:gravity="center">
 
             <ImageButton
+                android:id="@+id/repeatView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:layout_margin="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:background="@null"
                 android:tint="?colorPrimary"
                 android:contentDescription="@string/share"
                 android:src="@drawable/ic_repeat" />
 
             <ImageButton
+                android:id="@+id/previousView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="4dp"
                 android:background="@drawable/ic_circle"
                 android:backgroundTint="?colorButtonNormal"
-                android:padding="12dp"
-                android:layout_margin="4dp"
-                android:tint="?colorPrimary"
                 android:contentDescription="@string/share"
-                android:src="@drawable/ic_skip_to_previous" />
+                android:padding="10dp"
+                android:src="@drawable/ic_skip_to_previous"
+                android:tint="?colorPrimary" />
 
             <ImageButton
+                android:id="@+id/playPauseView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_circle"
                 android:backgroundTint="?colorButtonNormal"
                 android:padding="18dp"
                 android:layout_margin="4dp"
-                android:tint="?colorPrimary"
+                android:tint="?android:textColorSecondary"
                 android:contentDescription="@string/share"
                 android:src="@drawable/ic_play" />
 
             <ImageButton
+                android:id="@+id/nextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_circle"
                 android:backgroundTint="?colorButtonNormal"
-                android:padding="12dp"
+                android:padding="10dp"
                 android:layout_margin="4dp"
                 android:tint="?colorPrimary"
                 android:contentDescription="@string/share"
                 android:src="@drawable/ic_skip_to_next" />
 
             <ImageButton
+                android:id="@+id/shuffleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:layout_margin="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:background="@null"
                 android:tint="?colorPrimary"
                 android:contentDescription="@string/share"
@@ -246,7 +199,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"

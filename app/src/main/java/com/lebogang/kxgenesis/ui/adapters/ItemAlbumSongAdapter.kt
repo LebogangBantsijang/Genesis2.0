@@ -22,16 +22,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ItemLocalAlbumSongBinding
+import com.lebogang.kxgenesis.ui.adapters.utils.AdapterInterface
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 
-class ItemAlbumSongAdapter :RecyclerView.Adapter<ItemAlbumSongAdapter.ViewHolder>(){
+class ItemAlbumSongAdapter :RecyclerView.Adapter<ItemAlbumSongAdapter.ViewHolder>(), AdapterInterface{
     var listener: OnAudioClickListener? = null
     var listAudio = mutableListOf<Audio>()
     var fallbackPrimaryTextColor:Int = 0
     var fallbackSecondaryTextColor:Int = 0
     var audioId:Long = -1
 
-    fun setAudioData(mutableList: MutableList<Audio>){
+    override fun setAudioData(mutableList: MutableList<Audio>){
         listAudio.clear()
         notifyDataSetChanged()
         for (x in 0 until mutableList.size){
@@ -40,9 +41,15 @@ class ItemAlbumSongAdapter :RecyclerView.Adapter<ItemAlbumSongAdapter.ViewHolder
         }
     }
 
-    fun setNowPlaying(audioId:Long){
+    override fun setNowPlaying(audioId:Long):Int{
         this.audioId = audioId
         notifyDataSetChanged()
+        listAudio.forEach {
+            if (it.id == audioId){
+                return listAudio.indexOf(it)
+            }
+        }
+        return 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -15,9 +15,17 @@
   ~    limitations under the License.
   -->
 
-<resources>
-    <color name="white">#FFFFFFFF</color>
-    <color name="primaryColor">#F4511E</color>
-    <color name="primaryComplimentaryColor">#835F28</color>
-    <color name="primaryOpposite">#6A1B9A</color>
-</resources>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/shareMenu"
+        android:icon="@drawable/ic_connect"
+        android:title="@string/share"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/queueMenu"
+        android:icon="@drawable/ic_playlist"
+        android:title="@string/queue"
+        app:showAsAction="ifRoom" />
+</menu>
