@@ -16,20 +16,12 @@
 
 package com.lebogang.kxgenesis.ui
 
-import android.graphics.Bitmap
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.lebogang.kxgenesis.GenesisApplication
-import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Album
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityAlbumViewBinding
@@ -38,11 +30,11 @@ import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.ItemAlbumSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
+import com.lebogang.kxgenesis.ui.dialogs.QueueDialog
 import com.lebogang.kxgenesis.utils.GlobalBlurry
 import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.viewmodels.AlbumViewModel
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
-import jp.wasabeef.blurry.Blurry
 
 class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
 
@@ -71,8 +63,9 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
         initToolbar()
         iniAlbumDetails()
         initRecyclerView()
+        initOtherView()
+        observeAudioData()
         observeAudio()
-        observeCurrentAudio()
     }
 
     private fun initToolbar(){
@@ -91,14 +84,23 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
 
     private fun initRecyclerView(){
         adapter.listener = this
-        adapter.fallbackPrimaryTextColor = ResourcesCompat.getColor(resources, R.color.primaryTextColor, null)
-        adapter.fallbackSecondaryTextColor = ResourcesCompat.getColor(resources, R.color.secondaryTextColor, null)
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
         viewBinding.recyclerView.itemAnimator?.addDuration = 450
         viewBinding.recyclerView.adapter = adapter
     }
 
-    private fun observeAudio(){
+    private fun initOtherView(){
+        viewBinding.launcherView.root.setOnClickListener {
+            startActivity(Intent(this, PlayerActivity::class.java))
+        }
+        viewBinding.launcherView.queueView.setOnClickListener {
+            QueueDialog().show(supportFragmentManager,"") }
+        viewBinding.launcherView.playPauseView.setOnClickListener {
+            //not finished
+        }
+    }
+
+    private fun observeAudioData(){
         album?.let {
             audioViewModel.getAlbumAudio(it.title)
             audioViewModel.liveData.observe(this,{list->
@@ -107,19 +109,19 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
         }
     }
 
-    override fun onAudioClick(audio: Audio) {
-        Queue.setCurrentAudio(audio,adapter.listAudio)
-    }
-
-    private fun observeCurrentAudio(){
-        Queue.currentAudio.observe(this,{
-            if(!viewBinding.playingView.launcherView.isVisible)
-                viewBinding.playingView.launcherView.visibility = View.VISIBLE
-            GlobalGlide.loadAudioCover(this,viewBinding.playingView.imageView,it.albumArtUri)
-            viewBinding.playingView.titleView.text = it.title
-            viewBinding.playingView.subtitleView.text = it.artist
+    private fun observeAudio(){
+        Queue.currentAudio.observe(this, {
+            if (viewBinding.launcherView.root.visibility == View.GONE)
+                viewBinding.launcherView.root.visibility = View.VISIBLE
+            viewBinding.launcherView.titleView.text = it.title
+            viewBinding.launcherView.subtitleView.text = it.artist
+            GlobalGlide.loadAudioCover(this,viewBinding.launcherView.imageView, it.albumArtUri)
             adapter.setNowPlaying(it.id)
         })
+    }
+
+    override fun onAudioClick(audio: Audio) {
+        Queue.setCurrentAudio(audio,adapter.listAudio)
     }
 
     override fun onAudioClickOptions(audio: Audio) {

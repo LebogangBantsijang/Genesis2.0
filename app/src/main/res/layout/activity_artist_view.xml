@@ -15,14 +15,13 @@
   ~    limitations under the License.
   -->
 
-<androidx.appcompat.widget.LinearLayoutCompat
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fitsSystemWindows="true"
     tools:context=".ui.AlbumViewActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -111,7 +110,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <include
-        android:id="@+id/playingView"
+        android:id="@+id/launcherView"
         layout="@layout/layout_now_playing"/>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

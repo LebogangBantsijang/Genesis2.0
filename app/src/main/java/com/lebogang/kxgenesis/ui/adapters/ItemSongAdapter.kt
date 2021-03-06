@@ -27,17 +27,18 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ItemLocalSongBinding
+import com.lebogang.kxgenesis.ui.adapters.utils.AdapterInterface
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.utils.GlobalGlide
 
-class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filterable {
+class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filterable, AdapterInterface {
     var listener:OnAudioClickListener? = null
     private var listAudio = mutableListOf<Audio>()
     private val filteredList = mutableListOf<Audio>()
     var audioId:Long = -1
     private var isUserSearching = false
 
-    fun setAudioData(mutableList: MutableList<Audio>){
+    override fun setAudioData(mutableList: MutableList<Audio>){
         isUserSearching = false
         filteredList.clear()
         listAudio.clear()
@@ -48,9 +49,16 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filter
         }
     }
 
-    fun setNowPlaying(audioId:Long){
+
+    override fun setNowPlaying(audioId:Long):Int{
         this.audioId = audioId
         notifyDataSetChanged()
+        listAudio.forEach {
+            if (it.id == audioId){
+                return listAudio.indexOf(it)
+            }
+        }
+        return 0
     }
 
     fun getList():MutableList<Audio>{

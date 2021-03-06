@@ -51,5 +51,9 @@ class SettingsActivity : AppCompatActivity() {
         viewBinding.filterView.setOnClickListener {
             FilterDialog().show(supportFragmentManager,"")
         }
+        viewBinding.backgroundView.isChecked = themeSettings.isBackgroundImageVisible()
+        viewBinding.backgroundView.setOnCheckedChangeListener { _, isChecked ->
+            themeSettings.makeBackgroundImageVisible(isChecked)
+        }
     }
 }

@@ -25,6 +25,7 @@ class ThemeSettings(private val context: Context) {
     private val preferences: SharedPreferences = context.applicationContext
             .getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
     private val themeKey = "ThemeResource"
+    private val imageKey = "BackgroundKey"
 
     fun getThemeResource():Int{
         return preferences.getInt(themeKey, R.style.Theme_Genesis20_System_Dark)
@@ -32,5 +33,13 @@ class ThemeSettings(private val context: Context) {
 
     fun setThemeResource(resource:Int){
         preferences.edit().putInt(themeKey, resource).apply()
+    }
+
+    fun makeBackgroundImageVisible(value:Boolean){
+        preferences.edit().putBoolean(imageKey, value).apply()
+    }
+
+    fun isBackgroundImageVisible():Boolean{
+        return preferences.getBoolean(imageKey, true)
     }
 }

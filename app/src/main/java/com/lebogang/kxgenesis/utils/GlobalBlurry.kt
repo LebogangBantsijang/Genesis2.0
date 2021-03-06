@@ -20,6 +20,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -44,6 +45,34 @@ object GlobalBlurry {
                                                  , isFirstResource: Boolean): Boolean {
                         if (resource!=null)
                             Blurry.with(activity).async()
+                                    .radius(10)
+                                    .sampling(4)
+                                    .from(resource)
+                                    .into(imageView)
+                        else
+                            imageView.setImageBitmap(null)
+                        return true
+                    }
+                })
+                .submit()
+    }
+
+    fun loadBlurryResource(fragment:Fragment,imageUri: Uri?, imageView:ImageView){
+        Glide.with(fragment)
+                .asBitmap()
+                .load(imageUri)
+                .addListener(object : RequestListener<Bitmap> {
+                    override fun onLoadFailed(e: GlideException?, model: Any?
+                                              , target: Target<Bitmap>?, isFirstResource
+                                              : Boolean): Boolean {
+                        imageView.setImageBitmap(null)
+                        return e != null
+                    }
+                    override fun onResourceReady(resource: Bitmap?, model: Any?,
+                                                 target: Target<Bitmap>?, dataSource: DataSource?
+                                                 , isFirstResource: Boolean): Boolean {
+                        if (resource!=null)
+                            Blurry.with(fragment.requireContext()).async()
                                     .radius(10)
                                     .sampling(4)
                                     .from(resource)

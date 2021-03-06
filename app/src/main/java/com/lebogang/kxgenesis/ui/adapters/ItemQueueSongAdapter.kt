@@ -22,14 +22,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ItemLocalQueueSongBinding
+import com.lebogang.kxgenesis.ui.adapters.utils.AdapterInterface
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 
-class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder>(){
+class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder>(),AdapterInterface{
     var listener: OnAudioClickListener? = null
     var listAudio = mutableListOf<Audio>()
     var audioId:Long = -1
 
-    fun setAudioData(mutableList: MutableList<Audio>){
+    override fun setAudioData(mutableList: MutableList<Audio>){
         listAudio.clear()
         notifyDataSetChanged()
         for (x in 0 until mutableList.size){
@@ -38,9 +39,15 @@ class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder
         }
     }
 
-    fun setNowPlaying(audioId:Long){
+    override fun setNowPlaying(audioId:Long):Int{
         this.audioId = audioId
         notifyDataSetChanged()
+        listAudio.forEach {
+            if (it.id == audioId){
+                return listAudio.indexOf(it)
+            }
+        }
+        return 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -22,20 +22,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ItemPlayerViewPagerAudioBinding
+import com.lebogang.kxgenesis.ui.adapters.utils.AdapterInterface
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.utils.GlobalGlide
 
-class PlayerViewPagerAdapter: RecyclerView.Adapter<PlayerViewPagerAdapter.ViewHolder>(){
+class PlayerViewPagerAdapter: RecyclerView.Adapter<PlayerViewPagerAdapter.ViewHolder>(),AdapterInterface{
     var listener:OnAudioClickListener? = null
     private var listAudio = mutableListOf<Audio>()
     private var audioId:Long = -1
 
-    fun setAudioData(mutableList: MutableList<Audio>){
+    override fun setAudioData(mutableList: MutableList<Audio>){
         listAudio = mutableList
         notifyDataSetChanged()
     }
 
-    fun setNowPlaying(audioId:Long):Int{
+    override fun setNowPlaying(audioId:Long): Int {
         this.audioId = audioId
         notifyDataSetChanged()
         listAudio.forEach {
