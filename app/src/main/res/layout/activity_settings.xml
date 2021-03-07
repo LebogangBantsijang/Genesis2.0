@@ -93,8 +93,41 @@
                 android:drawableStart="@drawable/ic_baseline_image_24"
                 app:drawableTint="?colorPrimary"
                 android:drawablePadding="6dp"
+                android:textColor="?android:textColorSecondary"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:padding="16dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="16dp"
+                    android:gravity="center_vertical"
+                    app:drawableTint="?colorPrimary"
+                    android:drawablePadding="6dp"
+                    android:text="@string/column_count"
+                    app:drawableStartCompat="@drawable/ic_index" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="52dp"
+                    android:layout_marginEnd="16dp"
+                    android:entries="@array/column_options"/>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

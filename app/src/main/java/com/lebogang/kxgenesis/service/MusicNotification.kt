@@ -52,7 +52,7 @@ class MusicNotification(private val context:Context) {
             }
     }
 
-    fun createNotification(audio: Audio, token: MediaSessionCompat.Token):Notification{
+    fun createNotification(audio: Audio):Notification{//, token: MediaSessionCompat.Token):Notification{
         val subtitle = audio.artist + "-" + audio.album
         return NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_music_note_24dp)
@@ -65,7 +65,7 @@ class MusicNotification(private val context:Context) {
                 .setPriority(channelImportance)
                 .setStyle(MediaStyle().also {
                     it.setShowCancelButton(false)
-                    it.setMediaSession(token)
+                    //it.setMediaSession(token)
                     it.setShowActionsInCompactView(3)
                 })
                 .build()

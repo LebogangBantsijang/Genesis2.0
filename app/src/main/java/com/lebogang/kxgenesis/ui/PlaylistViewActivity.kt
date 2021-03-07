@@ -32,12 +32,15 @@ import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.ItemPlaylistSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistAudioClickListener
 import com.lebogang.kxgenesis.ui.dialogs.QueueDialog
+import com.lebogang.kxgenesis.ui.helpers.ThemeHelper
 import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 import com.lebogang.kxgenesis.viewmodels.PlaylistViewModel
 
-class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
-    private lateinit var viewBinding:ActivityPlaylistViewBinding
+class PlaylistViewActivity : ThemeHelper() ,OnPlaylistAudioClickListener {
+    private val viewBinding:ActivityPlaylistViewBinding by lazy {
+        ActivityPlaylistViewBinding.inflate(layoutInflater)
+    }
     private val playlistViewModel:PlaylistViewModel by lazy {
         PlaylistViewModel.Factory((application as GenesisApplication).playlistRepo)
             .create(PlaylistViewModel::class.java)
@@ -46,16 +49,11 @@ class PlaylistViewActivity : AppCompatActivity(),OnPlaylistAudioClickListener {
         AudioViewModel.Factory((application as GenesisApplication).audioRepo)
                 .create(AudioViewModel::class.java)
     }
-    private val themeSettings: ThemeSettings by lazy{
-        ThemeSettings(this)
-    }
     private val adapter = ItemPlaylistSongAdapter()
     private var playlistId:Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(themeSettings.getThemeResource())
-        viewBinding = ActivityPlaylistViewBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         playlistId = intent.getLongExtra("Playlist", 0)
         initToolbar()

@@ -23,10 +23,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.databinding.FragmentArtistsBinding
+import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.ArtistViewActivity
 import com.lebogang.kxgenesis.ui.adapters.ItemArtistAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnArtistClickListener
@@ -40,6 +42,10 @@ class ArtistFragment: GeneralFragment(), OnArtistClickListener {
         ArtistViewModel.Factory(genesisApplication.artistRepo)
             .create(ArtistViewModel::class.java)
     }
+    private val themeSettings:ThemeSettings by lazy {
+        ThemeSettings(context!!)
+    }
+    private val layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
 
     override fun onSearch(string: String) {
         adapter.filter.filter(string)
@@ -66,7 +72,8 @@ class ArtistFragment: GeneralFragment(), OnArtistClickListener {
 
     private fun initRecyclerView(){
         adapter.listener = this
-        viewBinding.recyclerView.layoutManager = GridLayoutManager(context, 2)
+        layoutManager.spanCount = themeSettings.getColumnCount()
+        viewBinding.recyclerView.layoutManager = layoutManager
         viewBinding.recyclerView.itemAnimator?.addDuration = 450
         viewBinding.recyclerView.adapter = adapter
     }
@@ -90,6 +97,10 @@ class ArtistFragment: GeneralFragment(), OnArtistClickListener {
     override fun onResume() {
         super.onResume()
         activity?.title = getString(R.string.artists)
+        if (layoutManager.spanCount != themeSettings.getColumnCount()){
+            layoutManager.spanCount = themeSettings.getColumnCount()
+            viewBinding.recyclerView.layoutManager = layoutManager
+        }
     }
 
     override fun onDestroy() {

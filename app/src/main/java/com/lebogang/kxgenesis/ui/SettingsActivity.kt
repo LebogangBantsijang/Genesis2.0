@@ -18,22 +18,21 @@ package com.lebogang.kxgenesis.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import com.lebogang.kxgenesis.databinding.ActivitySettingsBinding
 import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.dialogs.FilterDialog
 import com.lebogang.kxgenesis.ui.dialogs.ThemeDialog
+import com.lebogang.kxgenesis.ui.helpers.ThemeHelper
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : ThemeHelper() {
     private val viewBinding:ActivitySettingsBinding by lazy{
         ActivitySettingsBinding.inflate(layoutInflater)
-    }
-    private val themeSettings: ThemeSettings by lazy{
-        ThemeSettings(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(themeSettings.getThemeResource())
         setContentView(viewBinding.root)
         initToolbar()
         initThemeView()
@@ -54,6 +53,15 @@ class SettingsActivity : AppCompatActivity() {
         viewBinding.backgroundView.isChecked = themeSettings.isBackgroundImageVisible()
         viewBinding.backgroundView.setOnCheckedChangeListener { _, isChecked ->
             themeSettings.makeBackgroundImageVisible(isChecked)
+        }
+        viewBinding.spinner.setSelection((themeSettings.getColumnCount() -1))
+        viewBinding.spinner.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                themeSettings.setColumnCount((position + 1))
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                //not needed
+            }
         }
     }
 }

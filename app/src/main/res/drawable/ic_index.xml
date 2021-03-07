@@ -14,11 +14,12 @@
   ~    limitations under the License.
   -->
 
-<vector android:height="24dp"
-    android:viewportHeight="30"
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="30dp"
+    android:height="30dp"
     android:viewportWidth="30"
-    android:width="24dp"
-    android:tint="?attr/colorControlNormal"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="#034460" android:pathData="M24,3A3,3 0,0 0,21 6A3,3 0,0 0,21.375 7.4473L15.5508,14L8.8262,14A3,3 0,0 0,6 12A3,3 0,0 0,3 15A3,3 0,0 0,6 18A3,3 0,0 0,8.8242 16L15.5508,16L21.373,22.5508A3,3 0,0 0,21 24A3,3 0,0 0,24 27A3,3 0,0 0,27 24A3,3 0,0 0,24 21A3,3 0,0 0,22.8691 21.2227L17.3379,15L22.8691,8.7773A3,3 0,0 0,24 9A3,3 0,0 0,27 6A3,3 0,0 0,24 3z"/>
+    android:viewportHeight="30">
+  <path
+      android:pathData="M5,7A3,3 0,0 0,2 10A3,3 0,0 0,5 13A3,3 0,0 0,8 10A3,3 0,0 0,5 7zM12,7A1.0001,1.0001 0,1 0,12 9L27,9A1.0001,1.0001 0,1 0,27 7L12,7zM12,11A1.0001,1.0001 0,1 0,12 13L23,13A1.0001,1.0001 0,1 0,23 11L12,11zM5,18A3,3 0,0 0,2 21A3,3 0,0 0,5 24A3,3 0,0 0,8 21A3,3 0,0 0,5 18zM12,18A1.0001,1.0001 0,1 0,12 20L27,20A1.0001,1.0001 0,1 0,27 18L12,18zM12,22A1.0001,1.0001 0,1 0,12 24L23,24A1.0001,1.0001 0,1 0,23 22L12,22z"
+      android:fillColor="#474747"/>
 </vector>

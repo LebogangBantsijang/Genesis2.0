@@ -18,10 +18,12 @@ package com.lebogang.kxgenesis.ui
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.Menu
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.appbar.MaterialToolbar
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.service.Queue
@@ -29,23 +31,26 @@ import com.lebogang.kxgenesis.settings.PlayerSettings
 import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.PlayerViewPagerAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.kxgenesis.ui.helpers.ThemeHelper
 import com.lebogang.kxgenesis.utils.GlobalBlurry
 
-class PlayerActivity: AppCompatActivity(), OnAudioClickListener {
-    private val themeSettings: ThemeSettings by lazy {
-        ThemeSettings(this)
-    }
+class PlayerActivity: ThemeHelper(), OnAudioClickListener {
     private val playerSettings: PlayerSettings by lazy {
-        PlayerSettings(this)
+        PlayerSettings(applicationContext)
     }
     private val adapter = PlayerViewPagerAdapter()
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        setTheme(themeSettings.getThemeResource())
-        setContentView(R.layout.player_layout_one)
-        observeAudio()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(playerSettings.getPlayerResource())
+        initToolbar()
         initViewPager()
+        observeAudio()
+    }
+
+    private fun initToolbar(){
+        setSupportActionBar(findViewById(R.id.toolbar))
+        findViewById<MaterialToolbar>(R.id.toolbar).setNavigationOnClickListener {onBackPressed()}
     }
 
     private fun initViewPager(){
@@ -53,6 +58,11 @@ class PlayerActivity: AppCompatActivity(), OnAudioClickListener {
             adapter.listener = this
             it.adapter = adapter
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.player_menu, menu)
+        return true
     }
 
     private fun observeAudio(){
@@ -79,4 +89,5 @@ class PlayerActivity: AppCompatActivity(), OnAudioClickListener {
     override fun onAudioClickOptions(audio: Audio) {
         //not needed
     }
+
 }

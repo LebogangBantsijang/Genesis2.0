@@ -26,6 +26,7 @@ class ThemeSettings(private val context: Context) {
             .getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
     private val themeKey = "ThemeResource"
     private val imageKey = "BackgroundKey"
+    private val itemDisplay = "ColumnCount"
 
     fun getThemeResource():Int{
         return preferences.getInt(themeKey, R.style.Theme_Genesis20_System_Dark)
@@ -41,5 +42,13 @@ class ThemeSettings(private val context: Context) {
 
     fun isBackgroundImageVisible():Boolean{
         return preferences.getBoolean(imageKey, true)
+    }
+
+    fun getColumnCount():Int{
+        return preferences.getInt(itemDisplay, 2)
+    }
+
+    fun setColumnCount(count:Int){
+        preferences.edit().putInt(itemDisplay, count).apply()
     }
 }

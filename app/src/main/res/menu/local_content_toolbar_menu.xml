@@ -30,6 +30,7 @@
         android:title="@string/settings"
         app:showAsAction="ifRoom" />
     <item
-        android:title="@string/settings"/>
+        android:id="@+id/menu_about"
+        android:title="@string/about"/>
 
 </menu>

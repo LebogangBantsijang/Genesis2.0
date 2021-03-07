@@ -13,8 +13,8 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Genesis20.System">
-
-        <activity android:name=".ui.PlayerActivity"/>
+        <activity android:name=".ui.AboutActivity"></activity>
+        <activity android:name=".ui.PlayerActivity" />
         <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.InfoActivity" />
         <activity android:name=".ui.EditAudioActivity" />

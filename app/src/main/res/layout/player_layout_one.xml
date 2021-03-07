@@ -49,10 +49,10 @@
         android:orientation="vertical">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            app:menu="@menu/player_menu"
             app:popupTheme="?popupTheme"
             android:theme="?theme"
             app:navigationIcon="@drawable/ic_arrow_back"/>
@@ -165,7 +165,7 @@
                 android:backgroundTint="?colorButtonNormal"
                 android:padding="18dp"
                 android:layout_margin="4dp"
-                android:tint="?android:textColorSecondary"
+                android:tint="?colorControlNormal"
                 android:contentDescription="@string/share"
                 android:src="@drawable/ic_play" />
 

@@ -36,22 +36,21 @@ import com.lebogang.kxgenesis.service.Queue
 import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.LocalContentActivityViewPagerAdapter
 import com.lebogang.kxgenesis.ui.dialogs.QueueDialog
+import com.lebogang.kxgenesis.ui.helpers.ThemeHelper
 import com.lebogang.kxgenesis.utils.GlobalBlurry
 import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.utils.TextWatcherSimplifier
 
-class LocalContentActivity : AppCompatActivity() {
+class LocalContentActivity : ThemeHelper() {
     private val viewBinding: LayoutNavigationDrawerBinding by lazy{
         LayoutNavigationDrawerBinding.inflate(layoutInflater)
     }
-    private var adapter:LocalContentActivityViewPagerAdapter? = null
-    private val themeSettings:ThemeSettings by lazy{
-        ThemeSettings(this)
+    private val adapter:LocalContentActivityViewPagerAdapter by lazy {
+        LocalContentActivityViewPagerAdapter(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(themeSettings.getThemeResource())
         setContentView(viewBinding.root)
         initToolbar()
         initNavigationView()
@@ -66,11 +65,15 @@ class LocalContentActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.menu_refresh ->{
-                adapter?.onRefresh(viewBinding.content.viewPager.currentItem)
+                adapter.onRefresh(viewBinding.content.viewPager.currentItem)
                 true
             }
             R.id.menu_settings ->{
                 startActivity(Intent(this,SettingsActivity::class.java))
+                true
+            }
+            R.id.menu_about ->{
+                startActivity(Intent(this,AboutActivity::class.java))
                 true
             }
             else -> false
@@ -95,6 +98,10 @@ class LocalContentActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.menu_settings->{
                     startActivity(Intent(this, SettingsActivity::class.java))
+                    true
+                }
+                R.id.menu_about->{
+                    startActivity(Intent(this,AboutActivity::class.java))
                     true
                 }
                 else -> false
@@ -142,7 +149,6 @@ class LocalContentActivity : AppCompatActivity() {
     }
 
     private fun initViewPager(){
-        adapter = LocalContentActivityViewPagerAdapter(this)
         viewBinding.content.viewPager.adapter = adapter
         viewBinding.content.viewPager.offscreenPageLimit = 4
         TabLayoutMediator(viewBinding.content.tabLayout, viewBinding.content.viewPager
@@ -163,7 +169,7 @@ class LocalContentActivity : AppCompatActivity() {
     private fun initOtherView(){
         viewBinding.content.searchView.addTextChangedListener(object :TextWatcherSimplifier(){
             override fun textChanged(string: String) {
-                adapter?.onSearch(string, viewBinding.content.viewPager.currentItem)
+                adapter.onSearch(string, viewBinding.content.viewPager.currentItem)
             }
         })
         viewBinding.content.launcherView.root.setOnClickListener {
