@@ -16,10 +16,10 @@
 
 package com.lebogang.kxgenesis.service.utils
 
-abstract class OnSateChangedListener {
-    abstract fun onPlaybackChanged(playbackState: PlaybackState)
+interface OnSateChangedListener {
+    fun onPlaybackChanged(playbackState: PlaybackState)
 
-    abstract fun onRepeatModeChange(repeatSate: RepeatSate)
+    fun onRepeatModeChange(repeatSate: RepeatSate)
 
-    abstract fun onShuffleModeChange(shuffleSate: ShuffleSate)
+    fun onShuffleModeChange(shuffleSate: ShuffleSate)
 }

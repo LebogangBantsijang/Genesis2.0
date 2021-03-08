@@ -177,7 +177,7 @@ class MainActivity : ThemeHelper(), PlayerHelper {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
                                             grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (PermissionManager.checkWritePermissionGranted(this)){
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
             initViewPager()
             initOtherView()
             observeAudio()
@@ -190,7 +190,7 @@ class MainActivity : ThemeHelper(), PlayerHelper {
                 .setTitle(getString(R.string.permission_error))
                 .setPositiveButton(getString(R.string.close), null)
                 .setMessage(getString(R.string.permission_error_message))
-                .setOnDismissListener { finish()}
+                .setOnDismissListener { finishAndRemoveTask()}
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

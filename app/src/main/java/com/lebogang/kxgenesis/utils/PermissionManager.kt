@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
 object PermissionManager {
-    private val requestCode = 121
+    private const val requestCode = 121
     fun checkWritePermissionGranted(context: Context):Boolean{
         return ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
                 PackageManager.PERMISSION_GRANTED

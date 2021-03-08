@@ -29,7 +29,7 @@ import com.lebogang.kxgenesis.service.utils.RepeatSate
 import com.lebogang.kxgenesis.service.utils.ShuffleSate
 import com.lebogang.kxgenesis.ui.helpers.PlayerHelper
 
-class ManageServiceConnection(private val activity: AppCompatActivity): OnSateChangedListener() {
+class ManageServiceConnection(private val activity: AppCompatActivity): OnSateChangedListener {
     private val intent = Intent(activity,MusicService::class.java)
     lateinit var musicService: MusicService
     private val connectionCallback = getConnection()
@@ -50,6 +50,7 @@ class ManageServiceConnection(private val activity: AppCompatActivity): OnSateCh
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
+                //I don't know what to do here
             }
         }
     }
