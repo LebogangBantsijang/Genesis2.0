@@ -27,17 +27,22 @@ import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityPlaylistViewBinding
+import com.lebogang.kxgenesis.service.ManageServiceConnection
 import com.lebogang.kxgenesis.service.Queue
+import com.lebogang.kxgenesis.service.utils.PlaybackState
+import com.lebogang.kxgenesis.service.utils.RepeatSate
+import com.lebogang.kxgenesis.service.utils.ShuffleSate
 import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.ItemPlaylistSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnPlaylistAudioClickListener
 import com.lebogang.kxgenesis.ui.dialogs.QueueDialog
+import com.lebogang.kxgenesis.ui.helpers.PlayerHelper
 import com.lebogang.kxgenesis.ui.helpers.ThemeHelper
 import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 import com.lebogang.kxgenesis.viewmodels.PlaylistViewModel
 
-class PlaylistViewActivity : ThemeHelper() ,OnPlaylistAudioClickListener {
+class PlaylistViewActivity : ThemeHelper() ,OnPlaylistAudioClickListener , PlayerHelper {
     private val viewBinding:ActivityPlaylistViewBinding by lazy {
         ActivityPlaylistViewBinding.inflate(layoutInflater)
     }
@@ -51,6 +56,12 @@ class PlaylistViewActivity : ThemeHelper() ,OnPlaylistAudioClickListener {
     }
     private val adapter = ItemPlaylistSongAdapter()
     private var playlistId:Long = -1
+    private lateinit var manageServiceConnection: ManageServiceConnection
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        manageServiceConnection = ManageServiceConnection(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -146,11 +157,27 @@ class PlaylistViewActivity : ThemeHelper() ,OnPlaylistAudioClickListener {
 
     override fun onAudioClick(audio: Audio) {
         Queue.setCurrentAudio(audio,adapter.listAudio)
+        manageServiceConnection.musicService.play(audio)
     }
 
     override fun onAudioDeleteClick(audio: Audio) {
         playlistViewModel.deletePlaylistAudio(playlistId, audio.id)
         playlistViewModel.getPlaylistAudio(playlistId)
+    }
+
+    override fun onPlaybackChanged(playbackState: PlaybackState){
+        if (playbackState == PlaybackState.PLAYING)
+            viewBinding.launcherView.playPauseView.setImageResource(R.drawable.ic_pause)
+        else
+            viewBinding.launcherView.playPauseView.setImageResource(R.drawable.ic_play)
+    }
+
+    override fun onRepeatModeChange(repeatSate: RepeatSate) {
+        //not needed
+    }
+
+    override fun onShuffleModeChange(shuffleSate: ShuffleSate) {
+        //not needed
     }
 
 }

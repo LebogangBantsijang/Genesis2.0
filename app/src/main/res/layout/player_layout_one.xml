@@ -82,6 +82,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 />
 
             <TextView
@@ -141,9 +142,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@null"
-                android:tint="?colorPrimary"
                 android:contentDescription="@string/share"
-                android:src="@drawable/ic_repeat" />
+                android:src="@drawable/ic_repeat_none" />
 
             <ImageButton
                 android:id="@+id/previousView"
@@ -167,7 +167,7 @@
                 android:layout_margin="4dp"
                 android:tint="?colorControlNormal"
                 android:contentDescription="@string/share"
-                android:src="@drawable/ic_play" />
+                android:src="@drawable/ic_pause" />
 
             <ImageButton
                 android:id="@+id/nextView"
@@ -189,9 +189,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@null"
-                android:tint="?colorPrimary"
                 android:contentDescription="@string/share"
-                android:src="@drawable/ic_shuffle" />
+                android:src="@drawable/ic_shuffle_none" />
 
         </LinearLayout>
 

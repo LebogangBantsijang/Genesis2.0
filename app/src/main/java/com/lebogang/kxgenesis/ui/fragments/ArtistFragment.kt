@@ -35,7 +35,9 @@ import com.lebogang.kxgenesis.ui.adapters.utils.OnArtistClickListener
 import com.lebogang.kxgenesis.viewmodels.ArtistViewModel
 
 class ArtistFragment: GeneralFragment(), OnArtistClickListener {
-    private lateinit var viewBinding:FragmentArtistsBinding
+    private val viewBinding:FragmentArtistsBinding by lazy {
+        FragmentArtistsBinding.inflate(layoutInflater)
+    }
     private val adapter = ItemArtistAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val artistViewModel:ArtistViewModel by lazy {
@@ -58,7 +60,6 @@ class ArtistFragment: GeneralFragment(), OnArtistClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?
                               , savedInstanceState: Bundle?): View{
-        viewBinding = FragmentArtistsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
 

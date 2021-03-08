@@ -16,27 +16,14 @@
 
 package com.lebogang.kxgenesis.ui.helpers
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.lebogang.kxgenesis.settings.ThemeSettings
+import com.lebogang.kxgenesis.service.utils.PlaybackState
+import com.lebogang.kxgenesis.service.utils.RepeatSate
+import com.lebogang.kxgenesis.service.utils.ShuffleSate
 
-abstract class ThemeHelper:AppCompatActivity() {
-    val themeSettings: ThemeSettings by lazy{
-        ThemeSettings(this)
-    }
-    private var lastTheme:Int = -1
+interface PlayerHelper {
+    fun onPlaybackChanged(playbackState: PlaybackState)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        lastTheme = themeSettings.getThemeResource()
-        setTheme(lastTheme)
-    }
+    fun onRepeatModeChange(repeatSate: RepeatSate)
 
-    override fun onResume() {
-        super.onResume()
-        if (lastTheme != themeSettings.getThemeResource()){
-            recreate()
-        }
-    }
-
+    fun onShuffleModeChange(shuffleSate: ShuffleSate)
 }

@@ -35,7 +35,9 @@ import com.lebogang.kxgenesis.ui.adapters.utils.OnAlbumClickListener
 import com.lebogang.kxgenesis.viewmodels.AlbumViewModel
 
 class AlbumsFragment: GeneralFragment(), OnAlbumClickListener {
-    private lateinit var viewBinding:FragmentAlbumsBinding
+    private val viewBinding:FragmentAlbumsBinding by lazy{
+        FragmentAlbumsBinding.inflate(layoutInflater)
+    }
     private val adapter = ItemAlbumAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val albumViewModel:AlbumViewModel by lazy {
@@ -57,7 +59,6 @@ class AlbumsFragment: GeneralFragment(), OnAlbumClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        viewBinding = FragmentAlbumsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
 

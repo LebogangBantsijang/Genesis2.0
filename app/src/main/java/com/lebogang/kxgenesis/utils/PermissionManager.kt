@@ -14,29 +14,24 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.ui.helpers
+package com.lebogang.kxgenesis.utils
 
-import android.os.Bundle
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
-import com.lebogang.kxgenesis.settings.ThemeSettings
+import androidx.core.content.ContextCompat
 
-abstract class ThemeHelper:AppCompatActivity() {
-    val themeSettings: ThemeSettings by lazy{
-        ThemeSettings(this)
-    }
-    private var lastTheme:Int = -1
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        lastTheme = themeSettings.getThemeResource()
-        setTheme(lastTheme)
+object PermissionManager {
+    private val requestCode = 121
+    fun checkWritePermissionGranted(context: Context):Boolean{
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (lastTheme != themeSettings.getThemeResource()){
-            recreate()
+    fun requestWritePermission(activity: AppCompatActivity){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            activity.requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), requestCode)
         }
     }
-
 }

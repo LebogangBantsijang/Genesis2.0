@@ -22,21 +22,27 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lebogang.kxgenesis.GenesisApplication
+import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Artist
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityArtistViewBinding
+import com.lebogang.kxgenesis.service.ManageServiceConnection
 import com.lebogang.kxgenesis.service.Queue
+import com.lebogang.kxgenesis.service.utils.PlaybackState
+import com.lebogang.kxgenesis.service.utils.RepeatSate
+import com.lebogang.kxgenesis.service.utils.ShuffleSate
 import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.ItemSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
 import com.lebogang.kxgenesis.ui.dialogs.QueueDialog
+import com.lebogang.kxgenesis.ui.helpers.PlayerHelper
 import com.lebogang.kxgenesis.ui.helpers.ThemeHelper
 import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.viewmodels.ArtistViewModel
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
-class ArtistViewActivity : ThemeHelper(), OnAudioClickListener {
+class ArtistViewActivity : ThemeHelper(), OnAudioClickListener , PlayerHelper {
     private val viewBinding: ActivityArtistViewBinding by lazy{
         ActivityArtistViewBinding.inflate(layoutInflater)
     }
@@ -50,6 +56,12 @@ class ArtistViewActivity : ThemeHelper(), OnAudioClickListener {
     }
     private val adapter = ItemSongAdapter()
     private var artist:Artist? = null
+    private lateinit var manageServiceConnection: ManageServiceConnection
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        manageServiceConnection = ManageServiceConnection(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,9 +128,25 @@ class ArtistViewActivity : ThemeHelper(), OnAudioClickListener {
 
     override fun onAudioClick(audio: Audio) {
         Queue.setCurrentAudio(audio, adapter.getList())
+        manageServiceConnection.musicService.play(audio)
     }
 
     override fun onAudioClickOptions(audio: Audio) {
         AudioOptionsDialog(audio, false).show(supportFragmentManager, "")
+    }
+
+    override fun onPlaybackChanged(playbackState: PlaybackState){
+        if (playbackState == PlaybackState.PLAYING)
+            viewBinding.launcherView.playPauseView.setImageResource(R.drawable.ic_pause)
+        else
+            viewBinding.launcherView.playPauseView.setImageResource(R.drawable.ic_play)
+    }
+
+    override fun onRepeatModeChange(repeatSate: RepeatSate) {
+        //not needed
+    }
+
+    override fun onShuffleModeChange(shuffleSate: ShuffleSate) {
+        //not needed
     }
 }

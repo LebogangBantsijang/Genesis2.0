@@ -96,7 +96,7 @@
                         android:padding="12dp"
                         android:contentDescription="@string/shuffle"
                         android:tint="@color/white"
-                        android:src="@drawable/ic_shuffle_30dp" />
+                        android:src="@drawable/ic_shuffle" />
 
                 </LinearLayout>
 

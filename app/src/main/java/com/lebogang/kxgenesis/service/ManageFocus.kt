@@ -21,10 +21,11 @@ import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
+import android.support.v4.media.session.MediaControllerCompat
 import android.widget.MediaController
 import androidx.annotation.RequiresApi
 
-class ManageFocus(private val context: Context): AudioManager.OnAudioFocusChangeListener {
+class ManageFocus(private val context: Context, private val listener : AudioManager.OnAudioFocusChangeListener) {
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     @RequiresApi(Build.VERSION_CODES.O)
     private val focus = createAudioFocusRequest()
@@ -33,20 +34,20 @@ class ManageFocus(private val context: Context): AudioManager.OnAudioFocusChange
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             audioManager.requestAudioFocus(focus)
         else
-            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN)
+            audioManager.requestAudioFocus(listener, AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN)
     }
 
     fun abandonFocus(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             audioManager.abandonAudioFocusRequest(focus)
         else
-            audioManager.abandonAudioFocus(this)
+            audioManager.abandonAudioFocus(listener)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createAudioFocusRequest():AudioFocusRequest{
         return AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-            .setOnAudioFocusChangeListener(this)
+            .setOnAudioFocusChangeListener(listener)
             .setAudioAttributes(AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                 .setLegacyStreamType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -55,7 +56,4 @@ class ManageFocus(private val context: Context): AudioManager.OnAudioFocusChange
             .build()
     }
 
-    override fun onAudioFocusChange(focusChange: Int) {
-        //not finished
-    }
 }

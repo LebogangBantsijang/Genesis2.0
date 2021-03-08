@@ -64,6 +64,7 @@ class PlayerViewPagerAdapter: RecyclerView.Adapter<PlayerViewPagerAdapter.ViewHo
     private fun updateNowPlaying(holder:ViewHolder, audio: Audio){
         if (audio.id == audioId){
             holder.viewBinding.playPauseView.visibility = View.GONE
+            holder.viewBinding.counterView.text = "Now Playing"
         }else
             holder.viewBinding.playPauseView.visibility = View.VISIBLE
     }

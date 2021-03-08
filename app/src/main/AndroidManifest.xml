@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".GenesisApplication"
@@ -13,7 +14,12 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Genesis20.System">
-        <activity android:name=".ui.AboutActivity"></activity>
+        <service
+            android:name=".service.MusicService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <activity android:name=".ui.AboutActivity" />
         <activity android:name=".ui.PlayerActivity" />
         <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.InfoActivity" />
@@ -21,7 +27,7 @@
         <activity android:name=".ui.PlaylistViewActivity" />
         <activity android:name=".ui.ArtistViewActivity" />
         <activity android:name=".ui.AlbumViewActivity" />
-        <activity android:name=".ui.LocalContentActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

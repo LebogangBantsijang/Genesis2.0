@@ -38,7 +38,9 @@ import com.lebogang.kxgenesis.viewmodels.PlaylistViewModel
 
 class PlaylistFragment: GeneralFragment(),OnPlaylistClickListener, PopupMenu.OnMenuItemClickListener {
 
-    private lateinit var viewBinding:FragmentPlaylistBinding
+    private val viewBinding:FragmentPlaylistBinding by lazy{
+        FragmentPlaylistBinding.inflate(layoutInflater)
+    }
     private val playlistViewModel:PlaylistViewModel  by lazy{
         PlaylistViewModel.Factory((activity?.application as GenesisApplication).playlistRepo)
                 .create(PlaylistViewModel::class.java)
@@ -54,7 +56,6 @@ class PlaylistFragment: GeneralFragment(),OnPlaylistClickListener, PopupMenu.OnM
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        viewBinding = FragmentPlaylistBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
 
