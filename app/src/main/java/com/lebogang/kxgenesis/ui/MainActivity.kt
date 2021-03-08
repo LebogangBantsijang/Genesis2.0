@@ -31,50 +31,43 @@ import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lebogang.kxgenesis.R
+import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.LayoutNavigationDrawerBinding
+import com.lebogang.kxgenesis.service.ManageServiceConnection
 import com.lebogang.kxgenesis.service.Queue
+import com.lebogang.kxgenesis.service.utils.PlaybackState
+import com.lebogang.kxgenesis.service.utils.RepeatSate
+import com.lebogang.kxgenesis.service.utils.ShuffleSate
 import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.LocalContentActivityViewPagerAdapter
 import com.lebogang.kxgenesis.ui.dialogs.QueueDialog
+import com.lebogang.kxgenesis.ui.helpers.PlayerHelper
+import com.lebogang.kxgenesis.ui.helpers.ThemeHelper
 import com.lebogang.kxgenesis.utils.GlobalBlurry
 import com.lebogang.kxgenesis.utils.GlobalGlide
+import com.lebogang.kxgenesis.utils.PermissionManager
 import com.lebogang.kxgenesis.utils.TextWatcherSimplifier
 
-class LocalContentActivity : AppCompatActivity() {
+class MainActivity : ThemeHelper(), PlayerHelper {
     private val viewBinding: LayoutNavigationDrawerBinding by lazy{
         LayoutNavigationDrawerBinding.inflate(layoutInflater)
     }
-    private var adapter:LocalContentActivityViewPagerAdapter? = null
-    private val themeSettings:ThemeSettings by lazy{
-        ThemeSettings(this)
+    private val adapter:LocalContentActivityViewPagerAdapter by lazy {
+        LocalContentActivityViewPagerAdapter(this)
+    }
+    private lateinit var manageServiceConnection:ManageServiceConnection
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        manageServiceConnection = ManageServiceConnection(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(themeSettings.getThemeResource())
         setContentView(viewBinding.root)
         initToolbar()
         initNavigationView()
         checkPermissions()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.local_content_toolbar_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
-            R.id.menu_refresh ->{
-                adapter?.onRefresh(viewBinding.content.viewPager.currentItem)
-                true
-            }
-            R.id.menu_settings ->{
-                startActivity(Intent(this,SettingsActivity::class.java))
-                true
-            }
-            else -> false
-        }
     }
 
     @SuppressLint("RtlHardcoded")
@@ -97,52 +90,16 @@ class LocalContentActivity : AppCompatActivity() {
                     startActivity(Intent(this, SettingsActivity::class.java))
                     true
                 }
+                R.id.menu_about->{
+                    startActivity(Intent(this,AboutActivity::class.java))
+                    true
+                }
                 else -> false
             }
         }
     }
 
-    private fun checkPermissions(){
-        when(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            PackageManager.PERMISSION_GRANTED -> {
-                initViewPager()
-                initOtherView()
-                observeAudio()
-            }
-            PackageManager.PERMISSION_DENIED -> {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                    requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 121)
-                }
-            }
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-                                            grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        var granted = false
-        grantResults.iterator().forEach {
-            granted = it == PackageManager.PERMISSION_GRANTED
-        }
-        if (granted){
-            initViewPager()
-            initOtherView()
-            observeAudio()
-        }
-        else
-            showPermissionDialog()
-    }
-
-    private fun showPermissionDialog(){
-        MaterialAlertDialogBuilder(this)
-                .setTitle(getString(R.string.permission_error))
-                .setPositiveButton(getString(R.string.close), null)
-                .setMessage(getString(R.string.permission_error_message))
-                .setOnDismissListener { finish()}
-    }
-
     private fun initViewPager(){
-        adapter = LocalContentActivityViewPagerAdapter(this)
         viewBinding.content.viewPager.adapter = adapter
         viewBinding.content.viewPager.offscreenPageLimit = 4
         TabLayoutMediator(viewBinding.content.tabLayout, viewBinding.content.viewPager
@@ -163,7 +120,7 @@ class LocalContentActivity : AppCompatActivity() {
     private fun initOtherView(){
         viewBinding.content.searchView.addTextChangedListener(object :TextWatcherSimplifier(){
             override fun textChanged(string: String) {
-                adapter?.onSearch(string, viewBinding.content.viewPager.currentItem)
+                adapter.onSearch(string, viewBinding.content.viewPager.currentItem)
             }
         })
         viewBinding.content.launcherView.root.setOnClickListener {
@@ -172,7 +129,7 @@ class LocalContentActivity : AppCompatActivity() {
         viewBinding.content.launcherView.queueView.setOnClickListener {
             QueueDialog().show(supportFragmentManager,"") }
         viewBinding.content.launcherView.playPauseView.setOnClickListener {
-            //not finished
+            manageServiceConnection.musicService.togglePlayPause()
         }
     }
 
@@ -189,11 +146,85 @@ class LocalContentActivity : AppCompatActivity() {
         })
     }
 
+    private fun checkPermissions(){
+        if (PermissionManager.checkWritePermissionGranted(this)){
+            initViewPager()
+            initOtherView()
+            observeAudio()
+        }else
+            PermissionManager.requestWritePermission(this)
+    }
+
+    fun playAudio(audio:Audio){
+        manageServiceConnection.musicService.play(audio)
+    }
+
+    override fun onPlaybackChanged(playbackState: PlaybackState){
+        if (playbackState == PlaybackState.PLAYING)
+            viewBinding.content.launcherView.playPauseView.setImageResource(R.drawable.ic_pause)
+        else
+            viewBinding.content.launcherView.playPauseView.setImageResource(R.drawable.ic_play)
+    }
+
+    override fun onRepeatModeChange(repeatSate: RepeatSate) {
+        //not needed
+    }
+
+    override fun onShuffleModeChange(shuffleSate: ShuffleSate) {
+        //not needed
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+                                            grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            initViewPager()
+            initOtherView()
+            observeAudio()
+        }else
+            showPermissionDialog()
+    }
+
+    private fun showPermissionDialog(){
+        MaterialAlertDialogBuilder(this)
+                .setTitle(getString(R.string.permission_error))
+                .setPositiveButton(getString(R.string.close), null)
+                .setMessage(getString(R.string.permission_error_message))
+                .setOnDismissListener { finishAndRemoveTask()}
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.local_content_toolbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.menu_refresh ->{
+                adapter.onRefresh(viewBinding.content.viewPager.currentItem)
+                true
+            }
+            R.id.menu_settings ->{
+                startActivity(Intent(this,SettingsActivity::class.java))
+                true
+            }
+            R.id.menu_about ->{
+                startActivity(Intent(this,AboutActivity::class.java))
+                true
+            }
+            else -> false
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         if (!themeSettings.isBackgroundImageVisible())
             viewBinding.content.backView.visibility = View.INVISIBLE
         else
             viewBinding.content.backView.visibility = View.VISIBLE
+    }
+
+    override fun onBackPressed() {
+        moveTaskToBack(true)
     }
 }

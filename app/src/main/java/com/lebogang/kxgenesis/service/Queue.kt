@@ -40,17 +40,23 @@ object Queue {
     }
 
     fun getRandomAudio():Audio{
-        return audioQueue[(Math.random()*(audioQueue.size -1)).toInt()]
+        val audio = audioQueue[(Math.random()*(audioQueue.size -1)).toInt()]
+        currentAudio.value = audio
+        return audio
     }
 
     fun getNext():Audio{
         val index = audioQueue.indexOf(currentAudio.value) + 1
-        return if (index >= audioQueue.size) audioQueue[0] else audioQueue[index]
+        val audio = if (index >= audioQueue.size) audioQueue[0] else audioQueue[index]
+        currentAudio.value = audio
+        return audio
     }
 
     fun getPrevious():Audio{
         val index = audioQueue.indexOf(currentAudio.value) - 1
-        return if (index < 0) audioQueue[(audioQueue.size - 1)] else audioQueue[index]
+        val audio = if (index < 0) audioQueue[(audioQueue.size - 1)] else audioQueue[index]
+        currentAudio.value = audio
+        return audio
     }
 
 }

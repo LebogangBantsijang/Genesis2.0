@@ -34,13 +34,16 @@ import com.lebogang.kxgenesis.settings.DATE_ASC
 import com.lebogang.kxgenesis.settings.DATE_DESC
 import com.lebogang.kxgenesis.settings.TITLE_ASC
 import com.lebogang.kxgenesis.settings.TITLE_DESC
+import com.lebogang.kxgenesis.ui.MainActivity
 import com.lebogang.kxgenesis.ui.adapters.ItemSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
 class SongsFragment: GeneralFragment(),OnAudioClickListener,PopupMenu.OnMenuItemClickListener {
-    private lateinit var viewBinding:FragmentSongsBinding
+    private val viewBinding:FragmentSongsBinding by lazy {
+        FragmentSongsBinding.inflate(layoutInflater)
+    }
     private val adapter = ItemSongAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val audioViewModel:AudioViewModel by lazy {
@@ -60,7 +63,6 @@ class SongsFragment: GeneralFragment(),OnAudioClickListener,PopupMenu.OnMenuItem
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        viewBinding = FragmentSongsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
 
@@ -131,6 +133,9 @@ class SongsFragment: GeneralFragment(),OnAudioClickListener,PopupMenu.OnMenuItem
 
     override fun onAudioClick(audio: Audio) {
         Queue.setCurrentAudio(audio, adapter.getList())
+        activity?.let {
+            (it as MainActivity).playAudio(audio)
+        }
     }
 
     override fun onAudioClickOptions(audio: Audio) {

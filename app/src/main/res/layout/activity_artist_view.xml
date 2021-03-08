@@ -87,7 +87,7 @@
                         android:backgroundTint="?colorPrimary"
                         android:padding="12dp"
                         android:tint="@color/white"
-                        android:src="@drawable/ic_shuffle_30dp" />
+                        android:src="@drawable/ic_shuffle" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

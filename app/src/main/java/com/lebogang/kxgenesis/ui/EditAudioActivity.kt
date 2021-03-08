@@ -33,6 +33,7 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityEditAudioBinding
 import com.lebogang.kxgenesis.settings.ThemeSettings
+import com.lebogang.kxgenesis.ui.helpers.ThemeHelper
 import com.lebogang.kxgenesis.utils.GlobalBlurry
 import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.utils.TextWatcherSimplifier
@@ -40,20 +41,16 @@ import com.lebogang.kxgenesis.utils.Validator
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 import jp.wasabeef.blurry.Blurry
 
-class EditAudioActivity: AppCompatActivity() {
+class EditAudioActivity: ThemeHelper() {
     private lateinit var viewBinding:ActivityEditAudioBinding
     private val audioViewModel:AudioViewModel by lazy {
         AudioViewModel.Factory((application as GenesisApplication).audioRepo)
                 .create(AudioViewModel::class.java)
     }
-    private val themeSettings: ThemeSettings by lazy{
-        ThemeSettings(this)
-    }
     private var audio:Audio? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(themeSettings.getThemeResource())
         viewBinding = ActivityEditAudioBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         audio = audioViewModel.getAudio(intent.getLongExtra("Audio",0))

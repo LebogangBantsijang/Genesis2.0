@@ -21,6 +21,9 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.annotation.RequiresApi
@@ -34,14 +37,17 @@ class MusicNotification(private val context:Context) {
     private val channelName = "GenesisMusic"
     private val channelDescription = "Enjoy your music"
     @SuppressLint("InlinedApi")
-    private val channelImportance = NotificationManager.IMPORTANCE_DEFAULT
+    private val channelImportance = NotificationManager.IMPORTANCE_LOW
     @RequiresApi(Build.VERSION_CODES.O)
     private val channel = NotificationChannel(channelId, channelName, channelImportance).apply {
         description = channelDescription
     }
     private var isChannelCreated = false
-    private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+    private val notificationManager = context.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE)
             as NotificationManager
+    init {
+        setChannel()
+    }
     //private val pauseIntent = Intent(this)
 
     private fun setChannel(){
@@ -52,7 +58,7 @@ class MusicNotification(private val context:Context) {
             }
     }
 
-    fun createNotification(audio: Audio, token: MediaSessionCompat.Token):Notification{
+    fun createNotification(audio: Audio):Notification{
         val subtitle = audio.artist + "-" + audio.album
         return NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_music_note_24dp)
@@ -65,10 +71,12 @@ class MusicNotification(private val context:Context) {
                 .setPriority(channelImportance)
                 .setStyle(MediaStyle().also {
                     it.setShowCancelButton(false)
-                    it.setMediaSession(token)
-                    it.setShowActionsInCompactView(3)
+                    //it.setShowActionsInCompactView(3)
                 })
                 .build()
     }
 
+    private fun getBitmap(uri:Uri): Bitmap {
+        return BitmapFactory.decodeResource(context.resources, R.drawable.ic_play)
+    }
 }

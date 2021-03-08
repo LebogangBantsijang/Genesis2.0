@@ -22,23 +22,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Album
 import com.lebogang.kxgenesis.databinding.FragmentAlbumsBinding
+import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.AlbumViewActivity
 import com.lebogang.kxgenesis.ui.adapters.ItemAlbumAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAlbumClickListener
 import com.lebogang.kxgenesis.viewmodels.AlbumViewModel
 
 class AlbumsFragment: GeneralFragment(), OnAlbumClickListener {
-    private lateinit var viewBinding:FragmentAlbumsBinding
+    private val viewBinding:FragmentAlbumsBinding by lazy{
+        FragmentAlbumsBinding.inflate(layoutInflater)
+    }
     private val adapter = ItemAlbumAdapter()
     private val genesisApplication:GenesisApplication by lazy{activity?.application as GenesisApplication}
     private val albumViewModel:AlbumViewModel by lazy {
         AlbumViewModel.Factory(genesisApplication.albumRepo).create(AlbumViewModel::class.java)
     }
+    private val themeSettings: ThemeSettings by lazy {
+        ThemeSettings(context!!)
+    }
+    private val layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
 
     override fun onSearch(string: String) {
         adapter.filter.filter(string)
@@ -51,7 +59,6 @@ class AlbumsFragment: GeneralFragment(), OnAlbumClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        viewBinding = FragmentAlbumsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
 
@@ -65,8 +72,8 @@ class AlbumsFragment: GeneralFragment(), OnAlbumClickListener {
 
     private fun initRecyclerView(){
         adapter.listener = this
-        viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(2,
-                StaggeredGridLayoutManager.VERTICAL)
+        layoutManager.spanCount = themeSettings.getColumnCount()
+        viewBinding.recyclerView.layoutManager = layoutManager
         viewBinding.recyclerView.itemAnimator?.addDuration = 450
         viewBinding.recyclerView.adapter = adapter
     }
@@ -90,6 +97,10 @@ class AlbumsFragment: GeneralFragment(), OnAlbumClickListener {
     override fun onResume() {
         super.onResume()
         activity?.title = getString(R.string.albums)
+        if (layoutManager.spanCount != themeSettings.getColumnCount()){
+            layoutManager.spanCount = themeSettings.getColumnCount()
+            viewBinding.recyclerView.layoutManager = layoutManager
+        }
     }
 
     override fun onDestroy() {

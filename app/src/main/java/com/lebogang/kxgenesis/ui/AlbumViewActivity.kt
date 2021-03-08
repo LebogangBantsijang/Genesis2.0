@@ -22,21 +22,28 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lebogang.kxgenesis.GenesisApplication
+import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Album
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityAlbumViewBinding
+import com.lebogang.kxgenesis.service.ManageServiceConnection
 import com.lebogang.kxgenesis.service.Queue
+import com.lebogang.kxgenesis.service.utils.PlaybackState
+import com.lebogang.kxgenesis.service.utils.RepeatSate
+import com.lebogang.kxgenesis.service.utils.ShuffleSate
 import com.lebogang.kxgenesis.settings.ThemeSettings
 import com.lebogang.kxgenesis.ui.adapters.ItemAlbumSongAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.kxgenesis.ui.dialogs.AudioOptionsDialog
 import com.lebogang.kxgenesis.ui.dialogs.QueueDialog
+import com.lebogang.kxgenesis.ui.helpers.PlayerHelper
+import com.lebogang.kxgenesis.ui.helpers.ThemeHelper
 import com.lebogang.kxgenesis.utils.GlobalBlurry
 import com.lebogang.kxgenesis.utils.GlobalGlide
 import com.lebogang.kxgenesis.viewmodels.AlbumViewModel
 import com.lebogang.kxgenesis.viewmodels.AudioViewModel
 
-class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
+class AlbumViewActivity : ThemeHelper(),OnAudioClickListener, PlayerHelper{
 
     private val viewBinding:ActivityAlbumViewBinding by lazy{
         ActivityAlbumViewBinding.inflate(layoutInflater)
@@ -49,15 +56,17 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
         AudioViewModel.Factory((application as GenesisApplication).audioRepo)
                 .create(AudioViewModel::class.java)
     }
-    private val themeSettings: ThemeSettings by lazy{
-        ThemeSettings(this)
-    }
     private var album:Album? = null
     private val adapter = ItemAlbumSongAdapter()
+    private lateinit var manageServiceConnection: ManageServiceConnection
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        manageServiceConnection = ManageServiceConnection(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(themeSettings.getThemeResource())
         setContentView(viewBinding.root)
         album = albumViewModel.getAlbums(intent.getStringExtra("Album")!!)
         initToolbar()
@@ -122,9 +131,25 @@ class AlbumViewActivity : AppCompatActivity(),OnAudioClickListener{
 
     override fun onAudioClick(audio: Audio) {
         Queue.setCurrentAudio(audio,adapter.listAudio)
+        manageServiceConnection.musicService.play(audio)
     }
 
     override fun onAudioClickOptions(audio: Audio) {
         AudioOptionsDialog(audio,false).show(supportFragmentManager, "")
+    }
+
+    override fun onPlaybackChanged(playbackState: PlaybackState){
+        if (playbackState == PlaybackState.PLAYING)
+            viewBinding.launcherView.playPauseView.setImageResource(R.drawable.ic_pause)
+        else
+            viewBinding.launcherView.playPauseView.setImageResource(R.drawable.ic_play)
+    }
+
+    override fun onRepeatModeChange(repeatSate: RepeatSate) {
+        //not needed
+    }
+
+    override fun onShuffleModeChange(shuffleSate: ShuffleSate) {
+        //not needed
     }
 }
