@@ -9,10 +9,8 @@
 
 * Coroutines
 * Room Database
-* MediaBrowser Service
 * Model View View-Model design pattern
 * Material Design - Dark & Light Theme
 * Glide
-* Singletons
 * Media Style Notifications
 * 
