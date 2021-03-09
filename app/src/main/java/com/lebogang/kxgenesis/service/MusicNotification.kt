@@ -34,6 +34,7 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.service.utils.PlaybackState
 import com.lebogang.kxgenesis.ui.PlayerActivity
+import java.io.FileNotFoundException
 
 class MusicNotification(private val context:Context) {
     private val channelId = "113"
@@ -98,7 +99,7 @@ class MusicNotification(private val context:Context) {
         return try {
             val inputStream = context.applicationContext.contentResolver.openInputStream(uri)
             BitmapFactory.decodeStream(inputStream)
-        }catch (e:Exception){
+        }catch (e:FileNotFoundException){
             BitmapFactory.decodeResource(context.applicationContext.resources, R.raw.default_bg)
         }
     }
