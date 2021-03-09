@@ -14,23 +14,25 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.settings
+package com.lebogang.kxgenesis.service
 
+import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.SharedPreferences
-import com.lebogang.kxgenesis.R
+import android.content.Intent
 
-class PlayerSettings(private val context: Context){
-    private val preferences: SharedPreferences = context.applicationContext
-        .getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
-    private val playerKey = "Player"
+const val PLAY_ACTION = "Play"
+const val PAUSE_ACTION = "Pause"
+const val SKIP_NEXT_ACTION = "Next"
+const val SKIP_PREV_ACTION = "Previous"
 
-    fun setPlayerResource(resource:Int){
-        preferences.edit().putInt(playerKey,resource).apply()
+class MusicReceiver(private val musicService:MusicService) : BroadcastReceiver() {
+
+    override fun onReceive(context: Context, intent: Intent) {
+        when(intent.action){
+            SKIP_PREV_ACTION -> musicService.skipToPrevious()
+            PAUSE_ACTION-> musicService.pause()
+            PLAY_ACTION-> musicService.play()
+            SKIP_NEXT_ACTION-> musicService.skipToNext()
+        }
     }
-
-    fun getPlayerResource():Int{
-        return preferences.getInt(playerKey,R.layout.player_layout_one)
-    }
-
 }
