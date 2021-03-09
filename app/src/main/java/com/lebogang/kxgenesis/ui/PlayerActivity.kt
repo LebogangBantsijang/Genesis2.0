@@ -80,7 +80,7 @@ class PlayerActivity: ThemeHelper(), OnAudioClickListener, PlayerHelper {
         findViewById<ImageButton>(R.id.previousView).setOnClickListener {
             manageServiceConnection.musicService.skipToPrevious()
         }
-        findViewById<ImageButton>(R.id.playPauseView).setOnClickListener {
+        findViewById<ImageButton>(R.id.playView).setOnClickListener {
             manageServiceConnection.musicService.togglePlayPause()
         }
         findViewById<ImageButton>(R.id.nextView).setOnClickListener {
@@ -137,10 +137,9 @@ class PlayerActivity: ThemeHelper(), OnAudioClickListener, PlayerHelper {
 
     override fun onPlaybackChanged(playbackState: PlaybackState) {
         if (playbackState == PlaybackState.PLAYING)
-            findViewById<ImageButton>(R.id.playPauseView).setImageResource(R.drawable.ic_pause)
+            findViewById<ImageButton>(R.id.playView).setImageResource(R.drawable.ic_pause)
         else
-            findViewById<ImageButton>(R.id.playPauseView).setImageResource(R.drawable.ic_play)
-        Toast.makeText(this, "playback", Toast.LENGTH_SHORT).show()
+            findViewById<ImageButton>(R.id.playView).setImageResource(R.drawable.ic_play)
     }
 
     override fun onRepeatModeChange(repeatSate: RepeatSate) {

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.lebogang.kxgenesis">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
@@ -14,20 +17,25 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Genesis20.System">
+
         <service
             android:name=".service.MusicService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="false" />
 
         <activity android:name=".ui.AboutActivity" />
-        <activity android:name=".ui.PlayerActivity" />
+        <activity
+            android:name=".ui.PlayerActivity"
+            android:launchMode="singleInstance" />
         <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.InfoActivity" />
         <activity android:name=".ui.EditAudioActivity" />
         <activity android:name=".ui.PlaylistViewActivity" />
         <activity android:name=".ui.ArtistViewActivity" />
         <activity android:name=".ui.AlbumViewActivity" />
-        <activity android:name=".ui.MainActivity">
+        <activity
+            android:name=".ui.MainActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

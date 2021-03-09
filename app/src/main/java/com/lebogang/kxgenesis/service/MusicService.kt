@@ -18,6 +18,7 @@ package com.lebogang.kxgenesis.service
 
 import android.app.Service
 import android.content.Intent
+import android.content.IntentFilter
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Binder
@@ -38,6 +39,10 @@ class MusicService : Service(), MusicInterface
     private val musicNotification:MusicNotification by lazy{
         MusicNotification(this)
     }
+    private val broadcastMusicReceiver:MusicReceiver by lazy {
+        MusicReceiver(this)
+    }
+
     private val hashMap = HashMap<String, OnSateChangedListener>()
     private var playbackState = PlaybackState.NONE
     private var shuffleSate = ShuffleSate.SHUFFLE_NONE
@@ -48,9 +53,20 @@ class MusicService : Service(), MusicInterface
         return binder
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        registerReceiver(broadcastMusicReceiver, IntentFilter().apply {
+            addAction(SKIP_PREV_ACTION)
+            addAction(PLAY_ACTION)
+            addAction(PAUSE_ACTION)
+            addAction(SKIP_NEXT_ACTION)
+        })
+    }
+
     override fun onDestroy() {
+        unregisterReceiver(broadcastMusicReceiver)
         mediaPlayer.reset()
-        stopSelf()
+        stopForeground(false)
         super.onDestroy()
     }
 
@@ -70,7 +86,8 @@ class MusicService : Service(), MusicInterface
         hashMap.forEach {
             it.value.onPlaybackChanged(playbackState)
         }
-        startForeground(foreGroundId, musicNotification.createNotification(audio))
+        startForeground(foreGroundId,
+                musicNotification.createNotification(audio, playbackState))
     }
 
     override fun pause() {
@@ -80,7 +97,8 @@ class MusicService : Service(), MusicInterface
         hashMap.forEach {
             it.value.onPlaybackChanged(playbackState)
         }
-        stopForeground(true)
+        startForeground(foreGroundId,
+            musicNotification.createNotification(Queue.currentAudio.value!!, playbackState))
     }
 
     override fun play() {
@@ -90,7 +108,8 @@ class MusicService : Service(), MusicInterface
         hashMap.forEach {
             it.value.onPlaybackChanged(playbackState)
         }
-        startForeground(foreGroundId, musicNotification.createNotification(Queue.currentAudio.value!!))
+        startForeground(foreGroundId,
+                musicNotification.createNotification(Queue.currentAudio.value!!, playbackState))
     }
 
     override fun stop() {
