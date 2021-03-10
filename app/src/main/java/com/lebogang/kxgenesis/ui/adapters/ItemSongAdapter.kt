@@ -100,12 +100,20 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filter
     inner class ViewHolder(val viewBinding:ItemLocalSongBinding)
         :RecyclerView.ViewHolder(viewBinding.root){
         init {
-            viewBinding.root.setOnClickListener { listener?.onAudioClick(listAudio[adapterPosition]) }
+            viewBinding.root.setOnClickListener {
+                listener?.onAudioClick(getItem()) }
             viewBinding.optionsView.setOnClickListener {
-                listener?.onAudioClickOptions(listAudio[adapterPosition]) }
+                listener?.onAudioClickOptions(getItem()) }
             viewBinding.root.setOnLongClickListener {
-                listener?.onAudioClickOptions(listAudio[adapterPosition])
+                listener?.onAudioClickOptions(getItem())
                 true
+            }
+        }
+
+        private fun getItem():Audio{
+            return when(isUserSearching){
+                true -> filteredList[adapterPosition]
+                else -> listAudio[adapterPosition]
             }
         }
     }

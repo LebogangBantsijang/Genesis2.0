@@ -81,13 +81,8 @@ class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder
     inner class ViewHolder(val viewBinding:ItemLocalQueueSongBinding)
         :RecyclerView.ViewHolder(viewBinding.root){
         init {
-            viewBinding.root.setOnClickListener { listener?.onAudioClick(listAudio[adapterPosition]) }
             viewBinding.optionsView.setOnClickListener {
                 listener?.onAudioClickOptions(listAudio[adapterPosition]) }
-            viewBinding.root.setOnLongClickListener {
-                listener?.onAudioClickOptions(listAudio[adapterPosition])
-                true
-            }
         }
     }
 }

@@ -17,6 +17,9 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/menu_stats"
+        android:icon="@drawable/ic_baseline_timeline_24"
+        android:title="@string/statistics" />
     <group
         android:checkableBehavior="none">
         <item

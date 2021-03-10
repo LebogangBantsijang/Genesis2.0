@@ -32,11 +32,11 @@ abstract class ThemeHelper:AppCompatActivity() {
         setTheme(lastTheme)
     }
 
-    override fun onResume() {
+    /*override fun onResume() {
         super.onResume()
         if (lastTheme != themeSettings.getThemeResource()){
             recreate()
         }
-    }
+    }*/
 
 }

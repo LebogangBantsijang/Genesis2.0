@@ -14,8 +14,10 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.service.utils
+package com.lebogang.kxgenesis.ui.adapters.utils
 
-enum class PlaybackState {
-    PLAYING, PAUSED, STOPPED, SKIPPING, NONE,COMPLETE, PREPARED
+import com.lebogang.kxgenesis.room.models.Statistics
+
+interface OnStatisticClickListener {
+    fun onStatisticClick(statistics: Statistics)
 }

@@ -55,6 +55,10 @@ class AudioViewModel(private val audioRepo: AudioRepo): ViewModel(), OnContentCh
         return audioRepo.getAudio(id)
     }
 
+    fun isAudioAvailable(id:Long):Boolean{
+        return audioRepo.isAudioAvailable(id)
+    }
+
     fun getAudio(uri: Uri) = viewModelScope.launch {
         liveData.postValue(audioRepo.getAudio(uri))
         which = AudioEnum.URI_AUDIO

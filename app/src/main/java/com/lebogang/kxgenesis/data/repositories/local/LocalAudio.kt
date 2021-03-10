@@ -99,6 +99,18 @@ class LocalAudio(private val context:Context) {
         return loopCursor(cursor)[0]
     }
 
+    @SuppressLint("InlinedApi")
+    fun isAudioAvailable(id:Long):Boolean{
+        val sortOrder = contentSettings.getSortOrder()
+        val durationFilter = contentSettings.getDurationFilter()
+        val selection = "$DURATION >=? AND $_ID =?"
+        val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
+                selection, arrayOf(durationFilter.toString(), id.toString()), sortOrder)
+        if (loopCursor(cursor).size > 0)
+            return true
+        return false
+    }
+
     /**
      * Get audio that matches the specified Uir
      * @param uri

@@ -61,6 +61,10 @@ class AudioRepo(val context: Context){
         return localAudio.getAudio(id)
     }
 
+    fun isAudioAvailable(id:Long):Boolean{
+        return localAudio.isAudioAvailable(id)
+    }
+
     suspend fun getAlbumAudio(albumName:String):MutableList<Audio> = coroutineScope {
         val deffer = async {
             localAudio.getAlbumAudio(albumName)

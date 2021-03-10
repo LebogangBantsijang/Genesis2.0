@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Album
+import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ItemLocalAlbumBinding
 import com.lebogang.kxgenesis.ui.adapters.utils.OnAlbumClickListener
 import com.lebogang.kxgenesis.utils.GlobalGlide
@@ -68,7 +69,14 @@ class ItemAlbumAdapter:RecyclerView.Adapter<ItemAlbumAdapter.ViewHolder>(), Filt
 
     inner class ViewHolder(val viewBinding:ItemLocalAlbumBinding):RecyclerView.ViewHolder(viewBinding.root){
         init {
-            viewBinding.root.setOnClickListener { listener?.onAlbumClick(listAlbum[adapterPosition]) }
+            viewBinding.root.setOnClickListener { listener?.onAlbumClick(getItem()) }
+        }
+
+        private fun getItem(): Album {
+            return when(isUserSearching){
+                true -> filteredList[adapterPosition]
+                else -> listAlbum[adapterPosition]
+            }
         }
     }
 

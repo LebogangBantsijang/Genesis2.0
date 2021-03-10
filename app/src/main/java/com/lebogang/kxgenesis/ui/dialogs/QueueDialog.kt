@@ -66,7 +66,7 @@ class QueueDialog: BottomSheetDialogFragment(), OnAudioClickListener {
     }
 
     override fun onAudioClick(audio: Audio) {
-        Queue.setCurrentAudio(audio)
+        //Queue.setCurrentAudio(audio)
     }
 
     override fun onAudioClickOptions(audio: Audio) {

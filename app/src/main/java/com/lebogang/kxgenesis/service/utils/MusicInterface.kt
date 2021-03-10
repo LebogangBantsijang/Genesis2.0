@@ -20,6 +20,8 @@ import com.lebogang.kxgenesis.data.models.Audio
 
 interface MusicInterface {
 
+    fun prepare(audio: Audio)
+
     fun play(audio: Audio)
 
     fun play()
