@@ -86,6 +86,10 @@ class MainActivity : ThemeHelper(), PlayerHelper {
         }
         viewBinding.navigationView.setNavigationItemSelectedListener {
             when(it.itemId){
+                R.id.menu_stats->{
+                    startActivity(Intent(this, StatisticsActivity::class.java))
+                    true
+                }
                 R.id.menu_settings->{
                     startActivity(Intent(this, SettingsActivity::class.java))
                     true

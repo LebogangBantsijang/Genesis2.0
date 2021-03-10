@@ -14,8 +14,27 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.service.utils
+package com.lebogang.kxgenesis.room.dao
 
-enum class PlaybackState {
-    PLAYING, PAUSED, STOPPED, SKIPPING, NONE,COMPLETE, PREPARED
+import androidx.room.*
+import com.lebogang.kxgenesis.room.models.Statistics
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface StatisticsDao {
+
+    @Query("SELECT * FROM Statistics ORDER BY playCount DESC LIMIT 50")
+    fun getStats():Flow<List<Statistics>>
+
+    @Query("SELECT * FROM Statistics WHERE audioId = :id")
+    suspend fun getStat(id:Long):Statistics?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertStat(statistics: Statistics)
+
+    @Delete
+    suspend fun deleteStat(statistics: Statistics)
+
+    @Query("DELETE FROM Statistics")
+    suspend fun clearAll()
 }

@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Artist
+import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ItemLocalArtistBinding
 import com.lebogang.kxgenesis.ui.adapters.utils.OnArtistClickListener
 import com.lebogang.kxgenesis.utils.GlobalGlide
@@ -68,7 +69,14 @@ class ItemArtistAdapter:RecyclerView.Adapter<ItemArtistAdapter.ViewHolder>(), Fi
     inner class ViewHolder(val viewBinding:ItemLocalArtistBinding):RecyclerView.ViewHolder(viewBinding.root){
         init {
             viewBinding.root.setOnClickListener {
-                listener?.onArtistClick(listArtist[adapterPosition])
+                listener?.onArtistClick(getItem())
+            }
+        }
+
+        private fun getItem(): Artist {
+            return when(isUserSearching){
+                true -> filteredList[adapterPosition]
+                else -> listArtist[adapterPosition]
             }
         }
     }

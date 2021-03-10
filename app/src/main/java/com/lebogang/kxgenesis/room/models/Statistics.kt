@@ -14,8 +14,21 @@
  *    limitations under the License.
  */
 
-package com.lebogang.kxgenesis.service.utils
+package com.lebogang.kxgenesis.room.models
 
-enum class PlaybackState {
-    PLAYING, PAUSED, STOPPED, SKIPPING, NONE,COMPLETE, PREPARED
-}
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class Statistics(
+        @PrimaryKey(autoGenerate = true)
+        val id:Int,
+        val audioId:Long,
+        val title:String,
+        val album:String,
+        val artist:String,
+        val duration:String,
+        var playCount:Int,
+        var lastPlayed:String
+)

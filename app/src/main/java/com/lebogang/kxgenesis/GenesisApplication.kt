@@ -22,6 +22,7 @@ import com.lebogang.kxgenesis.data.repositories.ArtistRepo
 import com.lebogang.kxgenesis.data.repositories.AudioRepo
 import com.lebogang.kxgenesis.room.GenesisDatabase
 import com.lebogang.kxgenesis.room.PlaylistRepo
+import com.lebogang.kxgenesis.room.StatisticsRepo
 
 class GenesisApplication:Application() {
     private val genesisDatabase: GenesisDatabase by lazy {
@@ -30,6 +31,10 @@ class GenesisApplication:Application() {
 
     val playlistRepo: PlaylistRepo by lazy{
         PlaylistRepo(genesisDatabase.playlistDao(),genesisDatabase.playlistAudioBridge())
+    }
+
+    val statisticsRepo:StatisticsRepo by lazy {
+        StatisticsRepo(genesisDatabase.statisticsDao())
     }
 
     val audioRepo:AudioRepo by lazy {

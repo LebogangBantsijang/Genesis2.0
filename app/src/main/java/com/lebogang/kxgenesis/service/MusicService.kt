@@ -23,7 +23,10 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
+import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.data.models.Audio
+import com.lebogang.kxgenesis.room.GenesisDatabase
+import com.lebogang.kxgenesis.room.StatisticsRepo
 import com.lebogang.kxgenesis.service.utils.*
 
 class MusicService : Service(), MusicInterface
@@ -42,6 +45,9 @@ class MusicService : Service(), MusicInterface
     private val broadcastMusicReceiver:MusicReceiver by lazy {
         MusicReceiver(this)
     }
+    private val statisticsRepo:StatisticsRepo by lazy {
+        (application as GenesisApplication).statisticsRepo
+    }
 
     private val hashMap = HashMap<String, OnSateChangedListener>()
     private var playbackState = PlaybackState.NONE
@@ -55,6 +61,7 @@ class MusicService : Service(), MusicInterface
 
     override fun onCreate() {
         super.onCreate()
+        mediaPlayer.setAudioAttributes(manageFocus.focusAttributes)
         registerReceiver(broadcastMusicReceiver, IntentFilter().apply {
             addAction(SKIP_PREV_ACTION)
             addAction(PLAY_ACTION)
@@ -65,8 +72,7 @@ class MusicService : Service(), MusicInterface
 
     override fun onDestroy() {
         unregisterReceiver(broadcastMusicReceiver)
-        mediaPlayer.reset()
-        stopForeground(false)
+        stop()
         super.onDestroy()
     }
 
@@ -74,6 +80,19 @@ class MusicService : Service(), MusicInterface
         fun getService():MusicService{
             return this@MusicService
         }
+    }
+
+    override fun prepare(audio: Audio) {
+        manageFocus.requestFocus()
+        mediaPlayer.reset()
+        mediaPlayer.setDataSource(this,audio.uri)
+        mediaPlayer.prepare()
+        playbackState = PlaybackState.PREPARED
+        hashMap.forEach {
+            it.value.onPlaybackChanged(playbackState)
+        }
+        startForeground(foreGroundId,
+            musicNotification.createNotification(audio, playbackState))
     }
 
     override fun play(audio: Audio) {
@@ -88,6 +107,7 @@ class MusicService : Service(), MusicInterface
         }
         startForeground(foreGroundId,
                 musicNotification.createNotification(audio, playbackState))
+        statisticsRepo.insertStat(audio)
     }
 
     override fun pause() {
@@ -116,6 +136,7 @@ class MusicService : Service(), MusicInterface
         manageFocus.abandonFocus()
         mediaPlayer.stop()
         mediaPlayer.reset()
+        mediaPlayer.release()
         playbackState = PlaybackState.STOPPED
         hashMap.forEach {
             it.value.onPlaybackChanged(playbackState)

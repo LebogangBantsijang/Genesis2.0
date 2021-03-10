@@ -93,7 +93,7 @@
     <string name="theme_note">Theme setting will take effect when the application restarts</string>
     <string name="filter">Filter</string>
     <string name="audio_filter">Audio Filter</string>
-    <string name="duration">Duration (sec)</string>
+    <string name="duration_sec">Duration (sec)</string>
     <string name="_0">0</string>
     <string name="_120">120</string>
     <string name="_60">60</string>
@@ -109,6 +109,15 @@
     <string name="adjust_the_system_volume">Adjust the system volume</string>
     <string name="column_count">Column Count</string>
     <string name="about">About</string>
+    <string name="statistics">Statistics</string>
+    <string name="play_history">Play History</string>
+    <string name="top_50_songs">Most Played Songs - Top 50</string>
+    <string name="play_count">Play Count</string>
+    <string name="last_played">Last Played</string>
+    <string name="song_statistics">Song Statistics</string>
+    <string name="available_on_device">Available on device</string>
+    <string name="last_played_on">Last played on</string>
+    <string name="duration">Duration</string>
 
     <string-array name="column_options">
         <item>1</item>

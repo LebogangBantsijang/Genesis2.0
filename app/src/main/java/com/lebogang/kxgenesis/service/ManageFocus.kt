@@ -27,6 +27,11 @@ import androidx.annotation.RequiresApi
 
 class ManageFocus(private val context: Context, private val listener : AudioManager.OnAudioFocusChangeListener) {
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    val focusAttributes = AudioAttributes.Builder()
+        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+        .setLegacyStreamType(AudioAttributes.CONTENT_TYPE_MUSIC)
+        .setUsage(AudioAttributes.USAGE_MEDIA)
+        .build()
     @RequiresApi(Build.VERSION_CODES.O)
     private val focus = createAudioFocusRequest()
 
@@ -48,11 +53,7 @@ class ManageFocus(private val context: Context, private val listener : AudioMana
     private fun createAudioFocusRequest():AudioFocusRequest{
         return AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
             .setOnAudioFocusChangeListener(listener)
-            .setAudioAttributes(AudioAttributes.Builder()
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .setLegacyStreamType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .build())
+            .setAudioAttributes(focusAttributes)
             .build()
     }
 

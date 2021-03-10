@@ -22,13 +22,16 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.lebogang.kxgenesis.room.dao.PlaylistAudioBridgeDao
 import com.lebogang.kxgenesis.room.dao.PlaylistDao
+import com.lebogang.kxgenesis.room.dao.StatisticsDao
 import com.lebogang.kxgenesis.room.models.Playlist
 import com.lebogang.kxgenesis.room.models.PlaylistBridgeTable
+import com.lebogang.kxgenesis.room.models.Statistics
 
-@Database(entities = [Playlist::class, PlaylistBridgeTable::class],version = 3, exportSchema = false)
+@Database(entities = [Playlist::class, PlaylistBridgeTable::class, Statistics::class],version = 7, exportSchema = false)
 abstract class GenesisDatabase: RoomDatabase() {
     abstract fun playlistDao(): PlaylistDao
     abstract fun playlistAudioBridge(): PlaylistAudioBridgeDao
+    abstract fun statisticsDao():StatisticsDao
 
     companion object Database{
         @Volatile
