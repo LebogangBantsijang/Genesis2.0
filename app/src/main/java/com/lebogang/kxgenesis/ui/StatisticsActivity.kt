@@ -28,9 +28,10 @@ import com.lebogang.kxgenesis.room.models.Statistics
 import com.lebogang.kxgenesis.ui.adapters.ItemStatsAdapter
 import com.lebogang.kxgenesis.ui.adapters.utils.OnStatisticClickListener
 import com.lebogang.kxgenesis.ui.dialogs.StatisticsDialog
+import com.lebogang.kxgenesis.ui.helpers.ThemeHelper
 import com.lebogang.kxgenesis.viewmodels.StatisticsViewModel
 
-class StatisticsActivity : AppCompatActivity(),OnStatisticClickListener {
+class StatisticsActivity : ThemeHelper(),OnStatisticClickListener {
     private val viewBinding: ActivityStatisticsBinding by lazy{
         ActivityStatisticsBinding.inflate(layoutInflater)
     }
