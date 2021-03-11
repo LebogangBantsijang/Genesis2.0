@@ -25,9 +25,9 @@ import android.os.Binder
 import android.os.IBinder
 import com.lebogang.kxgenesis.GenesisApplication
 import com.lebogang.kxgenesis.data.models.Audio
-import com.lebogang.kxgenesis.room.GenesisDatabase
 import com.lebogang.kxgenesis.room.StatisticsRepo
 import com.lebogang.kxgenesis.service.utils.*
+import com.lebogang.kxgenesis.settings.PlayerSettings
 
 class MusicService : Service(), MusicInterface
     , AudioManager.OnAudioFocusChangeListener, MediaPlayer.OnCompletionListener {
@@ -48,6 +48,9 @@ class MusicService : Service(), MusicInterface
     private val statisticsRepo:StatisticsRepo by lazy {
         (application as GenesisApplication).statisticsRepo
     }
+    private val playerSettings:PlayerSettings by lazy{
+        PlayerSettings(this)
+    }
 
     private val hashMap = HashMap<String, OnSateChangedListener>()
     private var playbackState = PlaybackState.NONE
@@ -62,6 +65,8 @@ class MusicService : Service(), MusicInterface
     override fun onCreate() {
         super.onCreate()
         mediaPlayer.setAudioAttributes(manageFocus.focusAttributes)
+        shuffleSate = playerSettings.getShuffleMode()
+        repeatSate = playerSettings.getRepeatMode()
         registerReceiver(broadcastMusicReceiver, IntentFilter().apply {
             addAction(SKIP_PREV_ACTION)
             addAction(PLAY_ACTION)
@@ -72,6 +77,8 @@ class MusicService : Service(), MusicInterface
 
     override fun onDestroy() {
         unregisterReceiver(broadcastMusicReceiver)
+        playerSettings.setShuffleMode(shuffleSate)
+        playerSettings.setRepeatMode(repeatSate)
         stop()
         super.onDestroy()
     }
@@ -175,6 +182,14 @@ class MusicService : Service(), MusicInterface
             play(Queue.getPrevious())
     }
 
+    override fun seekTo(position: Int) {
+        mediaPlayer.seekTo(position)
+    }
+
+    override fun getCurrentPosition(): Int {
+        return mediaPlayer.currentPosition
+    }
+
     override fun changeRepeatMode() {
         repeatSate = when(repeatSate){
             RepeatSate.REPEAT_NONE-> RepeatSate.REPEAT_ONE
@@ -209,7 +224,7 @@ class MusicService : Service(), MusicInterface
     }
 
     override fun addStateChangedListener(className:String, stateChangedListener: OnSateChangedListener) {
-        hashMap.put(className, stateChangedListener)
+        hashMap[className] = stateChangedListener
     }
 
     override fun onAudioFocusChange(focusChange: Int) {

@@ -16,6 +16,8 @@
 
 package com.lebogang.kxgenesis.ui.helpers
 
+import com.lebogang.kxgenesis.service.MusicService
+import com.lebogang.kxgenesis.service.utils.MusicInterface
 import com.lebogang.kxgenesis.service.utils.PlaybackState
 import com.lebogang.kxgenesis.service.utils.RepeatSate
 import com.lebogang.kxgenesis.service.utils.ShuffleSate
@@ -26,4 +28,6 @@ interface PlayerHelper {
     fun onRepeatModeChange(repeatSate: RepeatSate)
 
     fun onShuffleModeChange(shuffleSate: ShuffleSate)
+
+    fun onServiceReady(musicService: MusicService)
 }
