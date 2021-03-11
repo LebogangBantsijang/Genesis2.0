@@ -19,11 +19,15 @@ package com.lebogang.kxgenesis.settings
 import android.content.Context
 import android.content.SharedPreferences
 import com.lebogang.kxgenesis.R
+import com.lebogang.kxgenesis.service.utils.RepeatSate
+import com.lebogang.kxgenesis.service.utils.ShuffleSate
 
 class PlayerSettings(private val context: Context){
     private val preferences: SharedPreferences = context.applicationContext
         .getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
     private val playerKey = "Player"
+    private val repeatKey = "Repeat"
+    private val shuffleKey = "Shuffle"
 
     fun setPlayerResource(resource:Int){
         preferences.edit().putInt(playerKey,resource).apply()
@@ -33,4 +37,33 @@ class PlayerSettings(private val context: Context){
         return preferences.getInt(playerKey,R.layout.player_layout_one)
     }
 
+    fun setRepeatMode(repeatSate: RepeatSate){
+        when(repeatSate){
+            RepeatSate.REPEAT_NONE-> preferences.edit().putInt(repeatKey, 0).apply()
+            RepeatSate.REPEAT_ONE-> preferences.edit().putInt(repeatKey, 1).apply()
+            RepeatSate.REPEAT_ALL-> preferences.edit().putInt(repeatKey, 2).apply()
+        }
+    }
+
+    fun getRepeatMode():RepeatSate{
+        return when(preferences.getInt(repeatKey,0)){
+            1 -> RepeatSate.REPEAT_ONE
+            2 -> RepeatSate.REPEAT_ALL
+            else -> RepeatSate.REPEAT_NONE
+        }
+    }
+
+    fun setShuffleMode(shuffleSate: ShuffleSate){
+        when(shuffleSate){
+            ShuffleSate.SHUFFLE_NONE -> preferences.edit().putInt(shuffleKey, 0).apply()
+            ShuffleSate.SHUFFLE_ALL -> preferences.edit().putInt(shuffleKey, 1).apply()
+        }
+    }
+
+    fun getShuffleMode():ShuffleSate{
+        return when(preferences.getInt(shuffleKey, 0)){
+            1 -> ShuffleSate.SHUFFLE_ALL
+            else -> ShuffleSate.SHUFFLE_NONE
+        }
+    }
 }

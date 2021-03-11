@@ -30,6 +30,10 @@ interface MusicInterface {
 
     fun stop()
 
+    fun seekTo(position:Int)
+
+    fun getCurrentPosition():Int
+
     fun togglePlayPause()
 
     fun skipToNext()

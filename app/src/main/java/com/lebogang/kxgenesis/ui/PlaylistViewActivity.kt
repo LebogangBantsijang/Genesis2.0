@@ -28,7 +28,9 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.ActivityPlaylistViewBinding
 import com.lebogang.kxgenesis.service.ManageServiceConnection
+import com.lebogang.kxgenesis.service.MusicService
 import com.lebogang.kxgenesis.service.Queue
+import com.lebogang.kxgenesis.service.utils.MusicInterface
 import com.lebogang.kxgenesis.service.utils.PlaybackState
 import com.lebogang.kxgenesis.service.utils.RepeatSate
 import com.lebogang.kxgenesis.service.utils.ShuffleSate
@@ -56,11 +58,11 @@ class PlaylistViewActivity : ThemeHelper() ,OnPlaylistAudioClickListener , Playe
     }
     private val adapter = ItemPlaylistSongAdapter()
     private var playlistId:Long = -1
-    private lateinit var manageServiceConnection: ManageServiceConnection
+    private lateinit var musicService: MusicService
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        manageServiceConnection = ManageServiceConnection(this)
+        ManageServiceConnection(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,7 +112,7 @@ class PlaylistViewActivity : ThemeHelper() ,OnPlaylistAudioClickListener , Playe
         viewBinding.launcherView.queueView.setOnClickListener {
             QueueDialog().show(supportFragmentManager,"") }
         viewBinding.launcherView.playPauseView.setOnClickListener {
-            //not finished
+            musicService.togglePlayPause()
         }
     }
 
@@ -157,7 +159,7 @@ class PlaylistViewActivity : ThemeHelper() ,OnPlaylistAudioClickListener , Playe
 
     override fun onAudioClick(audio: Audio) {
         Queue.setCurrentAudio(audio,adapter.listAudio)
-        manageServiceConnection.musicService.play(audio)
+        musicService.play(audio)
     }
 
     override fun onAudioDeleteClick(audio: Audio) {
@@ -178,6 +180,10 @@ class PlaylistViewActivity : ThemeHelper() ,OnPlaylistAudioClickListener , Playe
 
     override fun onShuffleModeChange(shuffleSate: ShuffleSate) {
         //not needed
+    }
+
+    override fun onServiceReady(musicService: MusicService) {
+        this.musicService = musicService
     }
 
 }

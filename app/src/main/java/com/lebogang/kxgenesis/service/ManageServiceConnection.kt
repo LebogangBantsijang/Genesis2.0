@@ -42,15 +42,22 @@ class ManageServiceConnection(private val activity: AppCompatActivity): OnSateCh
         return object :ServiceConnection{
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 musicService = (service as MusicService.ServiceBinder).getService()
+                (activity as PlayerHelper).onServiceReady(musicService)
                 musicService.addStateChangedListener(activity.javaClass.name
                         ,this@ManageServiceConnection)
-                onPlaybackChanged(musicService.getPlaybackState())
+                if (Queue.currentAudio.value != null){
+                    if (musicService.getPlaybackState() == PlaybackState.NONE)
+                        musicService.prepare(Queue.currentAudio.value!!)
+                    else
+                        onPlaybackChanged(musicService.getPlaybackState())
+                }
                 onRepeatModeChange(musicService.getRepeatMode())
                 onShuffleModeChange(musicService.getShuffleMode())
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
                 //I don't know what to do here
+                //If we get here everything falls apart
             }
         }
     }
@@ -80,4 +87,5 @@ class ManageServiceConnection(private val activity: AppCompatActivity): OnSateCh
     override fun onShuffleModeChange(shuffleSate: ShuffleSate) {
         (activity as PlayerHelper).onShuffleModeChange(shuffleSate)
     }
+
 }

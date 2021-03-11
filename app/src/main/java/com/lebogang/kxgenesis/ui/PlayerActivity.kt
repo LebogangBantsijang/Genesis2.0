@@ -16,20 +16,19 @@
 
 package com.lebogang.kxgenesis.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.appbar.MaterialToolbar
 import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.service.ManageServiceConnection
+import com.lebogang.kxgenesis.service.MusicService
 import com.lebogang.kxgenesis.service.Queue
 import com.lebogang.kxgenesis.service.utils.PlaybackState
 import com.lebogang.kxgenesis.service.utils.RepeatSate
@@ -42,17 +41,23 @@ import com.lebogang.kxgenesis.ui.dialogs.QueueDialog
 import com.lebogang.kxgenesis.ui.helpers.PlayerHelper
 import com.lebogang.kxgenesis.ui.helpers.ThemeHelper
 import com.lebogang.kxgenesis.utils.GlobalBlurry
+import com.lebogang.kxgenesis.utils.SeekBarHandler
+import com.lebogang.kxgenesis.utils.SeekBarListenerSimplified
+import com.lebogang.kxgenesis.utils.TimeConverter
 
 class PlayerActivity: ThemeHelper(), OnAudioClickListener, PlayerHelper {
     private val playerSettings: PlayerSettings by lazy {
         PlayerSettings(applicationContext)
     }
     private val adapter = PlayerViewPagerAdapter()
-    private lateinit var manageServiceConnection: ManageServiceConnection
+    private lateinit var musicService: MusicService
+    private val seekBarHandler: SeekBarHandler by lazy{
+        SeekBarHandler(this, musicService)
+    }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        manageServiceConnection = ManageServiceConnection(this)
+        ManageServiceConnection(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,20 +83,26 @@ class PlayerActivity: ThemeHelper(), OnAudioClickListener, PlayerHelper {
 
     private fun initControls(){
         findViewById<ImageButton>(R.id.previousView).setOnClickListener {
-            manageServiceConnection.musicService.skipToPrevious()
+            musicService.skipToPrevious()
         }
         findViewById<ImageButton>(R.id.playView).setOnClickListener {
-            manageServiceConnection.musicService.togglePlayPause()
+            musicService.togglePlayPause()
         }
         findViewById<ImageButton>(R.id.nextView).setOnClickListener {
-            manageServiceConnection.musicService.skipToNext()
+            musicService.skipToNext()
         }
         findViewById<ImageButton>(R.id.repeatView).setOnClickListener {
-            manageServiceConnection.musicService.changeRepeatMode()
+            musicService.changeRepeatMode()
         }
         findViewById<ImageButton>(R.id.shuffleView).setOnClickListener {
-            manageServiceConnection.musicService.changeShuffleMode()
+            musicService.changeShuffleMode()
         }
+        findViewById<SeekBar>(R.id.seekBar).setOnSeekBarChangeListener(object :SeekBarListenerSimplified(){
+            override fun progressChanged(progress: Int) {
+                musicService.seekTo(progress)
+                findViewById<TextView>(R.id.timerView).text = TimeConverter.toMinutes(progress.toLong())
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -109,6 +120,10 @@ class PlayerActivity: ThemeHelper(), OnAudioClickListener, PlayerHelper {
         }
     }
 
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
+    }
+
     private fun observeAudio(){
         Queue.currentAudio.observe(this, {
             title = it.artist
@@ -123,12 +138,13 @@ class PlayerActivity: ThemeHelper(), OnAudioClickListener, PlayerHelper {
             findViewById<ImageView>(R.id.backView)?.let { imageView->
                 GlobalBlurry.loadBlurryResource(this, it.albumArtUri, imageView)
             }
+            findViewById<SeekBar>(R.id.seekBar).max = it.duration.toInt()
         })
     }
 
     override fun onAudioClick(audio: Audio) {
         Queue.setCurrentAudio(audio)
-        manageServiceConnection.musicService.play(audio)
+        musicService.play(audio)
     }
 
     override fun onAudioClickOptions(audio: Audio) {
@@ -140,6 +156,7 @@ class PlayerActivity: ThemeHelper(), OnAudioClickListener, PlayerHelper {
             findViewById<ImageButton>(R.id.playView).setImageResource(R.drawable.ic_pause)
         else
             findViewById<ImageButton>(R.id.playView).setImageResource(R.drawable.ic_play)
+        seekBarHandler.onPlaybackStateChanged(playbackState)
     }
 
     override fun onRepeatModeChange(repeatSate: RepeatSate) {
@@ -160,6 +177,10 @@ class PlayerActivity: ThemeHelper(), OnAudioClickListener, PlayerHelper {
             ShuffleSate.SHUFFLE_ALL ->
                 findViewById<ImageButton>(R.id.shuffleView).setImageResource(R.drawable.ic_shuffle)
         }
+    }
+
+    override fun onServiceReady(musicService: MusicService) {
+        this.musicService = musicService
     }
 
 }

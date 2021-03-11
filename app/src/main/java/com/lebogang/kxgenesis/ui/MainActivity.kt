@@ -34,7 +34,9 @@ import com.lebogang.kxgenesis.R
 import com.lebogang.kxgenesis.data.models.Audio
 import com.lebogang.kxgenesis.databinding.LayoutNavigationDrawerBinding
 import com.lebogang.kxgenesis.service.ManageServiceConnection
+import com.lebogang.kxgenesis.service.MusicService
 import com.lebogang.kxgenesis.service.Queue
+import com.lebogang.kxgenesis.service.utils.MusicInterface
 import com.lebogang.kxgenesis.service.utils.PlaybackState
 import com.lebogang.kxgenesis.service.utils.RepeatSate
 import com.lebogang.kxgenesis.service.utils.ShuffleSate
@@ -55,11 +57,11 @@ class MainActivity : ThemeHelper(), PlayerHelper {
     private val adapter:LocalContentActivityViewPagerAdapter by lazy {
         LocalContentActivityViewPagerAdapter(this)
     }
-    private lateinit var manageServiceConnection:ManageServiceConnection
+    private lateinit var musicService: MusicService
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        manageServiceConnection = ManageServiceConnection(this)
+        ManageServiceConnection(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -133,7 +135,7 @@ class MainActivity : ThemeHelper(), PlayerHelper {
         viewBinding.content.launcherView.queueView.setOnClickListener {
             QueueDialog().show(supportFragmentManager,"") }
         viewBinding.content.launcherView.playPauseView.setOnClickListener {
-            manageServiceConnection.musicService.togglePlayPause()
+            musicService.togglePlayPause()
         }
     }
 
@@ -160,7 +162,7 @@ class MainActivity : ThemeHelper(), PlayerHelper {
     }
 
     fun playAudio(audio:Audio){
-        manageServiceConnection.musicService.play(audio)
+        musicService.play(audio)
     }
 
     override fun onPlaybackChanged(playbackState: PlaybackState){
@@ -176,6 +178,10 @@ class MainActivity : ThemeHelper(), PlayerHelper {
 
     override fun onShuffleModeChange(shuffleSate: ShuffleSate) {
         //not needed
+    }
+
+    override fun onServiceReady(musicService: MusicService) {
+        this.musicService = musicService
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,

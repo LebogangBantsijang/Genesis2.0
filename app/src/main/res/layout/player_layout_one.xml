@@ -167,7 +167,7 @@
                 android:layout_margin="4dp"
                 android:tint="?colorControlNormal"
                 android:contentDescription="@string/share"
-                android:src="@drawable/ic_pause" />
+                android:src="@drawable/ic_play" />
 
             <ImageButton
                 android:id="@+id/nextView"
