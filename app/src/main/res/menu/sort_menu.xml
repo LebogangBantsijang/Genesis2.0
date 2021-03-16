@@ -20,15 +20,19 @@
     <group>
         <item
             android:id="@+id/titleAsc"
+            android:icon="@drawable/ic_alphabetical_sorting"
             android:title="@string/title_asc" />
         <item
             android:id="@+id/titleDesc"
+            android:icon="@drawable/ic_alphabetical_sorting"
             android:title="@string/title_desc" />
         <item
             android:id="@+id/dateAsc"
+            android:icon="@drawable/ic_timetable"
             android:title="@string/date_asc" />
         <item
             android:id="@+id/dateDesc"
+            android:icon="@drawable/ic_timetable"
             android:title="@string/date_desc" />
     </group>
 </menu>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.lebogang.kxgenesis">
+    package="com.lebogang.genesis">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
@@ -17,23 +17,48 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Genesis20.System">
-        <activity android:name=".ui.StatisticsActivity"></activity>
 
         <service
             android:name=".service.MusicService"
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".ui.AboutActivity" />
+        <activity
+            android:name=".ui.StatisticsActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".ui.AboutActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:launchMode="singleInstance" />
         <activity
             android:name=".ui.PlayerActivity"
+            android:parentActivityName=".ui.MainActivity"
             android:launchMode="singleInstance" />
-        <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.InfoActivity" />
-        <activity android:name=".ui.EditAudioActivity" />
-        <activity android:name=".ui.PlaylistViewActivity" />
-        <activity android:name=".ui.ArtistViewActivity" />
-        <activity android:name=".ui.AlbumViewActivity" />
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".ui.InfoActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".ui.EditAudioActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".ui.PlaylistViewActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".ui.ArtistViewActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".ui.AlbumViewActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:launchMode="singleInstance" />
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleInstance">

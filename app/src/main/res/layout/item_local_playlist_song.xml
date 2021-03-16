@@ -24,22 +24,15 @@
     android:gravity="center_vertical"
     android:background="?selectableItemBackground">
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="6dp">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            app:srcCompat="@drawable/ic_music_note_24dp"
-            android:contentDescription="@string/album_art"/>
-
-    </com.google.android.material.card.MaterialCardView>
+        android:layout_marginStart="6dp"
+        android:src="@drawable/ic_music_note_24dp"
+        android:contentDescription="@string/album_art"/>
 
     <LinearLayout
         android:layout_width="0dp"
