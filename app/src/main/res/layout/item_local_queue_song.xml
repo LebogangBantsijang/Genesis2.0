@@ -23,46 +23,36 @@
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:background="?selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
     android:paddingTop="6dp"
     android:paddingBottom="6dp">
 
-    <TextView
-        android:id="@+id/counterView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:ems="2"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="?android:textColorSecondary"
-        android:gravity="center"/>
-
     <LinearLayout
         android:layout_width="0dp"
+        android:layout_gravity="center_vertical"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_marginStart="6dp"
-        android:layout_marginEnd="6dp">
+        android:layout_marginStart="8dp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/titleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:ellipsize="end"
             android:textStyle="bold"
-            />
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/subtitleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textColor="?android:textColorSecondary"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            />
+            android:textColor="?android:textColorSecondary"/>
+
     </LinearLayout>
 
     <com.airbnb.lottie.LottieAnimationView
@@ -76,22 +66,13 @@
         app:lottie_repeatMode="restart"
         app:lottie_colorFilter="?colorPrimary"/>
 
-    <TextView
-        android:id="@+id/durationView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:textColor="?android:textColorSecondary"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        />
-
     <ImageButton
         android:id="@+id/optionsView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:background="?selectableItemBackground"
         android:contentDescription="@string/more"
         android:padding="8dp"
+        android:tint="?colorError"
         app:srcCompat="@drawable/ic_baseline_close_24" />
 </androidx.appcompat.widget.LinearLayoutCompat>

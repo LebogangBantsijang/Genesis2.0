@@ -103,13 +103,4 @@ class AudioViewModel(private val audioRepo: AudioRepo): ViewModel(), OnContentCh
             getAudio()
     }
 
-    class Factory(private val audioRepo: AudioRepo):ViewModelProvider.Factory{
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(AudioViewModel::class.java))
-                return AudioViewModel(audioRepo) as T
-            throw IllegalArgumentException()
-        }
-
-    }
 }

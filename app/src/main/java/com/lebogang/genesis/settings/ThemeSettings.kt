@@ -26,12 +26,10 @@ class ThemeSettings(private val context: Context) {
             .getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
     private val themeKey = "ThemeResource"
     private val itemDisplay = "ColumnCount"
-    private val powerKey = "PowerKey"
     private val backgroundKey = "BackgroundKey"
-    private val backgroundImageResourceKey = "ResourcesKey"
     val backgroundTypeNone = "None"
     val backgroundTypeAdaptive = "Adaptive"
-    val backgroundTypeCustom = "Custom"
+    private val backgroundTypeAdaptiveIsBlurryKey = "backgroundTypeAdaptiveIsBlurry"
 
     fun getThemeResource():Int{
         return preferences.getInt(themeKey, R.style.Theme_Genesis20_System_Dark)
@@ -57,12 +55,11 @@ class ThemeSettings(private val context: Context) {
         return preferences.getString(backgroundKey, backgroundTypeAdaptive)!!
     }
 
-    fun setBackgroundImageResource(data:Uri){
-        preferences.edit().putString(backgroundImageResourceKey, data.toString()).apply()
+    fun isAdaptiveBackgroundBlurry():Boolean{
+        return preferences.getBoolean(backgroundTypeAdaptiveIsBlurryKey, true)
     }
 
-    fun getBackgroundImageResource():Uri{
-        val uriString = preferences.getString(backgroundImageResourceKey, "")
-        return Uri.parse(uriString)
+    fun setAdaptiveBackgroundBlurry(value:Boolean){
+        preferences.edit().putBoolean(backgroundTypeAdaptiveIsBlurryKey, value).apply()
     }
 }

@@ -16,13 +16,16 @@
 
 package com.lebogang.genesis.room.models
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "PlaylistAudioBridge")
 data class PlaylistBridgeTable(
     @PrimaryKey(autoGenerate = true)
     val id:Long,
     val playlistId:Long,
     val audioId:Long
-)
+) : Parcelable

@@ -42,8 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_marginStart="6dp"
-        android:layout_marginEnd="6dp">
+        android:layout_marginStart="6dp">
 
         <TextView
             android:id="@+id/titleView"
@@ -92,6 +91,6 @@
         android:background="?selectableItemBackground"
         android:layout_marginEnd="8dp"
         android:padding="8dp"
-        app:srcCompat="@drawable/ic_baseline_more_vert_24"
+        app:srcCompat="@drawable/ic_menu_vertical"
         android:contentDescription="@string/more" />
 </androidx.appcompat.widget.LinearLayoutCompat>

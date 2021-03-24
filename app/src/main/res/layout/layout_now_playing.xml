@@ -15,92 +15,84 @@
   ~    limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/root"
-    android:visibility="gone"
+    android:orientation="horizontal"
+    android:visibility="visible"
     android:layout_gravity="bottom"
     android:clickable="true"
     android:focusable="true"
     android:background="?selectableItemBackground">
 
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_gravity="bottom"
-        android:background="?android:attr/listDivider" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_margin="8dp"
+        app:cardCornerRadius="4dp">
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:contentDescription="@string/add_cover_image"
             app:srcCompat="@drawable/ic_custom_song"
             />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_gravity="center_vertical"
+    </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginStart="6dp">
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:layout_marginBottom="4dp"/>
 
-            <TextView
-                android:id="@+id/titleView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textStyle="bold"
-                android:ellipsize="end"/>
-
-            <TextView
-                android:id="@+id/subtitleView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="?android:textColorSecondary"/>
-
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/queueView"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/subtitleView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:padding="6dp"
-            android:background="?selectableItemBackground"
-            android:contentDescription="@string/play"
-            app:tint="?colorPrimary"
-            android:src="@drawable/ic_playlist" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="?android:textColorSecondary"/>
 
-        <ImageButton
-            android:id="@+id/playPauseView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="4dp"
-            android:background="?selectableItemBackground"
-            android:contentDescription="@string/play"
-            android:padding="6dp"
-            android:src="@drawable/ic_play"
-            app:tint="?colorPrimary" />
     </LinearLayout>
 
-</FrameLayout>
+    <ImageButton
+        android:id="@+id/playPauseView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="?selectableItemBackground"
+        android:contentDescription="@string/play"
+        android:padding="6dp"
+        android:src="@drawable/ic_play"
+        app:tint="?colorPrimary" />
+
+    <ImageButton
+        android:id="@+id/queueView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:padding="6dp"
+        android:layout_marginEnd="4dp"
+        android:background="?selectableItemBackground"
+        android:contentDescription="@string/play"
+        app:tint="?colorControlNormal"
+        android:src="@drawable/ic_playlist" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

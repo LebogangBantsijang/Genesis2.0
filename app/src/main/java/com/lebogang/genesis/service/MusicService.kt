@@ -94,7 +94,7 @@ class MusicService : Service(), MusicInterface
     override fun prepare(audio: Audio) {
         manageFocus.requestFocus()
         mediaPlayer.reset()
-        mediaPlayer.setDataSource(this,audio.uri)
+        mediaPlayer.setDataSource(this,audio.getUri())
         mediaPlayer.prepare()
         playbackState = PlaybackState.PREPARED
         hashMap.forEach {
@@ -107,7 +107,7 @@ class MusicService : Service(), MusicInterface
     override fun play(audio: Audio) {
         manageFocus.requestFocus()
         mediaPlayer.reset()
-        mediaPlayer.setDataSource(this,audio.uri)
+        mediaPlayer.setDataSource(this,audio.getUri())
         mediaPlayer.prepare()
         mediaPlayer.start()
         playbackState = PlaybackState.PLAYING

@@ -25,6 +25,7 @@ import com.lebogang.genesis.network.dao.DeezerService
 import com.lebogang.genesis.room.GenesisDatabase
 import com.lebogang.genesis.room.PlaylistRepo
 import com.lebogang.genesis.room.StatisticsRepo
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -61,11 +62,12 @@ class GenesisApplication:Application() {
                 .excludeFieldsWithoutExposeAnnotation()
                 .disableHtmlEscaping()
                 .create()))
+            .client(OkHttpClient())
             .build()
     }
 
     val deeserService:DeezerService by lazy{
         deezerRetrofit.create(DeezerService::class.java)
     }
-    
+
 }

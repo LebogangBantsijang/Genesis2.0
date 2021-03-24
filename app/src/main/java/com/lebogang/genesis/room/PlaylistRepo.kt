@@ -21,6 +21,8 @@ import com.lebogang.genesis.room.dao.PlaylistAudioBridgeDao
 import com.lebogang.genesis.room.dao.PlaylistDao
 import com.lebogang.genesis.room.models.Playlist
 import com.lebogang.genesis.room.models.PlaylistBridgeTable
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.flow.Flow
 
 class PlaylistRepo(private val playlistDao: PlaylistDao,
@@ -28,11 +30,16 @@ class PlaylistRepo(private val playlistDao: PlaylistDao,
 
     fun getPlaylists(): Flow<List<Playlist>> = playlistDao.getPlaylist()
 
-    suspend fun getPlaylist(id:Long): Playlist{
+    fun getPlaylist(id:Long): Playlist {
         return playlistDao.getPlaylist(id)
     }
 
-    fun getPlaylistAudioIds(playlistId:Long):Flow<List<Long>> = playlistAudioBridgeDao.getAudioIds(playlistId)
+    suspend fun getPlaylistAudioIds(playlistId:Long):List<Long> = coroutineScope {
+        val deffered = async(Dispatchers.IO) {
+            playlistAudioBridgeDao.getAudioIds(playlistId)
+        }
+        deffered.await()
+    }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread

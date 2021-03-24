@@ -21,21 +21,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.DialogAudioOptionsBinding
-import com.lebogang.genesis.ui.AlbumViewActivity
-import com.lebogang.genesis.ui.ArtistViewActivity
-import com.lebogang.genesis.ui.EditAudioActivity
-import com.lebogang.genesis.ui.InfoActivity
 import com.lebogang.genesis.utils.GlobalGlide
+import com.lebogang.genesis.utils.Keys
+import com.lebogang.genesis.viewmodels.AlbumViewModel
+import com.lebogang.genesis.viewmodels.ArtistViewModel
+import com.lebogang.genesis.viewmodels.ViewModelFactory
 
-class AudioOptionsDialog(private val audio:Audio, private val enableModify:Boolean) :BottomSheetDialogFragment(){
-    private lateinit var viewBinding:DialogAudioOptionsBinding
+class AudioOptionsDialog :BottomSheetDialogFragment(){
+    private val viewBinding:DialogAudioOptionsBinding by lazy { DialogAudioOptionsBinding.inflate(layoutInflater) }
+    private lateinit var audio:Audio
+    private val viewModelAlbum:AlbumViewModel by lazy{ViewModelFactory(requireActivity().application)
+            .getAlbumViewModel()}
+    private val viewModelArtist:ArtistViewModel by lazy { ViewModelFactory(requireActivity().application)
+            .getArtistViewModel() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        viewBinding = DialogAudioOptionsBinding.inflate(inflater, container, false)
+        audio = requireArguments().getParcelable(Keys.SONG_KEY)!!
         return viewBinding.root
     }
 
@@ -45,41 +52,42 @@ class AudioOptionsDialog(private val audio:Audio, private val enableModify:Boole
     }
 
     private fun initViews(){
-        GlobalGlide.loadAudioCover(viewBinding.root, viewBinding.coverView, audio.albumArtUri)
+        GlobalGlide.loadAudioCover(viewBinding.root, viewBinding.coverView, audio.getArtUri())
         viewBinding.titleView.text = audio.title
+        viewBinding.subtitleView.text = audio.artist
         viewBinding.addToListView.setOnClickListener {
-            SelectPlaylistDialog(audio).show(activity?.supportFragmentManager!!, "")
-            dismissAllowingStateLoss()
+            val bundle = Bundle().apply { putParcelable(Keys.SONG_KEY, audio) }
+            val controller = findNavController()
+            controller.navigate(R.id.selectPlaylistDialog, bundle)
         }
         viewBinding.artistView.setOnClickListener {
-            startActivity(Intent(context, ArtistViewActivity::class.java).apply {
-                putExtra("Artist", audio.artist)
-            })
-            dismissAllowingStateLoss()
+            val artist = viewModelArtist.getArtists(audio.artist)
+            val bundle = Bundle().apply { putParcelable(Keys.ARTIST_KEY, artist) }
+            val controller = findNavController()
+            controller.navigate(R.id.viewArtistFragment, bundle)
         }
         viewBinding.albumView.setOnClickListener {
-            startActivity(Intent(requireContext(), AlbumViewActivity::class.java)
-                    .apply { putExtra("Album",audio.album) })
-            dismissAllowingStateLoss()
+            val album = viewModelAlbum.getAlbums(audio.album)
+            val bundle = Bundle().apply { putParcelable(Keys.ALBUM_KEY, album) }
+            val controller = findNavController()
+            controller.navigate(R.id.viewAlbumFragment, bundle)
         }
-        if(enableModify)
+        if(requireArguments().getBoolean(Keys.ENABLE_UPDATE_KEY))
             viewBinding.editView.setOnClickListener {
-                startActivity(Intent(requireContext(), EditAudioActivity::class.java).apply {
-                    putExtra("Audio", audio.id)
-                })
-                dismissAllowingStateLoss()
+                val bundle = Bundle().apply { putParcelable(Keys.SONG_KEY, audio) }
+                val controller = findNavController()
+                controller.navigate(R.id.editAudioFragment, bundle)
             }
         else
             viewBinding.editView.visibility = View.GONE
 
         viewBinding.infoView.setOnClickListener {
-            startActivity(Intent(requireContext(), InfoActivity::class.java).apply {
-                putExtra("Audio", audio.id)
-            })
-            dismissAllowingStateLoss()
+            val bundle = Bundle().apply { putParcelable(Keys.SONG_KEY, audio) }
+            val controller = findNavController()
+            controller.navigate(R.id.infoAudioFragment, bundle)
         }
         viewBinding.shareView.setOnClickListener {
-            dismissAllowingStateLoss()
+
         }
     }
 

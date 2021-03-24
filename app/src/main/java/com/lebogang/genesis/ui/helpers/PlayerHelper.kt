@@ -16,6 +16,7 @@
 
 package com.lebogang.genesis.ui.helpers
 
+import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.service.MusicService
 import com.lebogang.genesis.service.utils.PlaybackState
 import com.lebogang.genesis.service.utils.RepeatSate
@@ -29,4 +30,8 @@ interface PlayerHelper {
     fun onShuffleModeChange(shuffleSate: ShuffleSate)
 
     fun onServiceReady(musicService: MusicService)
+
+    fun playAudio(audio: Audio)
+
+    fun playAudio(audio:Audio, audioList:MutableList<Audio>)
 }

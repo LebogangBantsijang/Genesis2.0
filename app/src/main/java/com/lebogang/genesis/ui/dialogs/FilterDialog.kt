@@ -23,16 +23,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.lebogang.genesis.databinding.DialogFilterBinding
 import com.lebogang.genesis.settings.ContentSettings
-import com.lebogang.genesis.utils.SeekBarListenerSimplified
+import com.lebogang.genesis.ui.helpers.SeekBarHelper
 
 class FilterDialog: DialogFragment(){
-    private lateinit var viewBinding:DialogFilterBinding
+    private val viewBinding:DialogFilterBinding by lazy { DialogFilterBinding.inflate(layoutInflater) }
     private val contentSettings:ContentSettings by lazy {
-        ContentSettings(context!!)
-    }
+        ContentSettings(requireContext()) }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        viewBinding = DialogFilterBinding.inflate(inflater, container, false)
+                              savedInstanceState: Bundle?): View {
         return viewBinding.root
     }
 
@@ -43,7 +42,7 @@ class FilterDialog: DialogFragment(){
 
     private fun initSeekView(){
         viewBinding.seekBar.progress = (contentSettings.getDurationFilter()/10).toInt()
-        viewBinding.seekBar.setOnSeekBarChangeListener(object : SeekBarListenerSimplified(){
+        viewBinding.seekBar.setOnSeekBarChangeListener(object : SeekBarHelper(){
             override fun progressChanged(progress: Int) {
                 val duration:Long = (progress*10).toLong()
                 contentSettings.setDurationFilter(duration)

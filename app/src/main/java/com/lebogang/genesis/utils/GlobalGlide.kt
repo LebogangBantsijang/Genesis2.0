@@ -105,6 +105,32 @@ object GlobalGlide {
         }
     }
 
+    fun loadAudioBackground(root: AppCompatActivity, imageView: ImageView, uri:Uri?){
+        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+            Glide.with(root)
+                    .load(uri)
+                    .skipMemoryCache(false)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(imageView.width, imageView.height)
+                    .centerCrop()
+                    .error(R.drawable.ic_music)
+                    .into(imageView)
+                    .waitForLayout()
+                    .clearOnDetach()
+        }else{
+            Glide.with(root)
+                    .load(uri)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(imageView.width, imageView.height)
+                    .centerCrop()
+                    .error(R.drawable.ic_music)
+                    .into(imageView)
+                    .waitForLayout()
+                    .clearOnDetach()
+        }
+    }
+
     fun loadAudioCover(root: Fragment, imageView: ImageView, uri:Uri?){
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
             Glide.with(root)
@@ -183,6 +209,32 @@ object GlobalGlide {
         }
     }
 
+    fun loadAlbumCover(root: Fragment, imageView: ImageView, uri:Uri?){
+        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+            Glide.with(root)
+                .load(uri)
+                .skipMemoryCache(false)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(imageView.width, imageView.height)
+                .centerCrop()
+                .error(R.drawable.ic_music_record_light)
+                .into(imageView)
+                .waitForLayout()
+                .clearOnDetach()
+        }else{
+            Glide.with(root)
+                .load(uri)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(imageView.width, imageView.height)
+                .centerCrop()
+                .error(R.drawable.ic_music_record_light)
+                .into(imageView)
+                .waitForLayout()
+                .clearOnDetach()
+        }
+    }
+
     fun loadArtistCoverForRecyclerView(root: View, imageView: ImageView, uri:Uri?){
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
             Glide.with(root)
@@ -232,6 +284,32 @@ object GlobalGlide {
                     .into(imageView)
                     .waitForLayout()
                     .clearOnDetach()
+        }
+    }
+
+    fun loadArtistCover(root: Fragment, imageView: ImageView, uri:Uri?){
+        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+            Glide.with(root)
+                .load(uri)
+                .skipMemoryCache(false)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(imageView.width, imageView.height)
+                .centerCrop()
+                .error(R.drawable.ic_artist_light)
+                .into(imageView)
+                .waitForLayout()
+                .clearOnDetach()
+        }else{
+            Glide.with(root)
+                .load(uri)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(imageView.width, imageView.height)
+                .centerCrop()
+                .error(R.drawable.ic_artist_light)
+                .into(imageView)
+                .waitForLayout()
+                .clearOnDetach()
         }
     }
 

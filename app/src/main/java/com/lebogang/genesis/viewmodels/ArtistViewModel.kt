@@ -48,14 +48,4 @@ class ArtistViewModel(private val artistRepo: ArtistRepo)
         getArtists()
     }
 
-    class Factory(private val artistRepo: ArtistRepo)
-        :ViewModelProvider.Factory{
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(ArtistViewModel::class.java))
-                return ArtistViewModel(artistRepo) as T
-            throw IllegalArgumentException()
-        }
-
-    }
 }

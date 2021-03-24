@@ -16,47 +16,30 @@
 
 package com.lebogang.genesis.ui.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.PopupMenu
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.internal.NavigationMenu
-import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.R
 import com.lebogang.genesis.databinding.FragmentPlaylistBinding
 import com.lebogang.genesis.room.models.Playlist
-import com.lebogang.genesis.ui.PlaylistViewActivity
 import com.lebogang.genesis.ui.adapters.ItemPlaylistAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnPlaylistClickListener
 import com.lebogang.genesis.ui.dialogs.AddPlaylistDialog
 import com.lebogang.genesis.ui.dialogs.UpdatePlaylistDialog
+import com.lebogang.genesis.ui.helpers.SpeedDialHelper
+import com.lebogang.genesis.utils.Keys
 import com.lebogang.genesis.viewmodels.PlaylistViewModel
-import io.github.yavski.fabspeeddial.FabSpeedDial
+import com.lebogang.genesis.viewmodels.ViewModelFactory
 
-class PlaylistFragment: GeneralFragment(),OnPlaylistClickListener {
-
-    private val viewBinding:FragmentPlaylistBinding by lazy{
-        FragmentPlaylistBinding.inflate(layoutInflater)
-    }
-    private val playlistViewModel:PlaylistViewModel  by lazy{
-        PlaylistViewModel.Factory((activity?.application as GenesisApplication).playlistRepo)
-                .create(PlaylistViewModel::class.java)
-    }
-    private val adapter = ItemPlaylistAdapter().apply {
-        listener = this@PlaylistFragment
-    }
-
-    override fun onSearch(string: String) {
-        //Not Needed
-    }
-
-    override fun onRefresh() {
-        //not needed
-    }
+class PlaylistFragment: Fragment(),OnPlaylistClickListener {
+    private val viewBinding:FragmentPlaylistBinding by lazy{ FragmentPlaylistBinding.inflate(layoutInflater)}
+    private val viewModel:PlaylistViewModel  by lazy{
+        ViewModelFactory(requireActivity().application).getPlaylistViewModel() }
+    private val adapter = ItemPlaylistAdapter().apply { listener = this@PlaylistFragment}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return viewBinding.root
@@ -64,51 +47,38 @@ class PlaylistFragment: GeneralFragment(),OnPlaylistClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecyclerView()
-        observePlaylists()
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
+        viewBinding.recyclerView.adapter = adapter
+        viewModel.liveData.observe(viewLifecycleOwner, {
+            adapter.setPlaylistData(it)
+            loadingView(it.isNotEmpty())
+            val count = getString(R.string.total) + " " + it.size.toString()
+            viewBinding.counterView.text = count
+        })
         initMenuView()
     }
 
-    private fun initRecyclerView(){
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
-        viewBinding.recyclerView.adapter = adapter
-    }
-
     private fun initMenuView(){
-        viewBinding.menuView.setMenuListener(object: FabSpeedDial.MenuListener{
-            override fun onPrepareMenu(p0: NavigationMenu?): Boolean {
-                return true
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem?): Boolean {
-                return when(menuItem!!.itemId){
+        viewBinding.menuView.setMenuListener(object: SpeedDialHelper(){
+            override fun onItemSelected(itemId: Int): Boolean {
+                return when(itemId){
                     R.id.addMenu->{
-                        AddPlaylistDialog().show(fragmentManager!!, "")
+                        val controller = findNavController()
+                        controller.navigate(R.id.addPlaylistDialog)
                         return true
                     }
                     R.id.clearMenu->{
-                        playlistViewModel.clearData()
+                        viewModel.clearData()
                         return true
                     }
                     else-> false
                 }
             }
-
-            override fun onMenuClosed() {
-                //not needed
-            }
-        })
-    }
-
-    private fun observePlaylists(){
-        playlistViewModel.liveData.observe(viewLifecycleOwner, {
-            adapter.setPlaylistData(it)
-            loadingView(it.isNotEmpty())
         })
     }
 
     private fun loadingView(hasContent:Boolean){
-        viewBinding.progressBar.visibility = View.GONE
+        viewBinding.loadingView.visibility = View.GONE
         if (hasContent){
             viewBinding.noContentView.text = null
         }else{
@@ -116,23 +86,20 @@ class PlaylistFragment: GeneralFragment(),OnPlaylistClickListener {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        activity?.title = getString(R.string.playlists)
-    }
-
     override fun onPlaylistClick(playlist: Playlist) {
-        startActivity(Intent(context,PlaylistViewActivity::class.java).apply {
-            putExtra("Playlist", playlist.id)
-        })
+        val bundle = Bundle().apply { putParcelable(Keys.PLAYLIST_KEY, playlist) }
+        val controller = findNavController()
+        controller.navigate(R.id.viewPlaylistFragment, bundle)
     }
 
     override fun onPlaylistEditClick(playlist: Playlist) {
-        UpdatePlaylistDialog(playlist).show(fragmentManager!!, "")
+        val bundle = Bundle().apply { putParcelable(Keys.PLAYLIST_KEY, playlist) }
+        val controller = findNavController()
+        controller.navigate(R.id.updatePlaylistDialog, bundle)
     }
 
     override fun onPlaylistDeleteClick(playlist: Playlist) {
-        playlistViewModel.deletePlaylist(playlist)
+        viewModel.deletePlaylist(playlist)
     }
 
 }

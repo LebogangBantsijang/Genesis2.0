@@ -25,18 +25,21 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import com.lebogang.genesis.room.PlaylistRepo
 import com.lebogang.genesis.room.models.Playlist
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 
 class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {
     val liveData: LiveData<List<Playlist>> = playlistRepo.getPlaylists().asLiveData()
-    val livePlaylist :MutableLiveData<Playlist> = MutableLiveData()
+    val liveDataAudioIds:MutableLiveData<List<Long>> = MutableLiveData()
 
-    fun getPlaylists(id:Long) = viewModelScope.launch{
-        livePlaylist.value = playlistRepo.getPlaylist(id)
+    fun getPlaylists(id:Long):Playlist{
+        return playlistRepo.getPlaylist(id)
     }
 
-    fun getPlaylistAudio(playlistId: Long):LiveData<List<Long>>{
-        return playlistRepo.getPlaylistAudioIds(playlistId).asLiveData()
+    fun getPlaylistAudio(playlistId: Long) = viewModelScope.launch{
+        liveDataAudioIds.postValue(playlistRepo.getPlaylistAudioIds(playlistId))
     }
 
     fun insertPlaylist(playlist: Playlist) = viewModelScope.launch {
@@ -57,20 +60,12 @@ class PlaylistViewModel(private val playlistRepo: PlaylistRepo): ViewModel() {
 
     fun clearAudioData(playlistId: Long) = viewModelScope.launch {
         playlistRepo.clearAudioData(playlistId)
+        liveDataAudioIds.postValue(playlistRepo.getPlaylistAudioIds(playlistId))
     }
 
     fun deletePlaylistAudio(playlistId:Long, audioId:Long) = viewModelScope.launch {
         playlistRepo.deletePlaylistAudio(playlistId,audioId)
-    }
-
-    class Factory(private val playlistRepo: PlaylistRepo):ViewModelProvider.Factory{
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(PlaylistViewModel::class.java))
-                return PlaylistViewModel(playlistRepo) as T
-            throw IllegalArgumentException()
-        }
-
+        liveDataAudioIds.postValue(playlistRepo.getPlaylistAudioIds(playlistId))
     }
 
 }

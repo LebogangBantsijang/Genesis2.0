@@ -39,10 +39,8 @@ class LocalAudio(private val context:Context) {
     private val contentSettings = ContentSettings(context)
     @SuppressLint("InlinedApi")
     private val selection = "$DURATION >=? AND $IS_MUSIC"
-    val SORT_AUDIO_BY_TITLE = "$TITLE ASC"
-    val SORT_AUDIO_BY_DATE = "$DATE_ADDED DESC"
 
-    suspend fun getAudio():MutableList<Audio>{
+    fun getAudio():MutableList<Audio>{
         val sortOrder = contentSettings.getSortOrder()
         val durationFilter = contentSettings.getDurationFilter()
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
@@ -51,7 +49,7 @@ class LocalAudio(private val context:Context) {
     }
 
     @SuppressLint("InlinedApi")
-    suspend fun getAlbumAudio(albumName:String):MutableList<Audio>{
+    fun getAlbumAudio(albumName:String):MutableList<Audio>{
         val sortOrder = contentSettings.getSortOrder()
         val durationFilter = contentSettings.getDurationFilter()
         val selection = "$DURATION >=? AND $ALBUM =? AND $IS_MUSIC"
@@ -61,7 +59,7 @@ class LocalAudio(private val context:Context) {
     }
 
     @SuppressLint("InlinedApi")
-    suspend fun getArtistAudio(artistName:String):MutableList<Audio>{
+    fun getArtistAudio(artistName:String):MutableList<Audio>{
         val sortOrder = contentSettings.getSortOrder()
         val durationFilter = contentSettings.getDurationFilter()
         val selection = "$DURATION >=? AND $ARTIST =? AND $IS_MUSIC"
@@ -92,26 +90,26 @@ class LocalAudio(private val context:Context) {
         return false
     }
 
-    suspend fun getAudio(uri: Uri):MutableList<Audio>{
+    fun getAudio(uri: Uri):MutableList<Audio>{
         val sortOrder = contentSettings.getSortOrder()
-        val cursor = contentResolver.query(uri, projection,"$IS_MUSIC",
+        val cursor = contentResolver.query(uri, projection, IS_MUSIC,
                 null , sortOrder)
         return loopCursor(cursor)
     }
 
-    suspend fun getAudio(audioIdList:List<Long>?):MutableList<Audio>{
+    fun getAudio(audioIdList:List<Long>?):MutableList<Audio>{
         val durationFilter = contentSettings.getDurationFilter()
         val cursor = contentResolver.query(EXTERNAL_CONTENT_URI, projection,
                 selection, arrayOf(durationFilter.toString()), null)
         return loopCursor(cursor, audioIdList)
     }
 
-    suspend fun deleteAudio(audio: Audio){
+    fun deleteAudio(audio: Audio){
         contentResolver.delete(EXTERNAL_CONTENT_URI, "$_ID =?", arrayOf(audio.id.toString()))
     }
 
-    suspend fun updateAudio(audio: Audio, contentValues: ContentValues){
-        contentResolver.update(audio.uri, contentValues, "$_ID =?", arrayOf(audio.id.toString()))
+    fun updateAudio(audio: Audio, contentValues: ContentValues){
+        contentResolver.update(audio.getUri(), contentValues, "$_ID =?", arrayOf(audio.id.toString()))
     }
 
     @SuppressLint("InlinedApi")
@@ -128,7 +126,7 @@ class LocalAudio(private val context:Context) {
                     val durationFormatted = TimeConverter.toMinutes(duration)
                     val size = Formatter.formatShortFileSize(context, cursor.getLong(cursor.getColumnIndex(SIZE)))
                     val albumArt = LocalArtUri.getAlbumArt(cursor.getLong(cursor.getColumnIndex(ALBUM_ID)))
-                    val uri = ContentUris.withAppendedId(EXTERNAL_CONTENT_URI, id)
+                    val uri = ContentUris.withAppendedId(EXTERNAL_CONTENT_URI, id).toString()
                     val audio = Audio(id, title, artist, album, duration, durationFormatted
                             , size, albumArt, uri)
                     linkedHashMap[id] = audio
@@ -153,7 +151,7 @@ class LocalAudio(private val context:Context) {
                     val durationFormatted = TimeConverter.toMinutes(duration)
                     val size = Formatter.formatShortFileSize(context, cursor.getLong(cursor.getColumnIndex(SIZE)))
                     val albumArt = LocalArtUri.getAlbumArt(cursor.getLong(cursor.getColumnIndex(ALBUM_ID)))
-                    val uri = ContentUris.withAppendedId(EXTERNAL_CONTENT_URI, id)
+                    val uri = ContentUris.withAppendedId(EXTERNAL_CONTENT_URI, id).toString()
                     val audio = Audio(id, title, artist, album, duration, durationFormatted
                         , size, albumArt, uri)
                     if(idList != null && idList.contains(id))

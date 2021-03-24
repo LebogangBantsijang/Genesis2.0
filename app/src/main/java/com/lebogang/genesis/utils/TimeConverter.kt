@@ -18,9 +18,8 @@ package com.lebogang.genesis.utils
 
 import java.util.concurrent.TimeUnit
 
-private const val MINUTE = 60000
-
 object TimeConverter {
+    private const val MINUTE = 60000
 
     fun toMinutes(time: Long):String{
         var duration: String

@@ -28,34 +28,34 @@
         android:textColor="?android:textColorSecondaryNoDisable"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true"/>
+        <TextView
+            android:id="@+id/counterView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+            android:text="@string/total" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <io.github.yavski.fabspeeddial.FabSpeedDial
-        android:id="@+id/sortView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fabBackgroundTint="?colorPrimary"
-        app:fabDrawableTint="@color/white"
-        app:fabGravity="bottom_end"
-        android:layout_gravity="end|bottom"
-        app:fabMenu="@menu/sort_menu"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="16dp"
-        android:contentDescription="@string/sort"
-        app:miniFabBackgroundTint="?colorPrimary"
-        app:miniFabDrawableTint="@color/white"
-        app:miniFabTitleTextColor="@color/white"
-        app:miniFabTitleBackgroundTint="?colorPrimary"/>
+    </LinearLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/equalizer"
+        app:lottie_repeatMode="restart"
+        app:lottie_colorFilter="?colorPrimary"/>
 </FrameLayout>

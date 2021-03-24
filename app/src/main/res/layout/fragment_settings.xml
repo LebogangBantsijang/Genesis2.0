@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2021. - Lebogang Bantsijang
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+<androidx.core.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/backgroundView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/background_image"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:background="?selectableItemBackground"
+                android:textColor="?android:textColorSecondary"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:padding="16dp"
+                app:drawableStartCompat="@drawable/ic_wallpaper"
+                app:drawableEndCompat="@drawable/ic_forward"
+                app:drawableTint="?colorButtonNormal" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/filterView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackground"
+                android:text="@string/filter"
+                android:gravity="center_vertical"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_filter_and_sort"
+                app:drawableEndCompat="@drawable/ic_forward"
+                app:drawableTint="?colorButtonNormal"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/selectThemeView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackground"
+                android:text="@string/select_theme"
+                android:gravity="center_vertical"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_themes"
+                app:drawableTint="?colorPrimary" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider" />
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>

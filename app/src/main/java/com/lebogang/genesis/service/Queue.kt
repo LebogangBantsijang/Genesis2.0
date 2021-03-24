@@ -39,6 +39,11 @@ object Queue {
         }
     }
 
+    fun clearQueue(){
+        audioQueue.clear()
+        audioQueue.add(currentAudio.value!!)
+    }
+
     fun getRandomAudio():Audio{
         val audio = audioQueue[(Math.random()*(audioQueue.size -1)).toInt()]
         currentAudio.value = audio

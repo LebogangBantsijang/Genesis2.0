@@ -27,7 +27,7 @@ import com.lebogang.genesis.room.models.Playlist
 import com.lebogang.genesis.room.models.PlaylistBridgeTable
 import com.lebogang.genesis.room.models.Statistics
 
-@Database(entities = [Playlist::class, PlaylistBridgeTable::class, Statistics::class],version = 7, exportSchema = false)
+@Database(entities = [Playlist::class, PlaylistBridgeTable::class, Statistics::class],version = 8, exportSchema = false)
 abstract class GenesisDatabase: RoomDatabase() {
     abstract fun playlistDao(): PlaylistDao
     abstract fun playlistAudioBridge(): PlaylistAudioBridgeDao

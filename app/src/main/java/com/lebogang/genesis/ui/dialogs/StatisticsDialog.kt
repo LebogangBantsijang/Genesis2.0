@@ -21,20 +21,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.databinding.DialogStatisticBinding
 import com.lebogang.genesis.room.models.Statistics
+import com.lebogang.genesis.utils.Keys
 import com.lebogang.genesis.viewmodels.AudioViewModel
+import com.lebogang.genesis.viewmodels.ViewModelFactory
 
-class StatisticsDialog(private val statistics: Statistics):DialogFragment(){
-    private lateinit var viewBinding:DialogStatisticBinding
-    private val audioViewModel:AudioViewModel by lazy{
-        AudioViewModel.Factory((activity!!.application as GenesisApplication).audioRepo)
-                .create(AudioViewModel::class.java)
-    }
+class StatisticsDialog:DialogFragment(){
+    private val viewBinding:DialogStatisticBinding by lazy { DialogStatisticBinding.inflate(layoutInflater) }
+    private val audioViewModel:AudioViewModel by lazy{ ViewModelFactory(requireActivity().application)
+            .getAudioViewModel()}
+    private lateinit var statistics: Statistics
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewBinding = DialogStatisticBinding.inflate(inflater, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        statistics = requireArguments().getParcelable(Keys.STATISTICS_KEY)!!
         return viewBinding.root
     }
 

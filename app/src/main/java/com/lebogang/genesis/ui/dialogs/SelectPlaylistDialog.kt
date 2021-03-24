@@ -28,21 +28,22 @@ import com.lebogang.genesis.databinding.DialogAddAudioToPlaylistBinding
 import com.lebogang.genesis.room.models.Playlist
 import com.lebogang.genesis.ui.adapters.ItemSelectPlaylistAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnSelectPlaylistListener
+import com.lebogang.genesis.utils.Keys
 import com.lebogang.genesis.viewmodels.PlaylistViewModel
+import com.lebogang.genesis.viewmodels.ViewModelFactory
 
-class SelectPlaylistDialog(private val audio:Audio):DialogFragment(),OnSelectPlaylistListener {
-    private lateinit var viewBinding:DialogAddAudioToPlaylistBinding
-    private val playlistViewModel:PlaylistViewModel by lazy {
-        PlaylistViewModel.Factory((activity?.application as GenesisApplication).playlistRepo)
-                .create(PlaylistViewModel::class.java)
-    }
+class SelectPlaylistDialog:DialogFragment(),OnSelectPlaylistListener {
+    private val viewBinding:DialogAddAudioToPlaylistBinding by lazy {
+        DialogAddAudioToPlaylistBinding.inflate(layoutInflater) }
+    private val playlistViewModel:PlaylistViewModel by lazy { ViewModelFactory(requireActivity().application)
+            .getPlaylistViewModel() }
     private val adapter = ItemSelectPlaylistAdapter().apply {
-        listener = this@SelectPlaylistDialog
-    }
+        listener = this@SelectPlaylistDialog }
+    private lateinit var audio:Audio
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?
                               , savedInstanceState: Bundle?): View {
-        viewBinding = DialogAddAudioToPlaylistBinding.inflate(inflater, container , false)
+        audio = requireArguments().getParcelable(Keys.SONG_KEY)!!
         return viewBinding.root
     }
 

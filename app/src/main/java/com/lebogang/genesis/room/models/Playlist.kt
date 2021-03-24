@@ -17,20 +17,14 @@
 package com.lebogang.genesis.room.models
 
 import android.net.Uri
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "Playlist")
 data class Playlist(
     @PrimaryKey(autoGenerate = true)
     val id:Long,
-    var title:String,
-    var coverUriToString:String?
-){
-    fun getCoverUri():Uri?{
-        if (coverUriToString != null){
-            return Uri.parse(coverUriToString)
-        }
-        return null
-    }
-}
+    var title:String) : Parcelable

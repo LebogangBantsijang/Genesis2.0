@@ -32,13 +32,4 @@ class StatisticsViewModel(private val statisticsRepo: StatisticsRepo):ViewModel(
     fun clearAll() = viewModelScope.launch {
         statisticsRepo.clearAll()
     }
-
-    class Factory(private val statisticsRepo: StatisticsRepo):ViewModelProvider.Factory{
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(StatisticsViewModel::class.java))
-                return StatisticsViewModel(statisticsRepo) as T
-            throw IllegalArgumentException()
-        }
-    }
 }

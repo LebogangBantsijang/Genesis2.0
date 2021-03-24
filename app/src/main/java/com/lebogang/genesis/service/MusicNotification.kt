@@ -70,16 +70,13 @@ class MusicNotification(private val context:Context) {
                 .setCategory(Notification.CATEGORY_TRANSPORT)
                 .setContentTitle(audio.title)
                 .setContentText(subtitle)
-                .setLargeIcon(getBitmap(audio.albumArtUri))
+                .setLargeIcon(getBitmap(audio.getArtUri()))
                 .setShowWhen(false)
                 .setNotificationSilent()
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(channelImportance)
                 .setContentIntent(PendingIntent.getActivity(context, 146,
-                        Intent(context, MainActivity::class.java).apply {
-                            flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-                        }
-                        ,PendingIntent.FLAG_UPDATE_CURRENT))
+                        Intent(context, MainActivity::class.java),PendingIntent.FLAG_UPDATE_CURRENT))
                 .setStyle(MediaStyle().also {
                     it.setShowCancelButton(false)
                     it.setShowActionsInCompactView(0,1,2)

@@ -26,16 +26,14 @@ import com.lebogang.genesis.databinding.DialogAddPlaylistBinding
 import com.lebogang.genesis.room.models.Playlist
 import com.lebogang.genesis.utils.Validator
 import com.lebogang.genesis.viewmodels.PlaylistViewModel
+import com.lebogang.genesis.viewmodels.ViewModelFactory
 
 class AddPlaylistDialog:DialogFragment() {
-    private lateinit var viewBinding:DialogAddPlaylistBinding
+    private val viewBinding:DialogAddPlaylistBinding by lazy{DialogAddPlaylistBinding.inflate(layoutInflater)}
     private val playlistViewModel:PlaylistViewModel by lazy {
-        PlaylistViewModel.Factory((activity?.application as GenesisApplication).playlistRepo)
-                .create(PlaylistViewModel::class.java)
-    }
+        ViewModelFactory(requireActivity().application).getPlaylistViewModel() }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewBinding = DialogAddPlaylistBinding.inflate(inflater, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return viewBinding.root
     }
 
@@ -48,7 +46,7 @@ class AddPlaylistDialog:DialogFragment() {
         viewBinding.saveView.setOnClickListener {
             val name = viewBinding.playlistNameView.text.toString()
             if (Validator.isValueValid(name)){
-                playlistViewModel.insertPlaylist(Playlist(0, name, null))
+                playlistViewModel.insertPlaylist(Playlist(0, name))
                 dismissAllowingStateLoss()
             }
         }

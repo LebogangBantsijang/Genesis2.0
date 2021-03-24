@@ -17,10 +17,20 @@
 package com.lebogang.genesis.data.models
 
 import android.net.Uri
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Artist(
         val id:Long,
         val title:String,
         val albumCount:String,
-        var coverUri:Uri?
-)
+        var coverUri:String?) : Parcelable {
+
+    fun getArtUri():Uri{
+        coverUri?.let {
+            return Uri.parse(it)
+        }
+        return Uri.EMPTY
+    }
+}
