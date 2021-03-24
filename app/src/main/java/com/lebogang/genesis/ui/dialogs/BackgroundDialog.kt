@@ -25,20 +25,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.lebogang.genesis.R
 import com.lebogang.genesis.databinding.DialogBackgroundBinding
+import com.lebogang.genesis.service.Queue
 import com.lebogang.genesis.settings.ThemeSettings
-
-const val BACKGROUND_REQUEST_CODE = 8796
+import com.lebogang.genesis.ui.MainActivity
 
 class BackgroundDialog : DialogFragment(){
-    private val viewBinding:DialogBackgroundBinding by lazy {
-        DialogBackgroundBinding.inflate(layoutInflater)
-    }
+    private val viewBinding:DialogBackgroundBinding by lazy { DialogBackgroundBinding.inflate(layoutInflater) }
     private val themeSettings:ThemeSettings by lazy {
-        ThemeSettings(context!!)
-    }
+        ThemeSettings(requireContext()) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?
-                              , savedInstanceState: Bundle?): View? {
+                              , savedInstanceState: Bundle?): View {
         return viewBinding.root
     }
 
@@ -48,37 +45,34 @@ class BackgroundDialog : DialogFragment(){
     }
 
     private fun initRadioViews(){
-        viewBinding.radioGroup.check(getValueId(themeSettings.getBackgroundType()))
+        val backgroundType = themeSettings.getBackgroundType()
+        viewBinding.radioGroup.check(getValueId(backgroundType))
+        if (backgroundType == themeSettings.backgroundTypeAdaptive)
+            viewBinding.adaptiveTypeView.isEnabled = true
+
+        viewBinding.adaptiveTypeView.isChecked = themeSettings.isAdaptiveBackgroundBlurry()
         viewBinding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when(checkedId){
-                R.id.noneView-> themeSettings.setBackgroundType(themeSettings.backgroundTypeNone)
-                R.id.adaptiveView-> themeSettings.setBackgroundType(themeSettings.backgroundTypeAdaptive)
-                R.id.customView-> {
-                    themeSettings.setBackgroundType(themeSettings.backgroundTypeCustom)
-                    startActivityForResult(Intent(Intent.ACTION_PICK).apply {
-                        type = "image/*"
-                    }, BACKGROUND_REQUEST_CODE)
-                }
+                R.id.noneView-> {
+                    themeSettings.setBackgroundType(themeSettings.backgroundTypeNone)
+                    viewBinding.adaptiveTypeView.isEnabled = false }
+                R.id.adaptiveView-> {
+                    themeSettings.setBackgroundType(themeSettings.backgroundTypeAdaptive)
+                    viewBinding.adaptiveTypeView.isEnabled = true }
             }
+            (requireActivity() as MainActivity).changeBackground(Queue.currentAudio.value?.getArtUri())
+        }
+        viewBinding.adaptiveTypeView.setOnCheckedChangeListener { _, isChecked ->
+            themeSettings.setAdaptiveBackgroundBlurry(isChecked)
+            (requireActivity() as MainActivity).changeBackground(Queue.currentAudio.value?.getArtUri())
         }
     }
 
     private fun getValueId(type:String):Int{
         return when(type){
             themeSettings.backgroundTypeNone-> R.id.noneView
-            themeSettings.backgroundTypeCustom -> R.id.customView
             else -> R.id.adaptiveView
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == BACKGROUND_REQUEST_CODE){
-            Log.println(Log.ERROR, "Request code: ", "Match")
-            data?.data?.let {
-                Log.println(Log.ERROR, "Image data: ", "Not Null")
-                themeSettings.setBackgroundImageResource(it)
-            }
-        }
-    }
 }

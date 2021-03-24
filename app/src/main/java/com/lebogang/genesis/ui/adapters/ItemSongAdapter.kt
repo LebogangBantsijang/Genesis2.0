@@ -73,7 +73,7 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filter
         holder.viewBinding.subtitleView.text = subtitle
         holder.viewBinding.durationView.text = audio.durationFormatted
         GlobalGlide.loadAudioCover(holder.viewBinding.root, holder.viewBinding.imageView
-                , audio.albumArtUri)
+                , audio.getArtUri())
         updateNowPlaying(holder, audio)
     }
 

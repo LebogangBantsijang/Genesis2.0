@@ -20,43 +20,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.DialogQueueBinding
 import com.lebogang.genesis.service.Queue
+import com.lebogang.genesis.ui.MainActivity
 import com.lebogang.genesis.ui.adapters.ItemQueueSongAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
 
-class QueueDialog: BottomSheetDialogFragment(), OnAudioClickListener {
-    private lateinit var viewBinding:DialogQueueBinding
-    private val adapter = ItemQueueSongAdapter().apply {
-        listener = this@QueueDialog
-    }
+class QueueDialog: DialogFragment(), OnAudioClickListener {
+    private val viewBinding:DialogQueueBinding by lazy { DialogQueueBinding.inflate(layoutInflater) }
+    private val adapter = ItemQueueSongAdapter().apply { listener = this@QueueDialog }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?
                               , savedInstanceState: Bundle?): View {
-        viewBinding = DialogQueueBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecyclerView()
-        initDismissView()
-        observeAudio()
-    }
-
-    private fun initRecyclerView(){
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
         viewBinding.recyclerView.adapter = adapter
         adapter.setAudioData(Queue.audioQueue)
-    }
-
-    private fun initDismissView(){
-        viewBinding.minimiseView.setOnClickListener{
-            dismissAllowingStateLoss()
-        }
+        viewBinding.counterView.text = Queue.audioQueue.size.toString()
+        observeAudio()
     }
 
     private fun observeAudio(){
@@ -66,11 +54,12 @@ class QueueDialog: BottomSheetDialogFragment(), OnAudioClickListener {
     }
 
     override fun onAudioClick(audio: Audio) {
-        //Queue.setCurrentAudio(audio)
+        (activity as MainActivity).playAudio(audio)
     }
 
     override fun onAudioClickOptions(audio: Audio) {
         Queue.removeAudio(audio)
         adapter.setAudioData(Queue.audioQueue)
+        viewBinding.counterView.text = Queue.audioQueue.size.toString()
     }
 }

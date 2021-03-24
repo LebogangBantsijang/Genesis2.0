@@ -24,39 +24,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".ui.StatisticsActivity"
-            android:parentActivityName=".ui.MainActivity"
-            android:launchMode="singleInstance" />
-        <activity
-            android:name=".ui.AboutActivity"
-            android:parentActivityName=".ui.MainActivity"
-            android:launchMode="singleInstance" />
-        <activity
             android:name=".ui.PlayerActivity"
-            android:parentActivityName=".ui.MainActivity"
-            android:launchMode="singleInstance" />
-        <activity
-            android:name=".ui.SettingsActivity"
-            android:parentActivityName=".ui.MainActivity"
-            android:launchMode="singleInstance" />
-        <activity
-            android:name=".ui.InfoActivity"
-            android:parentActivityName=".ui.MainActivity"
-            android:launchMode="singleInstance" />
-        <activity
-            android:name=".ui.EditAudioActivity"
-            android:parentActivityName=".ui.MainActivity"
-            android:launchMode="singleInstance" />
-        <activity
-            android:name=".ui.PlaylistViewActivity"
-            android:parentActivityName=".ui.MainActivity"
-            android:launchMode="singleInstance" />
-        <activity
-            android:name=".ui.ArtistViewActivity"
-            android:parentActivityName=".ui.MainActivity"
-            android:launchMode="singleInstance" />
-        <activity
-            android:name=".ui.AlbumViewActivity"
             android:parentActivityName=".ui.MainActivity"
             android:launchMode="singleInstance" />
         <activity

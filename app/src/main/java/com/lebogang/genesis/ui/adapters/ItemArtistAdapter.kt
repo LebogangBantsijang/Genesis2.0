@@ -53,7 +53,7 @@ class ItemArtistAdapter:RecyclerView.Adapter<ItemArtistAdapter.ViewHolder>(), Fi
         val artist = if(!isUserSearching) listArtist[position] else filteredList[position]
         holder.viewBinding.titleView.text = artist.title
         GlobalGlide.loadArtistCoverForRecyclerView(holder.viewBinding.root, holder.viewBinding.imageView
-                , artist.coverUri)
+                , artist.getArtUri())
     }
 
     override fun getItemCount(): Int {
@@ -65,7 +65,7 @@ class ItemArtistAdapter:RecyclerView.Adapter<ItemArtistAdapter.ViewHolder>(), Fi
     inner class ViewHolder(val viewBinding:ItemLocalArtistBinding):RecyclerView.ViewHolder(viewBinding.root){
         init {
             viewBinding.root.setOnClickListener {
-                listener?.onArtistClick(getItem())
+                listener?.onArtistClick(getItem(),viewBinding.imageView)
             }
         }
 

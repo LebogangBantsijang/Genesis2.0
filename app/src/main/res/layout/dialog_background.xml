@@ -46,9 +46,7 @@
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:checkedButton="@id/adaptiveView">
+        android:layout_height="wrap_content">
 
         <RadioButton
             android:id="@+id/noneView"
@@ -62,11 +60,16 @@
             android:layout_height="wrap_content"
             android:text="@string/adaptive" />
 
-        <RadioButton
-            android:id="@+id/customView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/custom" />
     </RadioGroup>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/adaptiveTypeView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:enabled="false"
+        android:text="@string/blur_image" />
 
 </LinearLayout>

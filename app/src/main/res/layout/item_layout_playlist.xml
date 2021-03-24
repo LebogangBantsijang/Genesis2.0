@@ -57,6 +57,7 @@
             android:backgroundTint="?colorButtonNormal"
             android:padding="8dp"
             android:layout_margin="4dp"
+            android:tint="?colorSurface"
             app:srcCompat="@drawable/ic_baseline_edit_24" />
 
         <ImageButton

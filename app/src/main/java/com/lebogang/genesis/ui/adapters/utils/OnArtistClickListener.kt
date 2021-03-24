@@ -16,8 +16,9 @@
 
 package com.lebogang.genesis.ui.adapters.utils
 
+import android.view.View
 import com.lebogang.genesis.data.models.Artist
 
 interface OnArtistClickListener {
-    fun onArtistClick(artist: Artist)
+    fun onArtistClick(artist: Artist, imageView: View)
 }

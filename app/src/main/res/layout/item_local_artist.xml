@@ -26,12 +26,13 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView"
+        android:transitionName="root"
         android:layout_width="match_parent"
         android:layout_height="196dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:contentDescription="@string/album_art"
-        android:src="@drawable/ic_round_person_24"/>
+        android:src="@drawable/ic_custom_artist"/>
 
     <TextView
         android:id="@+id/titleView"

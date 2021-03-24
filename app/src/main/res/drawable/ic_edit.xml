@@ -1,0 +1,20 @@
+<!--
+  ~ Copyright (c) 2021. - Lebogang Bantsijang
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<vector android:height="24dp" android:viewportHeight="50"
+    android:viewportWidth="50" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#474747" android:pathData="M43.0508,1.9746C41.8008,1.9746 40.5496,2.4504 39.5996,3.4004L38.8008,4.1992L45.6992,11.0996L46.5,10.3008C48.4,8.4008 48.4,5.3004 46.5,3.4004C45.55,2.4504 44.3008,1.9746 43.0508,1.9746zM37.4824,6.0898A1.0001,1.0001 0,0 0,36.7949 6.3926L4.2949,38.791A1.0001,1.0001 0,0 0,4.0332 39.2422L2.0332,46.7422A1.0001,1.0001 0,0 0,3.2578 47.9668L10.7578,45.9668A1.0001,1.0001 0,0 0,11.209 45.7051L43.6074,13.2051A1.0001,1.0001 0,1 0,42.1914 11.7949L9.9922,44.0938L5.9063,40.0078L38.2051,7.8086A1.0001,1.0001 0,0 0,37.4824 6.0898z"/>
+</vector>

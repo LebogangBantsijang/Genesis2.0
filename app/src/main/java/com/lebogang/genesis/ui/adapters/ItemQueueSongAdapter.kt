@@ -55,11 +55,8 @@ class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val audio = listAudio[position]
         val subtitle = audio.artist + "-" + audio.album
-        val counter = (1+position).toString()
         holder.viewBinding.titleView.text = audio.title
         holder.viewBinding.subtitleView.text = subtitle
-        holder.viewBinding.counterView.text = counter
-        holder.viewBinding.durationView.text = audio.durationFormatted
         updateNowPlaying(holder, audio)
     }
 
@@ -79,6 +76,7 @@ class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder
         init {
             viewBinding.optionsView.setOnClickListener {
                 listener?.onAudioClickOptions(listAudio[adapterPosition]) }
+            viewBinding.root.setOnClickListener { listener?.onAudioClick(listAudio[adapterPosition]) }
         }
     }
 }

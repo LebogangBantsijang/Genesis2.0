@@ -35,9 +35,10 @@
 
         <ImageView
             android:id="@+id/imageView"
+            android:transitionName="root"
             android:layout_width="match_parent"
             android:layout_height="166dp"
-            app:srcCompat="@drawable/ic_music_record_24dp"
+            app:srcCompat="@drawable/ic_custom_album"
             android:contentDescription="@string/album_art" />
 
     </com.google.android.material.card.MaterialCardView>

@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
         android:minEms="2"/>
 
 

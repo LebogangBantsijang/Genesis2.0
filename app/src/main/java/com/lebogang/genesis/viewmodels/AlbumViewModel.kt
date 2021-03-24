@@ -49,13 +49,4 @@ class AlbumViewModel(private val albumRepo: AlbumRepo) :ViewModel(), OnContentCh
         getAlbums()
     }
 
-    class Factory(private val albumRepo: AlbumRepo):ViewModelProvider.Factory{
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if(modelClass.isAssignableFrom(AlbumViewModel::class.java))
-                return AlbumViewModel(albumRepo) as T
-            throw IllegalArgumentException()
-        }
-
-    }
 }

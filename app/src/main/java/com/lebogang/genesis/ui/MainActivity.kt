@@ -17,43 +17,37 @@
 package com.lebogang.genesis.ui
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
-import androidx.core.content.res.ResourcesCompat
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.tabs.TabLayoutMediator
+import android.view.WindowInsetsController
+import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Audio
-import com.lebogang.genesis.databinding.LayoutNavigationDrawerBinding
+import com.lebogang.genesis.databinding.ActivityMainBinding
 import com.lebogang.genesis.service.ManageServiceConnection
 import com.lebogang.genesis.service.MusicService
 import com.lebogang.genesis.service.Queue
 import com.lebogang.genesis.service.utils.PlaybackState
 import com.lebogang.genesis.service.utils.RepeatSate
 import com.lebogang.genesis.service.utils.ShuffleSate
-import com.lebogang.genesis.ui.adapters.LocalContentActivityViewPagerAdapter
-import com.lebogang.genesis.ui.dialogs.QueueDialog
+import com.lebogang.genesis.settings.ThemeSettings
 import com.lebogang.genesis.ui.helpers.PlayerHelper
-import com.lebogang.genesis.ui.helpers.ThemeHelper
 import com.lebogang.genesis.utils.GlobalBlurry
 import com.lebogang.genesis.utils.GlobalGlide
-import com.lebogang.genesis.utils.PermissionManager
-import com.lebogang.genesis.utils.TextWatcherSimplifier
 
-class MainActivity : ThemeHelper(), PlayerHelper {
-    private val viewBinding: LayoutNavigationDrawerBinding by lazy{
-        LayoutNavigationDrawerBinding.inflate(layoutInflater)
-    }
-    private val adapter:LocalContentActivityViewPagerAdapter by lazy {
-        LocalContentActivityViewPagerAdapter(this)
-    }
+class MainActivity : AppCompatActivity(), PlayerHelper {
+    private val viewBinding: ActivityMainBinding by lazy{ ActivityMainBinding.inflate(layoutInflater) }
+    private val themeSettings:ThemeSettings by lazy{ ThemeSettings(this)}
     private lateinit var musicService: MusicService
+    private lateinit var appBarConfiguration:AppBarConfiguration
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -62,108 +56,84 @@ class MainActivity : ThemeHelper(), PlayerHelper {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(themeSettings.getThemeResource())
         setContentView(viewBinding.root)
-        initToolbar()
-        initNavigationView()
-        checkPermissions()
+        initNavigation()
+        observeAudio()
+        initOtherView()
     }
 
     @SuppressLint("RtlHardcoded")
-    private fun initToolbar(){
-        setSupportActionBar(viewBinding.content.toolbar)
-        viewBinding.content.toolbar.setNavigationOnClickListener {
-            viewBinding.drawerLayout.openDrawer(Gravity.LEFT)
-        }
+    private fun initNavigation(){
+        setSupportActionBar(viewBinding.toolbar)
+        val navHost = supportFragmentManager.findFragmentById(R.id.navFragmentContainer) as NavHostFragment
+        val controller = navHost.navController
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.songsFragment,R.id.albumsFragment
+                ,R.id.artistFragment,R.id.playlistFragment), viewBinding.drawerLayout)
+        setupActionBarWithNavController(controller,appBarConfiguration)
+        viewBinding.navigationView.setupWithNavController(controller)
     }
 
-    private fun initNavigationView(){
-        viewBinding.content.viewPager.currentItem
-        viewBinding.navigationView.setNavigationItemSelectedListener {
-            viewBinding.drawerLayout.closeDrawers()
-            true
-        }
-        viewBinding.navigationView.setNavigationItemSelectedListener {
-            when(it.itemId){
-                R.id.menu_stats->{
-                    startActivity(Intent(this, StatisticsActivity::class.java))
-                    true
-                }
-                R.id.menu_settings->{
-                    startActivity(Intent(this, SettingsActivity::class.java))
-                    true
-                }
-                R.id.menu_about->{
-                    startActivity(Intent(this,AboutActivity::class.java))
-                    true
-                }
-                else -> false
-            }
-        }
-    }
-
-    private fun initViewPager(){
-        viewBinding.content.viewPager.adapter = adapter
-        viewBinding.content.viewPager.offscreenPageLimit = 4
-        TabLayoutMediator(viewBinding.content.tabLayout, viewBinding.content.viewPager
-        ) { tab, pos ->
-            when(pos){
-                0 -> tab.icon =
-                        ResourcesCompat.getDrawable(resources,R.drawable.ic_music_note_24dp, theme)
-                1 -> tab.icon =
-                        ResourcesCompat.getDrawable(resources, R.drawable.ic_music_record_24dp, theme)
-                2 -> tab.icon =
-                        ResourcesCompat.getDrawable(resources, R.drawable.ic_round_person_24, theme)
-                3 -> tab.icon =
-                        ResourcesCompat.getDrawable(resources,R.drawable.ic_music_folder_24dp, theme)
-            }
-        }.attach()
+    override fun onSupportNavigateUp(): Boolean {
+        val controller = findNavController(R.id.navFragmentContainer)
+        return controller.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     private fun initOtherView(){
-        viewBinding.content.searchView.addTextChangedListener(object :TextWatcherSimplifier(){
-            override fun textChanged(string: String) {
-                adapter.onSearch(string, viewBinding.content.viewPager.currentItem)
-            }
-        })
-        viewBinding.content.launcherView.root.setOnClickListener {
-            startActivity(Intent(this, PlayerActivity::class.java))
+        viewBinding.launcherView.root.setOnClickListener {
+            //bottom sheets
         }
-        viewBinding.content.launcherView.queueView.setOnClickListener {
-            QueueDialog().show(supportFragmentManager,"") }
-        viewBinding.content.launcherView.playPauseView.setOnClickListener {
+        viewBinding.launcherView.queueView.setOnClickListener {
+            val controller = findNavController(R.id.navFragmentContainer)
+            controller.navigate(R.id.queueDialog)
+        }
+        viewBinding.launcherView.playPauseView.setOnClickListener {
             musicService.togglePlayPause()
         }
     }
 
     private fun observeAudio(){
         Queue.currentAudio.observe(this, {
-            if (viewBinding.content.launcherView.root.visibility == View.GONE)
-                viewBinding.content.launcherView.root.visibility = View.VISIBLE
-            viewBinding.content.launcherView.titleView.text = it.title
-            viewBinding.content.launcherView.subtitleView.text = it.artist
-            if (themeSettings.getBackgroundType() == themeSettings.backgroundTypeAdaptive)
-                GlobalBlurry.loadBlurryResource(this, it.albumArtUri, viewBinding.content.backView)
+            if (viewBinding.launcherView.root.visibility == View.GONE)
+                viewBinding.launcherView.root.visibility = View.VISIBLE
+            viewBinding.launcherView.titleView.text = it.title
+            viewBinding.launcherView.subtitleView.text = it.artist
+            GlobalGlide.loadAudioCover(this, viewBinding.launcherView.imageView, it.getArtUri())
+            changeBackground(it.getArtUri())
         })
     }
 
-    private fun checkPermissions(){
-        if (PermissionManager.checkWritePermissionGranted(this)){
-            initViewPager()
-            initOtherView()
-            observeAudio()
-        }else
-            PermissionManager.requestWritePermission(this)
+    fun changeBackground(uri: Uri?){
+        when(themeSettings.getBackgroundType()){
+            themeSettings.backgroundTypeNone->{
+                viewBinding.backView.setImageBitmap(null)
+            }
+            themeSettings.backgroundTypeAdaptive->{
+                if (themeSettings.getBackgroundType() == themeSettings.backgroundTypeAdaptive){
+                    if (themeSettings.isAdaptiveBackgroundBlurry())
+                        GlobalBlurry.loadBlurryResource(this, uri, viewBinding.backView)
+                    else
+                        GlobalGlide.loadAudioBackground(this, viewBinding.backView, uri)
+                }
+            }
+        }
     }
 
-    fun playAudio(audio:Audio){
+    override fun playAudio(audio:Audio){
+        Queue.setCurrentAudio(audio)
+        musicService.play(audio)
+    }
+
+    override fun playAudio(audio:Audio, audioList:MutableList<Audio>){
+        Queue.setCurrentAudio(audio, audioList)
         musicService.play(audio)
     }
 
     override fun onPlaybackChanged(playbackState: PlaybackState){
         if (playbackState == PlaybackState.PLAYING)
-            viewBinding.content.launcherView.playPauseView.setImageResource(R.drawable.ic_pause)
+            viewBinding.launcherView.playPauseView.setImageResource(R.drawable.ic_pause)
         else
-            viewBinding.content.launcherView.playPauseView.setImageResource(R.drawable.ic_play)
+            viewBinding.launcherView.playPauseView.setImageResource(R.drawable.ic_play)
     }
 
     override fun onRepeatModeChange(repeatSate: RepeatSate) {
@@ -178,65 +148,4 @@ class MainActivity : ThemeHelper(), PlayerHelper {
         this.musicService = musicService
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-                                            grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            initViewPager()
-            initOtherView()
-            observeAudio()
-        }else
-            showPermissionDialog()
-    }
-
-    private fun showPermissionDialog(){
-        MaterialAlertDialogBuilder(this)
-                .setTitle(getString(R.string.permission_error))
-                .setPositiveButton(getString(R.string.close), null)
-                .setMessage(getString(R.string.permission_error_message))
-                .setOnDismissListener { finishAndRemoveTask()}
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.local_content_toolbar_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
-            R.id.menu_refresh ->{
-                adapter.onRefresh(viewBinding.content.viewPager.currentItem)
-                true
-            }
-            R.id.menu_settings ->{
-                startActivity(Intent(this,SettingsActivity::class.java))
-                true
-            }
-            R.id.menu_about ->{
-                startActivity(Intent(this,AboutActivity::class.java))
-                true
-            }
-            else -> false
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        when(themeSettings.getBackgroundType()){
-            themeSettings.backgroundTypeCustom->{
-                val uri = themeSettings.getBackgroundImageResource()
-                Log.println(Log.ERROR, "Setting Image: ", uri.toString())
-                viewBinding.content.backView.visibility = View.VISIBLE
-                viewBinding.content.backView.setImageURI(themeSettings.getBackgroundImageResource())
-            }
-            themeSettings.backgroundTypeNone->
-                viewBinding.content.backView.visibility = View.INVISIBLE
-            themeSettings.backgroundTypeAdaptive->
-                viewBinding.content.backView.visibility = View.VISIBLE
-        }
-    }
-
-    override fun onBackPressed() {
-        moveTaskToBack(true)
-    }
 }

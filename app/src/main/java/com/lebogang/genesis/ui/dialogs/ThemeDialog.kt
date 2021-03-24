@@ -26,14 +26,12 @@ import com.lebogang.genesis.databinding.DialogThemeBinding
 import com.lebogang.genesis.settings.ThemeSettings
 
 class ThemeDialog: DialogFragment() {
-    private lateinit var viewBinding:DialogThemeBinding
+    private val viewBinding:DialogThemeBinding by lazy {DialogThemeBinding.inflate(layoutInflater)}
     private val themeSettings:ThemeSettings by lazy {
-        ThemeSettings(context!!)
-    }
+        ThemeSettings(requireContext()) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?
                               , savedInstanceState: Bundle?): View {
-        viewBinding = DialogThemeBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
 
@@ -53,6 +51,7 @@ class ThemeDialog: DialogFragment() {
                     themeSettings.setThemeResource(R.style.Theme_Genesis20_System_Dark)
                 }
             }
+            requireActivity().recreate()
         }
     }
 

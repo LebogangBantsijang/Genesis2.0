@@ -24,28 +24,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:padding="8dp"
+        android:gravity="center_vertical">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:padding="16dp"
-            android:text="@string/queue"
-            android:drawablePadding="6dp"
-            app:drawableStartCompat="@drawable/ic_playlist"
-            app:drawableTint="?colorPrimary" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            android:textColor="?android:textColorPrimary"
+            android:text="@string/now_playing" />
 
-        <ImageButton
-            android:id="@+id/minimiseView"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center_vertical"
-            android:background="?selectableItemBackground"
-
-            android:contentDescription="@string/minimise"
-            android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
+        <TextView
+            android:id="@+id/counterView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+            />
 
     </LinearLayout>
 

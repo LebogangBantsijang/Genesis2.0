@@ -17,7 +17,10 @@
 package com.lebogang.genesis.data.models
 
 import android.net.Uri
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Audio (
         val id:Long,
         val title:String,
@@ -26,6 +29,14 @@ data class Audio (
         val duration:Long,
         val durationFormatted:String,
         val size:String,
-        val albumArtUri:Uri,
-        val uri:Uri
-)
+        val albumArtUri:String,
+        val uri:String) : Parcelable {
+
+    fun getUri():Uri{
+        return Uri.parse(uri)
+    }
+
+    fun getArtUri():Uri{
+        return Uri.parse(albumArtUri)
+    }
+}

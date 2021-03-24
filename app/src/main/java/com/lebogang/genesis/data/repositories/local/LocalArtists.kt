@@ -32,7 +32,7 @@ import com.lebogang.genesis.data.utils.LocalArtUri
 class LocalArtists(val context: Context) {
     val contentResolver: ContentResolver = context.applicationContext.contentResolver
     private val projection = arrayOf(_ID, ARTIST, NUMBER_OF_ALBUMS)
-    private val uriMap = HashMap<String, Uri>()
+    private val uriMap = HashMap<String, String>()
     private val sortByArtistTitle = "$ARTIST ASC"
 
     fun getArtists():MutableList<Artist>{

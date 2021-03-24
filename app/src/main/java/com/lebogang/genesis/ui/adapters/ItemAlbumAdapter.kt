@@ -54,7 +54,7 @@ class ItemAlbumAdapter:RecyclerView.Adapter<ItemAlbumAdapter.ViewHolder>(), Filt
         holder.viewBinding.titleView.text = album.title
         holder.viewBinding.subtitleView.text = album.artist
         GlobalGlide.loadAlbumCoverForRecyclerView(holder.viewBinding.root, holder.viewBinding.imageView
-                , album.albumArtUri)
+                , album.getArtUri())
     }
 
     override fun getItemCount(): Int {
@@ -65,7 +65,7 @@ class ItemAlbumAdapter:RecyclerView.Adapter<ItemAlbumAdapter.ViewHolder>(), Filt
 
     inner class ViewHolder(val viewBinding:ItemLocalAlbumBinding):RecyclerView.ViewHolder(viewBinding.root){
         init {
-            viewBinding.root.setOnClickListener { listener?.onAlbumClick(getItem()) }
+            viewBinding.root.setOnClickListener { listener?.onAlbumClick(getItem(), viewBinding.imageView) }
         }
 
         private fun getItem(): Album {

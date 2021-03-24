@@ -29,6 +29,7 @@
 
     <item>
         <inset
-            android:drawable="@drawable/ic_music_record_24dp"/>
+            android:drawable="@drawable/ic_music_record"
+            android:inset="24dp"/>
     </item>
 </layer-list>

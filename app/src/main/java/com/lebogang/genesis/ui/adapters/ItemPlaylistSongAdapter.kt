@@ -23,13 +23,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.ItemLocalPlaylistSongBinding
 import com.lebogang.genesis.ui.adapters.utils.AdapterInterface
+import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.genesis.ui.adapters.utils.OnPlaylistAudioClickListener
 import com.lebogang.genesis.utils.GlobalGlide
 
 class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holder>(),AdapterInterface{
     private var audioId:Long = -1
     var listAudio = mutableListOf<Audio>()
-    var listener:OnPlaylistAudioClickListener? = null
+    var listener:OnAudioClickListener? = null
 
     override fun setAudioData(mutableList: MutableList<Audio>){
         listAudio = mutableList
@@ -60,7 +61,7 @@ class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holde
         holder.viewBinding.subtitleView.text = subtitle
         holder.viewBinding.durationView.text = audio.durationFormatted
         GlobalGlide.loadAudioCover(holder.viewBinding.root, holder.viewBinding.imageView
-                , audio.albumArtUri)
+                , audio.getArtUri())
         updateNowPlaying(holder, audio)
     }
 
@@ -80,7 +81,7 @@ class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holde
             viewBinding.root.setOnClickListener {
                 listener?.onAudioClick(listAudio[adapterPosition]) }
             viewBinding.deleteView.setOnClickListener {
-                listener?.onAudioDeleteClick(listAudio[adapterPosition]) }
+                listener?.onAudioClickOptions(listAudio[adapterPosition]) }
         }
     }
 }

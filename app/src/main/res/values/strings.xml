@@ -40,9 +40,9 @@
     <string name="playlists">Playlists</string>
     <string name="artists">Artists</string>
     <string name="albums">Albums</string>
-    <string name="songs">Songs</string>
+    <string name="songs">All Songs</string>
     <string name="search">Search</string>
-    <string name="sort">Sort</string>
+    <string name="sort">Sort By</string>
     <string name="music">Music</string>
     <string name="edit">edit</string>
     <string name="add">add</string>
@@ -63,6 +63,8 @@
     <string name="playlists_require_names_give_your_playlist_a_name">Playlists require names, give your playlist a name</string>
     <string name="update_playlist">Update Playlist</string>
     <string name="update">Update</string>
+    <string name="update_successful">Update was successful</string>
+    <string name="update_failed">Update was failed</string>
     <string name="update_your_playlist_information">Update your playlist information</string>
     <string name="search_here">Search here</string>
     <string name="delete">Delete</string>
@@ -76,7 +78,7 @@
     <string name="title">Title</string>
     <string name="artist">Artist</string>
     <string name="album">Album</string>
-    <string name="null_values">Error: Null values</string>
+    <string name="null_values">Error: Please enter full details</string>
     <string name="refresh">Refresh</string>
     <string name="title_asc">Title Ascending</string>
     <string name="title_desc">Title Descending</string>
@@ -84,7 +86,7 @@
     <string name="date_desc">Date Descending</string>
     <string name="add_playlist">Add Playlist</string>
     <string name="clear_all_playlist">Clear All Playlist</string>
-    <string name="clear_all">Clear All Audio</string>
+    <string name="clear_all">Clear All</string>
     <string name="select_playlist">Select Playlist</string>
     <string name="cancel">Cancel</string>
     <string name="light">Light</string>
@@ -125,6 +127,19 @@
     <string name="none">None</string>
     <string name="adaptive">Adaptive</string>
     <string name="custom">Custom</string>
+    <string name="play_all">PLAY ALL</string>
+    <string name="_3_column_s">3 Column(s)</string>
+    <string name="_2_column_s">2 Column(s)</string>
+    <string name="_1_column_s">1 Column(s)</string>
+    <string name="local">Local</string>
+    <string name="other">Other</string>
+    <string name="total">Total:</string>
+    <string name="blur_image">Blur Image</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="edit_tags">Edit Tags</string>
+    <string name="tracks">Tracks</string>
+    <string name="artist_tracks">Artist Tracks</string>
+    <string name="playlist_tracks">Playlist Tracks</string>
 
     <string-array name="column_options">
         <item>2</item>

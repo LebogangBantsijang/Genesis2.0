@@ -1,0 +1,22 @@
+<!--
+  ~ Copyright (c) 2021. - Lebogang Bantsijang
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<vector android:height="200dp" android:viewportHeight="50"
+    android:viewportWidth="50" android:width="200dp"
+    android:tint="?colorControlNormal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#474747" android:pathData="M25,2.0059C12.3128,2.0059 2.0059,12.3128 2.0059,25C2.0059,37.6872 12.3128,47.9941 25,47.9941C37.6872,47.9941 47.9941,37.6872 47.9941,25C47.9941,12.3128 37.6872,2.0059 25,2.0059zM25,3.9941C36.6133,3.9941 46.0059,13.3867 46.0059,25C46.0059,36.6133 36.6133,46.0059 25,46.0059C13.3867,46.0059 3.9941,36.6133 3.9941,25C3.9941,13.3867 13.3867,3.9941 25,3.9941zM37.4941,10.7637L32.2891,16.7266C32.6741,16.9906 33.0065,17.3249 33.2695,17.7109L39.2344,12.5059C38.7684,11.8219 38.1761,11.2307 37.4941,10.7637zM25,16.0059C20.0448,16.0059 16.0059,20.0448 16.0059,25C16.0059,29.9552 20.0448,33.9941 25,33.9941C29.9552,33.9941 33.9941,29.9552 33.9941,25C33.9941,20.0448 29.9552,16.0059 25,16.0059zM25,17.9941C28.8814,17.9941 32.0059,21.1186 32.0059,25C32.0059,28.8814 28.8814,32.0059 25,32.0059C21.1186,32.0059 17.9941,28.8814 17.9941,25C17.9941,21.1186 21.1186,17.9941 25,17.9941zM25,23A2,2 0,0 0,23 25A2,2 0,0 0,25 27A2,2 0,0 0,27 25A2,2 0,0 0,25 23zM16.7461,32.2383L10.7168,37.5117C11.1828,38.1957 11.7731,38.7869 12.4551,39.2539L17.7285,33.2227C17.3435,32.9587 17.0091,32.6243 16.7461,32.2383z"/>
+</vector>

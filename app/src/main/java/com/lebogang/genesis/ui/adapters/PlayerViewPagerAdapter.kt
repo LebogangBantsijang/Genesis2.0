@@ -57,7 +57,7 @@ class PlayerViewPagerAdapter: RecyclerView.Adapter<PlayerViewPagerAdapter.ViewHo
         val audio = listAudio[position]
         val counter = (1+position).toString() + " of " + listAudio.size
         holder.viewBinding.counterView.text = counter
-        GlobalGlide.loadAudioCover(holder.viewBinding.root, holder.viewBinding.coverView, audio.albumArtUri)
+        GlobalGlide.loadAudioCover(holder.viewBinding.root, holder.viewBinding.coverView, audio.getArtUri())
         updateNowPlaying(holder, audio)
     }
 

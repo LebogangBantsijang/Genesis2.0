@@ -24,18 +24,19 @@ import androidx.fragment.app.DialogFragment
 import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.databinding.DialogUpdatePlaylistBinding
 import com.lebogang.genesis.room.models.Playlist
+import com.lebogang.genesis.utils.Keys
 import com.lebogang.genesis.utils.Validator
 import com.lebogang.genesis.viewmodels.PlaylistViewModel
+import com.lebogang.genesis.viewmodels.ViewModelFactory
 
-class UpdatePlaylistDialog(val playlist:Playlist):DialogFragment() {
-    private lateinit var viewBinding:DialogUpdatePlaylistBinding
-    private val playlistViewModel:PlaylistViewModel by lazy {
-        PlaylistViewModel.Factory((activity?.application as GenesisApplication).playlistRepo)
-                .create(PlaylistViewModel::class.java)
-    }
+class UpdatePlaylistDialog:DialogFragment() {
+    private val viewBinding:DialogUpdatePlaylistBinding by lazy {DialogUpdatePlaylistBinding.inflate(layoutInflater)}
+    private val playlistViewModel:PlaylistViewModel by lazy { ViewModelFactory(requireActivity().application)
+            .getPlaylistViewModel() }
+    private lateinit var playlist: Playlist
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewBinding = DialogUpdatePlaylistBinding.inflate(inflater, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        playlist = requireArguments().getParcelable(Keys.PLAYLIST_KEY)!!
         return viewBinding.root
     }
 
