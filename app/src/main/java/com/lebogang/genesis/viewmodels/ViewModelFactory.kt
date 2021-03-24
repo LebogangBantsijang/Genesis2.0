@@ -48,17 +48,18 @@ class ViewModelFactory(private val application:Application): ViewModelProvider.F
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(StatisticsViewModel::class.java))
-            return StatisticsViewModel(genesisApplication.statisticsRepo) as T
-        else if (modelClass.isAssignableFrom(PlaylistViewModel::class.java))
-            return PlaylistViewModel(genesisApplication.playlistRepo) as T
-        else if (modelClass.isAssignableFrom(AudioViewModel::class.java))
-            return AudioViewModel(genesisApplication.audioRepo) as T
-        else if (modelClass.isAssignableFrom(ArtistViewModel::class.java))
-            return ArtistViewModel(genesisApplication.artistRepo) as T
-        else if (modelClass.isAssignableFrom(AlbumViewModel::class.java))
-            return AlbumViewModel(genesisApplication.albumRepo) as T
-        else
-            throw IllegalArgumentException()
+        return when {
+            modelClass.isAssignableFrom(StatisticsViewModel::class.java) ->
+                StatisticsViewModel(genesisApplication.statisticsRepo) as T
+            modelClass.isAssignableFrom(PlaylistViewModel::class.java) ->
+                PlaylistViewModel(genesisApplication.playlistRepo) as T
+            modelClass.isAssignableFrom(AudioViewModel::class.java) ->
+                AudioViewModel(genesisApplication.audioRepo) as T
+            modelClass.isAssignableFrom(ArtistViewModel::class.java) ->
+                ArtistViewModel(genesisApplication.artistRepo) as T
+            modelClass.isAssignableFrom(AlbumViewModel::class.java) ->
+                AlbumViewModel(genesisApplication.albumRepo) as T
+            else -> throw IllegalArgumentException()
+        }
     }
 }
