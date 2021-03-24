@@ -50,19 +50,15 @@ class ViewModelFactory(private val application:Application): ViewModelProvider.F
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(StatisticsViewModel::class.java))
             return StatisticsViewModel(genesisApplication.statisticsRepo) as T
-
-        if (modelClass.isAssignableFrom(PlaylistViewModel::class.java))
+        else if (modelClass.isAssignableFrom(PlaylistViewModel::class.java))
             return PlaylistViewModel(genesisApplication.playlistRepo) as T
-
-        if (modelClass.isAssignableFrom(AudioViewModel::class.java))
+        else if (modelClass.isAssignableFrom(AudioViewModel::class.java))
             return AudioViewModel(genesisApplication.audioRepo) as T
-
-        if (modelClass.isAssignableFrom(ArtistViewModel::class.java))
+        else if (modelClass.isAssignableFrom(ArtistViewModel::class.java))
             return ArtistViewModel(genesisApplication.artistRepo) as T
-
-        if (modelClass.isAssignableFrom(AlbumViewModel::class.java))
+        else if (modelClass.isAssignableFrom(AlbumViewModel::class.java))
             return AlbumViewModel(genesisApplication.albumRepo) as T
-
-        throw IllegalArgumentException()
+        else
+            throw IllegalArgumentException()
     }
 }
