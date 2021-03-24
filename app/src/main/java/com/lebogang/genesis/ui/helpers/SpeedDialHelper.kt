@@ -30,6 +30,7 @@ abstract class SpeedDialHelper: FabSpeedDial.MenuListener {
     }
 
     override fun onMenuClosed() {
+        //not needed
     }
 
     abstract fun onItemSelected(itemId:Int):Boolean

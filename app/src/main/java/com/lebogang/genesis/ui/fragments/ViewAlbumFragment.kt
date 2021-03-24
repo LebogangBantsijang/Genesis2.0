@@ -40,12 +40,15 @@ import com.lebogang.genesis.viewmodels.ViewModelFactory
 
 class ViewAlbumFragment:Fragment(), OnAudioClickListener {
     private val viewBinding:FragmentViewAlbumBinding by lazy{FragmentViewAlbumBinding.inflate(layoutInflater)}
-    private val viewModelAlbum:AlbumViewModel by lazy { ViewModelFactory(requireActivity().application).getAlbumViewModel() }
-    private val viewModelAudio:AudioViewModel by lazy { ViewModelFactory(requireActivity().application).getAudioViewModel() }
+    private val viewModelAlbum:AlbumViewModel by lazy { ViewModelFactory(requireActivity().application)
+            .getAlbumViewModel() }
+    private val viewModelAudio:AudioViewModel by lazy { ViewModelFactory(requireActivity().application)
+            .getAudioViewModel() }
     private val adapter = ItemAlbumArtistSongAdapter().apply { listener = this@ViewAlbumFragment }
     private lateinit var album:Album
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
         album = requireArguments().getParcelable(Keys.ALBUM_KEY)!!
         return viewBinding.root
     }

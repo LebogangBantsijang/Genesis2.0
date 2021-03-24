@@ -65,11 +65,11 @@ class PlaylistFragment: Fragment(),OnPlaylistClickListener {
                     R.id.addMenu->{
                         val controller = findNavController()
                         controller.navigate(R.id.addPlaylistDialog)
-                        return true
+                        true
                     }
                     R.id.clearMenu->{
                         viewModel.clearData()
-                        return true
+                        true
                     }
                     else-> false
                 }

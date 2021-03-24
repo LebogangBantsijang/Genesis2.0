@@ -40,7 +40,8 @@ import com.lebogang.genesis.viewmodels.ViewModelFactory
 
 class ViewArtistFragment:Fragment(), OnAudioClickListener {
     private val viewBinding:FragmentArtistViewBinding by lazy{FragmentArtistViewBinding.inflate(layoutInflater)}
-    private val viewModelAudio:AudioViewModel by lazy {ViewModelFactory(requireActivity().application).getAudioViewModel()}
+    private val viewModelAudio:AudioViewModel by lazy {ViewModelFactory(requireActivity().application)
+            .getAudioViewModel()}
     private val adapter = ItemAlbumArtistSongAdapter().apply { listener = this@ViewArtistFragment }
     private lateinit var artist:Artist
 

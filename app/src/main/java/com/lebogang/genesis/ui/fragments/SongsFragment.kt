@@ -81,26 +81,26 @@ class SongsFragment: Fragment(),OnAudioClickListener {
             R.id.titleAsc->{
                 contentSettings.setSortOrder(contentSettings.titleAsc)
                 viewModel.getAudio()
-                return true
+                true
             }
             R.id.titleDesc->{
                 contentSettings.setSortOrder(contentSettings.titleDesc)
                 viewModel.getAudio()
-                return true
+                true
             }
             R.id.dateAsc->{
                 contentSettings.setSortOrder(contentSettings.dateAsc)
                 viewModel.getAudio()
-                return true
+                true
             }
             R.id.dateDesc->{
                 contentSettings.setSortOrder(contentSettings.dateDesc)
                 viewModel.getAudio()
-                return true
+                true
             }
             R.id.refresh->{
                 viewModel.getAudio()
-                return true
+                true
             }
             else -> super.onOptionsItemSelected(item)
         }
