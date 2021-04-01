@@ -14,25 +14,21 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.ui.fragments
+package com.lebogang.genesis.ui.fragments.local
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.FragmentAudioInfoBinding
-import com.lebogang.genesis.utils.GlobalBlurry
-import com.lebogang.genesis.utils.GlobalGlide
 import com.lebogang.genesis.utils.Keys
-import com.lebogang.genesis.viewmodels.AudioViewModel
-import com.lebogang.genesis.viewmodels.ViewModelFactory
+import com.lebogang.genesis.utils.glide.GlideManager
 
-class InfoAudioFragment :Fragment(){
-    private val viewBinding:FragmentAudioInfoBinding by lazy{ FragmentAudioInfoBinding.inflate(layoutInflater)}
-    private lateinit var audio:Audio
+class InfoAudioFragment : Fragment(){
+    private val viewBinding: FragmentAudioInfoBinding by lazy{ FragmentAudioInfoBinding.inflate(layoutInflater) }
+    private lateinit var audio: Audio
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         audio = requireArguments().getParcelable(Keys.SONG_KEY)!!
@@ -46,6 +42,6 @@ class InfoAudioFragment :Fragment(){
         viewBinding.albumView.text = audio.album
         viewBinding.durationView.text = audio.durationFormatted
         viewBinding.sizeView.text = audio.size
-        GlobalGlide.loadAudioCover(this, viewBinding.coverView, audio.getArtUri())
+        GlideManager(this).loadAudioArt(audio.getArtUri(),viewBinding.coverView)
     }
 }

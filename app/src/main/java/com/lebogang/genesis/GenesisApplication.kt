@@ -21,10 +21,12 @@ import com.google.gson.GsonBuilder
 import com.lebogang.genesis.data.repositories.AlbumRepo
 import com.lebogang.genesis.data.repositories.ArtistRepo
 import com.lebogang.genesis.data.repositories.AudioRepo
+import com.lebogang.genesis.network.DeezerRepo
 import com.lebogang.genesis.network.dao.DeezerService
 import com.lebogang.genesis.room.GenesisDatabase
 import com.lebogang.genesis.room.PlaylistRepo
 import com.lebogang.genesis.room.StatisticsRepo
+import com.lebogang.genesis.service.Queue
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -57,7 +59,7 @@ class GenesisApplication:Application() {
 
     private val deezerRetrofit:Retrofit by lazy{
         Retrofit.Builder()
-            .baseUrl("https://api.deezer.com")
+            .baseUrl("https://api.deezer.com/")
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .disableHtmlEscaping()
@@ -66,8 +68,12 @@ class GenesisApplication:Application() {
             .build()
     }
 
-    val deeserService:DeezerService by lazy{
+    private val deezerService:DeezerService by lazy{
         deezerRetrofit.create(DeezerService::class.java)
+    }
+
+    val deezerRepo:DeezerRepo by lazy {
+        DeezerRepo(deezerService)
     }
 
 }

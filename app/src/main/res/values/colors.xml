@@ -17,7 +17,13 @@
 
 <resources>
     <color name="white">#FFFFFFFF</color>
-    <color name="primaryColor">#F4511E</color>
+    <color name="primaryColor">#FB8C00</color>
     <color name="primaryComplimentaryColor">#835F28</color>
     <color name="primaryOpposite">#6A1B9A</color>
+    <color name="primaryTextColorLight">#DD000000</color>
+    <color name="primaryTextColorDark">#FFFFFF</color>
+    <color name="secondaryTextColorLight">#89000000</color>
+    <color name="secondaryTextColorDark">#B2FFFFFF</color>
+    <color name="secondaryTextColorLightNoDisable">#BEBEBE</color>
+    <color name="secondaryTextColorDarkNoDisable">#BEBEBE</color>
 </resources>

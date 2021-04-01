@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.ui.fragments
+package com.lebogang.genesis.ui.fragments.local
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,15 +28,15 @@ import com.lebogang.genesis.databinding.FragmentStatisticsBinding
 import com.lebogang.genesis.room.models.Statistics
 import com.lebogang.genesis.ui.adapters.ItemStatsAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnStatisticClickListener
-import com.lebogang.genesis.ui.dialogs.StatisticsDialog
 import com.lebogang.genesis.utils.Keys
 import com.lebogang.genesis.viewmodels.StatisticsViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
 class StatisticsFragment: Fragment(), OnStatisticClickListener {
-    private val viewBinding:FragmentStatisticsBinding by lazy{
-        FragmentStatisticsBinding.inflate(layoutInflater)}
-    private val viewModel:StatisticsViewModel by lazy{
+    private val viewBinding: FragmentStatisticsBinding by lazy{
+        FragmentStatisticsBinding.inflate(layoutInflater)
+    }
+    private val viewModel: StatisticsViewModel by lazy{
         ViewModelFactory(requireActivity().application).getStatisticsViewModel()}
     private val adapter = ItemStatsAdapter().apply { listener = this@StatisticsFragment }
 

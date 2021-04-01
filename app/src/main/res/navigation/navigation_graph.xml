@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/songsFragment"
-        android:name="com.lebogang.genesis.ui.fragments.SongsFragment"
+        android:name="com.lebogang.genesis.ui.fragments.local.SongsFragment"
         tools:layout="@layout/fragment_songs"
         android:label="@string/songs" >
         <action
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
-        android:name="com.lebogang.genesis.ui.fragments.StatisticsFragment"
+        android:name="com.lebogang.genesis.ui.fragments.local.StatisticsFragment"
         android:label="@string/statistics"
         tools:layout="@layout/fragment_statistics">
         <action
@@ -43,8 +43,8 @@
     </fragment>
     <fragment
         android:id="@+id/albumsFragment"
-        android:name="com.lebogang.genesis.ui.fragments.AlbumsFragment"
-        android:label="AlbumsFragment"
+        android:name="com.lebogang.genesis.ui.fragments.local.AlbumsFragment"
+        android:label="@string/albums"
         tools:layout="@layout/fragment_albums">
         <action
             android:id="@+id/action_albumsFragment_to_viewAlbumFragment2"
@@ -53,8 +53,8 @@
     </fragment>
     <fragment
         android:id="@+id/artistFragment"
-        android:name="com.lebogang.genesis.ui.fragments.ArtistFragment"
-        android:label="ArtistFragment"
+        android:name="com.lebogang.genesis.ui.fragments.local.ArtistFragment"
+        android:label="@string/artists"
         tools:layout="@layout/fragment_artists">
         <action
             android:id="@+id/action_artistFragment_to_viewArtistFragment2"
@@ -63,17 +63,17 @@
     </fragment>
     <fragment
         android:id="@+id/editAudioFragment"
-        android:name="com.lebogang.genesis.ui.fragments.EditAudioFragment"
+        android:name="com.lebogang.genesis.ui.fragments.local.EditAudioFragment"
         android:label="@string/edit_tags"
         tools:layout="@layout/fragment_edit_audio"/>
     <fragment
         android:id="@+id/infoAudioFragment"
-        android:name="com.lebogang.genesis.ui.fragments.InfoAudioFragment"
+        android:name="com.lebogang.genesis.ui.fragments.local.InfoAudioFragment"
         android:label="@string/info"
         tools:layout="@layout/fragment_audio_info"/>
     <fragment
         android:id="@+id/playlistFragment"
-        android:name="com.lebogang.genesis.ui.fragments.PlaylistFragment"
+        android:name="com.lebogang.genesis.ui.fragments.local.PlaylistFragment"
         android:label="@string/playlists"
         tools:layout="@layout/fragment_playlist">
         <action
@@ -87,8 +87,8 @@
     </fragment>
     <fragment
         android:id="@+id/viewAlbumFragment"
-        android:name="com.lebogang.genesis.ui.fragments.ViewAlbumFragment"
-        android:label="@string/tracks"
+        android:name="com.lebogang.genesis.ui.fragments.local.ViewAlbumFragment"
+        android:label="@string/album"
         tools:layout="@layout/fragment_view_album">
         <action
             android:id="@+id/action_viewAlbumFragment_to_audioOptionsDialog"
@@ -97,8 +97,8 @@
     </fragment>
     <fragment
         android:id="@+id/viewArtistFragment"
-        android:name="com.lebogang.genesis.ui.fragments.ViewArtistFragment"
-        android:label="@string/artist_tracks"
+        android:name="com.lebogang.genesis.ui.fragments.local.ViewArtistFragment"
+        android:label="@string/artist"
         tools:layout="@layout/fragment_artist_view">
         <action
             android:id="@+id/action_viewArtistFragment_to_audioOptionsDialog"
@@ -107,8 +107,8 @@
     </fragment>
     <fragment
         android:id="@+id/viewPlaylistFragment"
-        android:name="com.lebogang.genesis.ui.fragments.ViewPlaylistFragment"
-        android:label="@string/playlist_tracks"
+        android:name="com.lebogang.genesis.ui.fragments.local.ViewPlaylistFragment"
+        android:label="@string/playlist_songs"
         tools:layout="@layout/fragment_view_playlist"/>
     <dialog
         android:id="@+id/audioOptionsDialog"
@@ -173,4 +173,29 @@
         android:id="@+id/themeDialog"
         android:name="com.lebogang.genesis.ui.dialogs.ThemeDialog"
         tools:layout="@layout/dialog_theme"/>
+    <fragment
+        android:id="@+id/deezerFragment"
+        android:name="com.lebogang.genesis.ui.fragments.deezer.DeezerFragment"
+        android:label="@string/online"
+        tools:layout="@layout/fragment_deezer"/>
+    <fragment
+        android:id="@+id/deezerSearchFragment"
+        android:name="com.lebogang.genesis.ui.fragments.deezer.DeezerSearchFragment"
+        android:label="DeezerSearchFragment"
+        tools:layout="@layout/fragment_deezer_search"/>
+    <dialog
+        android:id="@+id/dialogDeezerPreview"
+        android:name="com.lebogang.genesis.ui.dialogs.DialogDeezerPreview"
+        android:label="DialogDeezerPreview"
+        tools:layout="@layout/dialog_deezer_preview"/>
+    <fragment
+        android:id="@+id/viewAlbumDeezerFragment"
+        android:name="com.lebogang.genesis.ui.fragments.deezer.ViewAlbumDeezerFragment"
+        android:label="ViewAlbumDeezerFragment"
+        tools:layout="@layout/fragment_deezer_view_album"/>
+    <fragment
+        android:id="@+id/viewArtistDeezerFragment"
+        android:name="com.lebogang.genesis.ui.fragments.deezer.ViewArtistDeezerFragment"
+        android:label="ViewArtistDeezerFragment"
+        tools:layout="@layout/fragment_deezer_view_artist"/>
 </navigation>

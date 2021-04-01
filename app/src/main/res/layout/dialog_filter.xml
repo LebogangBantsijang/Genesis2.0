@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:gravity="center"
+        android:textStyle="bold"
         android:padding="16dp"
         android:text="@string/audio_filter" />
 

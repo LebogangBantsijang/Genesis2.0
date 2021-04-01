@@ -17,6 +17,7 @@
 package com.lebogang.genesis.data.models
 
 import android.net.Uri
+import android.os.Parcel
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 

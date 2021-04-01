@@ -83,7 +83,8 @@
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
                 app:drawableStartCompat="@drawable/ic_themes"
-                app:drawableTint="?colorPrimary" />
+                app:drawableEndCompat="@drawable/ic_forward"
+                app:drawableTint="?colorButtonNormal" />
 
             <View
                 android:layout_width="match_parent"

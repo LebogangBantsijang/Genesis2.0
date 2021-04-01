@@ -1,0 +1,20 @@
+<!--
+  ~ Copyright (c) 2021. - Lebogang Bantsijang
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<vector android:height="24dp" android:viewportHeight="50"
+    android:viewportWidth="50" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#474747" android:pathData="M39,14L39,16L47,16L47,14ZM21,17L21,19L29,19L29,17ZM39,17L39,19L47,19L47,17ZM21,20L21,22L29,22L29,20ZM39,20L39,22L47,22L47,20ZM3,23L3,25L11,25L11,23ZM21,23L21,25L29,25L29,23ZM30,23L30,25L38,25L38,23ZM39,23L39,25L47,25L47,23ZM3,26L3,28L11,28L11,26ZM21,26L21,28L29,28L29,26ZM30,26L30,28L38,28L38,26ZM39,26L39,28L47,28L47,26ZM3,29L3,31L11,31L11,29ZM12,29L12,31L20,31L20,29ZM21,29L21,31L29,31L29,29ZM30,29L30,31L38,31L38,29ZM39,29L39,31L47,31L47,29ZM3,32L3,34L11,34L11,32ZM12,32L12,34L20,34L20,32ZM21,32L21,34L29,34L29,32ZM30,32L30,34L38,34L38,32ZM39,32L39,34L47,34L47,32ZM3,35L3,37L11,37L11,35ZM12,35L12,37L20,37L20,35ZM21,35L21,37L29,37L29,35ZM30,35L30,37L38,37L38,35ZM39,35L39,37L47,37L47,35Z"/>
+</vector>

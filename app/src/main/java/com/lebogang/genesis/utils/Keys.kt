@@ -23,5 +23,8 @@ object Keys {
     const val PLAYLIST_KEY = "PLAYLIST_KEY"
     const val STATISTICS_KEY = "STATISTICS_KEY"
     const val ENABLE_UPDATE_KEY = "ENABLE_UPDATE_KEY"
+    const val DEEZER_SONG_KEY = "DEEZER_SONG_KEY"
+    const val DEEZER_ALBUM_KEY = "DEEZER_ALBUM_KEY"
+    const val DEEZER_ARTIST_KEY = "DEEZER_ARTIST_KEY"
 
 }

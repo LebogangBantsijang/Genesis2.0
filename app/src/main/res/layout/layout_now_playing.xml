@@ -22,7 +22,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/root"
     android:orientation="horizontal"
-    android:visibility="visible"
+    android:visibility="gone"
     android:layout_gravity="bottom"
     android:clickable="true"
     android:focusable="true"
@@ -67,8 +67,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             android:maxLines="1"
-            android:ellipsize="end"
-            android:textColor="?android:textColorSecondary"/>
+            android:ellipsize="end"/>
 
     </LinearLayout>
 
@@ -89,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:padding="6dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="8dp"
         android:background="?selectableItemBackground"
         android:contentDescription="@string/play"
         app:tint="?colorControlNormal"

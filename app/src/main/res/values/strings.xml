@@ -76,8 +76,8 @@
     <string name="view_album">View Album</string>
     <string name="view_artist">View Artist</string>
     <string name="title">Title</string>
-    <string name="artist">Artist</string>
-    <string name="album">Album</string>
+    <string name="artist">Artist Songs</string>
+    <string name="album">Album Songs</string>
     <string name="null_values">Error: Please enter full details</string>
     <string name="refresh">Refresh</string>
     <string name="title_asc">Title Ascending</string>
@@ -93,7 +93,7 @@
     <string name="dark">Dark</string>
     <string name="follow_system">Follow System</string>
     <string name="theme_note">Theme setting will take effect when the application restarts</string>
-    <string name="filter">Filter</string>
+    <string name="filter">Category</string>
     <string name="audio_filter">Audio Filter</string>
     <string name="duration_sec">Duration (sec)</string>
     <string name="_0">0</string>
@@ -139,7 +139,27 @@
     <string name="edit_tags">Edit Tags</string>
     <string name="tracks">Tracks</string>
     <string name="artist_tracks">Artist Tracks</string>
-    <string name="playlist_tracks">Playlist Tracks</string>
+    <string name="playlist_songs">Playlist Songs</string>
+    <string name="dee">Dee</string>
+    <string name="zer">zer</string>
+    <string name="top_songs_on_deezer">Top 100 on deezer</string>
+    <string name="online">Online</string>
+    <string name="deezer">Deezer</string>
+    <string name="explicit">Explicit</string>
+    <string name="preview_duration">30s</string>
+    <string name="chart_songs">Chart Songs</string>
+    <string name="chart_album">Chart Album</string>
+    <string name="chart_artist">Chart Artist</string>
+    <string name="deezer_song">songs</string>
+    <string name="deezer_albums">Albums</string>
+    <string name="deezer_artists">Artists</string>
+    <string name="preview">Preview</string>
+    <string name="want_the_full_song">Want the full song?</string>
+    <string name="get_deezer">Get Deezer</string>
+    <string name="album_word">Albums</string>
+    <string name="artist_word">Artists</string>
+    <string name="search_results">Search Results</string>
+    <string name="top_songs">Top Songs</string>
 
     <string-array name="column_options">
         <item>2</item>

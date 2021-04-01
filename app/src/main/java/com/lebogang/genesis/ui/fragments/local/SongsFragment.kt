@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.ui.fragments
+package com.lebogang.genesis.ui.fragments.local
 
 import android.os.Bundle
 import android.view.*
@@ -30,18 +30,16 @@ import com.lebogang.genesis.settings.ContentSettings
 import com.lebogang.genesis.ui.MainActivity
 import com.lebogang.genesis.ui.adapters.ItemSongAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
-import com.lebogang.genesis.ui.dialogs.AudioOptionsDialog
-import com.lebogang.genesis.ui.helpers.SpeedDialHelper
 import com.lebogang.genesis.utils.Keys
 import com.lebogang.genesis.viewmodels.AudioViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
-class SongsFragment: Fragment(),OnAudioClickListener {
-    private val viewBinding:FragmentSongsBinding by lazy { FragmentSongsBinding.inflate(layoutInflater) }
+class SongsFragment: Fragment(), OnAudioClickListener {
+    private val viewBinding: FragmentSongsBinding by lazy { FragmentSongsBinding.inflate(layoutInflater) }
     private val adapter = ItemSongAdapter().apply { listener= this@SongsFragment }
-    private val viewModel:AudioViewModel by lazy {
+    private val viewModel: AudioViewModel by lazy {
         ViewModelFactory(requireActivity().application).getAudioViewModel() }
-    private val contentSettings:ContentSettings by lazy { ContentSettings(requireContext()) }
+    private val contentSettings: ContentSettings by lazy { ContentSettings(requireContext()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +62,7 @@ class SongsFragment: Fragment(),OnAudioClickListener {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.audio_sort_menu, menu)
         val searchView = menu.findItem(R.id.app_bar_search).actionView as SearchView
-        searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
@@ -78,27 +76,27 @@ class SongsFragment: Fragment(),OnAudioClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
-            R.id.titleAsc->{
+            R.id.titleAsc ->{
                 contentSettings.setSortOrder(contentSettings.titleAsc)
                 viewModel.getAudio()
                 true
             }
-            R.id.titleDesc->{
+            R.id.titleDesc ->{
                 contentSettings.setSortOrder(contentSettings.titleDesc)
                 viewModel.getAudio()
                 true
             }
-            R.id.dateAsc->{
+            R.id.dateAsc ->{
                 contentSettings.setSortOrder(contentSettings.dateAsc)
                 viewModel.getAudio()
                 true
             }
-            R.id.dateDesc->{
+            R.id.dateDesc ->{
                 contentSettings.setSortOrder(contentSettings.dateDesc)
                 viewModel.getAudio()
                 true
             }
-            R.id.refresh->{
+            R.id.refresh ->{
                 viewModel.getAudio()
                 true
             }

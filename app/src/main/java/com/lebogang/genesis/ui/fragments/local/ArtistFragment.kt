@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.ui.fragments
+package com.lebogang.genesis.ui.fragments.local
 
 import android.os.Bundle
 import android.view.*
@@ -22,22 +22,21 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.R
-import com.lebogang.genesis.data.models.Album
-import com.lebogang.genesis.databinding.FragmentAlbumsBinding
+import com.lebogang.genesis.data.models.Artist
+import com.lebogang.genesis.databinding.FragmentArtistsBinding
 import com.lebogang.genesis.settings.ThemeSettings
-import com.lebogang.genesis.ui.adapters.ItemAlbumAdapter
-import com.lebogang.genesis.ui.adapters.utils.OnAlbumClickListener
+import com.lebogang.genesis.ui.adapters.ItemArtistAdapter
+import com.lebogang.genesis.ui.adapters.utils.OnArtistClickListener
 import com.lebogang.genesis.utils.Keys
-import com.lebogang.genesis.viewmodels.AlbumViewModel
+import com.lebogang.genesis.viewmodels.ArtistViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
-class AlbumsFragment: Fragment(), OnAlbumClickListener {
-    private val viewBinding:FragmentAlbumsBinding by lazy{FragmentAlbumsBinding.inflate(layoutInflater) }
-    private val adapter = ItemAlbumAdapter().apply { listener = this@AlbumsFragment }
-    private val albumViewModel:AlbumViewModel by lazy {
-        ViewModelFactory(requireActivity().application).getAlbumViewModel() }
+class ArtistFragment: Fragment(), OnArtistClickListener {
+    private val viewBinding: FragmentArtistsBinding by lazy { FragmentArtistsBinding.inflate(layoutInflater) }
+    private val adapter = ItemArtistAdapter().apply { listener = this@ArtistFragment}
+    private val viewModel: ArtistViewModel by lazy {
+        ViewModelFactory(requireActivity().application).getArtistViewModel() }
     private val themeSettings: ThemeSettings by lazy { ThemeSettings(requireContext()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,30 +44,30 @@ class AlbumsFragment: Fragment(), OnAlbumClickListener {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?
+                              , savedInstanceState: Bundle?): View {
         return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(themeSettings.getColumnCount()
-            ,StaggeredGridLayoutManager.VERTICAL)
+        viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(themeSettings.getColumnCount(),
+                StaggeredGridLayoutManager.VERTICAL)
         viewBinding.recyclerView.adapter = adapter
-        albumViewModel.liveData.observe(viewLifecycleOwner,{
-            adapter.setAlbumData(it)
+        viewModel.liveData.observe(viewLifecycleOwner, {
+            adapter.setArtistData(it)
             loadingView(it.isNotEmpty())
             val count = getString(R.string.total) + " " + it.size.toString()
             viewBinding.counterView.text = count
         })
-        albumViewModel.getAlbums()
-        albumViewModel.registerContentObserver()
+        viewModel.getArtists()
+        viewModel.registerContentObserver()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.column_view_menu, menu)
         val searchView = menu.findItem(R.id.app_bar_search).actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
@@ -82,12 +81,12 @@ class AlbumsFragment: Fragment(), OnAlbumClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
-            R.id.two_column->{
+            R.id.two_column ->{
                 themeSettings.setColumnCount(2)
                 (viewBinding.recyclerView.layoutManager as StaggeredGridLayoutManager).spanCount = 2
                 true
             }
-            R.id.three_column->{
+            R.id.three_column ->{
                 themeSettings.setColumnCount(3)
                 (viewBinding.recyclerView.layoutManager as StaggeredGridLayoutManager).spanCount = 3
                 true
@@ -107,13 +106,13 @@ class AlbumsFragment: Fragment(), OnAlbumClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        albumViewModel.unregisterContentContentObserver()
+        viewModel.unregisterContentContentObserver()
     }
 
-    override fun onAlbumClick(album: Album, imageView:View) {
-        val bundle = Bundle().apply{putParcelable(Keys.ALBUM_KEY, album)}
+    override fun onArtistClick(artist: Artist, imageView: View) {
+        val bundle = Bundle().apply{putParcelable(Keys.ARTIST_KEY, artist)}
         val controller = findNavController()
-        controller.navigate(R.id.viewAlbumFragment, bundle)
+        controller.navigate(R.id.viewArtistFragment, bundle)
     }
 
 }

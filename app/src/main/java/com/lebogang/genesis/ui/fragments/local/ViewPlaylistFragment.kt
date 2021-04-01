@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.ui.fragments
+package com.lebogang.genesis.ui.fragments.local
 
 import android.os.Bundle
 import android.view.*
@@ -33,14 +33,15 @@ import com.lebogang.genesis.viewmodels.AudioViewModel
 import com.lebogang.genesis.viewmodels.PlaylistViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
-class ViewPlaylistFragment : Fragment(), OnAudioClickListener{
-    private val viewBinding:FragmentViewPlaylistBinding by lazy{FragmentViewPlaylistBinding.inflate(layoutInflater)}
-    private val viewModelPlaylist:PlaylistViewModel by lazy {
+class ViewPlaylistFragment : Fragment(), OnAudioClickListener {
+    private val viewBinding: FragmentViewPlaylistBinding by lazy{ FragmentViewPlaylistBinding.inflate(layoutInflater) }
+    private val viewModelPlaylist: PlaylistViewModel by lazy {
         ViewModelFactory(requireActivity().application).getPlaylistViewModel() }
-    private val viewModelAudio:AudioViewModel by lazy{ViewModelFactory(requireActivity().application)
+    private val viewModelAudio: AudioViewModel by lazy{
+        ViewModelFactory(requireActivity().application)
         .getAudioViewModel()}
     private val adapter = ItemPlaylistSongAdapter().apply { listener = this@ViewPlaylistFragment }
-    private lateinit var playlist:Playlist
+    private lateinit var playlist: Playlist
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +68,7 @@ class ViewPlaylistFragment : Fragment(), OnAudioClickListener{
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
-            R.id.clearAllMenu->{
+            R.id.clearAllMenu ->{
                 viewModelPlaylist.clearAudioData(playlist.id)
                 true
             }

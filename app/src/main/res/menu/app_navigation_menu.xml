@@ -17,6 +17,18 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+
+    <group android:checkableBehavior="none">
+        <item android:title="@string/online">
+            <menu>
+                <item
+                    android:id="@+id/deezerFragment"
+                    android:title="@string/deezer"
+                    android:icon="@drawable/ic_deezer"/>
+            </menu>
+        </item>
+    </group>
+
     <group android:checkableBehavior="none" >
         <item android:title="@string/local">
             <menu >
@@ -40,8 +52,7 @@
         </item>
     </group>
 
-    <group
-        android:checkableBehavior="none">
+    <group android:checkableBehavior="none">
         <item
             android:title="@string/other">
             <menu>

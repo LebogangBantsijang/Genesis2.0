@@ -95,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:tint="?colorError"
+        android:tint="?colorPrimary"
         android:layout_marginEnd="6dp"
         android:padding="7dp"
         app:srcCompat="@drawable/ic_baseline_close_24"

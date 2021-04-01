@@ -16,10 +16,12 @@
 
 package com.lebogang.genesis.ui
 
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.appbar.MaterialToolbar
 import com.lebogang.genesis.R
@@ -68,6 +70,7 @@ class PlayerActivity: ThemeHelper(), OnAudioClickListener, PlayerHelper {
         findViewById<MaterialToolbar>(R.id.toolbar).setNavigationOnClickListener {onBackPressed()}
     }
 
+
     private fun initViewPager(){
         when(playerSettings.getPlayerResource()){
             R.layout.player_layout_one->{
@@ -77,7 +80,7 @@ class PlayerActivity: ThemeHelper(), OnAudioClickListener, PlayerHelper {
                 }
             }
             R.layout.player_layout_two->{
-                GlobalGlide.loadGif(this, findViewById(R.id.backView))
+                //GlobalGlide.loadGif(this, findViewById(R.id.backView))
             }
         }
     }

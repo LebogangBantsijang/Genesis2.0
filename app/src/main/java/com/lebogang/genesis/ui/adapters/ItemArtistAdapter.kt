@@ -25,6 +25,7 @@ import com.lebogang.genesis.data.models.Artist
 import com.lebogang.genesis.databinding.ItemLocalArtistBinding
 import com.lebogang.genesis.ui.adapters.utils.OnArtistClickListener
 import com.lebogang.genesis.utils.GlobalGlide
+import com.lebogang.genesis.utils.glide.GlideManager
 
 class ItemArtistAdapter:RecyclerView.Adapter<ItemArtistAdapter.ViewHolder>(), Filterable{
     var listener:OnArtistClickListener? = null
@@ -52,8 +53,7 @@ class ItemArtistAdapter:RecyclerView.Adapter<ItemArtistAdapter.ViewHolder>(), Fi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val artist = if(!isUserSearching) listArtist[position] else filteredList[position]
         holder.viewBinding.titleView.text = artist.title
-        GlobalGlide.loadArtistCoverForRecyclerView(holder.viewBinding.root, holder.viewBinding.imageView
-                , artist.getArtUri())
+        GlideManager(holder.itemView).loadArtistArt(artist.getArtUri(), holder.viewBinding.imageView)
     }
 
     override fun getItemCount(): Int {

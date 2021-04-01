@@ -17,19 +17,87 @@
 package com.lebogang.genesis.utils
 
 import android.net.Uri
+import android.os.Build
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.GlideBuilder
+import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.lebogang.genesis.R
 
 object GlobalGlide {
 
+    @Suppress("IMPLICIT_CAST_TO_ANY")
+    fun loadAudioArt(root:Any, indicator: GlideIndicator, uri: Uri?, view:ImageView){
+        when(indicator){
+            GlideIndicator.LOAD_WITH_ACTIVITY ->
+                loadAudioArt(root as AppCompatActivity, uri, view)
+            GlideIndicator.LOAD_WITH_VIEW ->
+                loadAudioArt(root as View, uri, view)
+            GlideIndicator.LOAD_WITH_FRAGMENT ->
+                loadAudioArt(root as Fragment, uri, view)
+        }
+    }
+
+    private fun loadAudioArt(root:AppCompatActivity, uri: Uri?, view:ImageView){
+        var skipCache = false
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            skipCache = true
+        Glide.with(root)
+                .load(uri)
+                .skipMemoryCache(skipCache)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(view.width, view.height)
+                .centerCrop()
+                .error(R.drawable.ic_custom_song)
+                .into(view)
+                .waitForLayout()
+                .clearOnDetach()
+    }
+
+    private fun loadAudioArt(root:Fragment, uri: Uri?, view:ImageView){
+        var skipCache = false
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            skipCache = true
+        Glide.with(root)
+                .load(uri)
+                .skipMemoryCache(skipCache)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(view.width, view.height)
+                .centerCrop()
+                .error(R.drawable.ic_custom_song)
+                .into(view)
+                .waitForLayout()
+                .clearOnDetach()
+    }
+
+    private fun loadAudioArt(root:View, uri: Uri?, view:ImageView){
+        var skipCache = false
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            skipCache = true
+        Glide.with(root)
+                .load(uri)
+                .skipMemoryCache(skipCache)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(view.width, view.height)
+                .centerCrop()
+                .error(R.drawable.ic_custom_song)
+                .into(view)
+                .waitForLayout()
+                .clearOnDetach()
+    }
+
+
+
     fun loadAudioCover(root: View, imageView: ImageView, uri:Uri?){
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
-            Glide.with(root)
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            Glide.with(root as View)
                     .load(uri)
                     .skipMemoryCache(false)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -54,7 +122,7 @@ object GlobalGlide {
     }
 
     fun loadGif(root: AppCompatActivity, imageView: ImageView){
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             Glide.with(root)
                 .asGif()
                 .load(R.raw.gif_2)
@@ -80,7 +148,7 @@ object GlobalGlide {
     }
 
     fun loadAudioCover(root: AppCompatActivity, imageView: ImageView, uri:Uri?){
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             Glide.with(root)
                     .load(uri)
                     .skipMemoryCache(false)
@@ -106,7 +174,7 @@ object GlobalGlide {
     }
 
     fun loadAudioBackground(root: AppCompatActivity, imageView: ImageView, uri:Uri?){
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             Glide.with(root)
                     .load(uri)
                     .skipMemoryCache(false)
@@ -132,7 +200,7 @@ object GlobalGlide {
     }
 
     fun loadAudioCover(root: Fragment, imageView: ImageView, uri:Uri?){
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             Glide.with(root)
                     .load(uri)
                     .skipMemoryCache(false)
@@ -158,7 +226,7 @@ object GlobalGlide {
     }
 
     fun loadAlbumCoverForRecyclerView(root: View, imageView: ImageView, uri:Uri?){
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             Glide.with(root)
                     .load(uri)
                     .skipMemoryCache(false)
@@ -177,32 +245,6 @@ object GlobalGlide {
                     .override(imageView.width, imageView.height)
                     .centerCrop()
                     .error(R.drawable.ic_custom_album)
-                    .into(imageView)
-                    .waitForLayout()
-                    .clearOnDetach()
-        }
-    }
-
-    fun loadAlbumCover(root: AppCompatActivity, imageView: ImageView, uri:Uri?){
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
-            Glide.with(root)
-                    .load(uri)
-                    .skipMemoryCache(false)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .override(imageView.width, imageView.height)
-                    .centerCrop()
-                    .error(R.drawable.ic_music_record_light)
-                    .into(imageView)
-                    .waitForLayout()
-                    .clearOnDetach()
-        }else{
-            Glide.with(root)
-                    .load(uri)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .override(imageView.width, imageView.height)
-                    .centerCrop()
-                    .error(R.drawable.ic_music_record_light)
                     .into(imageView)
                     .waitForLayout()
                     .clearOnDetach()
@@ -210,14 +252,14 @@ object GlobalGlide {
     }
 
     fun loadAlbumCover(root: Fragment, imageView: ImageView, uri:Uri?){
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             Glide.with(root)
                 .load(uri)
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(imageView.width, imageView.height)
                 .centerCrop()
-                .error(R.drawable.ic_music_record_light)
+                .error(R.drawable.ic_music_record)
                 .into(imageView)
                 .waitForLayout()
                 .clearOnDetach()
@@ -228,7 +270,7 @@ object GlobalGlide {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(imageView.width, imageView.height)
                 .centerCrop()
-                .error(R.drawable.ic_music_record_light)
+                .error(R.drawable.ic_music_record)
                 .into(imageView)
                 .waitForLayout()
                 .clearOnDetach()
@@ -236,7 +278,7 @@ object GlobalGlide {
     }
 
     fun loadArtistCoverForRecyclerView(root: View, imageView: ImageView, uri:Uri?){
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             Glide.with(root)
                     .load(uri)
                     .skipMemoryCache(false)
@@ -255,32 +297,6 @@ object GlobalGlide {
                     .override(imageView.width, imageView.height)
                     .centerCrop()
                     .error(R.drawable.ic_custom_artist)
-                    .into(imageView)
-                    .waitForLayout()
-                    .clearOnDetach()
-        }
-    }
-
-    fun loadArtistCover(root: AppCompatActivity, imageView: ImageView, uri:Uri?){
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
-            Glide.with(root)
-                    .load(uri)
-                    .skipMemoryCache(false)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .override(imageView.width, imageView.height)
-                    .centerCrop()
-                    .error(R.drawable.ic_artist_light)
-                    .into(imageView)
-                    .waitForLayout()
-                    .clearOnDetach()
-        }else{
-            Glide.with(root)
-                    .load(uri)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .override(imageView.width, imageView.height)
-                    .centerCrop()
-                    .error(R.drawable.ic_artist_light)
                     .into(imageView)
                     .waitForLayout()
                     .clearOnDetach()
@@ -288,14 +304,14 @@ object GlobalGlide {
     }
 
     fun loadArtistCover(root: Fragment, imageView: ImageView, uri:Uri?){
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             Glide.with(root)
                 .load(uri)
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(imageView.width, imageView.height)
                 .centerCrop()
-                .error(R.drawable.ic_artist_light)
+                .error(R.drawable.ic_user)
                 .into(imageView)
                 .waitForLayout()
                 .clearOnDetach()
@@ -306,12 +322,15 @@ object GlobalGlide {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(imageView.width, imageView.height)
                 .centerCrop()
-                .error(R.drawable.ic_artist_light)
+                .error(R.drawable.ic_user)
                 .into(imageView)
                 .waitForLayout()
                 .clearOnDetach()
         }
     }
 
-    
+    enum class GlideIndicator{
+        LOAD_WITH_VIEW, LOAD_WITH_FRAGMENT, LOAD_WITH_ACTIVITY
+    }
+
 }

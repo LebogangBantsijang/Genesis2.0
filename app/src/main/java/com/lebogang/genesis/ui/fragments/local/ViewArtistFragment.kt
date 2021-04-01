@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.ui.fragments
+package com.lebogang.genesis.ui.fragments.local
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,47 +24,43 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lebogang.genesis.R
-import com.lebogang.genesis.data.models.Album
+import com.lebogang.genesis.data.models.Artist
 import com.lebogang.genesis.data.models.Audio
-import com.lebogang.genesis.databinding.FragmentViewAlbumBinding
+import com.lebogang.genesis.databinding.FragmentArtistViewBinding
 import com.lebogang.genesis.service.Queue
 import com.lebogang.genesis.ui.MainActivity
 import com.lebogang.genesis.ui.adapters.ItemAlbumArtistSongAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
-import com.lebogang.genesis.ui.dialogs.AudioOptionsDialog
-import com.lebogang.genesis.utils.GlobalGlide
 import com.lebogang.genesis.utils.Keys
-import com.lebogang.genesis.viewmodels.AlbumViewModel
+import com.lebogang.genesis.utils.glide.GlideManager
 import com.lebogang.genesis.viewmodels.AudioViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
-class ViewAlbumFragment:Fragment(), OnAudioClickListener {
-    private val viewBinding:FragmentViewAlbumBinding by lazy{FragmentViewAlbumBinding.inflate(layoutInflater)}
-    private val viewModelAlbum:AlbumViewModel by lazy { ViewModelFactory(requireActivity().application)
-            .getAlbumViewModel() }
-    private val viewModelAudio:AudioViewModel by lazy { ViewModelFactory(requireActivity().application)
-            .getAudioViewModel() }
-    private val adapter = ItemAlbumArtistSongAdapter().apply { listener = this@ViewAlbumFragment }
-    private lateinit var album:Album
+class ViewArtistFragment: Fragment(), OnAudioClickListener {
+    private val viewBinding: FragmentArtistViewBinding by lazy{ FragmentArtistViewBinding.inflate(layoutInflater) }
+    private val viewModelAudio: AudioViewModel by lazy {
+        ViewModelFactory(requireActivity().application)
+            .getAudioViewModel()}
+    private val adapter = ItemAlbumArtistSongAdapter().apply { listener = this@ViewArtistFragment }
+    private lateinit var artist: Artist
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        album = requireArguments().getParcelable(Keys.ALBUM_KEY)!!
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        artist = requireArguments().getParcelable(Keys.ARTIST_KEY)!!
         return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.titleView.text = album.title
-        GlobalGlide.loadAlbumCover(this, viewBinding.artView,album.getArtUri())
+        GlideManager(this).loadArtistArt(artist.getArtUri(),viewBinding.artView)
+        viewBinding.titleView.text = artist.title
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.recyclerView.adapter = adapter
         initObservers()
     }
 
     private fun initObservers(){
-        viewModelAudio.getAlbumAudio(album.title)
-        viewModelAudio.liveData.observe(viewLifecycleOwner,{list->
+        viewModelAudio.getArtistAudio(artist.title)
+        viewModelAudio.liveData.observe(viewLifecycleOwner, {list->
             adapter.setAudioData(list)
             viewBinding.subtitleView.text = list.size.toString()
             loadingView(list.isNotEmpty())
@@ -94,5 +90,4 @@ class ViewAlbumFragment:Fragment(), OnAudioClickListener {
         val controller = findNavController()
         controller.navigate(R.id.audioOptionsDialog, bundle)
     }
-
 }

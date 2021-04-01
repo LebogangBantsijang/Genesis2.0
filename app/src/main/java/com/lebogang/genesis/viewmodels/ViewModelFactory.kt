@@ -45,6 +45,9 @@ class ViewModelFactory(private val application:Application): ViewModelProvider.F
         return create(AlbumViewModel::class.java)
     }
 
+    fun getDeezerViewModel():DeezerViewModel{
+        return create(DeezerViewModel::class.java)
+    }
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -59,6 +62,8 @@ class ViewModelFactory(private val application:Application): ViewModelProvider.F
                 ArtistViewModel(genesisApplication.artistRepo) as T
             modelClass.isAssignableFrom(AlbumViewModel::class.java) ->
                 AlbumViewModel(genesisApplication.albumRepo) as T
+            modelClass.isAssignableFrom(DeezerViewModel::class.java) ->
+                DeezerViewModel(genesisApplication.deezerRepo) as T
             else -> throw IllegalArgumentException()
         }
     }

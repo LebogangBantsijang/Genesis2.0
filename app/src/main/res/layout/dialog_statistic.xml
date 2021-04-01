@@ -26,6 +26,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:gravity="center"
         android:padding="16dp"
+        android:textStyle="bold"
         android:text="@string/song_statistics" />
 
     <View

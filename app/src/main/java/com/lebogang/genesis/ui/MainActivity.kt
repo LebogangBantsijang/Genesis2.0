@@ -40,12 +40,13 @@ import com.lebogang.genesis.service.utils.RepeatSate
 import com.lebogang.genesis.service.utils.ShuffleSate
 import com.lebogang.genesis.settings.ThemeSettings
 import com.lebogang.genesis.ui.helpers.PlayerHelper
+import com.lebogang.genesis.ui.helpers.ThemeHelper
 import com.lebogang.genesis.utils.GlobalBlurry
 import com.lebogang.genesis.utils.GlobalGlide
+import com.lebogang.genesis.utils.glide.GlideManager
 
-class MainActivity : AppCompatActivity(), PlayerHelper {
+class MainActivity : ThemeHelper(), PlayerHelper {
     private val viewBinding: ActivityMainBinding by lazy{ ActivityMainBinding.inflate(layoutInflater) }
-    private val themeSettings:ThemeSettings by lazy{ ThemeSettings(this)}
     private lateinit var musicService: MusicService
     private lateinit var appBarConfiguration:AppBarConfiguration
 
@@ -98,7 +99,7 @@ class MainActivity : AppCompatActivity(), PlayerHelper {
                 viewBinding.launcherView.root.visibility = View.VISIBLE
             viewBinding.launcherView.titleView.text = it.title
             viewBinding.launcherView.subtitleView.text = it.artist
-            GlobalGlide.loadAudioCover(this, viewBinding.launcherView.imageView, it.getArtUri())
+            GlideManager(this).loadAudioArt(it.getArtUri(), viewBinding.launcherView.imageView)
             changeBackground(it.getArtUri())
         })
     }
@@ -111,9 +112,9 @@ class MainActivity : AppCompatActivity(), PlayerHelper {
             themeSettings.backgroundTypeAdaptive->{
                 if (themeSettings.getBackgroundType() == themeSettings.backgroundTypeAdaptive){
                     if (themeSettings.isAdaptiveBackgroundBlurry())
-                        GlobalBlurry.loadBlurryResource(this, uri, viewBinding.backView)
+                        GlideManager(this).loadBlurred(this,uri, viewBinding.backView)
                     else
-                        GlobalGlide.loadAudioBackground(this, viewBinding.backView, uri)
+                        GlideManager(this).loadAudioArtNoDefaultResource(uri, viewBinding.backView)
                 }
             }
         }

@@ -16,9 +16,12 @@
 
 package com.lebogang.genesis.network.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class ArtistDeezer (
         @Expose
         val id:Int,
@@ -32,5 +35,8 @@ data class ArtistDeezer (
         val coverMedium:String,
         @Expose
         @SerializedName(value = "picture_small")
-        val coverSmall:String
-)
+        val coverSmall:String,
+        @Expose
+        @SerializedName(value = "tracklist")
+        val trackListUrl:String
+):Parcelable

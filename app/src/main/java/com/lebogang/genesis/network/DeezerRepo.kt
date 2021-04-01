@@ -16,14 +16,46 @@
 
 package com.lebogang.genesis.network
 
+import android.util.Log
 import com.lebogang.genesis.network.dao.DeezerService
+import com.lebogang.genesis.network.models.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DeezerRepo (private val deezerService: DeezerService) {
-    private val scope = CoroutineScope(Dispatchers.IO)
 
-    fun getAudio(){
-        deezerService.getChartAudio().execute().body()
+    fun getChatAudio(callback: Callback<TrackDataModel>){
+        deezerService.getChartAudio().enqueue(callback)
+    }
+
+    fun getChartAlbum(callback: Callback<AlbumDataModel>){
+        deezerService.getChartAlbums().enqueue(callback)
+    }
+
+    fun getChartArtist(callback: Callback<ArtistDataModel>){
+        deezerService.getChartArtist().enqueue(callback)
+    }
+
+    fun getSearchAudioResults(query:String, callback: Callback<TrackDataModel>){
+        deezerService.searchAudioItems(query).enqueue(callback)
+    }
+
+    fun getSearchAlbumResults(query:String, callback: Callback<AlbumDataModel>){
+        deezerService.searchAlbumItems(query).enqueue(callback)
+    }
+
+    fun getSearchArtistResults(query:String, callback: Callback<ArtistDataModel>){
+        deezerService.searchArtistItems(query).enqueue(callback)
+    }
+
+    fun getAlbumTracks(id:Int, callback:Callback<TrackDataModel>){
+        deezerService.getAlbumTracks(id).enqueue(callback)
+    }
+
+    fun getArtistTracks(id:Int, callback: Callback<TrackDataModel>){
+        deezerService.getArtistTracts(id).enqueue(callback)
     }
 }

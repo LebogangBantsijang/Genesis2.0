@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.ui.fragments
+package com.lebogang.genesis.ui.fragments.local
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,16 +28,14 @@ import com.lebogang.genesis.databinding.FragmentPlaylistBinding
 import com.lebogang.genesis.room.models.Playlist
 import com.lebogang.genesis.ui.adapters.ItemPlaylistAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnPlaylistClickListener
-import com.lebogang.genesis.ui.dialogs.AddPlaylistDialog
-import com.lebogang.genesis.ui.dialogs.UpdatePlaylistDialog
 import com.lebogang.genesis.ui.helpers.SpeedDialHelper
 import com.lebogang.genesis.utils.Keys
 import com.lebogang.genesis.viewmodels.PlaylistViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
-class PlaylistFragment: Fragment(),OnPlaylistClickListener {
-    private val viewBinding:FragmentPlaylistBinding by lazy{ FragmentPlaylistBinding.inflate(layoutInflater)}
-    private val viewModel:PlaylistViewModel  by lazy{
+class PlaylistFragment: Fragment(), OnPlaylistClickListener {
+    private val viewBinding: FragmentPlaylistBinding by lazy{ FragmentPlaylistBinding.inflate(layoutInflater) }
+    private val viewModel: PlaylistViewModel by lazy{
         ViewModelFactory(requireActivity().application).getPlaylistViewModel() }
     private val adapter = ItemPlaylistAdapter().apply { listener = this@PlaylistFragment}
 
@@ -62,12 +60,12 @@ class PlaylistFragment: Fragment(),OnPlaylistClickListener {
         viewBinding.menuView.setMenuListener(object: SpeedDialHelper(){
             override fun onItemSelected(itemId: Int): Boolean {
                 return when(itemId){
-                    R.id.addMenu->{
+                    R.id.addMenu ->{
                         val controller = findNavController()
                         controller.navigate(R.id.addPlaylistDialog)
                         true
                     }
-                    R.id.clearMenu->{
+                    R.id.clearMenu ->{
                         viewModel.clearData()
                         true
                     }

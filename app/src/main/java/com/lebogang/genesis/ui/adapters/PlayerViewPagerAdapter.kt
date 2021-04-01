@@ -25,6 +25,7 @@ import com.lebogang.genesis.databinding.ItemPlayerViewPagerAudioBinding
 import com.lebogang.genesis.ui.adapters.utils.AdapterInterface
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.genesis.utils.GlobalGlide
+import com.lebogang.genesis.utils.glide.GlideManager
 
 class PlayerViewPagerAdapter: RecyclerView.Adapter<PlayerViewPagerAdapter.ViewHolder>(),AdapterInterface{
     var listener:OnAudioClickListener? = null
@@ -57,7 +58,7 @@ class PlayerViewPagerAdapter: RecyclerView.Adapter<PlayerViewPagerAdapter.ViewHo
         val audio = listAudio[position]
         val counter = (1+position).toString() + " of " + listAudio.size
         holder.viewBinding.counterView.text = counter
-        GlobalGlide.loadAudioCover(holder.viewBinding.root, holder.viewBinding.coverView, audio.getArtUri())
+        GlideManager(holder.itemView).loadAudioArt(audio.getArtUri(), holder.viewBinding.coverView)
         updateNowPlaying(holder, audio)
     }
 

@@ -28,6 +28,7 @@ import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.DialogAudioOptionsBinding
 import com.lebogang.genesis.utils.GlobalGlide
 import com.lebogang.genesis.utils.Keys
+import com.lebogang.genesis.utils.glide.GlideManager
 import com.lebogang.genesis.viewmodels.AlbumViewModel
 import com.lebogang.genesis.viewmodels.ArtistViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
@@ -49,12 +50,16 @@ class AudioOptionsDialog :BottomSheetDialogFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        initOnClicks()
     }
 
     private fun initViews(){
-        GlobalGlide.loadAudioCover(viewBinding.root, viewBinding.coverView, audio.getArtUri())
+        GlideManager(this).loadAudioArt(audio.getArtUri(), viewBinding.coverView)
         viewBinding.titleView.text = audio.title
         viewBinding.subtitleView.text = audio.artist
+    }
+
+    private fun initOnClicks(){
         viewBinding.addToListView.setOnClickListener {
             val bundle = Bundle().apply { putParcelable(Keys.SONG_KEY, audio) }
             val controller = findNavController()
