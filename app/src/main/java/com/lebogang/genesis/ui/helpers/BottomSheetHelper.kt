@@ -16,12 +16,18 @@
 
 package com.lebogang.genesis.ui.helpers
 
-import com.lebogang.genesis.data.models.Audio
-import com.lebogang.genesis.service.MusicService
+import android.view.View
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
-interface PlayerHelper {
+abstract class BottomSheetHelper:BottomSheetBehavior.BottomSheetCallback() {
 
-    fun playAudio(audio: Audio)
+    override fun onStateChanged(bottomSheet: View, newState: Int) {
+        onStateChanged(newState)
+    }
 
-    fun playAudio(audio:Audio, audioList:MutableList<Audio>)
+    override fun onSlide(bottomSheet: View, slideOffset: Float) {
+        //not needed
+    }
+
+    abstract fun onStateChanged(newState: Int)
 }

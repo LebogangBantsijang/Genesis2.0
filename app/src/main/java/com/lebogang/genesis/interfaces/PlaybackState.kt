@@ -14,12 +14,8 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.service.utils
+package com.lebogang.genesis.interfaces
 
-interface OnSateChangedListener {
-    fun onPlaybackChanged(playbackState: PlaybackState)
-
-    fun onRepeatModeChange(repeatSate: RepeatSate)
-
-    fun onShuffleModeChange(shuffleSate: ShuffleSate)
+enum class PlaybackState {
+    PLAYING, PAUSED, STOPPED, SKIPPING, NONE,COMPLETE, PREPARED
 }

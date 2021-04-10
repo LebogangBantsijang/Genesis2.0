@@ -30,15 +30,6 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="256dp">
-
-            <ImageView
-                android:id="@+id/blurView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/album_art"
-                android:scaleType="centerCrop"
-                android:alpha="0.5"/>
-
             <ImageView
                 android:id="@+id/coverView"
                 android:layout_width="196dp"
@@ -69,7 +60,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/artist"
+            android:hint="@string/artist_songs"
             android:layout_marginTop="16dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
@@ -88,7 +79,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/album"
+            android:hint="@string/album_songs"
             android:layout_marginTop="16dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"

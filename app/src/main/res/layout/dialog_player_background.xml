@@ -29,7 +29,7 @@
         android:gravity="center"
         android:padding="16dp"
         android:textStyle="bold"
-        android:text="@string/application_background" />
+        android:text="@string/player_background" />
 
     <View
         android:layout_width="match_parent"
@@ -47,7 +47,8 @@
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
 
         <RadioButton
             android:id="@+id/noneView"
@@ -56,21 +57,23 @@
             android:text="@string/none" />
 
         <RadioButton
-            android:id="@+id/adaptiveView"
+            android:id="@+id/adaptiveImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/adaptive" />
+            android:text="@string/adaptive_image" />
+
+        <RadioButton
+            android:id="@+id/adaptiveBlurr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/adaptive_image_blurred" />
+
+        <RadioButton
+            android:id="@+id/gif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gif" />
 
     </RadioGroup>
-
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/adaptiveTypeView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:enabled="false"
-        android:text="@string/blur_image" />
 
 </LinearLayout>

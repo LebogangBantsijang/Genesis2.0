@@ -44,9 +44,9 @@ import com.lebogang.genesis.viewmodels.ViewModelFactory
 class DeezerSearchFragment: Fragment(), OnDeezerAudioClickListener, OnDeezerArtistClickListener, OnDeezerAlbumClickListener {
     private val viewBinding: FragmentDeezerSearchBinding by lazy{ FragmentDeezerSearchBinding.inflate(layoutInflater) }
     private val viewModel: DeezerViewModel by lazy{ ViewModelFactory(requireActivity().application).getDeezerViewModel()}
-    private val adapterTrack = ItemDeezerSongAdapter()
-    private val adapterArtist = ItemDeezerArtistAdapter()
-    private val adapterAlbum = ItemDeezerAlbumAdapter()
+    private val adapterTrack = ItemDeezerSongAdapter().apply { listener = this@DeezerSearchFragment }
+    private val adapterArtist = ItemDeezerArtistAdapter().apply { listener = this@DeezerSearchFragment }
+    private val adapterAlbum = ItemDeezerAlbumAdapter().apply { listener = this@DeezerSearchFragment }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return viewBinding.root

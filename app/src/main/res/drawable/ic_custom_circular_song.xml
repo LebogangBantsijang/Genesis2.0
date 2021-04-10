@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2021. - Lebogang Bantsijang
   ~
@@ -14,13 +15,19 @@
   ~    limitations under the License.
   -->
 
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="20dp"
-    android:height="20dp"
-    android:viewportWidth="30"
-    android:viewportHeight="30"
-    android:tint="?colorControlNormal">
-  <path
-      android:pathData="M20,4L20,7L8,7C4.6984,7 2,9.6984 2,13A1.0001,1.0001 0,1 0,4 13C4,10.7796 5.7796,9 8,9L20,9L20,12L27,8L20,4zM26.9844,15.9863A1.0001,1.0001 0,0 0,26 17C26,19.2204 24.2204,21 22,21L10,21L10,18L3,22L10,26L10,23L22,23C25.3016,23 28,20.3016 28,17A1.0001,1.0001 0,0 0,26.9844 15.9863z"
-      android:fillColor="#474747"/>
-</vector>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape
+            android:tint="?colorBackgroundFloating"
+            android:shape="oval">
+            <corners
+                android:radius="8dp"/>
+        </shape>
+    </item>
+
+    <item>
+        <inset android:drawable="@drawable/ic_music"
+            android:inset="24dp"/>
+    </item>
+</layer-list>

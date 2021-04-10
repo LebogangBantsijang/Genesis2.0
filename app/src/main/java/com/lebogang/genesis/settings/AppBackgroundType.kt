@@ -1,3 +1,5 @@
+package com.lebogang.genesis.settings
+
 /*
  * Copyright (c) 2021. - Lebogang Bantsijang
  *
@@ -13,15 +15,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
-package com.lebogang.genesis.ui.helpers
-
-import com.lebogang.genesis.data.models.Audio
-import com.lebogang.genesis.service.MusicService
-
-interface PlayerHelper {
-
-    fun playAudio(audio: Audio)
-
-    fun playAudio(audio:Audio, audioList:MutableList<Audio>)
+enum class AppBackgroundType {
+    NONE, ADAPTIVE_IMAGE, ADAPTIVE_BLURRY
 }

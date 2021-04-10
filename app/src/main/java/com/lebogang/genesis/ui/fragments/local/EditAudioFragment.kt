@@ -47,7 +47,6 @@ class EditAudioFragment: Fragment() {
     @SuppressLint("InlinedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        GlideManager(this).loadBlurred(requireContext(),audio.getArtUri(), viewBinding.blurView)
         GlideManager(this).loadAudioArt(audio.getArtUri(),viewBinding.coverView)
         viewBinding.titleView.setText(audio.title)
         viewBinding.artistView.setText(audio.artist)

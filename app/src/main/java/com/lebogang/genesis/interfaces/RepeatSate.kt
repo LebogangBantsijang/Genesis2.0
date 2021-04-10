@@ -14,8 +14,8 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.service.utils
+package com.lebogang.genesis.interfaces
 
-enum class ShuffleSate {
-    SHUFFLE_ALL, SHUFFLE_NONE
+enum class RepeatSate {
+    REPEAT_NONE, REPEAT_ONE, REPEAT_ALL,SHUFFLE_ALL
 }

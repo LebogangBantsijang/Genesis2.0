@@ -14,8 +14,10 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.service.utils
+package com.lebogang.genesis.interfaces
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.lebogang.genesis.data.models.Audio
 
 interface MusicInterface {
@@ -23,6 +25,10 @@ interface MusicInterface {
     fun prepare(audio: Audio)
 
     fun play(audio: Audio)
+
+    fun playOnline(url:String)
+
+    fun stopOnline();
 
     fun play()
 
@@ -34,21 +40,31 @@ interface MusicInterface {
 
     fun getCurrentPosition():Int
 
-    fun togglePlayPause()
-
     fun skipToNext()
 
     fun skipToPrevious()
 
     fun changeRepeatMode()
 
-    fun changeShuffleMode()
+    fun getRepeatMode(): RepeatSate
 
-    fun getRepeatMode():RepeatSate
+    fun getPlaybackState(): PlaybackState
 
-    fun getShuffleMode():ShuffleSate
+    fun addStateChangedListener(className:String,stateChangedListener: OnStateChangedListener)
 
-    fun getPlaybackState():PlaybackState
+    @RequiresApi(Build.VERSION_CODES.P)
+    fun enableAudioFx()
 
-    fun addStateChangedListener(className:String,stateChangedListener: OnSateChangedListener)
+    @RequiresApi(Build.VERSION_CODES.P)
+    fun disableAudioFx()
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    fun isAudioFxEnabled():Boolean
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    fun getEffectLevel(type:AudioFxType):Int
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    fun setEffectLevel(level: Float,type:AudioFxType)
+
 }

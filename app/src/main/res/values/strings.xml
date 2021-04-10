@@ -25,7 +25,6 @@
     <string name="change_how_items_should_be_displayed">Change how items should be displayed</string>
     <string name="customise_player">Customise Player</string>
     <string name="adjust_how_the_player_looks_and_feels">Adjust how the player looks and feels</string>
-    <string name="extra_volume">Extra Volume</string>
     <string name="boost_the_loudness_of_your_audio_playback">Boost the loudness of your audio playback</string>
     <string name="feedback">Feedback</string>
     <string name="give_us_a_rating">Give us a rating</string>
@@ -76,8 +75,8 @@
     <string name="view_album">View Album</string>
     <string name="view_artist">View Artist</string>
     <string name="title">Title</string>
-    <string name="artist">Artist Songs</string>
-    <string name="album">Album Songs</string>
+    <string name="artist_songs">Artist Songs</string>
+    <string name="album_songs">Album Songs</string>
     <string name="null_values">Error: Please enter full details</string>
     <string name="refresh">Refresh</string>
     <string name="title_asc">Title Ascending</string>
@@ -94,7 +93,6 @@
     <string name="follow_system">Follow System</string>
     <string name="theme_note">Theme setting will take effect when the application restarts</string>
     <string name="filter">Category</string>
-    <string name="audio_filter">Audio Filter</string>
     <string name="duration_sec">Duration (sec)</string>
     <string name="_0">0</string>
     <string name="_120">120</string>
@@ -147,19 +145,34 @@
     <string name="deezer">Deezer</string>
     <string name="explicit">Explicit</string>
     <string name="preview_duration">30s</string>
-    <string name="chart_songs">Chart Songs</string>
-    <string name="chart_album">Chart Album</string>
-    <string name="chart_artist">Chart Artist</string>
+    <string name="chart_songs">Top Songs</string>
+    <string name="chart_album">Top Albums</string>
+    <string name="chart_artist">Top Artists</string>
     <string name="deezer_song">songs</string>
     <string name="deezer_albums">Albums</string>
     <string name="deezer_artists">Artists</string>
     <string name="preview">Preview</string>
     <string name="want_the_full_song">Want the full song?</string>
     <string name="get_deezer">Get Deezer</string>
-    <string name="album_word">Albums</string>
-    <string name="artist_word">Artists</string>
+    <string name="album">Album</string>
+    <string name="artist">Artist</string>
     <string name="search_results">Search Results</string>
     <string name="top_songs">Top Songs</string>
+    <string name="skip_next">Skip Next</string>
+    <string name="skip_prev">Skip Prev</string>
+    <string name="next_item">Next Item</string>
+    <string name="adaptive_image">Adaptive Image</string>
+    <string name="adaptive_image_blurred">Adaptive Image Blurred</string>
+    <string name="gif">Gif</string>
+    <string name="player_background">Player Background</string>
+    <string name="volume_settings">Volume Settings</string>
+    <string name="preeq_gain">Pre Eq Gain</string>
+    <string name="compressor">Compressor</string>
+    <string name="posteq_gain">Post Eq Gain</string>
+    <string name="limiter">Limiter</string>
+    <string name="enable_audio_fx">Enable Audio Fx</string>
+    <string name="extra_volume">Extra Volume</string>
+    <string name="audio_filter">Audio Filter</string>
 
     <string-array name="column_options">
         <item>2</item>

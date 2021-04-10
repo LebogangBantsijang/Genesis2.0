@@ -14,8 +14,8 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.service.utils
+package com.lebogang.genesis.interfaces
 
-enum class PlaybackState {
-    PLAYING, PAUSED, STOPPED, SKIPPING, NONE,COMPLETE, PREPARED
+enum class AudioFxType {
+    PRE_EQ,COMPRESSOR,POST_EQ,LIMITER,MASTER_GAIN
 }

@@ -16,12 +16,9 @@
 
 package com.lebogang.genesis.ui.helpers
 
-import com.lebogang.genesis.data.models.Audio
-import com.lebogang.genesis.service.MusicService
+import android.view.GestureDetector
+import android.view.MotionEvent
 
-interface PlayerHelper {
+abstract class GestureListenerHelper: GestureDetector.SimpleOnGestureListener() {
 
-    fun playAudio(audio: Audio)
-
-    fun playAudio(audio:Audio, audioList:MutableList<Audio>)
 }

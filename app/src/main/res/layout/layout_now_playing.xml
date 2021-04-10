@@ -29,15 +29,15 @@
     android:background="?selectableItemBackground">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_margin="8dp"
         app:cardCornerRadius="4dp">
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:contentDescription="@string/add_cover_image"
             app:srcCompat="@drawable/ic_custom_song"
             />

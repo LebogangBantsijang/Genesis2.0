@@ -25,6 +25,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -32,11 +33,12 @@ import androidx.core.app.NotificationCompat
 import androidx.media.app.NotificationCompat.MediaStyle
 import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Audio
-import com.lebogang.genesis.service.utils.PlaybackState
+import com.lebogang.genesis.interfaces.PlaybackState
 import com.lebogang.genesis.ui.MainActivity
 import java.io.FileNotFoundException
 
-class MusicNotification(private val context:Context) {
+abstract class ManageNotifications(private val context:Context, listener : AudioManager.OnAudioFocusChangeListener)
+    :ManageFocus(context, listener) {
     private val channelId = "113"
     private val channelName = "GenesisMusic"
     private val channelDescription = "Enjoy your music"
@@ -63,42 +65,47 @@ class MusicNotification(private val context:Context) {
             }
     }
 
-    fun createNotification(audio: Audio, playbackState: PlaybackState):Notification{
+    fun createNotification(audio: Audio, playbackState: PlaybackState): Notification {
         val subtitle = audio.artist + "-" + audio.album
         val  builder = NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.ic_music_note_24dp)
-                .setCategory(Notification.CATEGORY_TRANSPORT)
-                .setContentTitle(audio.title)
-                .setContentText(subtitle)
-                .setLargeIcon(getBitmap(audio.getArtUri()))
-                .setShowWhen(false)
-                .setNotificationSilent()
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setPriority(channelImportance)
-                .setContentIntent(PendingIntent.getActivity(context, 146,
-                        Intent(context, MainActivity::class.java),PendingIntent.FLAG_UPDATE_CURRENT))
-                .setStyle(MediaStyle().also {
-                    it.setShowCancelButton(false)
-                    it.setShowActionsInCompactView(0,1,2)
-                })
-        builder.addAction(R.drawable.ic_round_navigate_before_24, "",
-                PendingIntent.getBroadcast(context, 0, Intent(SKIP_PREV_ACTION), PendingIntent.FLAG_UPDATE_CURRENT))
+            .setSmallIcon(R.drawable.ic_music_note_24dp)
+            .setCategory(Notification.CATEGORY_TRANSPORT)
+            .setContentTitle(audio.title)
+            .setContentText(subtitle)
+            .setLargeIcon(getBitmap(audio.getArtUri()))
+            .setShowWhen(false)
+            .setNotificationSilent()
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setPriority(channelImportance)
+            .setContentIntent(
+                PendingIntent.getActivity(context, 146,
+                Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT))
+            .setStyle(MediaStyle().also {
+                it.setShowCancelButton(false)
+                it.setShowActionsInCompactView(0,1,2)
+            })
+        builder.addAction(
+            R.drawable.ic_round_navigate_before_24, "",
+            PendingIntent.getBroadcast(context, 0, Intent(SKIP_PREV_ACTION), PendingIntent.FLAG_UPDATE_CURRENT))
         if (playbackState == PlaybackState.PLAYING)
-            builder.addAction(R.drawable.ic_round_pause_24, "",
-                    PendingIntent.getBroadcast(context, 0, Intent(PAUSE_ACTION), PendingIntent.FLAG_UPDATE_CURRENT))
+            builder.addAction(
+                R.drawable.ic_round_pause_24, "",
+                PendingIntent.getBroadcast(context, 0, Intent(PAUSE_ACTION), PendingIntent.FLAG_UPDATE_CURRENT))
         else
-            builder.addAction(R.drawable.ic_round_play_arrow_24, "",
-                    PendingIntent.getBroadcast(context, 0, Intent(PLAY_ACTION), PendingIntent.FLAG_UPDATE_CURRENT))
-        builder.addAction(R.drawable.ic_round_navigate_next_24, "",
-                PendingIntent.getBroadcast(context, 0, Intent(SKIP_NEXT_ACTION), PendingIntent.FLAG_UPDATE_CURRENT))
+            builder.addAction(
+                R.drawable.ic_round_play_arrow_24, "",
+                PendingIntent.getBroadcast(context, 0, Intent(PLAY_ACTION), PendingIntent.FLAG_UPDATE_CURRENT))
+        builder.addAction(
+            R.drawable.ic_round_navigate_next_24, "",
+            PendingIntent.getBroadcast(context, 0, Intent(SKIP_NEXT_ACTION), PendingIntent.FLAG_UPDATE_CURRENT))
         return builder.build()
     }
 
-    private fun getBitmap(uri:Uri): Bitmap {
+    private fun getBitmap(uri: Uri): Bitmap {
         return try {
             val inputStream = context.applicationContext.contentResolver.openInputStream(uri)
             BitmapFactory.decodeStream(inputStream)
-        }catch (e:FileNotFoundException){
+        }catch (e: FileNotFoundException){
             BitmapFactory.decodeResource(context.applicationContext.resources, R.raw.default_bg)
         }
     }

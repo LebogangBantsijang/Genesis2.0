@@ -51,14 +51,6 @@ class ThemeSettings(private val context: Context) {
         preferences.edit().putInt(itemDisplay, count).apply()
     }
 
-    fun setBackgroundType(value:String){
-        preferences.edit().putString(backgroundKey, value).apply()
-    }
-
-    fun getBackgroundType():String{
-        return preferences.getString(backgroundKey, backgroundTypeAdaptive)!!
-    }
-
     fun isAdaptiveBackgroundBlurry():Boolean{
         return preferences.getBoolean(backgroundTypeAdaptiveIsBlurryKey, true)
     }

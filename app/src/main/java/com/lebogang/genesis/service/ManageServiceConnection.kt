@@ -21,15 +21,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
-import com.lebogang.genesis.service.utils.OnSateChangedListener
-import com.lebogang.genesis.service.utils.PlaybackState
-import com.lebogang.genesis.service.utils.RepeatSate
-import com.lebogang.genesis.service.utils.ShuffleSate
+import com.lebogang.genesis.interfaces.PlaybackState
+import com.lebogang.genesis.ui.MainActivity
 import com.lebogang.genesis.ui.helpers.PlayerHelper
 
-class ManageServiceConnection(private val activity: AppCompatActivity): OnSateChangedListener {
+class ManageServiceConnection(private val activity: MainActivity) {
     private val intent = Intent(activity,MusicService::class.java)
     lateinit var musicService: MusicService
     private val connectionCallback = getConnection()
@@ -42,17 +39,16 @@ class ManageServiceConnection(private val activity: AppCompatActivity): OnSateCh
         return object :ServiceConnection{
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 musicService = (service as MusicService.ServiceBinder).getService()
-                (activity as PlayerHelper).onServiceReady(musicService)
-                musicService.addStateChangedListener(activity.javaClass.name
-                        ,this@ManageServiceConnection)
+                activity.onServiceReady(musicService)
+                musicService.addStateChangedListener(activity.javaClass.name,activity.getStateChangedListener())
+                //check if liveData was cleared, if not prepare the media
                 if (Queue.currentAudio.value != null){
                     if (musicService.getPlaybackState() == PlaybackState.NONE)
                         musicService.prepare(Queue.currentAudio.value!!)
                     else
-                        onPlaybackChanged(musicService.getPlaybackState())
+                        activity.getStateChangedListener().onPlaybackChanged(musicService.getPlaybackState())
                 }
-                onRepeatModeChange(musicService.getRepeatMode())
-                onShuffleModeChange(musicService.getShuffleMode())
+                activity.getStateChangedListener().onRepeatModeChange(musicService.getRepeatMode())
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
@@ -75,17 +71,4 @@ class ManageServiceConnection(private val activity: AppCompatActivity): OnSateCh
         }
 
     }
-
-    override fun onPlaybackChanged(playbackState: PlaybackState) {
-        (activity as PlayerHelper).onPlaybackChanged(playbackState)
-    }
-
-    override fun onRepeatModeChange(repeatSate: RepeatSate) {
-        (activity as PlayerHelper).onRepeatModeChange(repeatSate)
-    }
-
-    override fun onShuffleModeChange(shuffleSate: ShuffleSate) {
-        (activity as PlayerHelper).onShuffleModeChange(shuffleSate)
-    }
-
 }

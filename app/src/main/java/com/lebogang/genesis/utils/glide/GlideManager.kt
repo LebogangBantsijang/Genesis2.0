@@ -37,9 +37,10 @@ import com.lebogang.genesis.R
 import jp.wasabeef.blurry.Blurry
 
 class GlideManager {
-    private lateinit var requestBuilder: RequestBuilder<Drawable>
+    private val requestBuilder: RequestBuilder<Drawable>
     private val audioErrorResource = R.drawable.ic_custom_song
     private val audioAlternativeErrorResource = R.drawable.ic_musical_notes
+    private val audioErrorCircularResource = R.drawable.ic_custom_circular_song
     private val artistErrorResource = R.drawable.ic_custom_artist
     private val albumErrorResource = R.drawable.ic_custom_album
 
@@ -60,12 +61,12 @@ class GlideManager {
         return builder.apply{
             skipMemoryCache(skipCache)
             diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-            centerCrop()
         }
     }
 
     fun loadAudioArt(uri: Uri?, view: ImageView):GlideManager{
         requestBuilder.load(uri)
+                .centerCrop()
                 .error(audioErrorResource)
                 .override(view.width, view.height)
                 .into(view)
@@ -74,8 +75,20 @@ class GlideManager {
         return this
     }
 
+    fun loadAudioArtCircularCrop(uri: Uri?, view: ImageView):GlideManager{
+        requestBuilder.load(uri)
+            .circleCrop()
+            .error(audioErrorCircularResource)
+            .override(view.width, view.height)
+            .into(view)
+            .waitForLayout()
+            .clearOnDetach()
+        return this
+    }
+
     fun loadOnline(path:String, view:ImageView):GlideManager{
         requestBuilder.load(path)
+                .centerCrop()
                 .error(audioErrorResource)
                 .override(view.width, view.height)
                 .into(view)
@@ -86,6 +99,7 @@ class GlideManager {
 
     fun loadAudioArtNoDefaultResource(uri: Uri?, view: ImageView):GlideManager{
         requestBuilder.load(uri)
+                .centerCrop()
                 .error(audioAlternativeErrorResource)
                 .override(view.width, view.height)
                 .into(view)
@@ -96,6 +110,7 @@ class GlideManager {
 
     fun loadArtistArt(uri: Uri?, view: ImageView):GlideManager{
         requestBuilder.load(uri)
+                .centerCrop()
                 .error(artistErrorResource)
                 .override(view.width, view.height)
                 .into(view)
@@ -106,6 +121,7 @@ class GlideManager {
 
     fun loadAlbumArt(uri: Uri?, view: ImageView):GlideManager{
         requestBuilder.load(uri)
+                .centerCrop()
                 .error(albumErrorResource)
                 .override(view.width, view.height)
                 .into(view)
@@ -116,10 +132,25 @@ class GlideManager {
 
     fun loadBlurred(root: Context,uri: Uri?, view: ImageView):GlideManager{
         Glide.with(root).asBitmap()
+                .centerCrop()
                 .load(uri)
                 .addListener(getCallbacks(root, view))
                 .submit(view.width, view.height)
         return this
+    }
+
+    fun loadGif(activity: AppCompatActivity, view: ImageView){
+        var skipCache = false
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            skipCache = true
+        Glide.with(activity).asGif()
+            .skipMemoryCache(skipCache)
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            .centerCrop()
+            .load(R.raw.gif_2)
+            .into(view)
+            .waitForLayout()
+            .clearOnDetach()
     }
 
     private fun getCallbacks(root:Context,view: ImageView):RequestListener<Bitmap>{

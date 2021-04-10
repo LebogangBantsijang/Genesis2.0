@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.genesis.data.models.Artist
 import com.lebogang.genesis.databinding.ItemLocalArtistBinding
 import com.lebogang.genesis.ui.adapters.utils.OnArtistClickListener
-import com.lebogang.genesis.utils.GlobalGlide
 import com.lebogang.genesis.utils.glide.GlideManager
 
 class ItemArtistAdapter:RecyclerView.Adapter<ItemArtistAdapter.ViewHolder>(), Filterable{

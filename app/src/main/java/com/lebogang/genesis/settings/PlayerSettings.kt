@@ -19,51 +19,37 @@ package com.lebogang.genesis.settings
 import android.content.Context
 import android.content.SharedPreferences
 import com.lebogang.genesis.R
-import com.lebogang.genesis.service.utils.RepeatSate
-import com.lebogang.genesis.service.utils.ShuffleSate
+import com.lebogang.genesis.interfaces.RepeatSate
 
 class PlayerSettings(private val context: Context){
     private val preferences: SharedPreferences = context.applicationContext
         .getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
-    private val playerKey = "Player"
     private val repeatKey = "Repeat"
-    private val shuffleKey = "Shuffle"
-
-    fun setPlayerResource(resource:Int){
-        preferences.edit().putInt(playerKey,resource).apply()
-    }
-
-    fun getPlayerResource():Int{
-        return preferences.getInt(playerKey,R.layout.player_layout_two)
-    }
+    private val playerBackgroundKey = "PlayerBackground"
 
     fun setRepeatMode(repeatSate: RepeatSate){
-        when(repeatSate){
-            RepeatSate.REPEAT_NONE-> preferences.edit().putInt(repeatKey, 0).apply()
-            RepeatSate.REPEAT_ONE-> preferences.edit().putInt(repeatKey, 1).apply()
-            RepeatSate.REPEAT_ALL-> preferences.edit().putInt(repeatKey, 2).apply()
-        }
+        preferences.edit().putString(repeatKey, repeatSate.toString()).apply()
     }
 
-    fun getRepeatMode():RepeatSate{
-        return when(preferences.getInt(repeatKey,0)){
-            1 -> RepeatSate.REPEAT_ONE
-            2 -> RepeatSate.REPEAT_ALL
+    fun getRepeatMode(): RepeatSate {
+        return when(preferences.getString(repeatKey, RepeatSate.REPEAT_NONE.toString())){
+            RepeatSate.REPEAT_ALL.toString() -> RepeatSate.REPEAT_ALL
+            RepeatSate.REPEAT_ONE.toString() -> RepeatSate.REPEAT_ONE
+            RepeatSate.SHUFFLE_ALL.toString() -> RepeatSate.SHUFFLE_ALL
             else -> RepeatSate.REPEAT_NONE
         }
     }
 
-    fun setShuffleMode(shuffleSate: ShuffleSate){
-        when(shuffleSate){
-            ShuffleSate.SHUFFLE_NONE -> preferences.edit().putInt(shuffleKey, 0).apply()
-            ShuffleSate.SHUFFLE_ALL -> preferences.edit().putInt(shuffleKey, 1).apply()
-        }
+    fun setBackgroundType(playerBackgroundType: PlayerBackgroundType){
+        preferences.edit().putString(playerBackgroundKey,playerBackgroundType.toString()).apply()
     }
 
-    fun getShuffleMode():ShuffleSate{
-        return when(preferences.getInt(shuffleKey, 0)){
-            1 -> ShuffleSate.SHUFFLE_ALL
-            else -> ShuffleSate.SHUFFLE_NONE
+    fun getBackgroundType():PlayerBackgroundType{
+        return when(preferences.getString(playerBackgroundKey,PlayerBackgroundType.ADAPTIVE_BLURRY.toString())){
+            PlayerBackgroundType.NONE.toString() -> PlayerBackgroundType.NONE
+            PlayerBackgroundType.ADAPTIVE_IMAGE.toString() -> PlayerBackgroundType.ADAPTIVE_IMAGE
+            PlayerBackgroundType.GIF.toString() -> PlayerBackgroundType.GIF
+            else -> PlayerBackgroundType.ADAPTIVE_BLURRY
         }
     }
 }

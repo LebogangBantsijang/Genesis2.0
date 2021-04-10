@@ -26,4 +26,5 @@
     <color name="secondaryTextColorDark">#B2FFFFFF</color>
     <color name="secondaryTextColorLightNoDisable">#BEBEBE</color>
     <color name="secondaryTextColorDarkNoDisable">#BEBEBE</color>
+    <color name="darkBackground">#222222</color>
 </resources>

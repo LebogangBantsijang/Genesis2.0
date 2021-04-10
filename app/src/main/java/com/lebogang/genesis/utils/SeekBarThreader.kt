@@ -23,10 +23,10 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.lebogang.genesis.R
 import com.lebogang.genesis.service.MusicService
-import com.lebogang.genesis.service.utils.PlaybackState
-import com.lebogang.genesis.ui.PlayerActivity
+import com.lebogang.genesis.interfaces.PlaybackState
+import com.lebogang.genesis.ui.MainActivity
 
-class SeekBarThreader(private val activity: PlayerActivity, private val musicService: MusicService)
+class SeekBarThreader(private val activity: MainActivity, private val musicService: MusicService)
     : Handler(activity.mainLooper){
     private val seekBar:SeekBar by lazy {
         activity.findViewById(R.id.seekBar)

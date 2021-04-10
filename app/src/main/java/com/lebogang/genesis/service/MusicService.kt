@@ -22,39 +22,25 @@ import android.content.IntentFilter
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
+import androidx.annotation.RequiresApi
 import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.data.models.Audio
+import com.lebogang.genesis.interfaces.*
 import com.lebogang.genesis.room.StatisticsRepo
-import com.lebogang.genesis.service.utils.*
 import com.lebogang.genesis.settings.PlayerSettings
 
 class MusicService : Service(), MusicInterface
     , AudioManager.OnAudioFocusChangeListener, MediaPlayer.OnCompletionListener {
-
     private val binder = ServiceBinder()
-    private val manageFocus:ManageFocus by lazy{
-        ManageFocus(this, this)
-    }
-    private var mediaPlayer = MediaPlayer().apply {
-        setOnCompletionListener(this@MusicService)
-    }
-    private val musicNotification:MusicNotification by lazy{
-        MusicNotification(this)
-    }
-    private val broadcastMusicReceiver:MusicReceiver by lazy {
-        MusicReceiver(this)
-    }
-    private val statisticsRepo:StatisticsRepo by lazy {
-        (application as GenesisApplication).statisticsRepo
-    }
-    private val playerSettings:PlayerSettings by lazy{
-        PlayerSettings(this)
-    }
-
-    private val hashMap = HashMap<String, OnSateChangedListener>()
+    private val managePlayers :ManagePlayers by lazy { ManagePlayers(this@MusicService
+        , this@MusicService, this@MusicService) }
+    private val broadcastMusicReceiver:MusicReceiver by lazy { MusicReceiver(this) }
+    private val statisticsRepo:StatisticsRepo by lazy { (application as GenesisApplication).statisticsRepo }
+    private val playerSettings:PlayerSettings by lazy{ PlayerSettings(this) }
+    private val hashMap = HashMap<String, OnStateChangedListener>()
     private var playbackState = PlaybackState.NONE
-    private var shuffleSate = ShuffleSate.SHUFFLE_NONE
     private var repeatSate = RepeatSate.REPEAT_NONE
     private val foreGroundId = 546
 
@@ -64,25 +50,19 @@ class MusicService : Service(), MusicInterface
 
     override fun onCreate() {
         super.onCreate()
-        mediaPlayer.setAudioAttributes(manageFocus.focusAttributes)
-        shuffleSate = playerSettings.getShuffleMode()
-        repeatSate = playerSettings.getRepeatMode()
         registerReceiver(broadcastMusicReceiver, IntentFilter().apply {
             addAction(SKIP_PREV_ACTION)
             addAction(PLAY_ACTION)
             addAction(PAUSE_ACTION)
             addAction(SKIP_NEXT_ACTION)
         })
+        repeatSate = playerSettings.getRepeatMode()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         stop()
-    }
-
-    override fun onTaskRemoved(rootIntent: Intent?) {
-        super.onTaskRemoved(rootIntent)
-        stop()
+        managePlayers.releaseFx()
     }
 
     inner class ServiceBinder:Binder(){
@@ -92,69 +72,63 @@ class MusicService : Service(), MusicInterface
     }
 
     override fun prepare(audio: Audio) {
-        manageFocus.requestFocus()
-        mediaPlayer.reset()
-        mediaPlayer.setDataSource(this,audio.getUri())
-        mediaPlayer.prepare()
+        //handle focus and media player
+        managePlayers.prepare(audio)
+        //player callbacks
         playbackState = PlaybackState.PREPARED
-        hashMap.forEach {
-            it.value.onPlaybackChanged(playbackState)
-        }
-        startForeground(foreGroundId,
-            musicNotification.createNotification(audio, playbackState))
+        hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
+        startForeground(foreGroundId, managePlayers.createNotification(audio, playbackState))
     }
 
     override fun play(audio: Audio) {
-        manageFocus.requestFocus()
-        mediaPlayer.reset()
-        mediaPlayer.setDataSource(this,audio.getUri())
-        mediaPlayer.prepare()
-        mediaPlayer.start()
+        //handle focus and media player
+        managePlayers.play(audio)
+        //player callbacks
         playbackState = PlaybackState.PLAYING
-        hashMap.forEach {
-            it.value.onPlaybackChanged(playbackState)
-        }
-        startForeground(foreGroundId,
-                musicNotification.createNotification(audio, playbackState))
+        hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
+        //notification and update stats repo
+        startForeground(foreGroundId, managePlayers.createNotification(audio, playbackState))
         statisticsRepo.insertStat(audio)
     }
 
+    override fun playOnline(url: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun stopOnline() {
+        TODO("Not yet implemented")
+    }
+
     override fun pause() {
-        manageFocus.abandonFocus()
-        mediaPlayer.pause()
+        //handle focus and media player
+        managePlayers.pause()
+        //player callbacks & notifications
         playbackState = PlaybackState.PAUSED
-        hashMap.forEach {
-            it.value.onPlaybackChanged(playbackState)
-        }
-        startForeground(foreGroundId,
-            musicNotification.createNotification(Queue.currentAudio.value!!, playbackState))
+        hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
+        startForeground(foreGroundId, managePlayers.createNotification(Queue.currentAudio.value!!, playbackState))
     }
 
     override fun play() {
-        manageFocus.requestFocus()
-        mediaPlayer.start()
+        //handle focus and media player
+        managePlayers.play()
+        //player callbacks & notifications
         playbackState = PlaybackState.PLAYING
-        hashMap.forEach {
-            it.value.onPlaybackChanged(playbackState)
-        }
-        startForeground(foreGroundId,
-                musicNotification.createNotification(Queue.currentAudio.value!!, playbackState))
+        hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
+        startForeground(foreGroundId, managePlayers.createNotification(Queue.currentAudio.value!!, playbackState))
     }
 
     override fun stop() {
+        //handle focus and media player
+        managePlayers.stop()
         unregisterReceiver(broadcastMusicReceiver)
-        playerSettings.setShuffleMode(shuffleSate)
+        //player callbacks & notifications
         playerSettings.setRepeatMode(repeatSate)
-        manageFocus.abandonFocus()
-        mediaPlayer.stop()
-        mediaPlayer.reset()
-        mediaPlayer.release()
         hashMap.clear()
         stopForeground(true)
         stopSelf()
     }
 
-    override fun togglePlayPause() {
+    fun togglePlayPause() {
         if (playbackState == PlaybackState.PLAYING)
             pause()
         else
@@ -162,72 +136,81 @@ class MusicService : Service(), MusicInterface
     }
 
     override fun skipToNext() {
-        manageFocus.abandonFocus()
+        managePlayers.abandonFocus()
         playbackState = PlaybackState.SKIPPING
-        hashMap.forEach {
-            it.value.onPlaybackChanged(playbackState)
-        }
-        if (shuffleSate == ShuffleSate.SHUFFLE_ALL)
-            play(Queue.getRandomAudio())
-        else
-            play(Queue.getNext())
+        hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
+        handleSkipping(true)
     }
 
     override fun skipToPrevious() {
-        manageFocus.abandonFocus()
+        managePlayers.abandonFocus()
         playbackState = PlaybackState.SKIPPING
-        hashMap.forEach {
-            it.value.onPlaybackChanged(playbackState)
-        }
-        if (shuffleSate == ShuffleSate.SHUFFLE_ALL)
+        hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
+        handleSkipping(false)
+    }
+
+    private fun handleSkipping(isSkippingNext:Boolean){
+        if (repeatSate == RepeatSate.SHUFFLE_ALL){
             play(Queue.getRandomAudio())
-        else
-            play(Queue.getPrevious())
+            return
+        }
+        if (isSkippingNext) play(Queue.getNext())
+        else play(Queue.getPrevious())
     }
 
     override fun seekTo(position: Int) {
-        mediaPlayer.seekTo(position)
+        managePlayers.seekTo(position)
     }
 
     override fun getCurrentPosition(): Int {
-        return mediaPlayer.currentPosition
+        return managePlayers.getCurrentPosition()
     }
 
     override fun changeRepeatMode() {
         repeatSate = when(repeatSate){
             RepeatSate.REPEAT_NONE-> RepeatSate.REPEAT_ONE
             RepeatSate.REPEAT_ONE-> RepeatSate.REPEAT_ALL
-            RepeatSate.REPEAT_ALL-> RepeatSate.REPEAT_NONE
+            RepeatSate.REPEAT_ALL-> RepeatSate.SHUFFLE_ALL
+            RepeatSate.SHUFFLE_ALL -> RepeatSate.REPEAT_NONE
         }
-        hashMap.forEach {
-            it.value.onRepeatModeChange(repeatSate)
-        }
-    }
-
-    override fun changeShuffleMode() {
-        shuffleSate = when(shuffleSate){
-            ShuffleSate.SHUFFLE_NONE-> ShuffleSate.SHUFFLE_ALL
-            ShuffleSate.SHUFFLE_ALL-> ShuffleSate.SHUFFLE_NONE
-        }
-        hashMap.forEach {
-            it.value.onShuffleModeChange(shuffleSate)
-        }
+        hashMap.forEach { it.value.onRepeatModeChange(repeatSate) }
     }
 
     override fun getRepeatMode(): RepeatSate {
         return repeatSate
     }
 
-    override fun getShuffleMode(): ShuffleSate {
-        return shuffleSate
-    }
-
     override fun getPlaybackState(): PlaybackState {
         return playbackState
     }
 
-    override fun addStateChangedListener(className:String, stateChangedListener: OnSateChangedListener) {
+    override fun addStateChangedListener(className:String, stateChangedListener: OnStateChangedListener) {
         hashMap[className] = stateChangedListener
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    override fun enableAudioFx() {
+        managePlayers.enableAudioFx()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    override fun disableAudioFx() {
+        managePlayers.disableAudioFx()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    override fun isAudioFxEnabled(): Boolean {
+        return managePlayers.isAudioFxEnabled()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    override fun getEffectLevel(type: AudioFxType): Int {
+        return managePlayers.getEffectLevel(type)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    override fun setEffectLevel(level: Float, type: AudioFxType) {
+        managePlayers.setEffectLevel(level, type)
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
@@ -238,15 +221,12 @@ class MusicService : Service(), MusicInterface
 
     override fun onCompletion(mp: MediaPlayer?) {
         playbackState = PlaybackState.COMPLETE
-        hashMap.forEach {
-            it.value.onPlaybackChanged(playbackState)
-        }
+        hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
         when(repeatSate){
             RepeatSate.REPEAT_ONE -> play(Queue.currentAudio.value!!)
             RepeatSate.REPEAT_ALL -> play(Queue.getNext())
-            RepeatSate.REPEAT_NONE -> {
-                pause()
-            }
+            RepeatSate.REPEAT_NONE -> { pause() }
+            RepeatSate.SHUFFLE_ALL -> play(Queue.getRandomAudio())
         }
     }
 }

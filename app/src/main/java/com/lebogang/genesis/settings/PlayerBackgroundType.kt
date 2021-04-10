@@ -14,8 +14,8 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.service.utils
+package com.lebogang.genesis.settings
 
-enum class RepeatSate {
-    REPEAT_NONE, REPEAT_ONE, REPEAT_ALL
+enum class PlayerBackgroundType {
+    NONE, ADAPTIVE_BLURRY, ADAPTIVE_IMAGE, GIF
 }

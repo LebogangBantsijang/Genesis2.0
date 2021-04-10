@@ -14,17 +14,10 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.utils
+package com.lebogang.genesis.interfaces
 
-import androidx.lifecycle.MutableLiveData
-import com.lebogang.genesis.network.models.TrackDeezer
+interface OnStateChangedListener {
+    fun onPlaybackChanged(playbackState: PlaybackState)
 
-class CustomMutableLiveData(val list:MutableList<TrackDeezer>): MutableLiveData<MutableList<TrackDeezer>>(list) {
-
-    fun postValue(track:TrackDeezer){
-        value?.let{
-            it.add(track)
-            postValue(it)
-        }
-    }
+    fun onRepeatModeChange(repeatSate: RepeatSate)
 }

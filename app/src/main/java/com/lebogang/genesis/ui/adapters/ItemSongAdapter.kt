@@ -26,7 +26,6 @@ import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.ItemLocalSongBinding
 import com.lebogang.genesis.ui.adapters.utils.AdapterInterface
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
-import com.lebogang.genesis.utils.GlobalGlide
 import com.lebogang.genesis.utils.glide.GlideManager
 
 class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filterable, AdapterInterface {
@@ -78,10 +77,12 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filter
     }
 
     private fun updateNowPlaying(holder: ViewHolder, audio: Audio){
-        if (audio.id == audioId)
+        if (audio.id == audioId){
             holder.viewBinding.lottieView.visibility = View.VISIBLE
-        else
+        }
+        else{
             holder.viewBinding.lottieView.visibility = View.GONE
+        }
     }
 
     override fun getItemCount(): Int {

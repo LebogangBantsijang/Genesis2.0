@@ -59,7 +59,6 @@ class DeezerFragment: Fragment(), OnDeezerAudioClickListener, OnDeezerAlbumClick
     }
 
     private fun initViews(){
-        viewBinding.bottomNavigationView.selectedItemId = R.id.deezerSongs
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.recyclerView.adapter = adapterSongs
         viewModel.getChartAudio()
@@ -70,19 +69,19 @@ class DeezerFragment: Fragment(), OnDeezerAudioClickListener, OnDeezerAlbumClick
                     viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
                     viewBinding.recyclerView.adapter = adapterSongs
                     viewModel.getChartAudio()
-                    true
+                    false
                 }
                 R.id.deezerAlbums -> {
                     viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
                     viewBinding.recyclerView.adapter = adapterAlbums
                     viewModel.getChartAlbum()
-                    true
+                    false
                 }
                 R.id.deezerArists -> {
                     viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
                     viewBinding.recyclerView.adapter = adapterArtists
                     viewModel.getChartArtist()
-                    true
+                    false
                 }
                 R.id.deezerSearch -> {
                     val controller = findNavController()

@@ -88,7 +88,7 @@
     <fragment
         android:id="@+id/viewAlbumFragment"
         android:name="com.lebogang.genesis.ui.fragments.local.ViewAlbumFragment"
-        android:label="@string/album"
+        android:label="@string/album_songs"
         tools:layout="@layout/fragment_view_album">
         <action
             android:id="@+id/action_viewAlbumFragment_to_audioOptionsDialog"
@@ -98,7 +98,7 @@
     <fragment
         android:id="@+id/viewArtistFragment"
         android:name="com.lebogang.genesis.ui.fragments.local.ViewArtistFragment"
-        android:label="@string/artist"
+        android:label="@string/artist_songs"
         tools:layout="@layout/fragment_artist_view">
         <action
             android:id="@+id/action_viewArtistFragment_to_audioOptionsDialog"
@@ -158,10 +158,6 @@
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings"/>
     <dialog
-        android:id="@+id/backgroundDialog"
-        android:name="com.lebogang.genesis.ui.dialogs.BackgroundDialog"
-        tools:layout="@layout/dialog_background"/>
-    <dialog
         android:id="@+id/filterDialog"
         android:name="com.lebogang.genesis.ui.dialogs.FilterDialog"
         tools:layout="@layout/dialog_filter"/>
@@ -181,7 +177,7 @@
     <fragment
         android:id="@+id/deezerSearchFragment"
         android:name="com.lebogang.genesis.ui.fragments.deezer.DeezerSearchFragment"
-        android:label="DeezerSearchFragment"
+        android:label="@string/search"
         tools:layout="@layout/fragment_deezer_search"/>
     <dialog
         android:id="@+id/dialogDeezerPreview"
@@ -191,11 +187,21 @@
     <fragment
         android:id="@+id/viewAlbumDeezerFragment"
         android:name="com.lebogang.genesis.ui.fragments.deezer.ViewAlbumDeezerFragment"
-        android:label="ViewAlbumDeezerFragment"
+        android:label="@string/album"
         tools:layout="@layout/fragment_deezer_view_album"/>
     <fragment
         android:id="@+id/viewArtistDeezerFragment"
         android:name="com.lebogang.genesis.ui.fragments.deezer.ViewArtistDeezerFragment"
-        android:label="ViewArtistDeezerFragment"
+        android:label="@string/artist"
         tools:layout="@layout/fragment_deezer_view_artist"/>
+    <dialog
+        android:id="@+id/playerBackgroundDialog"
+        android:name="com.lebogang.genesis.ui.dialogs.PlayerBackgroundDialog"
+        android:label="PlayerBackgroundDialog"
+        tools:layout="@layout/dialog_player_background"/>
+    <dialog
+        android:id="@+id/audioProcessingDialog"
+        android:name="com.lebogang.genesis.ui.dialogs.AudioProcessingDialog"
+        android:label="AudioProcessingDialog"
+        tools:layout="@layout/dialog_audio_fx"/>
 </navigation>

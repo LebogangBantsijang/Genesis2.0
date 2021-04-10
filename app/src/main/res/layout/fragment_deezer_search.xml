@@ -94,7 +94,7 @@
             app:chipIcon="@drawable/ic_user"
             app:chipIconTint="?colorControlNormal"
             app:chipIconSize="16dp"
-            android:text="@string/artist_word"
+            android:text="@string/artist"
             app:checkedIconEnabled="false"
             android:checkable="true"
             app:closeIconEnabled="false"/>
@@ -106,7 +106,7 @@
             app:chipIcon="@drawable/ic_music_record"
             app:chipIconSize="16dp"
             app:chipIconTint="?colorControlNormal"
-            android:text="@string/album_word"
+            android:text="@string/album"
             app:checkedIconEnabled="false"
             android:checkable="true"
             app:closeIconEnabled="false"/>
