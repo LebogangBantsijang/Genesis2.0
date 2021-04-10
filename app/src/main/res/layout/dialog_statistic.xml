@@ -26,6 +26,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:gravity="center"
         android:padding="16dp"
+        android:textStyle="bold"
         android:text="@string/song_statistics" />
 
     <View
@@ -52,6 +53,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
+                android:textColor="?colorPrimary"
+                android:textStyle="bold"
                 android:layout_marginBottom="8dp"
                 android:text="@string/title" />
 
@@ -70,6 +73,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
+                android:textColor="?colorPrimary"
+                android:textStyle="bold"
                 android:layout_marginBottom="8dp"
                 android:text="@string/artist" />
 
@@ -88,6 +93,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
+                android:textColor="?colorPrimary"
+                android:textStyle="bold"
                 android:layout_marginBottom="8dp"
                 android:text="@string/album" />
 
@@ -106,6 +113,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
+                android:textColor="?colorPrimary"
+                android:textStyle="bold"
                 android:layout_marginBottom="8dp"
                 android:text="@string/available_on_device" />
 
@@ -124,6 +133,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
+                android:textColor="?colorPrimary"
+                android:textStyle="bold"
                 android:layout_marginBottom="8dp"
                 android:text="@string/duration" />
 
@@ -142,6 +153,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
+                android:textColor="?colorPrimary"
+                android:textStyle="bold"
                 android:layout_marginBottom="8dp"
                 android:text="@string/play_count" />
 
@@ -160,6 +173,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
+                android:textColor="?colorPrimary"
+                android:textStyle="bold"
                 android:layout_marginBottom="8dp"
                 android:text="@string/last_played_on" />
 

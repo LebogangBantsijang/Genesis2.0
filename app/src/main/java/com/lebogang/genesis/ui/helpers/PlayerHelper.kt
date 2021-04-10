@@ -18,18 +18,8 @@ package com.lebogang.genesis.ui.helpers
 
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.service.MusicService
-import com.lebogang.genesis.service.utils.PlaybackState
-import com.lebogang.genesis.service.utils.RepeatSate
-import com.lebogang.genesis.service.utils.ShuffleSate
 
 interface PlayerHelper {
-    fun onPlaybackChanged(playbackState: PlaybackState)
-
-    fun onRepeatModeChange(repeatSate: RepeatSate)
-
-    fun onShuffleModeChange(shuffleSate: ShuffleSate)
-
-    fun onServiceReady(musicService: MusicService)
 
     fun playAudio(audio: Audio)
 

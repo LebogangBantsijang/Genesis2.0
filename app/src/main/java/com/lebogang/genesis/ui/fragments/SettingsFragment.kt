@@ -16,19 +16,20 @@
 
 package com.lebogang.genesis.ui.fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.lebogang.genesis.R
 import com.lebogang.genesis.databinding.FragmentSettingsBinding
 import com.lebogang.genesis.settings.ThemeSettings
 
 class SettingsFragment : Fragment(){
     private val viewBinding:FragmentSettingsBinding by lazy{ FragmentSettingsBinding.inflate(layoutInflater)}
-    //private val themeSettings:ThemeSettings by lazy{ ThemeSettings(requireContext())}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return viewBinding.root
@@ -38,7 +39,7 @@ class SettingsFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         viewBinding.backgroundView.setOnClickListener {
             val controller = findNavController()
-            controller.navigate(R.id.backgroundDialog)
+            controller.navigate(R.id.playerBackgroundDialog)
         }
         viewBinding.filterView.setOnClickListener {
             val controller = findNavController()
@@ -47,6 +48,14 @@ class SettingsFragment : Fragment(){
         viewBinding.selectThemeView.setOnClickListener {
             val controller = findNavController()
             controller.navigate(R.id.themeDialog)
+        }
+        viewBinding.volumeView.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+                val controller = findNavController()
+                controller.navigate(R.id.audioProcessingDialog)
+            }else{
+                Snackbar.make(viewBinding.root,"Not Supported", Snackbar.LENGTH_LONG).show()
+            }
         }
     }
 

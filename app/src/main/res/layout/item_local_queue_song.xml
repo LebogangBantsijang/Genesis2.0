@@ -73,6 +73,6 @@
         android:background="?selectableItemBackground"
         android:contentDescription="@string/more"
         android:padding="8dp"
-        android:tint="?colorError"
+        android:tint="?colorPrimary"
         app:srcCompat="@drawable/ic_baseline_close_24" />
 </androidx.appcompat.widget.LinearLayoutCompat>

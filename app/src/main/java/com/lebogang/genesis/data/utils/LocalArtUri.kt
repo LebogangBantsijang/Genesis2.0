@@ -21,6 +21,7 @@ import android.net.Uri
 
 object LocalArtUri {
     fun getAlbumArt(albumId:Long):String{
-        return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId).toString()
+        return "content://media/external/audio/albumart/$albumId"
+        //return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId).toString()
     }
 }

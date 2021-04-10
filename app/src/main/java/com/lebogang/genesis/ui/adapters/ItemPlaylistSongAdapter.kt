@@ -24,8 +24,7 @@ import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.ItemLocalPlaylistSongBinding
 import com.lebogang.genesis.ui.adapters.utils.AdapterInterface
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
-import com.lebogang.genesis.ui.adapters.utils.OnPlaylistAudioClickListener
-import com.lebogang.genesis.utils.GlobalGlide
+import com.lebogang.genesis.utils.glide.GlideManager
 
 class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holder>(),AdapterInterface{
     private var audioId:Long = -1
@@ -60,8 +59,7 @@ class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holde
         holder.viewBinding.titleView.text = audio.title
         holder.viewBinding.subtitleView.text = subtitle
         holder.viewBinding.durationView.text = audio.durationFormatted
-        GlobalGlide.loadAudioCover(holder.viewBinding.root, holder.viewBinding.imageView
-                , audio.getArtUri())
+        GlideManager(holder.itemView).loadAudioArt(audio.getArtUri(), holder.viewBinding.imageView)
         updateNowPlaying(holder, audio)
     }
 

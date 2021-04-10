@@ -22,33 +22,16 @@
     android:layout_height="match_parent"
     android:id="@+id/drawerLayout"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:openDrawer="start">
+    >
 
-    <FrameLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/backView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:alpha="0.6"
-            android:contentDescription="@string/album_art"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/ic_album_image_overlay"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/ic_album_image_overlay"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="24dp"
             android:orientation="vertical">
 
             <com.google.android.material.appbar.MaterialToolbar
@@ -56,8 +39,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                app:title="@string/genesis"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme" />
+
+            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/navFragmentContainer"
@@ -66,15 +59,19 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 app:defaultNavHost="true"
-                app:navGraph="@navigation/navigation_graph"/>
+                app:navGraph="@navigation/navigation_graph" />
 
             <include
                 android:id="@+id/launcherView"
-                layout="@layout/layout_now_playing"/>
+                layout="@layout/layout_now_playing" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </FrameLayout>
+        <include
+            android:id="@+id/player"
+            layout="@layout/layout_player"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"

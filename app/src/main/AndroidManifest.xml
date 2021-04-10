@@ -18,15 +18,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Genesis20.System">
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~6300978111"/>
+
         <service
             android:name=".service.MusicService"
             android:enabled="true"
             android:exported="false" />
 
-        <activity
-            android:name=".ui.PlayerActivity"
-            android:parentActivityName=".ui.MainActivity"
-            android:launchMode="singleInstance" />
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleInstance">

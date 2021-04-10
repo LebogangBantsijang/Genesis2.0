@@ -16,24 +16,39 @@
 
 package com.lebogang.genesis.network.dao
 
-import com.lebogang.genesis.network.models.*
+import com.lebogang.genesis.network.models.AlbumDataModel
+import com.lebogang.genesis.network.models.ArtistDataModel
+import com.lebogang.genesis.network.models.SearchDataModel
+import com.lebogang.genesis.network.models.TrackDataModel
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface DeezerService {
+    //https://api.deezer.com/
 
-    @GET("/chart/tracks")
-    fun getChartAudio():Call<List<TrackDeezer>>
+    @GET("chart/0/tracks?index=0&limit=100")
+    fun getChartAudio():Call<TrackDataModel>
 
-    @GET("/chart/albums")
-    fun getChartAlbums():Call<List<AlbumDeezer>>
+    @GET("chart/0/albums?index=0&limit=100")
+    fun getChartAlbums():Call<AlbumDataModel>
 
-    @GET("/chart/artists")
-    fun getChartArtist():Call<List<ArtistDeezer>>
+    @GET("chart/0/artists?index=0&limit=100")
+    fun getChartArtist():Call<ArtistDataModel>
 
-    @GET("/chart/playlists")
-    fun getChartPlaylist():Call<List<PlaylistDeezer>>
+    @GET("search/track?&index=0&limit=100")
+    fun searchAudioItems(@Query("q") query:String):Call<TrackDataModel>
 
-    @GET("/chart/podcasts")
-    fun getChartPodcasts():Call<List<PodcastDeezer>>
+    @GET("search/album?&index=0&limit=100")
+    fun searchAlbumItems(@Query("q") query:String):Call<AlbumDataModel>
+
+    @GET("search/artist?&index=0&limit=100")
+    fun searchArtistItems(@Query("q") query: String):Call<ArtistDataModel>
+
+    @GET("album/{id}/tracks")
+    fun getAlbumTracks(@Path("id")id:Int):Call<TrackDataModel>
+
+    @GET("artist/{id}/top?limit=50")
+    fun getArtistTracts(@Path("id")id:Int):Call<TrackDataModel>
 }

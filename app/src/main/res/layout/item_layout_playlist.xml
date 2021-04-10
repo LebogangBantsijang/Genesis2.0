@@ -69,7 +69,7 @@
             android:backgroundTint="?colorButtonNormal"
             android:padding="8dp"
             android:layout_margin="4dp"
-            android:tint="?colorError"
+            android:tint="?colorPrimary"
             app:srcCompat="@drawable/ic_baseline_delete_24" />
 
     </LinearLayout>

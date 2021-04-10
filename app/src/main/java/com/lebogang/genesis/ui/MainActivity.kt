@@ -20,34 +20,33 @@ import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsetsController
-import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.ActivityMainBinding
 import com.lebogang.genesis.service.ManageServiceConnection
 import com.lebogang.genesis.service.MusicService
 import com.lebogang.genesis.service.Queue
-import com.lebogang.genesis.service.utils.PlaybackState
-import com.lebogang.genesis.service.utils.RepeatSate
-import com.lebogang.genesis.service.utils.ShuffleSate
-import com.lebogang.genesis.settings.ThemeSettings
+import com.lebogang.genesis.interfaces.OnStateChangedListener
+import com.lebogang.genesis.settings.AppBackgroundType
+import com.lebogang.genesis.settings.PlayerBackgroundType
 import com.lebogang.genesis.ui.helpers.PlayerHelper
-import com.lebogang.genesis.utils.GlobalBlurry
-import com.lebogang.genesis.utils.GlobalGlide
+import com.lebogang.genesis.ui.helpers.ThemeHelper
+import com.lebogang.genesis.utils.SeekBarThreader
+import com.lebogang.genesis.utils.glide.GlideManager
 
-class MainActivity : AppCompatActivity(), PlayerHelper {
+class MainActivity : ThemeHelper(), PlayerHelper {
     private val viewBinding: ActivityMainBinding by lazy{ ActivityMainBinding.inflate(layoutInflater) }
-    private val themeSettings:ThemeSettings by lazy{ ThemeSettings(this)}
-    private lateinit var musicService: MusicService
+    lateinit var musicService: MusicService
     private lateinit var appBarConfiguration:AppBarConfiguration
+    private lateinit var player: Player
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -58,9 +57,9 @@ class MainActivity : AppCompatActivity(), PlayerHelper {
         super.onCreate(savedInstanceState)
         setTheme(themeSettings.getThemeResource())
         setContentView(viewBinding.root)
+        player = Player(this, viewBinding)
         initNavigation()
-        observeAudio()
-        initOtherView()
+        initBanner()
     }
 
     @SuppressLint("RtlHardcoded")
@@ -76,47 +75,24 @@ class MainActivity : AppCompatActivity(), PlayerHelper {
 
     override fun onSupportNavigateUp(): Boolean {
         val controller = findNavController(R.id.navFragmentContainer)
-        return controller.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+        return controller.navigateUp(appBarConfiguration) || player.isSheetShowing() ||super.onSupportNavigateUp()
     }
 
-    private fun initOtherView(){
-        viewBinding.launcherView.root.setOnClickListener {
-            //bottom sheets
-        }
-        viewBinding.launcherView.queueView.setOnClickListener {
-            val controller = findNavController(R.id.navFragmentContainer)
-            controller.navigate(R.id.queueDialog)
-        }
-        viewBinding.launcherView.playPauseView.setOnClickListener {
-            musicService.togglePlayPause()
-        }
+    override fun onBackPressed() {
+        val controller = findNavController(R.id.navFragmentContainer)
+        if (!controller.navigateUp() && !player.isSheetShowing())
+            moveTaskToBack(true)
     }
 
-    private fun observeAudio(){
-        Queue.currentAudio.observe(this, {
-            if (viewBinding.launcherView.root.visibility == View.GONE)
-                viewBinding.launcherView.root.visibility = View.VISIBLE
-            viewBinding.launcherView.titleView.text = it.title
-            viewBinding.launcherView.subtitleView.text = it.artist
-            GlobalGlide.loadAudioCover(this, viewBinding.launcherView.imageView, it.getArtUri())
-            changeBackground(it.getArtUri())
-        })
+    fun getStateChangedListener(): OnStateChangedListener {
+        return player.getStateListener()
     }
 
-    fun changeBackground(uri: Uri?){
-        when(themeSettings.getBackgroundType()){
-            themeSettings.backgroundTypeNone->{
-                viewBinding.backView.setImageBitmap(null)
-            }
-            themeSettings.backgroundTypeAdaptive->{
-                if (themeSettings.getBackgroundType() == themeSettings.backgroundTypeAdaptive){
-                    if (themeSettings.isAdaptiveBackgroundBlurry())
-                        GlobalBlurry.loadBlurryResource(this, uri, viewBinding.backView)
-                    else
-                        GlobalGlide.loadAudioBackground(this, viewBinding.backView, uri)
-                }
-            }
-        }
+    fun changePlayerBackground(type:PlayerBackgroundType){
+        if (type == PlayerBackgroundType.GIF)
+            player.loadGif()
+        else
+            player.changeBackground()
     }
 
     override fun playAudio(audio:Audio){
@@ -129,23 +105,16 @@ class MainActivity : AppCompatActivity(), PlayerHelper {
         musicService.play(audio)
     }
 
-    override fun onPlaybackChanged(playbackState: PlaybackState){
-        if (playbackState == PlaybackState.PLAYING)
-            viewBinding.launcherView.playPauseView.setImageResource(R.drawable.ic_pause)
-        else
-            viewBinding.launcherView.playPauseView.setImageResource(R.drawable.ic_play)
-    }
-
-    override fun onRepeatModeChange(repeatSate: RepeatSate) {
-        //not needed
-    }
-
-    override fun onShuffleModeChange(shuffleSate: ShuffleSate) {
-        //not needed
-    }
-
-    override fun onServiceReady(musicService: MusicService) {
+    fun onServiceReady(musicService: MusicService) {
         this.musicService = musicService
+        player.musicService = musicService
+        player.seekBarThreader = SeekBarThreader(this, musicService)
+    }
+
+    private fun initBanner(){
+        MobileAds.initialize(this)
+        viewBinding.adView.loadAd(AdRequest.Builder()
+                .build())
     }
 
 }

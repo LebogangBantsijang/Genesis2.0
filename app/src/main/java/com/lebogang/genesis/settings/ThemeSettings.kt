@@ -35,6 +35,10 @@ class ThemeSettings(private val context: Context) {
         return preferences.getInt(themeKey, R.style.Theme_Genesis20_System_Dark)
     }
 
+    fun isThemeLight():Boolean{
+        return preferences.getInt(themeKey, R.style.Theme_Genesis20_System_Dark) == R.style.Theme_Genesis20_System
+    }
+
     fun setThemeResource(resource:Int){
         preferences.edit().putInt(themeKey, resource).apply()
     }
@@ -45,14 +49,6 @@ class ThemeSettings(private val context: Context) {
 
     fun setColumnCount(count:Int){
         preferences.edit().putInt(itemDisplay, count).apply()
-    }
-
-    fun setBackgroundType(value:String){
-        preferences.edit().putString(backgroundKey, value).apply()
-    }
-
-    fun getBackgroundType():String{
-        return preferences.getString(backgroundKey, backgroundTypeAdaptive)!!
     }
 
     fun isAdaptiveBackgroundBlurry():Boolean{

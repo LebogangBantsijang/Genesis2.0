@@ -19,7 +19,7 @@
 
     <item>
         <shape
-            android:tint="?colorButtonNormal"
+            android:tint="?colorBackgroundFloating"
             android:shape="rectangle">
             <corners
                 android:radius="8dp"/>

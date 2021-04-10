@@ -16,16 +16,19 @@
 
 package com.lebogang.genesis.service
 
+import android.app.Notification
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.lebogang.genesis.data.models.Audio
+import com.lebogang.genesis.interfaces.PlaybackState
 
-class ManageFocus(private val context: Context, private val listener : AudioManager.OnAudioFocusChangeListener) {
+abstract class ManageFocus(context: Context, private val listener : AudioManager.OnAudioFocusChangeListener) {
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-    val focusAttributes = AudioAttributes.Builder()
+    val focusAttributes :AudioAttributes = AudioAttributes.Builder()
         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
         .setLegacyStreamType(AudioAttributes.CONTENT_TYPE_MUSIC)
         .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -33,6 +36,7 @@ class ManageFocus(private val context: Context, private val listener : AudioMana
     @RequiresApi(Build.VERSION_CODES.O)
     private val focus = createAudioFocusRequest()
 
+    @Suppress("DEPRECATION")
     fun requestFocus(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             audioManager.requestAudioFocus(focus)
@@ -40,6 +44,7 @@ class ManageFocus(private val context: Context, private val listener : AudioMana
             audioManager.requestAudioFocus(listener, AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN)
     }
 
+    @Suppress("DEPRECATION")
     fun abandonFocus(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             audioManager.abandonAudioFocusRequest(focus)
@@ -55,4 +60,5 @@ class ManageFocus(private val context: Context, private val listener : AudioMana
             .build()
     }
 
+    abstract fun createNotification(audio: Audio, playbackState: PlaybackState): Notification
 }

@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.genesis.data.models.Album
 import com.lebogang.genesis.databinding.ItemLocalAlbumBinding
 import com.lebogang.genesis.ui.adapters.utils.OnAlbumClickListener
-import com.lebogang.genesis.utils.GlobalGlide
+import com.lebogang.genesis.utils.glide.GlideManager
 
 class ItemAlbumAdapter:RecyclerView.Adapter<ItemAlbumAdapter.ViewHolder>(), Filterable{
     private val filteredList = arrayListOf<Album>()
@@ -53,8 +53,7 @@ class ItemAlbumAdapter:RecyclerView.Adapter<ItemAlbumAdapter.ViewHolder>(), Filt
         val album = if(!isUserSearching) listAlbum[position] else filteredList[position]
         holder.viewBinding.titleView.text = album.title
         holder.viewBinding.subtitleView.text = album.artist
-        GlobalGlide.loadAlbumCoverForRecyclerView(holder.viewBinding.root, holder.viewBinding.imageView
-                , album.getArtUri())
+        GlideManager(holder.itemView).loadAlbumArt(album.getArtUri(), holder.viewBinding.imageView)
     }
 
     override fun getItemCount(): Int {
