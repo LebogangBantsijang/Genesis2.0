@@ -35,12 +35,16 @@ import com.lebogang.genesis.viewmodels.DeezerViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
 class ViewArtistDeezerFragment : Fragment(), OnDeezerAudioClickListener{
-    private val viewBinding: FragmentDeezerViewArtistBinding by lazy{ FragmentDeezerViewArtistBinding.inflate(layoutInflater) }
-    private val viewModel:DeezerViewModel by lazy{ViewModelFactory(requireActivity().application).getDeezerViewModel()}
+    private val viewBinding: FragmentDeezerViewArtistBinding by lazy{
+        FragmentDeezerViewArtistBinding.inflate(layoutInflater) }
+    private val viewModel:DeezerViewModel by lazy{ViewModelFactory(requireActivity().application)
+            .getDeezerViewModel()}
     private lateinit var artist: ArtistDeezer
-    private val adapter = ItemDeezerAlbumArtistSongAdapter().apply { listener = this@ViewArtistDeezerFragment }
+    private val adapter = ItemDeezerAlbumArtistSongAdapter().apply {
+        listener = this@ViewArtistDeezerFragment }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?
+                              , savedInstanceState: Bundle?): View {
         artist = requireArguments().getParcelable(Keys.DEEZER_ARTIST_KEY)!!
         return viewBinding.root
     }

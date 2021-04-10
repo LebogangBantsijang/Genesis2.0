@@ -54,7 +54,8 @@ class ItemDeezerAlbumArtistSongAdapter:RecyclerView.Adapter<ItemDeezerAlbumArtis
         return listDeezer.size
     }
 
-    inner class ViewHolder(val viewBinding:ItemOnlineDeezerAlbumArtistSongBinding):RecyclerView.ViewHolder(viewBinding.root){
+    inner class ViewHolder(val viewBinding:ItemOnlineDeezerAlbumArtistSongBinding)
+        :RecyclerView.ViewHolder(viewBinding.root){
         init {
             viewBinding.root.setOnClickListener {
                 listener?.onAudioClick(listDeezer[adapterPosition])

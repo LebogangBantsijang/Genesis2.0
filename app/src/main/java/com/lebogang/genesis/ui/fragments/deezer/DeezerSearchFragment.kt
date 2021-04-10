@@ -41,9 +41,12 @@ import com.lebogang.genesis.utils.Validator
 import com.lebogang.genesis.viewmodels.DeezerViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
-class DeezerSearchFragment: Fragment(), OnDeezerAudioClickListener, OnDeezerArtistClickListener, OnDeezerAlbumClickListener {
-    private val viewBinding: FragmentDeezerSearchBinding by lazy{ FragmentDeezerSearchBinding.inflate(layoutInflater) }
-    private val viewModel: DeezerViewModel by lazy{ ViewModelFactory(requireActivity().application).getDeezerViewModel()}
+class DeezerSearchFragment: Fragment(), OnDeezerAudioClickListener, OnDeezerArtistClickListener
+        , OnDeezerAlbumClickListener {
+    private val viewBinding: FragmentDeezerSearchBinding by lazy{
+        FragmentDeezerSearchBinding.inflate(layoutInflater) }
+    private val viewModel: DeezerViewModel by lazy{
+        ViewModelFactory(requireActivity().application).getDeezerViewModel()}
     private val adapterTrack = ItemDeezerSongAdapter().apply { listener = this@DeezerSearchFragment }
     private val adapterArtist = ItemDeezerArtistAdapter().apply { listener = this@DeezerSearchFragment }
     private val adapterAlbum = ItemDeezerAlbumAdapter().apply { listener = this@DeezerSearchFragment }
@@ -85,12 +88,14 @@ class DeezerSearchFragment: Fragment(), OnDeezerAudioClickListener, OnDeezerArti
                     viewBinding.recyclerView.scrollToPosition(0)
                 }
                 R.id.chipArtist -> {
-                    viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                    viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(2
+                            , StaggeredGridLayoutManager.VERTICAL)
                     viewBinding.recyclerView.adapter = adapterArtist
                     viewBinding.recyclerView.scrollToPosition(0)
                 }
                 R.id.chipAlbum -> {
-                    viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                    viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(2
+                            , StaggeredGridLayoutManager.VERTICAL)
                     viewBinding.recyclerView.adapter = adapterAlbum
                     viewBinding.recyclerView.scrollToPosition(0)
                 }

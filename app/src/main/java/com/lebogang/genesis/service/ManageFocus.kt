@@ -16,12 +16,15 @@
 
 package com.lebogang.genesis.service
 
+import android.app.Notification
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.lebogang.genesis.data.models.Audio
+import com.lebogang.genesis.interfaces.PlaybackState
 
 abstract class ManageFocus(context: Context, private val listener : AudioManager.OnAudioFocusChangeListener) {
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -57,4 +60,5 @@ abstract class ManageFocus(context: Context, private val listener : AudioManager
             .build()
     }
 
+    abstract fun createNotification(audio: Audio, playbackState: PlaybackState): Notification
 }

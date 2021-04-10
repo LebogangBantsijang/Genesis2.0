@@ -48,7 +48,8 @@ class DialogDeezerPreview : BottomSheetDialogFragment(){
         viewBinding.explicitView.setTextColor(explicitColor)
         try{
             GlideManager(this).loadOnline(audio.album.coverMedium, viewBinding.imageView)
-        }catch(e:NullPointerException){//not needed
+        }catch(e:NullPointerException){
+            //not needed
         }
     }
 }

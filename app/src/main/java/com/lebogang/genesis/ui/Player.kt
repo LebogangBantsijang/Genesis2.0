@@ -18,6 +18,7 @@ package com.lebogang.genesis.ui
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.view.GestureDetectorCompat
@@ -34,7 +35,6 @@ import com.lebogang.genesis.interfaces.RepeatSate
 import com.lebogang.genesis.settings.PlayerBackgroundType
 import com.lebogang.genesis.settings.PlayerSettings
 import com.lebogang.genesis.ui.helpers.BottomSheetHelper
-import com.lebogang.genesis.ui.helpers.GestureListenerHelper
 import com.lebogang.genesis.ui.helpers.SeekBarHelper
 import com.lebogang.genesis.utils.SeekBarThreader
 import com.lebogang.genesis.utils.glide.GlideManager
@@ -45,7 +45,7 @@ class Player(private val activity:MainActivity, private val viewBinding: Activit
     private val bottomSheet = BottomSheetBehavior.from(viewBinding.player.bottomSheet).apply {
         state = BottomSheetBehavior.STATE_HIDDEN
         addBottomSheetCallback(this@Player) }
-    private val gestureDetector = GestureDetectorCompat(activity, object :GestureListenerHelper(){
+    private val gestureDetector = GestureDetectorCompat(activity, object : GestureDetector.SimpleOnGestureListener(){
         override fun onDoubleTap(e: MotionEvent?): Boolean {
             musicService.togglePlayPause()
             return true

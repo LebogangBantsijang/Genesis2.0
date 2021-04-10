@@ -28,7 +28,8 @@ import com.lebogang.genesis.settings.PlayerSettings
 import com.lebogang.genesis.ui.MainActivity
 
 class PlayerBackgroundDialog : DialogFragment(){
-    private val viewBinding:DialogPlayerBackgroundBinding by lazy { DialogPlayerBackgroundBinding.inflate(layoutInflater) }
+    private val viewBinding:DialogPlayerBackgroundBinding by lazy {
+        DialogPlayerBackgroundBinding.inflate(layoutInflater) }
     private val playerSettings:PlayerSettings by lazy {
         PlayerSettings(requireContext()) }
 

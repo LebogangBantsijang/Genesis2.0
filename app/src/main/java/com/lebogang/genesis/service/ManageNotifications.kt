@@ -65,7 +65,7 @@ abstract class ManageNotifications(private val context:Context, listener : Audio
             }
     }
 
-    fun createNotification(audio: Audio, playbackState: PlaybackState): Notification {
+    override fun createNotification(audio: Audio, playbackState: PlaybackState): Notification {
         val subtitle = audio.artist + "-" + audio.album
         val  builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_music_note_24dp)

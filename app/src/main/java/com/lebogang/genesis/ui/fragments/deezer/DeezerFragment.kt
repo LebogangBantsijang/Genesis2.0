@@ -72,13 +72,15 @@ class DeezerFragment: Fragment(), OnDeezerAudioClickListener, OnDeezerAlbumClick
                     false
                 }
                 R.id.deezerAlbums -> {
-                    viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                    viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(2
+                            , StaggeredGridLayoutManager.VERTICAL)
                     viewBinding.recyclerView.adapter = adapterAlbums
                     viewModel.getChartAlbum()
                     false
                 }
                 R.id.deezerArists -> {
-                    viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                    viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(2
+                            , StaggeredGridLayoutManager.VERTICAL)
                     viewBinding.recyclerView.adapter = adapterArtists
                     viewModel.getChartArtist()
                     false
