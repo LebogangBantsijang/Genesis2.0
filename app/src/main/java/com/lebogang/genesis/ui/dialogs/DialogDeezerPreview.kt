@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lebogang.genesis.databinding.DialogDeezerPreviewBinding
+import com.lebogang.genesis.network.models.AlbumDeezer
 import com.lebogang.genesis.network.models.TrackDeezer
 import com.lebogang.genesis.ui.helpers.ThemeHelper
 import com.lebogang.genesis.utils.Keys
@@ -31,11 +32,13 @@ import com.lebogang.genesis.utils.glide.GlideManager
 class DialogDeezerPreview : BottomSheetDialogFragment(){
     private val viewBinding: DialogDeezerPreviewBinding by lazy { DialogDeezerPreviewBinding.inflate(layoutInflater) }
     private lateinit var audio:TrackDeezer
+    private var album:AlbumDeezer? = null
     @ColorInt
     private var explicitColor:Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         audio = requireArguments().getParcelable(Keys.DEEZER_SONG_KEY)!!
+        album = audio.album
         explicitColor = if (audio.hasExplicitLyrics) ThemeHelper.PRIMARY_COLOR else
             ThemeHelper.SECONDARY_TEXTCOLOR_NO_DISABLE
         return viewBinding.root
@@ -46,10 +49,8 @@ class DialogDeezerPreview : BottomSheetDialogFragment(){
         viewBinding.titleView.text = audio.title
         viewBinding.subtitleView.text = audio.artist.title
         viewBinding.explicitView.setTextColor(explicitColor)
-        try{
-            GlideManager(this).loadOnline(audio.album.coverMedium, viewBinding.imageView)
-        }catch(e:NullPointerException){
-            //not needed
+        if(album != null){
+            GlideManager(this).loadOnline(album!!.coverMedium, viewBinding.imageView)
         }
     }
 }
