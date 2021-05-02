@@ -39,19 +39,15 @@
             <group android:checkableBehavior="none">
                 <item
                     android:id="@+id/titleAsc"
-                    android:icon="@drawable/ic_font_size"
                     android:title="@string/title_asc" />
                 <item
                     android:id="@+id/titleDesc"
-                    android:icon="@drawable/ic_font_size"
                     android:title="@string/title_desc" />
                 <item
                     android:id="@+id/dateAsc"
-                    android:icon="@drawable/ic_schedule"
                     android:title="@string/date_asc" />
                 <item
                     android:id="@+id/dateDesc"
-                    android:icon="@drawable/ic_schedule"
                     android:title="@string/date_desc" />
             </group>
         </menu>

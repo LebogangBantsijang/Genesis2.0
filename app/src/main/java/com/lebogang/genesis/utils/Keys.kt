@@ -26,5 +26,5 @@ object Keys {
     const val DEEZER_SONG_KEY = "DEEZER_SONG_KEY"
     const val DEEZER_ALBUM_KEY = "DEEZER_ALBUM_KEY"
     const val DEEZER_ARTIST_KEY = "DEEZER_ARTIST_KEY"
-
+    const val ALBUM_ART_URL_KEY = "ALBUM_ART_URL_KEY"
 }

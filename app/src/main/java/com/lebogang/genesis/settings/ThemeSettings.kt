@@ -19,28 +19,21 @@ package com.lebogang.genesis.settings
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
+import androidx.appcompat.app.AppCompatDelegate
 import com.lebogang.genesis.R
 
-class ThemeSettings(private val context: Context) {
+class ThemeSettings(context: Context) {
     private val preferences: SharedPreferences = context.applicationContext
             .getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
     private val themeKey = "ThemeResource"
     private val itemDisplay = "ColumnCount"
-    private val backgroundKey = "BackgroundKey"
-    val backgroundTypeNone = "None"
-    val backgroundTypeAdaptive = "Adaptive"
-    private val backgroundTypeAdaptiveIsBlurryKey = "backgroundTypeAdaptiveIsBlurry"
 
-    fun getThemeResource():Int{
-        return preferences.getInt(themeKey, R.style.Theme_Genesis20_System_Dark)
+    fun getThemeMode():Int{
+        return preferences.getInt(themeKey, AppCompatDelegate.MODE_NIGHT_YES)
     }
 
-    fun isThemeLight():Boolean{
-        return preferences.getInt(themeKey, R.style.Theme_Genesis20_System_Dark) == R.style.Theme_Genesis20_System
-    }
-
-    fun setThemeResource(resource:Int){
-        preferences.edit().putInt(themeKey, resource).apply()
+    fun setThemeMode(mode:Int){
+        preferences.edit().putInt(themeKey, mode).apply()
     }
 
     fun getColumnCount():Int{
@@ -49,13 +42,5 @@ class ThemeSettings(private val context: Context) {
 
     fun setColumnCount(count:Int){
         preferences.edit().putInt(itemDisplay, count).apply()
-    }
-
-    fun isAdaptiveBackgroundBlurry():Boolean{
-        return preferences.getBoolean(backgroundTypeAdaptiveIsBlurryKey, true)
-    }
-
-    fun setAdaptiveBackgroundBlurry(value:Boolean){
-        preferences.edit().putBoolean(backgroundTypeAdaptiveIsBlurryKey, value).apply()
     }
 }

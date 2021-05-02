@@ -98,6 +98,6 @@
         android:layout_marginEnd="8dp"
         android:padding="8dp"
         app:srcCompat="@drawable/ic_menu_vertical"
-        android:tint="?colorPrimary"
+        android:tint="?colorControlNormal"
         android:contentDescription="@string/more" />
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -26,6 +26,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.interfaces.AudioFxType
+import com.lebogang.genesis.interfaces.OnStateChangedListener
+import com.lebogang.genesis.interfaces.PlaybackState
+import java.lang.IllegalStateException
 
 class ManagePlayers(private val context: Context, listener:AudioManager.OnAudioFocusChangeListener
                     , completion:MediaPlayer.OnCompletionListener ) :ManageNotifications(context, listener) {
@@ -34,6 +37,7 @@ class ManagePlayers(private val context: Context, listener:AudioManager.OnAudioF
         setOnCompletionListener(completion)
         setAudioAttributes(focusAttributes)
     }
+    private var onlinePlayer:MediaPlayer? = null
 
     @RequiresApi(Build.VERSION_CODES.P)
     private val config = DynamicsProcessing.Config.Builder(0,1,true,
@@ -59,8 +63,32 @@ class ManagePlayers(private val context: Context, listener:AudioManager.OnAudioF
         mediaPlayer.start()
     }
 
-    fun play(url:String){
-        mediaPlayer.setDataSource(url)
+    fun playOnline(url:String, state:OnStateChangedListener){
+        state.onPlaybackChanged(PlaybackState.NONE)
+        onlinePlayer = MediaPlayer()
+        onlinePlayer!!.setOnPreparedListener {
+            requestFocus()
+            state.onPlaybackChanged(PlaybackState.PLAYING)
+            it.start()
+        }
+        onlinePlayer!!.setDataSource(url)
+        onlinePlayer!!.prepareAsync()
+    }
+
+    fun getOnlineDuration():Int{
+        return onlinePlayer!!.duration
+    }
+
+    fun stopOnline(){
+        abandonFocus()
+        try {
+            onlinePlayer!!.stop()
+        }catch (e:IllegalStateException){
+            //do nothing
+        }
+        onlinePlayer!!.reset()
+        onlinePlayer!!.release()
+        onlinePlayer = null
     }
 
     fun play() {

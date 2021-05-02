@@ -16,6 +16,7 @@
 
 package com.lebogang.genesis.ui.dialogs
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -51,10 +52,13 @@ class AudioOptionsDialog :BottomSheetDialogFragment(){
         initOnClicks()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initViews(){
         GlideManager(this).loadAudioArt(audio.getArtUri(), viewBinding.coverView)
         viewBinding.titleView.text = audio.title
         viewBinding.subtitleView.text = audio.artist
+        viewBinding.albumView.text = getString(R.string.view_album) + ":" + audio.album
+        viewBinding.artistView.text = getString(R.string.view_artist) + ":" + audio.artist
     }
 
     private fun initOnClicks(){

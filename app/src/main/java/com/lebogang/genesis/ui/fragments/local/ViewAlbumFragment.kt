@@ -23,28 +23,29 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Album
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.FragmentViewAlbumBinding
-import com.lebogang.genesis.service.Queue
+import com.lebogang.genesis.service.MusicQueue
+import com.lebogang.genesis.service.MusicService
 import com.lebogang.genesis.ui.MainActivity
 import com.lebogang.genesis.ui.adapters.ItemAlbumArtistSongAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.genesis.utils.Keys
 import com.lebogang.genesis.utils.glide.GlideManager
-import com.lebogang.genesis.viewmodels.AlbumViewModel
 import com.lebogang.genesis.viewmodels.AudioViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
 class ViewAlbumFragment: Fragment(), OnAudioClickListener {
     private val viewBinding: FragmentViewAlbumBinding by lazy{ FragmentViewAlbumBinding.inflate(layoutInflater) }
-    private val viewModelAlbum: AlbumViewModel by lazy { ViewModelFactory(requireActivity().application)
-            .getAlbumViewModel() }
     private val viewModelAudio: AudioViewModel by lazy { ViewModelFactory(requireActivity().application)
             .getAudioViewModel() }
     private val adapter = ItemAlbumArtistSongAdapter().apply { listener = this@ViewAlbumFragment }
     private lateinit var album: Album
+    private val musicService: MusicService by lazy{(requireActivity() as MainActivity).musicService}
+    private val musicQueue : MusicQueue by lazy {(requireActivity().application as GenesisApplication).musicQueue}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -68,9 +69,8 @@ class ViewAlbumFragment: Fragment(), OnAudioClickListener {
             viewBinding.subtitleView.text = list.size.toString()
             loadingView(list.isNotEmpty())
         })
-        Queue.currentAudio.observe(viewLifecycleOwner, {
-            adapter.setNowPlaying(it.id)
-        })
+        musicQueue.currentAudio.observe(viewLifecycleOwner,{ adapter.setNowPlaying(it.id) })
+        //musicService.getCurrentAudio().observe(viewLifecycleOwner,{adapter.setNowPlaying(it.id)})
     }
 
     private fun loadingView(hasContent:Boolean){
@@ -83,7 +83,8 @@ class ViewAlbumFragment: Fragment(), OnAudioClickListener {
     }
 
     override fun onAudioClick(audio: Audio) {
-        (requireActivity() as MainActivity).playAudio(audio, adapter.listAudio)
+        musicQueue.audioQueue = adapter.listAudio
+        musicService.play(audio)
     }
 
     override fun onAudioClickOptions(audio: Audio) {

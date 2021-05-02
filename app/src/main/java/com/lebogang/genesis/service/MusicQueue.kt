@@ -19,16 +19,16 @@ package com.lebogang.genesis.service
 import androidx.lifecycle.MutableLiveData
 import com.lebogang.genesis.data.models.Audio
 
-private object Queue {
+class MusicQueue {
     val currentAudio = MutableLiveData<Audio>()
     var audioQueue = mutableListOf<Audio>()
 
-    fun setCurrentAudio(audio:Audio, queue:MutableList<Audio>){
+    fun setCurrentAudio(audio: Audio, queue:MutableList<Audio>){
         audioQueue = queue
         currentAudio.value = audio
     }
 
-    fun setCurrentAudio(audio:Audio){
+    fun setCurrentAudio(audio: Audio){
         currentAudio.value = audio
     }
 
@@ -44,24 +44,23 @@ private object Queue {
         audioQueue.add(currentAudio.value!!)
     }
 
-    fun getRandomAudio():Audio{
+    fun getRandomAudio(): Audio {
         val audio = audioQueue[(Math.random()*(audioQueue.size -1)).toInt()]
         currentAudio.value = audio
         return audio
     }
 
-    fun getNext():Audio{
+    fun getNext(): Audio {
         val index = audioQueue.indexOf(currentAudio.value) + 1
         val audio = if (index >= audioQueue.size) audioQueue[0] else audioQueue[index]
         currentAudio.value = audio
         return audio
     }
 
-    fun getPrevious():Audio{
+    fun getPrevious(): Audio {
         val index = audioQueue.indexOf(currentAudio.value) - 1
         val audio = if (index < 0) audioQueue[(audioQueue.size - 1)] else audioQueue[index]
         currentAudio.value = audio
         return audio
     }
-
 }

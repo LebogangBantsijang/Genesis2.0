@@ -25,14 +25,15 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.MutableLiveData
 import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.interfaces.*
 import com.lebogang.genesis.room.StatisticsRepo
 import com.lebogang.genesis.settings.PlayerSettings
 
-class MusicService : Service(), MusicInterface
-    , AudioManager.OnAudioFocusChangeListener, MediaPlayer.OnCompletionListener {
+class MusicService : Service(), MusicInterface, AudioManager.OnAudioFocusChangeListener,
+        MediaPlayer.OnCompletionListener {
     private val binder = ServiceBinder()
     private val managePlayers :ManagePlayers by lazy { ManagePlayers(this@MusicService
         , this@MusicService, this@MusicService) }
@@ -43,6 +44,7 @@ class MusicService : Service(), MusicInterface
     private var playbackState = PlaybackState.NONE
     private var repeatSate = RepeatSate.REPEAT_NONE
     private val foreGroundId = 546
+    private val musicQueue :MusicQueue by lazy {(application as GenesisApplication).musicQueue}
 
     override fun onBind(intent: Intent): IBinder {
         return binder
@@ -81,6 +83,7 @@ class MusicService : Service(), MusicInterface
     }
 
     override fun play(audio: Audio) {
+        musicQueue.currentAudio.value = audio
         //handle focus and media player
         managePlayers.play(audio)
         //player callbacks
@@ -91,12 +94,18 @@ class MusicService : Service(), MusicInterface
         statisticsRepo.insertStat(audio)
     }
 
-    override fun playOnline(url: String) {
-        TODO("Not yet implemented")
+    override fun playOnline(url:String, state:OnStateChangedListener) {
+        if (playbackState == PlaybackState.PLAYING)
+            pause()
+        managePlayers.playOnline(url, state)
+    }
+
+    override fun getOnlineDuration(): Int {
+        return managePlayers.getOnlineDuration()
     }
 
     override fun stopOnline() {
-        TODO("Not yet implemented")
+        managePlayers.stopOnline()
     }
 
     override fun pause() {
@@ -105,7 +114,7 @@ class MusicService : Service(), MusicInterface
         //player callbacks & notifications
         playbackState = PlaybackState.PAUSED
         hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
-        startForeground(foreGroundId, managePlayers.createNotification(Queue.currentAudio.value!!, playbackState))
+        startForeground(foreGroundId, managePlayers.createNotification(musicQueue.currentAudio.value!!, playbackState))
     }
 
     override fun play() {
@@ -114,7 +123,7 @@ class MusicService : Service(), MusicInterface
         //player callbacks & notifications
         playbackState = PlaybackState.PLAYING
         hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
-        startForeground(foreGroundId, managePlayers.createNotification(Queue.currentAudio.value!!, playbackState))
+        startForeground(foreGroundId, managePlayers.createNotification(musicQueue.currentAudio.value!!, playbackState))
     }
 
     override fun stop() {
@@ -151,11 +160,11 @@ class MusicService : Service(), MusicInterface
 
     private fun handleSkipping(isSkippingNext:Boolean){
         if (repeatSate == RepeatSate.SHUFFLE_ALL){
-            play(Queue.getRandomAudio())
+            play(musicQueue.getRandomAudio())
             return
         }
-        if (isSkippingNext) play(Queue.getNext())
-        else play(Queue.getPrevious())
+        if (isSkippingNext) play(musicQueue.getNext())
+        else play(musicQueue.getPrevious())
     }
 
     override fun seekTo(position: Int) {
@@ -223,10 +232,10 @@ class MusicService : Service(), MusicInterface
         playbackState = PlaybackState.COMPLETE
         hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
         when(repeatSate){
-            RepeatSate.REPEAT_ONE -> play(Queue.currentAudio.value!!)
-            RepeatSate.REPEAT_ALL -> play(Queue.getNext())
+            RepeatSate.REPEAT_ONE -> play(musicQueue.currentAudio.value!!)
+            RepeatSate.REPEAT_ALL -> play(musicQueue.getNext())
             RepeatSate.REPEAT_NONE -> { pause() }
-            RepeatSate.SHUFFLE_ALL -> play(Queue.getRandomAudio())
+            RepeatSate.SHUFFLE_ALL -> play(musicQueue.getRandomAudio())
         }
     }
 }

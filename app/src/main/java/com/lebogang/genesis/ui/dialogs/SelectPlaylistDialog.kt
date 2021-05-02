@@ -49,26 +49,14 @@ class SelectPlaylistDialog:DialogFragment(),OnSelectPlaylistListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initCancelView()
-        initListView()
-        observeData()
+        initViews()
     }
 
-    private fun initCancelView(){
-        viewBinding.cancelView.setOnClickListener {
-            dismissAllowingStateLoss()
-        }
-    }
-
-    private fun initListView(){
+    private fun initViews(){
+        viewBinding.cancelView.setOnClickListener { dismiss() }
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
         viewBinding.recyclerView.adapter = adapter
-    }
-
-    private fun observeData(){
-        playlistViewModel.liveData.observe(viewLifecycleOwner, {
-            adapter.setData(it)
-        })
+        playlistViewModel.liveData.observe(viewLifecycleOwner, { adapter.setData(it) })
     }
 
     override fun onPlaylistClick(playlist: Playlist) {

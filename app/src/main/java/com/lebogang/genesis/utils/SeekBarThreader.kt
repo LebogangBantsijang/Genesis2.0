@@ -17,6 +17,7 @@
 package com.lebogang.genesis.utils
 
 import android.os.Handler
+import android.widget.ProgressBar
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -33,6 +34,9 @@ class SeekBarThreader(private val activity: MainActivity, private val musicServi
     }
     private val timerView:TextView by lazy {
         activity.findViewById(R.id.timerView)
+    }
+    private val progressBar:ProgressBar by lazy{
+        activity.findViewById(R.id.progressBar)
     }
     init {
         activity.lifecycle.addObserver(StateObserver())
@@ -77,6 +81,7 @@ class SeekBarThreader(private val activity: MainActivity, private val musicServi
             isHandlerRunning = true
             val time = musicService.getCurrentPosition()
             seekBar.progress = time
+            progressBar.progress = time
             timerView.text = TimeConverter.toMinutes(time.toLong())
             post(this)
         }

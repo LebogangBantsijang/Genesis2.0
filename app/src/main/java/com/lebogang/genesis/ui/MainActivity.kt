@@ -17,9 +17,7 @@
 package com.lebogang.genesis.ui
 
 import android.annotation.SuppressLint
-import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -31,18 +29,14 @@ import com.google.android.gms.ads.MobileAds
 import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.ActivityMainBinding
+import com.lebogang.genesis.interfaces.OnStateChangedListener
 import com.lebogang.genesis.service.ManageServiceConnection
 import com.lebogang.genesis.service.MusicService
-import com.lebogang.genesis.service.Queue
-import com.lebogang.genesis.interfaces.OnStateChangedListener
-import com.lebogang.genesis.settings.AppBackgroundType
 import com.lebogang.genesis.settings.PlayerBackgroundType
-import com.lebogang.genesis.ui.helpers.PlayerHelper
 import com.lebogang.genesis.ui.helpers.ThemeHelper
 import com.lebogang.genesis.utils.SeekBarThreader
-import com.lebogang.genesis.utils.glide.GlideManager
 
-class MainActivity : ThemeHelper(), PlayerHelper {
+class MainActivity : ThemeHelper() {
     private val viewBinding: ActivityMainBinding by lazy{ ActivityMainBinding.inflate(layoutInflater) }
     lateinit var musicService: MusicService
     private lateinit var appBarConfiguration:AppBarConfiguration
@@ -55,9 +49,7 @@ class MainActivity : ThemeHelper(), PlayerHelper {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(themeSettings.getThemeResource())
         setContentView(viewBinding.root)
-        player = Player(this, viewBinding)
         initNavigation()
         initBanner()
     }
@@ -95,20 +87,12 @@ class MainActivity : ThemeHelper(), PlayerHelper {
             player.changeBackground()
     }
 
-    override fun playAudio(audio:Audio){
-        Queue.setCurrentAudio(audio)
-        musicService.play(audio)
-    }
-
-    override fun playAudio(audio:Audio, audioList:MutableList<Audio>){
-        Queue.setCurrentAudio(audio, audioList)
-        musicService.play(audio)
-    }
-
     fun onServiceReady(musicService: MusicService) {
         this.musicService = musicService
-        player.musicService = musicService
-        player.seekBarThreader = SeekBarThreader(this, musicService)
+        player = Player(this, viewBinding).also {
+            it.musicService = musicService
+            it.seekBarThreader = SeekBarThreader(this, musicService)
+        }
     }
 
     private fun initBanner(){

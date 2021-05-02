@@ -70,7 +70,10 @@ class ViewAlbumDeezerFragment: Fragment(), OnDeezerAudioClickListener {
 
     override fun onAudioClick(audio: TrackDeezer) {
         val controller = findNavController()
-        val bundle = Bundle().apply { putParcelable(Keys.DEEZER_SONG_KEY, audio) }
+        val bundle = Bundle().apply {
+            putParcelable(Keys.DEEZER_SONG_KEY, audio)
+            putString(Keys.ALBUM_ART_URL_KEY, album.coverMedium)
+        }
         controller.navigate(R.id.dialogDeezerPreview, bundle)
     }
 }

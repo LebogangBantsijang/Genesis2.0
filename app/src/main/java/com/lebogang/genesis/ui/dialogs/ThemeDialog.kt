@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.DialogFragment
 import com.lebogang.genesis.R
 import com.lebogang.genesis.databinding.DialogThemeBinding
@@ -37,18 +38,22 @@ class ThemeDialog: DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRadioViews()
+        initViews()
     }
 
-    private fun initRadioViews(){
+    private fun initViews(){
         viewBinding.radioGroup.check(getCheckId())
-        viewBinding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when(checkedId){
+        viewBinding.cancelView.setOnClickListener { dismiss() }
+        viewBinding.saveView.setOnClickListener {
+            when(viewBinding.radioGroup.checkedRadioButtonId){
                 R.id.lightButton ->{
-                    themeSettings.setThemeResource(R.style.Theme_Genesis20_System)
+                    themeSettings.setThemeMode(AppCompatDelegate.MODE_NIGHT_NO)
                 }
                 R.id.darkButton ->{
-                    themeSettings.setThemeResource(R.style.Theme_Genesis20_System_Dark)
+                    themeSettings.setThemeMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
+                R.id.followSystemButton->{
+                    themeSettings.setThemeMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                 }
             }
             requireActivity().recreate()
@@ -56,8 +61,8 @@ class ThemeDialog: DialogFragment() {
     }
 
     private fun getCheckId():Int{
-        return when(themeSettings.getThemeResource()){
-            R.style.Theme_Genesis20_System_Dark -> R.id.darkButton
+        return when(themeSettings.getThemeMode()){
+            AppCompatDelegate.MODE_NIGHT_YES -> R.id.darkButton
             else -> R.id.lightButton
         }
     }

@@ -25,6 +25,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
@@ -68,10 +69,12 @@ abstract class ManageNotifications(private val context:Context, listener : Audio
     override fun createNotification(audio: Audio, playbackState: PlaybackState): Notification {
         val subtitle = audio.artist + "-" + audio.album
         val  builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_music_note_24dp)
+            .setSmallIcon(R.drawable.ic_itunes)
             .setCategory(Notification.CATEGORY_TRANSPORT)
             .setContentTitle(audio.title)
             .setContentText(subtitle)
+                .setColor(0)
+                .setColorized(true)
             .setLargeIcon(getBitmap(audio.getArtUri()))
             .setShowWhen(false)
             .setNotificationSilent()
@@ -84,6 +87,11 @@ abstract class ManageNotifications(private val context:Context, listener : Audio
                 it.setShowCancelButton(false)
                 it.setShowActionsInCompactView(0,1,2)
             })
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val color = Color.valueOf(1f,0.6f,0f).toArgb()
+            builder.color = color
+            builder.setColorized(true)
+        }
         builder.addAction(
             R.drawable.ic_round_navigate_before_24, "",
             PendingIntent.getBroadcast(context, 0, Intent(SKIP_PREV_ACTION), PendingIntent.FLAG_UPDATE_CURRENT))

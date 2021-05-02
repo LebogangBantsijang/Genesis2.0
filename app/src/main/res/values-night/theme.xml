@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2021. - Lebogang Bantsijang
   ~
@@ -15,20 +16,8 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.Genesis20.System" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorAccent">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryColor</item>
-        <item name="android:navigationBarColor">?colorSurface</item>
-        <item name="android:statusBarColor">?colorSurface</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
-        <item name="android:enforceNavigationBarContrast" tools:targetApi="q">true</item>
-        <item name="android:enforceStatusBarContrast" tools:targetApi="q">true</item>
-    </style>
 
-    <!--<style name="Theme.Genesis20.System.Dark" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.Genesis20.System" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorAccent">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryColor</item>
@@ -38,6 +27,5 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
         <item name="android:enforceNavigationBarContrast" tools:ignore="NewApi">true</item>
-    </style>-->
-
+    </style>
 </resources>

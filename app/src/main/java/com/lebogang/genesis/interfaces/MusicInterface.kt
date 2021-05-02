@@ -18,6 +18,7 @@ package com.lebogang.genesis.interfaces
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.MutableLiveData
 import com.lebogang.genesis.data.models.Audio
 
 interface MusicInterface {
@@ -26,9 +27,11 @@ interface MusicInterface {
 
     fun play(audio: Audio)
 
-    fun playOnline(url:String)
+    fun playOnline(url:String, state:OnStateChangedListener)
 
     fun stopOnline();
+
+    fun getOnlineDuration():Int
 
     fun play()
 

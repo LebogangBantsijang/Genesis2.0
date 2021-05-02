@@ -63,15 +63,4 @@
             android:text="@string/explicit"/>
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/optionsView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?selectableItemBackground"
-        android:layout_marginEnd="8dp"
-        android:padding="8dp"
-        app:srcCompat="@drawable/ic_info"
-        android:tint="?colorPrimary"
-        android:contentDescription="@string/more" />
-
 </androidx.appcompat.widget.LinearLayoutCompat>

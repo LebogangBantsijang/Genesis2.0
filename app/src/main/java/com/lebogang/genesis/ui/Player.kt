@@ -25,10 +25,10 @@ import androidx.core.view.GestureDetectorCompat
 import androidx.navigation.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
+import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.R
 import com.lebogang.genesis.databinding.ActivityMainBinding
 import com.lebogang.genesis.service.MusicService
-import com.lebogang.genesis.service.Queue
 import com.lebogang.genesis.interfaces.OnStateChangedListener
 import com.lebogang.genesis.interfaces.PlaybackState
 import com.lebogang.genesis.interfaces.RepeatSate
@@ -51,17 +51,18 @@ class Player(private val activity:MainActivity, private val viewBinding: Activit
             return true
         } })
     private val playerSettings = PlayerSettings(activity)
+    private val musicQueue = (activity.application as GenesisApplication).musicQueue
     lateinit var musicService: MusicService
     lateinit var seekBarThreader:SeekBarThreader
 
     init {
         initOnClicks()
-        Queue.currentAudio.observe(activity, {
+        musicQueue.currentAudio.observe(activity, {
             //launcher
-            if (viewBinding.launcherView.root.visibility == View.GONE)
-                viewBinding.launcherView.root.visibility = View.VISIBLE
+            showLauncher(viewBinding.launcherView.root)
             viewBinding.launcherView.titleView.text = it.title
             viewBinding.launcherView.subtitleView.text = it.artist
+            viewBinding.launcherView.progressBar.max = it.duration.toInt()
             GlideManager(activity).loadAudioArt(it.getArtUri(), viewBinding.launcherView.imageView)
             //player
             viewBinding.player.titleView.text = it.title
@@ -74,6 +75,13 @@ class Player(private val activity:MainActivity, private val viewBinding: Activit
         })
         if (playerSettings.getBackgroundType() == PlayerBackgroundType.GIF)
             loadGif()
+    }
+
+    private fun showLauncher(v:View){
+        if (musicQueue.currentAudio.value != null && musicQueue.audioQueue.isNotEmpty()){
+            if (v.visibility == View.GONE)
+                v.visibility = View.VISIBLE
+        }
     }
 
     private fun initOnClicks(){
@@ -117,7 +125,7 @@ class Player(private val activity:MainActivity, private val viewBinding: Activit
     }
 
     fun changeBackground(){
-        val uri = Queue.currentAudio.value?.getArtUri()
+        val uri = musicQueue.currentAudio.value?.getArtUri()
         uri?.let {
             when(playerSettings.getBackgroundType()){
                 PlayerBackgroundType.NONE -> viewBinding.player.artView.setImageBitmap(null)

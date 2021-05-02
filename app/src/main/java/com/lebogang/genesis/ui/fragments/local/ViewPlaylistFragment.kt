@@ -20,11 +20,13 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.FragmentViewPlaylistBinding
 import com.lebogang.genesis.room.models.Playlist
-import com.lebogang.genesis.service.Queue
+import com.lebogang.genesis.service.MusicQueue
+import com.lebogang.genesis.service.MusicService
 import com.lebogang.genesis.ui.MainActivity
 import com.lebogang.genesis.ui.adapters.ItemPlaylistSongAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
@@ -42,6 +44,8 @@ class ViewPlaylistFragment : Fragment(), OnAudioClickListener {
         .getAudioViewModel()}
     private val adapter = ItemPlaylistSongAdapter().apply { listener = this@ViewPlaylistFragment }
     private lateinit var playlist: Playlist
+    private val musicService: MusicService by lazy{(requireActivity() as MainActivity).musicService}
+    private val musicQueue : MusicQueue by lazy {(requireActivity().application as GenesisApplication).musicQueue}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,9 +89,8 @@ class ViewPlaylistFragment : Fragment(), OnAudioClickListener {
             adapter.setAudioData(it)
             loadingView(it.isNotEmpty())
         })
-        Queue.currentAudio.observe(viewLifecycleOwner,{
-            adapter.setNowPlaying(it.id)
-        })
+        musicQueue.currentAudio.observe(viewLifecycleOwner,{ adapter.setNowPlaying(it.id) })
+        //musicService.getCurrentAudio().observe(viewLifecycleOwner,{ adapter.setNowPlaying(it.id) })
     }
 
     private fun loadingView(hasContent:Boolean){
@@ -100,7 +103,8 @@ class ViewPlaylistFragment : Fragment(), OnAudioClickListener {
     }
 
     override fun onAudioClick(audio: Audio) {
-        (requireActivity() as MainActivity).playAudio(audio, adapter.listAudio)
+        musicQueue.audioQueue = adapter.listAudio
+        musicService.play(audio)
     }
 
     override fun onAudioClickOptions(audio: Audio) {

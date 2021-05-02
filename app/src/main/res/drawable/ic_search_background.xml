@@ -15,19 +15,12 @@
   ~    limitations under the License.
   -->
 
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_focused="true"
+        android:drawable="@drawable/ic_search_focused"/>
 
-    <item>
-        <shape
-            android:tint="?android:windowBackground"
-            android:shape="rectangle">
-            <corners
-                android:radius="8dp"/>
-        </shape>
-    </item>
-
-    <item>
-        <inset android:drawable="@drawable/ic_music"
-            android:inset="24dp"/>
-    </item>
-</layer-list>
+    <item
+        android:state_focused="false"
+        android:drawable="@drawable/ic_search_not_focused"/>
+</selector>

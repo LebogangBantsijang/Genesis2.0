@@ -29,21 +29,17 @@ class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder
     var listener: OnAudioClickListener? = null
     var listAudio = mutableListOf<Audio>()
     var audioId:Long = -1
+    private var previousSelection = -2
+    private var currentSelection = -1;
 
     override fun setAudioData(mutableList: MutableList<Audio>){
         listAudio = mutableList
         notifyDataSetChanged()
     }
 
-    override fun setNowPlaying(audioId:Long):Int{
+    override fun setNowPlaying(audioId:Long){
         this.audioId = audioId
         notifyDataSetChanged()
-        listAudio.forEach {
-            if (it.id == audioId){
-                return listAudio.indexOf(it)
-            }
-        }
-        return 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -61,8 +57,12 @@ class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder
     }
 
     private fun updateNowPlaying(holder: ViewHolder, audio: Audio){
-        if (audio.id == audioId)
+        if (audio.id == audioId) {
+            if(currentSelection < 0){
+                currentSelection = holder.adapterPosition
+            }
             holder.viewBinding.lottieView.visibility = View.VISIBLE
+        }
         else
             holder.viewBinding.lottieView.visibility = View.GONE
     }
@@ -75,6 +75,8 @@ class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder
         :RecyclerView.ViewHolder(viewBinding.root){
         init {
             viewBinding.optionsView.setOnClickListener {
+                previousSelection = currentSelection
+                currentSelection = adapterPosition
                 listener?.onAudioClickOptions(listAudio[adapterPosition]) }
             viewBinding.root.setOnClickListener { listener?.onAudioClick(listAudio[adapterPosition]) }
         }

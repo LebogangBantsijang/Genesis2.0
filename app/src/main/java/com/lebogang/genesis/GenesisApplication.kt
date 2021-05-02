@@ -26,7 +26,7 @@ import com.lebogang.genesis.network.dao.DeezerService
 import com.lebogang.genesis.room.GenesisDatabase
 import com.lebogang.genesis.room.PlaylistRepo
 import com.lebogang.genesis.room.StatisticsRepo
-import com.lebogang.genesis.service.Queue
+import com.lebogang.genesis.service.MusicQueue
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -75,5 +75,7 @@ class GenesisApplication:Application() {
     val deezerRepo:DeezerRepo by lazy {
         DeezerRepo(deezerService)
     }
+
+    val musicQueue = MusicQueue()
 
 }

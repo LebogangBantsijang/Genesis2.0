@@ -28,22 +28,18 @@ import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
 class ItemAlbumArtistSongAdapter :RecyclerView.Adapter<ItemAlbumArtistSongAdapter.ViewHolder>(), AdapterInterface{
     var listener: OnAudioClickListener? = null
     var listAudio = mutableListOf<Audio>()
-    var audioId:Long = -1
+    var audioId:Long = -3
+    private var previousSelection = -2
+    private var currentSelection = -1;
 
     override fun setAudioData(mutableList: MutableList<Audio>){
         listAudio = mutableList
         notifyDataSetChanged()
     }
 
-    override fun setNowPlaying(audioId:Long):Int{
+    override fun setNowPlaying(audioId:Long){
         this.audioId = audioId
         notifyDataSetChanged()
-        listAudio.forEach {
-            if (it.id == audioId){
-                return listAudio.indexOf(it)
-            }
-        }
-        return 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -64,8 +60,12 @@ class ItemAlbumArtistSongAdapter :RecyclerView.Adapter<ItemAlbumArtistSongAdapte
     }
 
     private fun updateNowPlaying(holder: ViewHolder, audio: Audio){
-        if (audio.id == audioId)
+        if (audio.id == audioId) {
+            if(currentSelection < 0){
+                currentSelection = holder.adapterPosition
+            }
             holder.viewBinding.lottieView.visibility = View.VISIBLE
+        }
         else
             holder.viewBinding.lottieView.visibility = View.GONE
     }
@@ -77,7 +77,10 @@ class ItemAlbumArtistSongAdapter :RecyclerView.Adapter<ItemAlbumArtistSongAdapte
     inner class ViewHolder(val viewBinding: ItemLocalAlbumArtistSongBinding)
         :RecyclerView.ViewHolder(viewBinding.root){
         init {
-            viewBinding.root.setOnClickListener { listener?.onAudioClick(listAudio[adapterPosition]) }
+            viewBinding.root.setOnClickListener {
+                previousSelection = currentSelection
+                currentSelection = adapterPosition
+                listener?.onAudioClick(listAudio[adapterPosition]) }
             viewBinding.optionsView.setOnClickListener {
                 listener?.onAudioClickOptions(listAudio[adapterPosition]) }
             viewBinding.root.setOnLongClickListener {

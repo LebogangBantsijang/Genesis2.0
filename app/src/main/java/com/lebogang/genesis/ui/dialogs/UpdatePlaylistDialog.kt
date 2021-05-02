@@ -55,5 +55,6 @@ class UpdatePlaylistDialog:DialogFragment() {
                 dismissAllowingStateLoss()
             }
         }
+        viewBinding.cancelView.setOnClickListener { dismiss() }
     }
 }

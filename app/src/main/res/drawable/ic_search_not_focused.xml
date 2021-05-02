@@ -15,19 +15,14 @@
   ~    limitations under the License.
   -->
 
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
 
-    <item>
-        <shape
-            android:tint="?android:windowBackground"
-            android:shape="rectangle">
-            <corners
-                android:radius="8dp"/>
-        </shape>
-    </item>
+    <gradient
+        android:type="linear"
+        android:angle="225"
+        android:endColor="?colorBackgroundFloating"
+        android:centerColor="?colorBackgroundFloating"
+        android:startColor="#66FB8C00"/>
 
-    <item>
-        <inset android:drawable="@drawable/ic_music"
-            android:inset="24dp"/>
-    </item>
-</layer-list>
+</shape>

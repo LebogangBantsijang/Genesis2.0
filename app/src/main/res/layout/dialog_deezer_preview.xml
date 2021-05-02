@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-                android:text="30"
+                android:text="-/-"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:background="#4B000000"
@@ -110,20 +110,19 @@
             app:lottie_autoPlay="true"
             app:lottie_rawRes="@raw/equalizer"
             app:lottie_repeatMode="restart"
-            app:lottie_colorFilter="@color/white"/>
+            app:lottie_colorFilter="?colorPrimary"/>
 
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/playPauseView"
-        android:layout_width="wrap_content"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:padding="16dp"
-        android:background="@null"
-        android:contentDescription="@string/play"
-        android:tint="?colorPrimary"
-        android:src="@drawable/ic_play"/>
+        android:layout_marginTop="16dp"
+        android:indeterminate="true"
+        android:thumb="@null" />
 
     <TextView
         android:layout_width="match_parent"
