@@ -14,8 +14,20 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.interfaces
+package com.lebogang.genesis.ui.helpers
 
-enum class AudioFxType {
-    PRE_EQ,COMPRESSOR,POST_EQ,LIMITER,MASTER_GAIN
+import androidx.appcompat.app.AppCompatActivity
+import com.lebogang.genesis.service.MusicService
+import com.lebogang.genesis.servicehelpers.OnStateChangedListener
+import com.lebogang.genesis.settings.PlayerBackgroundType
+
+abstract class CommonActivity : AppCompatActivity(){
+
+    abstract fun getMusicService():MusicService?
+
+    abstract fun onServiceReady(musicService: MusicService)
+
+    abstract fun changePlayerBackground(type: PlayerBackgroundType)
+
+    abstract fun getStateChangedListener(): OnStateChangedListener
 }

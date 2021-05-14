@@ -52,9 +52,8 @@ class UpdatePlaylistDialog:DialogFragment() {
             if (Validator.isValueValid(name)){
                 playlist.title = name
                 playlistViewModel.insertPlaylist(playlist)
-                dismissAllowingStateLoss()
+                dismiss()
             }
         }
-        viewBinding.cancelView.setOnClickListener { dismiss() }
     }
 }

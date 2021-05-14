@@ -28,28 +28,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/backgroundView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/player_background"
-                android:drawablePadding="8dp"
-                android:textStyle="bold"
-                android:gravity="center_vertical"
-                android:background="?selectableItemBackground"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:padding="16dp"
-                app:drawableStartCompat="@drawable/ic_wallpaper"
-                app:drawableEndCompat="@drawable/ic_forward"
-                app:drawableTint="?colorButtonNormal" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginEnd="16dp"
-                android:background="?android:attr/listDivider" />
-
-            <TextView
                 android:id="@+id/filterView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,16 +39,8 @@
                 android:text="@string/audio_filter"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
-                app:drawableStartCompat="@drawable/ic_filter_and_sort"
-                app:drawableEndCompat="@drawable/ic_forward"
-                app:drawableTint="?colorButtonNormal"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginEnd="16dp"
-                android:background="?android:attr/listDivider" />
+                app:drawableStartCompat="@drawable/ic_baseline_timelapse_24"
+                app:drawableTint="?colorControlNormal"/>
 
             <TextView
                 android:id="@+id/selectThemeView"
@@ -84,16 +54,8 @@
                 android:text="@string/select_theme"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
-                app:drawableStartCompat="@drawable/ic_themes"
-                app:drawableEndCompat="@drawable/ic_forward"
-                app:drawableTint="?colorButtonNormal" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginEnd="16dp"
-                android:background="?android:attr/listDivider" />
+                app:drawableStartCompat="@drawable/ic_baseline_style_24"
+                app:drawableTint="?colorControlNormal" />
 
             <TextView
                 android:id="@+id/volumeView"
@@ -108,17 +70,50 @@
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
                 app:drawableStartCompat="@drawable/ic_round_volume_up_24"
-                app:drawableEndCompat="@drawable/ic_forward"
-                app:drawableTint="?colorButtonNormal" />
+                app:drawableTint="?colorControlNormal" />
 
-            <View
+            <TextView
+                android:id="@+id/backgroundView"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginEnd="16dp"
-                android:background="?android:attr/listDivider" />
+                android:layout_height="wrap_content"
+                android:text="@string/player_background"
+                android:drawablePadding="8dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                android:background="?selectableItemBackground"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:padding="16dp"
+                app:drawableStartCompat="@drawable/ic_gif"
+                app:drawableTint="?colorControlNormal" />
 
+            <TextView
+                android:id="@+id/rateView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rate_app"
+                android:drawablePadding="8dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                android:background="?selectableItemBackground"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:padding="16dp"
+                app:drawableStartCompat="@drawable/ic_baseline_star_rate_24"
+                app:drawableTint="?colorControlNormal" />
 
+            <!--<TextView
+                android:id="@+id/buyView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/get_pro_version"
+                android:drawablePadding="8dp"
+                android:textStyle="bold"
+                android:textColor="?colorPrimary"
+                android:gravity="center_vertical"
+                android:background="?selectableItemBackground"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:padding="16dp"
+                app:drawableStartCompat="@drawable/ic_baseline_attach_money_24"
+                app:drawableTint="?colorPrimary" />-->
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

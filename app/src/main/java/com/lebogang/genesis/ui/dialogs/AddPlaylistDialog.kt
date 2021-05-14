@@ -47,11 +47,8 @@ class AddPlaylistDialog:DialogFragment() {
             val name = viewBinding.playlistNameView.text.toString()
             if (Validator.isValueValid(name)){
                 playlistViewModel.insertPlaylist(Playlist(0, name))
-                dismissAllowingStateLoss()
+                dismiss()
             }
-        }
-        viewBinding.cancelView.setOnClickListener {
-            dismiss()
         }
     }
 }

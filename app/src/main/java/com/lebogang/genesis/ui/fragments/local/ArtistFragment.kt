@@ -51,19 +51,30 @@ class ArtistFragment: Fragment(), OnArtistClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initRecyclingView()
+        populateView()
+    }
+
+    private fun initRecyclingView(){
         viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(themeSettings.getColumnCount(),
                 StaggeredGridLayoutManager.VERTICAL)
         viewBinding.recyclerView.adapter = adapter
+    }
+
+    private fun populateView(){
+        viewModel.getArtists()
+        viewModel.registerContentObserver()
         viewModel.liveData.observe(viewLifecycleOwner, {
             adapter.setArtistData(it)
             loadingView(it.isNotEmpty())
             val count = getString(R.string.total) + " " + it.size.toString()
             viewBinding.counterView.text = count
         })
-        viewModel.getArtists()
-        viewModel.registerContentObserver()
     }
 
+    /**
+     * Create search view for artists
+     * */
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.column_view_menu, menu)
         val searchView = menu.findItem(R.id.app_bar_search).actionView as SearchView
@@ -79,6 +90,9 @@ class ArtistFragment: Fragment(), OnArtistClickListener {
         })
     }
 
+    /**
+     * Handle artist options: mainly columns
+     * */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.two_column ->{
@@ -95,6 +109,9 @@ class ArtistFragment: Fragment(), OnArtistClickListener {
         }
     }
 
+    /**
+     * Hide or show loading view
+     * */
     private fun loadingView(hasContent:Boolean){
         viewBinding.loadingView.visibility = View.GONE
         if (hasContent){
@@ -104,11 +121,19 @@ class ArtistFragment: Fragment(), OnArtistClickListener {
         }
     }
 
+    /**
+     * Remove content observers
+     * */
     override fun onDestroy() {
         super.onDestroy()
         viewModel.unregisterContentContentObserver()
     }
 
+    /**
+     * Navigate to artist view fragment
+     * @param artist: artist to view
+     * @param imageView: Planning to use it for that shared animations thing, forgot the name
+     * */
     override fun onArtistClick(artist: Artist, imageView: View) {
         val bundle = Bundle().apply{putParcelable(Keys.ARTIST_KEY, artist)}
         val controller = findNavController()

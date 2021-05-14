@@ -54,8 +54,8 @@ class PlayerBackgroundDialog : DialogFragment(){
                 R.id.gif-> playerSettings.setBackgroundType(PlayerBackgroundType.GIF)
             }
             (requireActivity() as MainActivity).changePlayerBackground(playerSettings.getBackgroundType())
+            dismiss()
         }
-        viewBinding.cancelView.setOnClickListener { dismiss() }
     }
 
     private fun getValueId(type:PlayerBackgroundType):Int{

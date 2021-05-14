@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.lebogang.genesis.R
 import com.lebogang.genesis.settings.ThemeSettings
 
-abstract class ThemeHelper:AppCompatActivity() {
+abstract class ThemeHelper:CommonActivity() {
     val themeSettings: ThemeSettings by lazy{
         ThemeSettings(this)
     }
@@ -68,4 +68,6 @@ abstract class ThemeHelper:AppCompatActivity() {
         @ColorInt var SECONDARY_TEXTCOLOR:Int = 0
         @ColorInt var SECONDARY_TEXTCOLOR_NO_DISABLE:Int = 0
     }
+
+
 }

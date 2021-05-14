@@ -30,7 +30,7 @@ import com.lebogang.genesis.network.models.TrackDeezer
 import com.lebogang.genesis.ui.adapters.ItemDeezerAlbumArtistSongAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnDeezerAudioClickListener
 import com.lebogang.genesis.utils.Keys
-import com.lebogang.genesis.utils.glide.GlideManager
+import com.lebogang.genesis.utils.GlideManager
 import com.lebogang.genesis.viewmodels.DeezerViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 

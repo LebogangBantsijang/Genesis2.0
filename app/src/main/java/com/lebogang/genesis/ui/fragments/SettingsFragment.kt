@@ -24,6 +24,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.lebogang.genesis.R
 import com.lebogang.genesis.databinding.FragmentSettingsBinding
 import com.lebogang.genesis.settings.ThemeSettings
@@ -55,6 +56,16 @@ class SettingsFragment : Fragment(){
                 controller.navigate(R.id.audioProcessingDialog)
             }else{
                 Snackbar.make(viewBinding.root,"Not Supported", Snackbar.LENGTH_LONG).show()
+            }
+        }
+        viewBinding.rateView.setOnClickListener {
+            val rateManager = ReviewManagerFactory.create(requireContext())
+            val request = rateManager.requestReviewFlow()
+            request.addOnCompleteListener {
+                if(it.isSuccessful){
+                    val info = it.result
+                    rateManager.launchReviewFlow(requireActivity(), info)
+                }
             }
         }
     }

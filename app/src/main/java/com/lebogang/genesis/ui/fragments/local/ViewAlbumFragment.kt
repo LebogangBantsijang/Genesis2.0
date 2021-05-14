@@ -33,8 +33,9 @@ import com.lebogang.genesis.service.MusicService
 import com.lebogang.genesis.ui.MainActivity
 import com.lebogang.genesis.ui.adapters.ItemAlbumArtistSongAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.genesis.ui.helpers.CommonActivity
 import com.lebogang.genesis.utils.Keys
-import com.lebogang.genesis.utils.glide.GlideManager
+import com.lebogang.genesis.utils.GlideManager
 import com.lebogang.genesis.viewmodels.AudioViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
@@ -44,7 +45,7 @@ class ViewAlbumFragment: Fragment(), OnAudioClickListener {
             .getAudioViewModel() }
     private val adapter = ItemAlbumArtistSongAdapter().apply { listener = this@ViewAlbumFragment }
     private lateinit var album: Album
-    private val musicService: MusicService by lazy{(requireActivity() as MainActivity).musicService}
+    private val musicService: MusicService? by lazy{(requireActivity() as CommonActivity).getMusicService()}
     private val musicQueue : MusicQueue by lazy {(requireActivity().application as GenesisApplication).musicQueue}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -55,14 +56,19 @@ class ViewAlbumFragment: Fragment(), OnAudioClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.titleView.text = album.title
-        GlideManager(this).loadAlbumArt(album.getArtUri(),viewBinding.artView)
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        viewBinding.recyclerView.adapter = adapter
-        initObservers()
+        initRecyclerView()
+        populateViews()
+        initButtons()
     }
 
-    private fun initObservers(){
+    private fun initRecyclerView(){
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.recyclerView.adapter = adapter
+    }
+
+    private fun populateViews(){
+        viewBinding.titleView.text = album.title
+        GlideManager(this).loadAlbumArt(album.getArtUri(),viewBinding.artView)
         viewModelAudio.getAlbumAudio(album.title)
         viewModelAudio.liveData.observe(viewLifecycleOwner,{list->
             adapter.setAudioData(list)
@@ -70,9 +76,23 @@ class ViewAlbumFragment: Fragment(), OnAudioClickListener {
             loadingView(list.isNotEmpty())
         })
         musicQueue.currentAudio.observe(viewLifecycleOwner,{ adapter.setNowPlaying(it.id) })
-        //musicService.getCurrentAudio().observe(viewLifecycleOwner,{adapter.setNowPlaying(it.id)})
     }
 
+    /**
+     * Init that random play button
+     * */
+    private fun initButtons(){
+        viewBinding.randomPlayView.setOnClickListener {
+            if (adapter.listAudio.isNotEmpty()){
+                val audio = adapter.listAudio[0]
+                onAudioClick(audio)
+            }
+        }
+    }
+
+    /**
+     * Show or hide loading view
+     * */
     private fun loadingView(hasContent:Boolean){
         viewBinding.loadingView.visibility = View.GONE
         if (hasContent){
@@ -82,11 +102,19 @@ class ViewAlbumFragment: Fragment(), OnAudioClickListener {
         }
     }
 
+    /**
+     * Play audio
+     * @param audio: audio to play
+     * */
     override fun onAudioClick(audio: Audio) {
         musicQueue.audioQueue = adapter.listAudio
-        musicService.play(audio)
+        musicService?.play(audio)
     }
 
+    /**
+     * Open audio context menu (Audio processing dialog).
+     * @param audio: audio for the menu
+     * */
     override fun onAudioClickOptions(audio: Audio) {
         val bundle = Bundle().apply{
             putParcelable(Keys.SONG_KEY, audio)

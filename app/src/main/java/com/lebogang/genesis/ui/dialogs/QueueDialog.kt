@@ -30,11 +30,12 @@ import com.lebogang.genesis.service.MusicService
 import com.lebogang.genesis.ui.MainActivity
 import com.lebogang.genesis.ui.adapters.ItemQueueSongAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.genesis.ui.helpers.CommonActivity
 
 class QueueDialog: DialogFragment(), OnAudioClickListener {
     private val viewBinding:DialogQueueBinding by lazy { DialogQueueBinding.inflate(layoutInflater) }
     private val adapter = ItemQueueSongAdapter().apply { listener = this@QueueDialog }
-    private val musicService:MusicService by lazy { (requireActivity() as MainActivity).musicService }
+    private val musicService:MusicService? by lazy {(requireActivity() as CommonActivity).getMusicService()}
     private val musicQueue : MusicQueue by lazy {(requireActivity().application as GenesisApplication).musicQueue}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?
@@ -53,12 +54,14 @@ class QueueDialog: DialogFragment(), OnAudioClickListener {
         viewBinding.recyclerView.adapter = adapter
         adapter.setAudioData(musicQueue.audioQueue)
         viewBinding.counterView.text = musicQueue.audioQueue.size.toString()
-        musicQueue.currentAudio.observe(viewLifecycleOwner,{ adapter.setNowPlaying(it.id) })
-        //musicService.getCurrentAudio().observe(viewLifecycleOwner,{adapter.setNowPlaying(it.id)})
+        musicQueue.currentAudio.observe(viewLifecycleOwner,{
+            adapter.setNowPlaying(it.id)
+            viewBinding.recyclerView.scrollToPosition(adapter.getNowPlayingIndex())
+        })
     }
 
     override fun onAudioClick(audio: Audio) {
-        musicService.play(audio)
+        musicService?.play(audio)
     }
 
     override fun onAudioClickOptions(audio: Audio) {

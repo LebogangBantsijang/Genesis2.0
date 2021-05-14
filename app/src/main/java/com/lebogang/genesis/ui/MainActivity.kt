@@ -27,9 +27,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.lebogang.genesis.R
-import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.ActivityMainBinding
-import com.lebogang.genesis.interfaces.OnStateChangedListener
+import com.lebogang.genesis.servicehelpers.OnStateChangedListener
 import com.lebogang.genesis.service.ManageServiceConnection
 import com.lebogang.genesis.service.MusicService
 import com.lebogang.genesis.settings.PlayerBackgroundType
@@ -38,7 +37,7 @@ import com.lebogang.genesis.utils.SeekBarThreader
 
 class MainActivity : ThemeHelper() {
     private val viewBinding: ActivityMainBinding by lazy{ ActivityMainBinding.inflate(layoutInflater) }
-    lateinit var musicService: MusicService
+    private var musicService: MusicService? = null
     private lateinit var appBarConfiguration:AppBarConfiguration
     private lateinit var player: Player
 
@@ -50,8 +49,9 @@ class MainActivity : ThemeHelper() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+        player = Player(this, viewBinding)
         initNavigation()
-        initBanner()
+        initAds()
     }
 
     @SuppressLint("RtlHardcoded")
@@ -76,29 +76,29 @@ class MainActivity : ThemeHelper() {
             moveTaskToBack(true)
     }
 
-    fun getStateChangedListener(): OnStateChangedListener {
+    override fun getStateChangedListener(): OnStateChangedListener {
         return player.getStateListener()
     }
 
-    fun changePlayerBackground(type:PlayerBackgroundType){
+    override fun changePlayerBackground(type:PlayerBackgroundType){
         if (type == PlayerBackgroundType.GIF)
             player.loadGif()
         else
             player.changeBackground()
     }
 
-    fun onServiceReady(musicService: MusicService) {
+    override fun onServiceReady(musicService: MusicService) {
         this.musicService = musicService
-        player = Player(this, viewBinding).also {
-            it.musicService = musicService
-            it.seekBarThreader = SeekBarThreader(this, musicService)
-        }
+        player.musicService = musicService
+        player.seekBarThreader = SeekBarThreader(this, musicService)
     }
 
-    private fun initBanner(){
-        MobileAds.initialize(this)
-        viewBinding.adView.loadAd(AdRequest.Builder()
-                .build())
+    override fun getMusicService(): MusicService? {
+        return musicService
     }
 
+    private fun initAds(){
+        /*MobileAds.initialize(this)
+        viewBinding.adView.loadAd(AdRequest.Builder().build())*/
+    }
 }

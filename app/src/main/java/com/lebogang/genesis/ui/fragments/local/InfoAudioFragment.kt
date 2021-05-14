@@ -24,7 +24,7 @@ import androidx.fragment.app.Fragment
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.FragmentAudioInfoBinding
 import com.lebogang.genesis.utils.Keys
-import com.lebogang.genesis.utils.glide.GlideManager
+import com.lebogang.genesis.utils.GlideManager
 
 class InfoAudioFragment : Fragment(){
     private val viewBinding: FragmentAudioInfoBinding by lazy{ FragmentAudioInfoBinding.inflate(layoutInflater) }

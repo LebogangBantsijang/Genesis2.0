@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.interfaces
+package com.lebogang.genesis.servicehelpers
 
 enum class PlaybackState {
     PLAYING, PAUSED, STOPPED, SKIPPING, NONE,COMPLETE, PREPARED

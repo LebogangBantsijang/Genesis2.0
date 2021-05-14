@@ -34,7 +34,7 @@ import androidx.core.app.NotificationCompat
 import androidx.media.app.NotificationCompat.MediaStyle
 import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Audio
-import com.lebogang.genesis.interfaces.PlaybackState
+import com.lebogang.genesis.servicehelpers.PlaybackState
 import com.lebogang.genesis.ui.MainActivity
 import java.io.FileNotFoundException
 
@@ -46,11 +46,7 @@ abstract class ManageNotifications(private val context:Context, listener : Audio
     @SuppressLint("InlinedApi")
     private val channelImportance = NotificationManager.IMPORTANCE_LOW
     @RequiresApi(Build.VERSION_CODES.O)
-    private val channel = NotificationChannel(channelId, channelName, channelImportance).apply {
-        description = channelDescription
-        enableLights(false)
-        enableVibration(false)
-    }
+    private var channel :NotificationChannel? = null
     private var isChannelCreated = false
     private val notificationManager = context.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE)
             as NotificationManager
@@ -61,9 +57,21 @@ abstract class ManageNotifications(private val context:Context, listener : Audio
     private fun setChannel(){
         if (!isChannelCreated)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                notificationManager.createNotificationChannel(channel)
+                notificationManager.createNotificationChannel(getNotificationChannel())
                 isChannelCreated = true
             }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getNotificationChannel():NotificationChannel{
+        if (channel == null){
+            channel = NotificationChannel(channelId, channelName, channelImportance).apply {
+                description = channelDescription
+                enableLights(false)
+                enableVibration(false)
+            }
+        }
+        return channel!!
     }
 
     override fun createNotification(audio: Audio, playbackState: PlaybackState): Notification {

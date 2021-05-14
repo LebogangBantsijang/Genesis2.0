@@ -67,7 +67,7 @@
                     android:title="@string/settings" />
 
                 <item
-                    android:id="@+id/menu_about"
+                    android:id="@+id/aboutFragment"
                     android:icon="@drawable/ic_info"
                     android:title="@string/about" />
             </menu>

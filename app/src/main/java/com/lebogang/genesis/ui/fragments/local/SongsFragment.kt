@@ -35,6 +35,8 @@ import com.lebogang.genesis.settings.ContentSettings
 import com.lebogang.genesis.ui.MainActivity
 import com.lebogang.genesis.ui.adapters.ItemSongAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.genesis.ui.helpers.CommonActivity
+import com.lebogang.genesis.ui.helpers.QueryHelper
 import com.lebogang.genesis.utils.Keys
 import com.lebogang.genesis.viewmodels.AudioViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
@@ -45,8 +47,8 @@ class SongsFragment: Fragment(), OnAudioClickListener {
     private val viewModel: AudioViewModel by lazy {
         ViewModelFactory(requireActivity().application).getAudioViewModel() }
     private val contentSettings: ContentSettings by lazy { ContentSettings(requireContext()) }
-    private val musicService:MusicService by lazy{(requireActivity() as MainActivity).musicService}
-    private val musicQueue:MusicQueue by lazy { (requireActivity().application as GenesisApplication).musicQueue}
+    private val musicService:MusicService? by lazy{(requireActivity() as CommonActivity).getMusicService()}
+    private val musicQueue:MusicQueue by lazy {(requireActivity().application as GenesisApplication).musicQueue}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,15 +61,22 @@ class SongsFragment: Fragment(), OnAudioClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
-        viewBinding.recyclerView.adapter = adapter
+        initRecyclerView()
         requestPermission()
     }
 
+    private fun initRecyclerView(){
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
+        viewBinding.recyclerView.adapter = adapter
+    }
+
+    /**
+     * Seeing that this is the home fragment, check if write permissions are granted
+     * */
     private fun requestPermission(){
         if(ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED){
-            initObservers()
+            populateViews()
         }else
             requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 25)
     }
@@ -77,27 +86,29 @@ class SongsFragment: Fragment(), OnAudioClickListener {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 25 && grantResults.isNotEmpty()){
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                initObservers()
+                populateViews()
             }else
                 requireActivity().finish()
         }
     }
 
+    /**
+     * Create search view for songs
+     * */
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.audio_sort_menu, menu)
         val searchView = menu.findItem(R.id.app_bar_search).actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                adapter.filter.filter(newText)
+        searchView.setOnQueryTextListener(object : QueryHelper(){
+            override fun onQuery(query: String): Boolean {
+                adapter.filter.filter(query)
                 return true
             }
         })
     }
 
+    /**
+     * Handle songs options
+     * */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.titleAsc ->{
@@ -128,8 +139,9 @@ class SongsFragment: Fragment(), OnAudioClickListener {
         }
     }
 
-    private fun initObservers(){
+    private fun populateViews(){
         viewModel.getAudio()
+        viewModel.registerContentObserver()
         viewModel.liveData.observe(viewLifecycleOwner,{
             adapter.setAudioData(it)
             loadingView(it.isNotEmpty())
@@ -137,10 +149,11 @@ class SongsFragment: Fragment(), OnAudioClickListener {
             viewBinding.counterView.text = count
         })
         musicQueue.currentAudio.observe(viewLifecycleOwner,{ adapter.setNowPlaying(it.id) })
-        //musicService.getCurrentAudio().observe(viewLifecycleOwner,{ adapter.setNowPlaying(it.id) })
-        viewModel.registerContentObserver()
     }
 
+    /**
+     * Show or hide loading view
+     * */
     private fun loadingView(hasContent:Boolean){
         viewBinding.loadingView.visibility = View.GONE
         if (hasContent){
@@ -150,16 +163,27 @@ class SongsFragment: Fragment(), OnAudioClickListener {
         }
     }
 
+    /**
+     * Remove content observer
+     * */
     override fun onDestroy() {
         super.onDestroy()
         viewModel.unregisterContentContentObserver()
     }
 
+    /**
+     * Play audio
+     * @param audio: audio play
+     * */
     override fun onAudioClick(audio: Audio) {
         musicQueue.audioQueue = adapter.getList()
-        musicService.play(audio)
+        musicService?.play(audio)
     }
 
+    /**
+     * Open that audio options dialog.
+     * @param audio: audio for the menu
+     * */
     override fun onAudioClickOptions(audio: Audio) {
         val bundle = Bundle().apply{
             putParcelable(Keys.SONG_KEY, audio)

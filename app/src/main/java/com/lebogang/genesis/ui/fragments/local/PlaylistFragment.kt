@@ -45,18 +45,32 @@ class PlaylistFragment: Fragment(), OnPlaylistClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
+        populateViews()
+        initSpeedDialView()
+    }
+
+    private fun initRecyclerView(){
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
         viewBinding.recyclerView.adapter = adapter
+    }
+
+    private fun populateViews(){
         viewModel.liveData.observe(viewLifecycleOwner, {
+            //set playlist data to adapter
             adapter.setPlaylistData(it)
+            //show/hide loading view
             loadingView(it.isNotEmpty())
+            //display total
             val count = getString(R.string.total) + " " + it.size.toString()
             viewBinding.counterView.text = count
         })
-        initMenuView()
     }
 
-    private fun initMenuView(){
+    /**
+     * Init that custom views
+     * */
+    private fun initSpeedDialView(){
         viewBinding.menuView.setMenuListener(object: SpeedDialHelper(){
             override fun onItemSelected(itemId: Int): Boolean {
                 return when(itemId){
@@ -75,6 +89,9 @@ class PlaylistFragment: Fragment(), OnPlaylistClickListener {
         })
     }
 
+    /**
+     * Show or hide loading view
+     * */
     private fun loadingView(hasContent:Boolean){
         viewBinding.loadingView.visibility = View.GONE
         if (hasContent){
@@ -84,18 +101,30 @@ class PlaylistFragment: Fragment(), OnPlaylistClickListener {
         }
     }
 
+    /**
+     * Navigate to playlist view fragment
+     * @param playlist: playlist to view
+     * */
     override fun onPlaylistClick(playlist: Playlist) {
         val bundle = Bundle().apply { putParcelable(Keys.PLAYLIST_KEY, playlist) }
         val controller = findNavController()
         controller.navigate(R.id.viewPlaylistFragment, bundle)
     }
 
+    /**
+     * Open that playlist edit dialog
+     * @param playlist: playlist to edit
+     * */
     override fun onPlaylistEditClick(playlist: Playlist) {
         val bundle = Bundle().apply { putParcelable(Keys.PLAYLIST_KEY, playlist) }
         val controller = findNavController()
         controller.navigate(R.id.updatePlaylistDialog, bundle)
     }
 
+    /**
+     * Remove a playlist from room
+     * @param playlist: Playlist to remove
+     * */
     override fun onPlaylistDeleteClick(playlist: Playlist) {
         viewModel.deletePlaylist(playlist)
     }

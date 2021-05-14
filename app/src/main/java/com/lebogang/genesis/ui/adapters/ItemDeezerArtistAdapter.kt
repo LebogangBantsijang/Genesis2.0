@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.genesis.databinding.ItemOnlineDeezerArtistBinding
 import com.lebogang.genesis.network.models.ArtistDeezer
 import com.lebogang.genesis.ui.adapters.utils.OnDeezerArtistClickListener
-import com.lebogang.genesis.utils.glide.GlideManager
+import com.lebogang.genesis.utils.GlideManager
 
 class ItemDeezerArtistAdapter:RecyclerView.Adapter<ItemDeezerArtistAdapter.ViewHolder>() {
     private var listArtist = listOf<ArtistDeezer>()

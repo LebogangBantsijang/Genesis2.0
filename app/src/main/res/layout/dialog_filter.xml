@@ -92,32 +92,13 @@
         android:text="@string/reload"/>
 
 
-    <LinearLayout
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancelView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="?colorBackgroundFloating"
-            android:textColor="?colorPrimary"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:text="@string/cancel"
-            app:cornerRadius="0dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/saveView"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:insetBottom="0dp"
-            android:insetTop="0dp"
-            app:cornerRadius="0dp"
-            android:text="@string/save" />
-    </LinearLayout>
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        app:cornerRadius="0dp"
+        android:text="@string/save" />
 
 </LinearLayout>

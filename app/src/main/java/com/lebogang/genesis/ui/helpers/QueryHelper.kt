@@ -14,22 +14,24 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.ui.fragments
+package com.lebogang.genesis.ui.helpers
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.lebogang.genesis.R
-import com.lebogang.genesis.databinding.FragmentAboutBinding
+import androidx.appcompat.widget.SearchView
 
-class AboutFragment: Fragment(){
-    private val viewBinding: FragmentAboutBinding by lazy{ FragmentAboutBinding.inflate(layoutInflater)}
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return viewBinding.root
+abstract class QueryHelper : SearchView.OnQueryTextListener {
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        query?.let {
+            return onQuery(it)
+        }
+        return false
     }
 
+    override fun onQueryTextChange(newText: String?): Boolean {
+        newText?.let {
+            return onQuery(it)
+        }
+        return false
+    }
+
+    abstract fun onQuery(query: String):Boolean
 }

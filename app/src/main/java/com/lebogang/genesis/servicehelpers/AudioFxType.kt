@@ -14,22 +14,8 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.ui.fragments
+package com.lebogang.genesis.servicehelpers
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.lebogang.genesis.R
-import com.lebogang.genesis.databinding.FragmentAboutBinding
-
-class AboutFragment: Fragment(){
-    private val viewBinding: FragmentAboutBinding by lazy{ FragmentAboutBinding.inflate(layoutInflater)}
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return viewBinding.root
-    }
-
+enum class AudioFxType {
+    PRE_EQ,COMPRESSOR,POST_EQ,LIMITER,MASTER_GAIN
 }

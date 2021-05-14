@@ -25,15 +25,16 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.MutableLiveData
 import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.data.models.Audio
-import com.lebogang.genesis.interfaces.*
+import com.lebogang.genesis.servicehelpers.PlaybackState
+import com.lebogang.genesis.servicehelpers.OnStateChangedListener
+import com.lebogang.genesis.servicehelpers.AudioFxType
+import com.lebogang.genesis.servicehelpers.RepeatSate
 import com.lebogang.genesis.room.StatisticsRepo
 import com.lebogang.genesis.settings.PlayerSettings
 
-class MusicService : Service(), MusicInterface, AudioManager.OnAudioFocusChangeListener,
-        MediaPlayer.OnCompletionListener {
+class MusicService : Service(), AudioManager.OnAudioFocusChangeListener, MediaPlayer.OnCompletionListener {
     private val binder = ServiceBinder()
     private val managePlayers :ManagePlayers by lazy { ManagePlayers(this@MusicService
         , this@MusicService, this@MusicService) }
@@ -73,7 +74,7 @@ class MusicService : Service(), MusicInterface, AudioManager.OnAudioFocusChangeL
         }
     }
 
-    override fun prepare(audio: Audio) {
+     fun prepare(audio: Audio) {
         //handle focus and media player
         managePlayers.prepare(audio)
         //player callbacks
@@ -82,7 +83,7 @@ class MusicService : Service(), MusicInterface, AudioManager.OnAudioFocusChangeL
         startForeground(foreGroundId, managePlayers.createNotification(audio, playbackState))
     }
 
-    override fun play(audio: Audio) {
+     fun play(audio: Audio) {
         musicQueue.currentAudio.value = audio
         //handle focus and media player
         managePlayers.play(audio)
@@ -94,21 +95,21 @@ class MusicService : Service(), MusicInterface, AudioManager.OnAudioFocusChangeL
         statisticsRepo.insertStat(audio)
     }
 
-    override fun playOnline(url:String, state:OnStateChangedListener) {
+     fun playOnline(url:String, state:OnStateChangedListener) {
         if (playbackState == PlaybackState.PLAYING)
             pause()
         managePlayers.playOnline(url, state)
     }
 
-    override fun getOnlineDuration(): Int {
+     fun getOnlineDuration(): Int {
         return managePlayers.getOnlineDuration()
     }
 
-    override fun stopOnline() {
+     fun stopOnline() {
         managePlayers.stopOnline()
     }
 
-    override fun pause() {
+     fun pause() {
         //handle focus and media player
         managePlayers.pause()
         //player callbacks & notifications
@@ -117,7 +118,7 @@ class MusicService : Service(), MusicInterface, AudioManager.OnAudioFocusChangeL
         startForeground(foreGroundId, managePlayers.createNotification(musicQueue.currentAudio.value!!, playbackState))
     }
 
-    override fun play() {
+     fun play() {
         //handle focus and media player
         managePlayers.play()
         //player callbacks & notifications
@@ -126,7 +127,7 @@ class MusicService : Service(), MusicInterface, AudioManager.OnAudioFocusChangeL
         startForeground(foreGroundId, managePlayers.createNotification(musicQueue.currentAudio.value!!, playbackState))
     }
 
-    override fun stop() {
+     fun stop() {
         //handle focus and media player
         managePlayers.stop()
         unregisterReceiver(broadcastMusicReceiver)
@@ -144,14 +145,14 @@ class MusicService : Service(), MusicInterface, AudioManager.OnAudioFocusChangeL
             play()
     }
 
-    override fun skipToNext() {
+     fun skipToNext() {
         managePlayers.abandonFocus()
         playbackState = PlaybackState.SKIPPING
         hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
         handleSkipping(true)
     }
 
-    override fun skipToPrevious() {
+     fun skipToPrevious() {
         managePlayers.abandonFocus()
         playbackState = PlaybackState.SKIPPING
         hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
@@ -167,15 +168,15 @@ class MusicService : Service(), MusicInterface, AudioManager.OnAudioFocusChangeL
         else play(musicQueue.getPrevious())
     }
 
-    override fun seekTo(position: Int) {
+     fun seekTo(position: Int) {
         managePlayers.seekTo(position)
     }
 
-    override fun getCurrentPosition(): Int {
+     fun getCurrentPosition(): Int {
         return managePlayers.getCurrentPosition()
     }
 
-    override fun changeRepeatMode() {
+     fun changeRepeatMode() {
         repeatSate = when(repeatSate){
             RepeatSate.REPEAT_NONE-> RepeatSate.REPEAT_ONE
             RepeatSate.REPEAT_ONE-> RepeatSate.REPEAT_ALL
@@ -185,40 +186,40 @@ class MusicService : Service(), MusicInterface, AudioManager.OnAudioFocusChangeL
         hashMap.forEach { it.value.onRepeatModeChange(repeatSate) }
     }
 
-    override fun getRepeatMode(): RepeatSate {
+     fun getRepeatMode(): RepeatSate {
         return repeatSate
     }
 
-    override fun getPlaybackState(): PlaybackState {
+     fun getPlaybackState(): PlaybackState {
         return playbackState
     }
 
-    override fun addStateChangedListener(className:String, stateChangedListener: OnStateChangedListener) {
+     fun addStateChangedListener(className:String, stateChangedListener: OnStateChangedListener) {
         hashMap[className] = stateChangedListener
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
-    override fun enableAudioFx() {
+     fun enableAudioFx() {
         managePlayers.enableAudioFx()
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
-    override fun disableAudioFx() {
+     fun disableAudioFx() {
         managePlayers.disableAudioFx()
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
-    override fun isAudioFxEnabled(): Boolean {
+     fun isAudioFxEnabled(): Boolean {
         return managePlayers.isAudioFxEnabled()
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
-    override fun getEffectLevel(type: AudioFxType): Int {
+     fun getEffectLevel(type: AudioFxType): Int {
         return managePlayers.getEffectLevel(type)
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
-    override fun setEffectLevel(level: Float, type: AudioFxType) {
+     fun setEffectLevel(level: Float, type: AudioFxType) {
         managePlayers.setEffectLevel(level, type)
     }
 

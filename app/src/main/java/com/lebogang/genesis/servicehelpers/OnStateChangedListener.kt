@@ -14,8 +14,10 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.interfaces
+package com.lebogang.genesis.servicehelpers
 
-enum class RepeatSate {
-    REPEAT_NONE, REPEAT_ONE, REPEAT_ALL,SHUFFLE_ALL
+interface OnStateChangedListener {
+    fun onPlaybackChanged(playbackState: PlaybackState)
+
+    fun onRepeatModeChange(repeatSate: RepeatSate)
 }

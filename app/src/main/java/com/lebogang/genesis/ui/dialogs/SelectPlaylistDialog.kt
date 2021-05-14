@@ -53,7 +53,6 @@ class SelectPlaylistDialog:DialogFragment(),OnSelectPlaylistListener {
     }
 
     private fun initViews(){
-        viewBinding.cancelView.setOnClickListener { dismiss() }
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
         viewBinding.recyclerView.adapter = adapter
         playlistViewModel.liveData.observe(viewLifecycleOwner, { adapter.setData(it) })
@@ -61,6 +60,6 @@ class SelectPlaylistDialog:DialogFragment(),OnSelectPlaylistListener {
 
     override fun onPlaylistClick(playlist: Playlist) {
         playlistViewModel.insertPlaylistAudio(playlist.id, audio.id)
-        dismissAllowingStateLoss()
+        dismiss()
     }
 }

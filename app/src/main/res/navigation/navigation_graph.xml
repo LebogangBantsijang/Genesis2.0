@@ -204,4 +204,5 @@
         android:name="com.lebogang.genesis.ui.dialogs.AudioProcessingDialog"
         android:label="AudioProcessingDialog"
         tools:layout="@layout/dialog_audio_fx"/>
+
 </navigation>

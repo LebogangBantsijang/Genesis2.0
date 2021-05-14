@@ -42,6 +42,17 @@ class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder
         notifyDataSetChanged()
     }
 
+    fun getNowPlayingIndex():Int{
+        var index = 0
+        listAudio.forEach {
+            if(audioId == it.id){
+                index = listAudio.indexOf(it)
+                return@forEach
+            }
+        }
+        return index
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val viewBinding = ItemLocalQueueSongBinding.inflate(inflater, parent, false)

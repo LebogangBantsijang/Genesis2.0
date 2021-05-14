@@ -17,6 +17,7 @@
 package com.lebogang.genesis.ui.dialogs
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +28,7 @@ import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.DialogAudioOptionsBinding
 import com.lebogang.genesis.utils.Keys
-import com.lebogang.genesis.utils.glide.GlideManager
+import com.lebogang.genesis.utils.GlideManager
 import com.lebogang.genesis.viewmodels.AlbumViewModel
 import com.lebogang.genesis.viewmodels.ArtistViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
@@ -48,12 +49,12 @@ class AudioOptionsDialog :BottomSheetDialogFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews()
+        populateViews()
         initOnClicks()
     }
 
     @SuppressLint("SetTextI18n")
-    private fun initViews(){
+    private fun populateViews(){
         GlideManager(this).loadAudioArt(audio.getArtUri(), viewBinding.coverView)
         viewBinding.titleView.text = audio.title
         viewBinding.subtitleView.text = audio.artist
@@ -94,7 +95,12 @@ class AudioOptionsDialog :BottomSheetDialogFragment(){
             controller.navigate(R.id.infoAudioFragment, bundle)
         }
         viewBinding.shareView.setOnClickListener {
-
+            val intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_STREAM, audio.getUri())
+                type = "audio/*"
+            }
+            startActivity(Intent.createChooser(intent,"Share from Genesis"))
         }
     }
 

@@ -24,8 +24,9 @@ import android.os.IBinder
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.lebogang.genesis.ui.MainActivity
+import com.lebogang.genesis.ui.helpers.CommonActivity
 
-class ManageServiceConnection(private val activity: MainActivity) {
+class ManageServiceConnection(private val activity: CommonActivity) {
     private val intent = Intent(activity,MusicService::class.java)
     lateinit var musicService: MusicService
     private val connectionCallback = getConnection()
@@ -40,13 +41,6 @@ class ManageServiceConnection(private val activity: MainActivity) {
                 musicService = (service as MusicService.ServiceBinder).getService()
                 activity.onServiceReady(musicService)
                 musicService.addStateChangedListener(activity.javaClass.name,activity.getStateChangedListener())
-                //check if liveData was cleared, if not prepare the media
-                /*if (Queue.currentAudio.value != null){
-                    if (musicService.getPlaybackState() == PlaybackState.NONE)
-                        musicService.prepare(Queue.currentAudio.value!!)
-                    else
-                        activity.getStateChangedListener().onPlaybackChanged(musicService.getPlaybackState())
-                }*/
                 activity.getStateChangedListener().onRepeatModeChange(musicService.getRepeatMode())
             }
 

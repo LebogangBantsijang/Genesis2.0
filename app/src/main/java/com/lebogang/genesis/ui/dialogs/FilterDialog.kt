@@ -45,8 +45,6 @@ class FilterDialog: DialogFragment(){
         viewBinding.saveView.setOnClickListener {
             val duration = (viewBinding.seekBar.progress * 10).toLong()
             contentSettings.setDurationFilter(duration)
-        }
-        viewBinding.cancelView.setOnClickListener {
             dismiss()
         }
     }

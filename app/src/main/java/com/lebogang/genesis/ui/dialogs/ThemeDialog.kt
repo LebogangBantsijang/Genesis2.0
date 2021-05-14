@@ -43,7 +43,6 @@ class ThemeDialog: DialogFragment() {
 
     private fun initViews(){
         viewBinding.radioGroup.check(getCheckId())
-        viewBinding.cancelView.setOnClickListener { dismiss() }
         viewBinding.saveView.setOnClickListener {
             when(viewBinding.radioGroup.checkedRadioButtonId){
                 R.id.lightButton ->{
@@ -57,6 +56,7 @@ class ThemeDialog: DialogFragment() {
                 }
             }
             requireActivity().recreate()
+            dismiss()
         }
     }
 

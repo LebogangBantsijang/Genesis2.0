@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.genesis.utils.glide
+package com.lebogang.genesis.utils
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -27,7 +27,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
-import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
@@ -39,7 +38,6 @@ import jp.wasabeef.blurry.Blurry
 class GlideManager {
     private val requestBuilder: RequestBuilder<Drawable>
     private val audioErrorResource = R.drawable.ic_custom_song
-    private val audioAlternativeErrorResource = R.drawable.ic_musical_notes
     private val audioErrorCircularResource = R.drawable.ic_custom_circular_song
     private val artistErrorResource = R.drawable.ic_custom_artist
     private val albumErrorResource = R.drawable.ic_custom_album
@@ -54,7 +52,7 @@ class GlideManager {
         requestBuilder= initRequestBuilder(Glide.with(root).asDrawable())
     }
 
-    private fun initRequestBuilder(builder:RequestBuilder<Drawable>):RequestBuilder<Drawable>{
+    private fun initRequestBuilder(builder: RequestBuilder<Drawable>): RequestBuilder<Drawable> {
         var skipCache = false
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
             skipCache = true
@@ -64,7 +62,7 @@ class GlideManager {
         }
     }
 
-    fun loadAudioArt(uri: Uri?, view: ImageView):GlideManager{
+    fun loadAudioArt(uri: Uri?, view: ImageView): GlideManager {
         requestBuilder.load(uri)
                 .centerCrop()
                 .error(audioErrorResource)
@@ -75,7 +73,7 @@ class GlideManager {
         return this
     }
 
-    fun loadAudioArtCircularCrop(uri: Uri?, view: ImageView):GlideManager{
+    fun loadAudioArtCircularCrop(uri: Uri?, view: ImageView): GlideManager {
         requestBuilder.load(uri)
             .circleCrop()
             .error(audioErrorCircularResource)
@@ -86,7 +84,7 @@ class GlideManager {
         return this
     }
 
-    fun loadOnline(path:String, view:ImageView):GlideManager{
+    fun loadOnline(path:String?, view: ImageView): GlideManager {
         requestBuilder.load(path)
                 .centerCrop()
                 .error(audioErrorResource)
@@ -97,18 +95,7 @@ class GlideManager {
         return this
     }
 
-    fun loadAudioArtNoDefaultResource(uri: Uri?, view: ImageView):GlideManager{
-        requestBuilder.load(uri)
-                .centerCrop()
-                .error(audioAlternativeErrorResource)
-                .override(view.width, view.height)
-                .into(view)
-                .waitForLayout()
-                .clearOnDetach()
-        return this
-    }
-
-    fun loadArtistArt(uri: Uri?, view: ImageView):GlideManager{
+    fun loadArtistArt(uri: Uri?, view: ImageView): GlideManager {
         requestBuilder.load(uri)
                 .centerCrop()
                 .error(artistErrorResource)
@@ -119,7 +106,7 @@ class GlideManager {
         return this
     }
 
-    fun loadAlbumArt(uri: Uri?, view: ImageView):GlideManager{
+    fun loadAlbumArt(uri: Uri?, view: ImageView): GlideManager {
         requestBuilder.load(uri)
                 .centerCrop()
                 .error(albumErrorResource)
@@ -130,7 +117,7 @@ class GlideManager {
         return this
     }
 
-    fun loadBlurred(root: Context,uri: Uri?, view: ImageView):GlideManager{
+    fun loadBlurred(root: Context, uri: Uri?, view: ImageView): GlideManager {
         Glide.with(root).asBitmap()
                 .centerCrop()
                 .load(uri)
@@ -153,8 +140,8 @@ class GlideManager {
             .clearOnDetach()
     }
 
-    private fun getCallbacks(root:Context,view: ImageView):RequestListener<Bitmap>{
-        return object :RequestListener<Bitmap>{
+    private fun getCallbacks(root: Context, view: ImageView): RequestListener<Bitmap> {
+        return object : RequestListener<Bitmap> {
             override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?
                                       , isFirstResource: Boolean): Boolean {
                 view.setImageDrawable(null)

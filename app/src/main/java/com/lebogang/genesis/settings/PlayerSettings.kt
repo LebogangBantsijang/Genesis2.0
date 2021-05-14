@@ -19,7 +19,7 @@ package com.lebogang.genesis.settings
 import android.content.Context
 import android.content.SharedPreferences
 import com.lebogang.genesis.R
-import com.lebogang.genesis.interfaces.RepeatSate
+import com.lebogang.genesis.servicehelpers.RepeatSate
 
 class PlayerSettings(private val context: Context){
     private val preferences: SharedPreferences = context.applicationContext
