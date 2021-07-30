@@ -81,7 +81,7 @@
                 android:drawablePadding="8dp"
                 app:drawableEndCompat="@drawable/ic_forward"
                 app:drawableTint="?colorControlNormal"
-                app:drawableStartCompat="@drawable/ic_music_library"/>
+                app:drawableStartCompat="@drawable/ic_music_library_ios"/>
 
             <TextView
                 android:id="@+id/albumView"

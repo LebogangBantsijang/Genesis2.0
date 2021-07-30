@@ -103,7 +103,7 @@
             android:background="?selectableItemBackground"
             android:contentDescription="@string/play"
             app:tint="?colorControlNormal"
-            android:src="@drawable/ic_playlist" />
+            android:src="@drawable/ic_playlist_ios" />
 
     </LinearLayout>
 

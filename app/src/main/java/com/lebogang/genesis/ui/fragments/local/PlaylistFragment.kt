@@ -17,9 +17,7 @@
 package com.lebogang.genesis.ui.fragments.local
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +26,6 @@ import com.lebogang.genesis.databinding.FragmentPlaylistBinding
 import com.lebogang.genesis.room.models.Playlist
 import com.lebogang.genesis.ui.adapters.ItemPlaylistAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnPlaylistClickListener
-import com.lebogang.genesis.ui.helpers.SpeedDialHelper
 import com.lebogang.genesis.utils.Keys
 import com.lebogang.genesis.viewmodels.PlaylistViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
@@ -39,6 +36,11 @@ class PlaylistFragment: Fragment(), OnPlaylistClickListener {
         ViewModelFactory(requireActivity().application).getPlaylistViewModel() }
     private val adapter = ItemPlaylistAdapter().apply { listener = this@PlaylistFragment}
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return viewBinding.root
     }
@@ -47,7 +49,6 @@ class PlaylistFragment: Fragment(), OnPlaylistClickListener {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         populateViews()
-        initSpeedDialView()
     }
 
     private fun initRecyclerView(){
@@ -67,26 +68,23 @@ class PlaylistFragment: Fragment(), OnPlaylistClickListener {
         })
     }
 
-    /**
-     * Init that custom views
-     * */
-    private fun initSpeedDialView(){
-        viewBinding.menuView.setMenuListener(object: SpeedDialHelper(){
-            override fun onItemSelected(itemId: Int): Boolean {
-                return when(itemId){
-                    R.id.addMenu ->{
-                        val controller = findNavController()
-                        controller.navigate(R.id.addPlaylistDialog)
-                        true
-                    }
-                    R.id.clearMenu ->{
-                        viewModel.clearData()
-                        true
-                    }
-                    else-> false
-                }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.playlists_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.addMenu ->{
+                val controller = findNavController()
+                controller.navigate(R.id.addPlaylistDialog)
+                true
             }
-        })
+            R.id.clearMenu ->{
+                viewModel.clearData()
+                true
+            }
+            else-> false
+        }
     }
 
     /**

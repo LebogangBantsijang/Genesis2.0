@@ -1,22 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-package="com.lebogang.genesis">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.lebogang.genesis">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
+        android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".GenesisApplication"
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Genesis20.System">
+        <activity android:name=".ui.stream.StreamMusicActivity"/>
+        <activity android:name=".ui.stream.StreamArtistsActivity" />
+        <activity android:name=".ui.stream.StreamAlbumsActivity" />
+        <activity android:name=".ui.stream.StreamPlaylistsActivity" />
+        <activity android:name=".ui.stream.StreamFavouritesActivity" />
+        <activity android:name=".ui.stream.StreamDetailsActivity" />
+        <activity android:name=".ui.user.ForgotPasswordActivity" />
+        <activity android:name=".ui.user.PhoneActivity" />
+        <activity android:name=".ui.user.SignInActivity" />
+        <activity
+            android:name=".ui.stream.StreamActivity"
+            android:parentActivityName=".ui.local.HomeActivity" />
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:parentActivityName=".ui.local.HomeActivity" />
+        <activity android:name=".ui.history.HistoryActivity" />
+        <activity
+            android:name=".ui.player.PlayerActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".ui.local.SearchActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity android:name=".ui.local.playlist.PlaylistMembersAddActivity" />
+        <activity android:name=".ui.charts.spotify.SpotifyDetailsActivity" />
+        <activity android:name=".ui.local.playlist.PlaylistDetailsActivity" />
+        <activity android:name=".ui.charts.spotify.SpotifyActivity" />
+        <activity android:name=".ui.local.GenreDetailsActivity" />
+        <activity android:name=".ui.local.InformationActivity" />
+        <activity android:name=".ui.local.EditActivity" />
+        <activity android:name=".ui.charts.deezer.DeezerArtistDetailsActivity" />
+        <activity android:name=".ui.charts.deezer.DeezerAlbumDetailsActivity" />
+        <activity android:name=".ui.charts.deezer.DeezerArtistActivity" />
+        <activity android:name=".ui.charts.deezer.DeezerAlbumActivity" />
+        <activity android:name=".ui.charts.deezer.DeezerMusicActivity" />
+        <activity
+            android:name=".ui.charts.ChartsActivity"
+            android:parentActivityName=".ui.local.HomeActivity" />
+        <activity android:name=".ui.local.ArtistDetailsActivity" />
+        <activity android:name=".ui.local.AlbumDetailsActivity" />
+        <activity android:name=".ui.local.MusicActivity" />
+        <activity android:name=".ui.local.FavouriteActivity" />
+        <activity android:name=".ui.local.playlist.PlaylistActivity" />
+        <activity android:name=".ui.local.GenresActivity" />
+        <activity android:name=".ui.local.ArtistsActivity" />
+        <activity android:name=".ui.local.AlbumsActivity" />
+        <activity
+            android:name=".ui.user.UserActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+
+                <data android:mimeType="image/*" />
+
+                <category android:name="android.intent.category.OPENABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.local.HomeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".ui.local.SearchActivity" />
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -30,14 +107,7 @@ package="com.lebogang.genesis">
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleInstance"
-            android:resizeableActivity="false"
-            tools:targetApi="n">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            tools:targetApi="n" />
     </application>
 
 </manifest>

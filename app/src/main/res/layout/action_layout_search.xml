@@ -15,14 +15,23 @@
   ~    limitations under the License.
   -->
 
-<SearchView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.SearchView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@android:style/Widget.Material.SearchView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@null"
-    android:commitIcon="@null"
+    android:commitIcon="@drawable/ic_edit_ios"
     android:goIcon="@null"
     android:gravity="center_vertical"
     android:imeOptions="actionSearch"
     android:orientation="horizontal"
+    app:iconifiedByDefault="false"
+    android:elevation="8dp"
+    app:showDividers="none"
     android:queryHint="@string/search_here"
-    android:searchIcon="@drawable/ic_round_search_24" />
+    android:searchIcon="@drawable/ic_search_ios"
+    app:closeIcon="@drawable/ic_delete_ios"
+    app:queryHint="@string/search_here"
+    app:searchHintIcon="@drawable/ic_search_ios"
+    app:searchIcon="@drawable/ic_search_ios" />

@@ -21,10 +21,11 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorAccent">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryColor</item>
+        <item name="colorSurface">@color/darkBackground</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowBackground">@color/darkBackground</item>
         <item name="android:navigationBarColor">@color/darkBackground</item>
         <item name="android:statusBarColor">@color/darkBackground</item>
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
         <item name="android:enforceNavigationBarContrast" tools:ignore="NewApi">true</item>
     </style>

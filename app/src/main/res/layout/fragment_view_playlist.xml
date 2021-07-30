@@ -61,6 +61,21 @@
             app:lottie_repeatMode="restart"
             app:lottie_colorFilter="?colorPrimary"/>
 
+        <ImageButton
+            android:id="@+id/targetView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_circle"
+            android:backgroundTint="?colorPrimary"
+            android:padding="12dp"
+            android:visibility="gone"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="24dp"
+            android:layout_gravity="bottom|end"
+            android:contentDescription="@string/back_button"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_collect" />
+
     </FrameLayout>
 
 </LinearLayout>

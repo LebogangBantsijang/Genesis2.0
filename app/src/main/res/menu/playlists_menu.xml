@@ -15,14 +15,17 @@
   ~    limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/addMenu"
-        android:icon="@drawable/ic_add_record"
-        android:title="@string/add_playlist" />
+        android:icon="@drawable/ic_baseline_playlist_add_24"
+        android:title="@string/add_playlist"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/clearMenu"
-        android:icon="@drawable/ic_waste"
-        android:title="@string/clear_all_playlist" />
+        android:icon="@drawable/ic_baseline_delete_24"
+        android:title="@string/clear_all_playlist"
+        app:showAsAction="ifRoom" />
 </menu>

@@ -24,13 +24,12 @@ import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.ItemLocalQueueSongBinding
 import com.lebogang.genesis.ui.adapters.utils.AdapterInterface
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.genesis.ui.helpers.ThemeHelper
 
 class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder>(),AdapterInterface{
     var listener: OnAudioClickListener? = null
     var listAudio = mutableListOf<Audio>()
     var audioId:Long = -1
-    private var previousSelection = -2
-    private var currentSelection = -1;
 
     override fun setAudioData(mutableList: MutableList<Audio>){
         listAudio = mutableList
@@ -69,13 +68,15 @@ class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder
 
     private fun updateNowPlaying(holder: ViewHolder, audio: Audio){
         if (audio.id == audioId) {
-            if(currentSelection < 0){
-                currentSelection = holder.adapterPosition
-            }
             holder.viewBinding.lottieView.visibility = View.VISIBLE
+            holder.viewBinding.titleView.setTextColor(ThemeHelper.PRIMARY_COLOR)
+            holder.viewBinding.subtitleView.setTextColor(ThemeHelper.PRIMARY_COLOR)
         }
-        else
+        else{
             holder.viewBinding.lottieView.visibility = View.GONE
+            holder.viewBinding.titleView.setTextColor(ThemeHelper.PRIMARY_TEXTCOLOR)
+            holder.viewBinding.subtitleView.setTextColor(ThemeHelper.SECONDARY_TEXTCOLOR)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -86,8 +87,6 @@ class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder
         :RecyclerView.ViewHolder(viewBinding.root){
         init {
             viewBinding.optionsView.setOnClickListener {
-                previousSelection = currentSelection
-                currentSelection = adapterPosition
                 listener?.onAudioClickOptions(listAudio[adapterPosition]) }
             viewBinding.root.setOnClickListener { listener?.onAudioClick(listAudio[adapterPosition]) }
         }

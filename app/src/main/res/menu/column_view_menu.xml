@@ -19,11 +19,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/app_bar_search"
-        android:icon="@drawable/ic_search"
+        android:id="@+id/search"
+        android:icon="@drawable/ic_round_search_24"
         android:title="@string/search"
-        android:actionLayout="@layout/action_layout_search"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom" />
 
     <item
@@ -31,11 +29,9 @@
         <menu>
             <item
                 android:id="@+id/two_column"
-                android:icon="@drawable/ic_details"
                 android:title="@string/_2_column_s" />
             <item
                 android:id="@+id/three_column"
-                android:icon="@drawable/ic_details"
                 android:title="@string/_3_column_s" />
         </menu>
     </item>

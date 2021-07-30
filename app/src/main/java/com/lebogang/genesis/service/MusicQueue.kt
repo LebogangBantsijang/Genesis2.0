@@ -19,7 +19,7 @@ package com.lebogang.genesis.service
 import androidx.lifecycle.MutableLiveData
 import com.lebogang.genesis.data.models.Audio
 
-class MusicQueue {
+object MusicQueue {
     val currentAudio = MutableLiveData<Audio>()
     var audioQueue = mutableListOf<Audio>()
 

@@ -1,9 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_album_details.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_artist_details.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_charts.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_home.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_information.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_music.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_settings.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_stream.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/dialog_add_audio_to_playlist.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/dialog_audio_fx.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/menu/application_search_refresh.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/menu/application_settings_history.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/menu/application_toolbar_menu.xml" value="0.22447916666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectResources">
+    <xml-schema-version>XMLSchema_1_1</xml-schema-version>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.1" />
+      </ProjectState>
+    </option>
   </component>
 </project>

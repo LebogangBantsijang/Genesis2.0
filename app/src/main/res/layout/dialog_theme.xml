@@ -58,12 +58,6 @@
             android:layout_height="wrap_content"
             android:text="@string/dark" />
 
-        <RadioButton
-            android:id="@+id/followSystemButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/follow_system" />
-
     </RadioGroup>
 
 

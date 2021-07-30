@@ -31,7 +31,7 @@ class InfoAudioFragment : Fragment(){
     private lateinit var audio: Audio
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        audio = requireArguments().getParcelable(Keys.SONG_KEY)!!
+        audio = requireArguments().getParcelable(Keys.MUSIC_KEY)!!
         return viewBinding.root
     }
 

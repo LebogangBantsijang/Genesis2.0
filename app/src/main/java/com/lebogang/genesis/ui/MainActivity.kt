@@ -18,6 +18,8 @@ package com.lebogang.genesis.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.support.v4.media.session.MediaSessionCompat
+import android.view.View
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -27,9 +29,11 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.lebogang.genesis.R
+import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.ActivityMainBinding
 import com.lebogang.genesis.servicehelpers.OnStateChangedListener
 import com.lebogang.genesis.service.ManageServiceConnection
+import com.lebogang.genesis.service.MusicQueue
 import com.lebogang.genesis.service.MusicService
 import com.lebogang.genesis.settings.PlayerBackgroundType
 import com.lebogang.genesis.ui.helpers.ThemeHelper
@@ -59,20 +63,35 @@ class MainActivity : ThemeHelper() {
         setSupportActionBar(viewBinding.toolbar)
         val navHost = supportFragmentManager.findFragmentById(R.id.navFragmentContainer) as NavHostFragment
         val controller = navHost.navController
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.songsFragment,R.id.albumsFragment
-                ,R.id.artistFragment,R.id.playlistFragment), viewBinding.drawerLayout)
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment), viewBinding.drawerLayout)
         setupActionBarWithNavController(controller,appBarConfiguration)
         viewBinding.navigationView.setupWithNavController(controller)
+        controller.addOnDestinationChangedListener { _, _, _ ->
+            showLauncher()
+        }
+    }
+
+    fun showLauncher(){
+        val navHost = supportFragmentManager.findFragmentById(R.id.navFragmentContainer) as NavHostFragment
+        val controller = navHost.navController
+        val destination = controller.currentDestination?.id
+        if (destination == R.id.songsFragment || destination == R.id.viewAlbumFragment
+                || destination == R.id.viewArtistFragment || destination == R.id.viewPlaylistFragment){
+            if (MusicQueue.currentAudio.value != null && MusicQueue.audioQueue.isNotEmpty()){
+                viewBinding.launcherView.getRoot().visibility = View.VISIBLE
+            }
+        }else
+            viewBinding.launcherView.getRoot().visibility = View.GONE
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val controller = findNavController(R.id.navFragmentContainer)
-        return controller.navigateUp(appBarConfiguration) || player.isSheetShowing() ||super.onSupportNavigateUp()
+        return controller.navigateUp() or super.onSupportNavigateUp()
     }
 
     override fun onBackPressed() {
         val controller = findNavController(R.id.navFragmentContainer)
-        if (!controller.navigateUp() && !player.isSheetShowing())
+        if (!player.isSheetShowing() && !controller.navigateUp())
             moveTaskToBack(true)
     }
 
@@ -95,6 +114,15 @@ class MainActivity : ThemeHelper() {
 
     override fun getMusicService(): MusicService? {
         return musicService
+    }
+
+    fun playAudio(audio: Audio, audioQueue:MutableList<Audio>?){
+        audioQueue?.let { MusicQueue.audioQueue = it }
+        musicService?.play(audio)
+    }
+
+    fun openMenu(){
+        viewBinding.drawerLayout.open()
     }
 
     private fun initAds(){

@@ -51,9 +51,6 @@ class ThemeDialog: DialogFragment() {
                 R.id.darkButton ->{
                     themeSettings.setThemeMode(AppCompatDelegate.MODE_NIGHT_YES)
                 }
-                R.id.followSystemButton->{
-                    themeSettings.setThemeMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                }
             }
             requireActivity().recreate()
             dismiss()

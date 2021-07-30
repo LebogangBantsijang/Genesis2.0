@@ -43,7 +43,7 @@ class AudioOptionsDialog :BottomSheetDialogFragment(){
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        audio = requireArguments().getParcelable(Keys.SONG_KEY)!!
+        audio = requireArguments().getParcelable(Keys.MUSIC_KEY)!!
         return viewBinding.root
     }
 
@@ -64,7 +64,7 @@ class AudioOptionsDialog :BottomSheetDialogFragment(){
 
     private fun initOnClicks(){
         viewBinding.addToListView.setOnClickListener {
-            val bundle = Bundle().apply { putParcelable(Keys.SONG_KEY, audio) }
+            val bundle = Bundle().apply { putParcelable(Keys.MUSIC_KEY, audio) }
             val controller = findNavController()
             controller.navigate(R.id.selectPlaylistDialog, bundle)
         }
@@ -82,7 +82,7 @@ class AudioOptionsDialog :BottomSheetDialogFragment(){
         }
         if(requireArguments().getBoolean(Keys.ENABLE_UPDATE_KEY))
             viewBinding.editView.setOnClickListener {
-                val bundle = Bundle().apply { putParcelable(Keys.SONG_KEY, audio) }
+                val bundle = Bundle().apply { putParcelable(Keys.MUSIC_KEY, audio) }
                 val controller = findNavController()
                 controller.navigate(R.id.editAudioFragment, bundle)
             }
@@ -90,7 +90,7 @@ class AudioOptionsDialog :BottomSheetDialogFragment(){
             viewBinding.editView.visibility = View.GONE
 
         viewBinding.infoView.setOnClickListener {
-            val bundle = Bundle().apply { putParcelable(Keys.SONG_KEY, audio) }
+            val bundle = Bundle().apply { putParcelable(Keys.MUSIC_KEY, audio) }
             val controller = findNavController()
             controller.navigate(R.id.infoAudioFragment, bundle)
         }

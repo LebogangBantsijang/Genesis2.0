@@ -20,11 +20,16 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lebogang.genesis.GenesisApplication
+import com.lebogang.genesis.ui.local.viewmodel.MusicViewModel
 import java.lang.IllegalArgumentException
 
 class ViewModelFactory(private val application:Application): ViewModelProvider.Factory {
-    private val genesisApplication = application as GenesisApplication
+    private val gensysApp = application as GenesisApplication
 
+    //new
+    fun getMusicViewModel(): MusicViewModel = create(MusicViewModel::class.java)
+
+    //old
     fun getStatisticsViewModel():StatisticsViewModel{
         return create(StatisticsViewModel::class.java)
     }
@@ -53,17 +58,20 @@ class ViewModelFactory(private val application:Application): ViewModelProvider.F
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(StatisticsViewModel::class.java) ->
-                StatisticsViewModel(genesisApplication.statisticsRepo) as T
+                StatisticsViewModel(gensysApp.statisticsRepo) as T
             modelClass.isAssignableFrom(PlaylistViewModel::class.java) ->
-                PlaylistViewModel(genesisApplication.playlistRepo) as T
+                PlaylistViewModel(gensysApp.playlistRepo) as T
             modelClass.isAssignableFrom(AudioViewModel::class.java) ->
-                AudioViewModel(genesisApplication.audioRepo) as T
+                AudioViewModel(gensysApp.audioRepo) as T
             modelClass.isAssignableFrom(ArtistViewModel::class.java) ->
-                ArtistViewModel(genesisApplication.artistRepo) as T
+                ArtistViewModel(gensysApp.artistRepo) as T
             modelClass.isAssignableFrom(AlbumViewModel::class.java) ->
-                AlbumViewModel(genesisApplication.albumRepo) as T
+                AlbumViewModel(gensysApp.albumRepo) as T
             modelClass.isAssignableFrom(DeezerViewModel::class.java) ->
-                DeezerViewModel(genesisApplication.deezerRepo) as T
+                DeezerViewModel(gensysApp.deezerRepo) as T
+            //new
+            modelClass.isAssignableFrom(MusicViewModel::class.java) ->
+                MusicViewModel(gensysApp.musicRepository) as T
             else -> throw IllegalArgumentException()
         }
     }

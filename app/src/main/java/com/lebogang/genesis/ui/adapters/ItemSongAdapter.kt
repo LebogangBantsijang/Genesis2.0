@@ -26,6 +26,7 @@ import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.ItemLocalSongBinding
 import com.lebogang.genesis.ui.adapters.utils.AdapterInterface
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.genesis.ui.helpers.ThemeHelper
 import com.lebogang.genesis.utils.GlideManager
 
 class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filterable, AdapterInterface {
@@ -34,8 +35,6 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filter
     private val filteredList = mutableListOf<Audio>()
     var audioId:Long = -1
     private var isUserSearching = false
-    private var previousSelection = -2
-    private var currentSelection = -1;
 
     override fun setAudioData(mutableList: MutableList<Audio>){
         isUserSearching = false
@@ -56,6 +55,15 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filter
         return listAudio
     }
 
+    fun nowPlayingIndex(audioId: Long):Int{
+        listAudio.forEach {
+            if (it.id == audioId){
+                return listAudio.indexOf(it)
+            }
+        }
+        return 0
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val viewBinding = ItemLocalSongBinding.inflate(inflater, parent, false)
@@ -74,13 +82,14 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filter
 
     private fun updateNowPlaying(holder: ViewHolder, audio: Audio){
         if (audio.id == audioId){
-            if(currentSelection < 0){
-                currentSelection = holder.adapterPosition
-            }
             holder.viewBinding.lottieView.visibility = View.VISIBLE
+            holder.viewBinding.titleView.setTextColor(ThemeHelper.PRIMARY_COLOR)
+            holder.viewBinding.subtitleView.setTextColor(ThemeHelper.PRIMARY_COLOR)
         }
         else{
             holder.viewBinding.lottieView.visibility = View.GONE
+            holder.viewBinding.titleView.setTextColor(ThemeHelper.PRIMARY_TEXTCOLOR)
+            holder.viewBinding.subtitleView.setTextColor(ThemeHelper.SECONDARY_TEXTCOLOR)
         }
     }
 
@@ -94,8 +103,6 @@ class ItemSongAdapter:RecyclerView.Adapter<ItemSongAdapter.ViewHolder>(), Filter
         :RecyclerView.ViewHolder(viewBinding.root){
         init {
             viewBinding.root.setOnClickListener {
-                previousSelection = currentSelection
-                currentSelection = adapterPosition
                 listener?.onAudioClick(getItem())
             }
             viewBinding.optionsView.setOnClickListener {

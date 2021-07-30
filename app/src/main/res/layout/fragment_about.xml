@@ -44,40 +44,19 @@
         android:layout_gravity="center_horizontal"
         android:contentDescription="@string/genesis"
         android:layout_marginTop="16dp"
-        app:srcCompat="@mipmap/ic_launcher_foreground" />
+        app:srcCompat="@raw/logo_round" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
         android:text="@string/lebogang_bantsijang" />
 
-    <!--<com.google.android.material.button.MaterialButton
-        android:id="@+id/updateView"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="24dp"
-        app:cornerRadius="12dp"
-        android:text="@string/update" />
-
-    <TextView
-        android:id="@+id/privacyView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="12dp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        android:text="@string/privacy_policy" />
-
-    <TextView
-        android:id="@+id/eualView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="12dp"
-        android:layout_marginTop="8dp"
-        android:textStyle="bold"
-        android:text="@string/end_user_agreement" />-->
+        android:text="@string/email"/>
 </LinearLayout>

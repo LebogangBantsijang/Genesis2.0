@@ -45,7 +45,6 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener, MediaPl
     private var playbackState = PlaybackState.NONE
     private var repeatSate = RepeatSate.REPEAT_NONE
     private val foreGroundId = 546
-    private val musicQueue :MusicQueue by lazy {(application as GenesisApplication).musicQueue}
 
     override fun onBind(intent: Intent): IBinder {
         return binder
@@ -84,7 +83,7 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener, MediaPl
     }
 
      fun play(audio: Audio) {
-        musicQueue.currentAudio.value = audio
+        MusicQueue.currentAudio.value = audio
         //handle focus and media player
         managePlayers.play(audio)
         //player callbacks
@@ -115,7 +114,7 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener, MediaPl
         //player callbacks & notifications
         playbackState = PlaybackState.PAUSED
         hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
-        startForeground(foreGroundId, managePlayers.createNotification(musicQueue.currentAudio.value!!, playbackState))
+        startForeground(foreGroundId, managePlayers.createNotification(MusicQueue.currentAudio.value!!, playbackState))
     }
 
      fun play() {
@@ -124,7 +123,7 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener, MediaPl
         //player callbacks & notifications
         playbackState = PlaybackState.PLAYING
         hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
-        startForeground(foreGroundId, managePlayers.createNotification(musicQueue.currentAudio.value!!, playbackState))
+        startForeground(foreGroundId, managePlayers.createNotification(MusicQueue.currentAudio.value!!, playbackState))
     }
 
      fun stop() {
@@ -161,11 +160,11 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener, MediaPl
 
     private fun handleSkipping(isSkippingNext:Boolean){
         if (repeatSate == RepeatSate.SHUFFLE_ALL){
-            play(musicQueue.getRandomAudio())
+            play(MusicQueue.getRandomAudio())
             return
         }
-        if (isSkippingNext) play(musicQueue.getNext())
-        else play(musicQueue.getPrevious())
+        if (isSkippingNext) play(MusicQueue.getNext())
+        else play(MusicQueue.getPrevious())
     }
 
      fun seekTo(position: Int) {
@@ -233,10 +232,10 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener, MediaPl
         playbackState = PlaybackState.COMPLETE
         hashMap.forEach { it.value.onPlaybackChanged(playbackState) }
         when(repeatSate){
-            RepeatSate.REPEAT_ONE -> play(musicQueue.currentAudio.value!!)
-            RepeatSate.REPEAT_ALL -> play(musicQueue.getNext())
+            RepeatSate.REPEAT_ONE -> play(MusicQueue.currentAudio.value!!)
+            RepeatSate.REPEAT_ALL -> play(MusicQueue.getNext())
             RepeatSate.REPEAT_NONE -> { pause() }
-            RepeatSate.SHUFFLE_ALL -> play(musicQueue.getRandomAudio())
+            RepeatSate.SHUFFLE_ALL -> play(MusicQueue.getRandomAudio())
         }
     }
 }

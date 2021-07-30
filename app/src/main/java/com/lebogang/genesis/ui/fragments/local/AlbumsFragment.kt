@@ -16,9 +16,12 @@
 
 package com.lebogang.genesis.ui.fragments.local
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -28,7 +31,6 @@ import com.lebogang.genesis.databinding.FragmentAlbumsBinding
 import com.lebogang.genesis.settings.ThemeSettings
 import com.lebogang.genesis.ui.adapters.ItemAlbumAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnAlbumClickListener
-import com.lebogang.genesis.ui.helpers.QueryHelper
 import com.lebogang.genesis.utils.Keys
 import com.lebogang.genesis.viewmodels.AlbumViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
@@ -53,7 +55,19 @@ class AlbumsFragment: Fragment(), OnAlbumClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclingView()
-        populateView()
+        initSearchView()
+        requestPermission()
+    }
+
+    /**
+     * Seeing that this is the home fragment, check if write permissions are granted
+     * */
+    private fun requestPermission(){
+        if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED){
+            populateView()
+        }else
+            requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 25)
     }
 
     private fun initRecyclingView(){
@@ -77,13 +91,6 @@ class AlbumsFragment: Fragment(), OnAlbumClickListener {
      * */
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.column_view_menu, menu)
-        val searchView = menu.findItem(R.id.app_bar_search).actionView as SearchView
-        searchView.setOnQueryTextListener(object :QueryHelper(){
-            override fun onQuery(query: String): Boolean {
-                adapter.filter.filter(query)
-                return true
-            }
-        })
     }
 
     /**
@@ -101,7 +108,32 @@ class AlbumsFragment: Fragment(), OnAlbumClickListener {
                 (viewBinding.recyclerView.layoutManager as StaggeredGridLayoutManager).spanCount = 3
                 true
             }
+            R.id.search -> {
+                showHideSearchView(true)
+                true
+            }
             else ->super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showHideSearchView(show:Boolean){
+        if (show){
+            viewBinding.searchContainerView.visibility = View.VISIBLE
+            viewBinding.searchContainerView.animate().alpha(1f).setDuration(1500)
+                .withEndAction { viewBinding.searchView.requestFocus() }.start()
+        }else{
+            viewBinding.searchContainerView.animate().alpha(0f).setDuration(1000)
+                .withEndAction {
+                    viewBinding.recyclerView.requestFocus()
+                    viewBinding.searchContainerView.visibility = View.GONE
+                }.start()
+        }
+    }
+
+    private fun initSearchView(){
+        viewBinding.closeSearchView.setOnClickListener { showHideSearchView(false) }
+        viewBinding.searchView.addTextChangedListener {
+            adapter.filter.filter(it.toString())
         }
     }
 

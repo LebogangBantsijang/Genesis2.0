@@ -18,13 +18,26 @@
 <resources>
     <color name="white">#FFFFFFFF</color>
     <color name="primaryColor">#FB8C00</color>
-    <color name="primaryComplimentaryColor">#835F28</color>
-    <color name="primaryOpposite">#6A1B9A</color>
-    <color name="primaryTextColorLight">#DD000000</color>
+    <color name="primaryColor_light">#60FB8C00</color>
+    <color name="blue">#039BE5</color>
+    <color name="red">#DD0904</color>
+    <color name="green">#03C30B</color>
+    <color name="yellow">#F1C900</color>
+    <color name="brown">#D37A35</color>
+    <color name="blue_light">#4DD0E1</color>
+    <color name="red_light">#FF8A65</color>
+    <color name="green_light">#AED581</color>
+    <color name="gray_light">#959595</color>
+    <color name="orange_light">#FFB74D</color>
+    <color name="purple_light">#BA68C8</color>
+    <color name="primaryTextColorLight">#89000000</color>
     <color name="primaryTextColorDark">#FFFFFF</color>
     <color name="secondaryTextColorLight">#89000000</color>
     <color name="secondaryTextColorDark">#B2FFFFFF</color>
     <color name="secondaryTextColorLightNoDisable">#BEBEBE</color>
-    <color name="secondaryTextColorDarkNoDisable">#BEBEBE</color>
-    <color name="darkBackground">#222222</color>
+    <color name="darkBackground">#2C2C2C</color>
+    <color name="darkColor2">#12222B</color>
+    <color name="darkColor3">#232C3E</color>
+    <color name="logoColor">#222222</color>
+    <color name="drawable_color">#BCBCBC</color>
 </resources>

@@ -1,0 +1,21 @@
+<!--
+  ~ Copyright (c) 2021. - Lebogang Bantsijang
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<vector android:height="24dp" android:viewportHeight="50"
+    android:tint="?colorControlNormal"
+    android:viewportWidth="50" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#424242" android:pathData="M5,4C3.3544,4 2,5.3555 2,7L2,16L2,26L2,43C2,44.6445 3.3544,46 5,46L45,46C46.6451,46 48,44.6451 48,43L48,26L48,16L48,11C48,9.3549 46.6451,8 45,8L18,8C18.0866,8 17.969,8.0004 17.7246,7.7188C17.4802,7.4371 17.1794,6.9699 16.8652,6.4688C16.5511,5.9676 16.2218,5.4328 15.8066,4.9629C15.3915,4.493 14.8188,4 14,4L5,4zM5,6L14,6C13.9392,6 14.0611,6.007 14.3086,6.2871C14.5561,6.5672 14.8572,7.0324 15.1699,7.5313C15.4826,8.0301 15.8064,8.5629 16.2129,9.0313C16.6194,9.4996 17.1789,10 18,10L45,10C45.5629,10 46,10.4371 46,11L46,13.1875C45.6851,13.0739 45.3518,13 45,13L5,13C4.6482,13 4.3149,13.0739 4,13.1875L4,7C4,6.4365 4.4356,6 5,6zM5,15L45,15C45.565,15 46,15.435 46,16L46,26L46,43C46,43.5629 45.5629,44 45,44L5,44C4.4356,44 4,43.5635 4,43L4,26L4,16C4,15.435 4.435,15 5,15zM25,20C19.5,20 15,24.5 15,30C15,35.5 19.5,40 25,40C30.5,40 35,35.5 35,30C35,24.5 30.5,20 25,20zM25,22C29.4,22 33,25.6 33,30C33,34.4 29.4,38 25,38C20.6,38 17,34.4 17,30C17,25.6 20.6,22 25,22zM25,24C24.448,24 24,24.448 24,25L24,29L20,29C19.448,29 19,29.448 19,30C19,30.552 19.448,31 20,31L24,31L24,35C24,35.552 24.448,36 25,36C25.552,36 26,35.552 26,35L26,31L30,31C30.552,31 31,30.552 31,30C31,29.448 30.552,29 30,29L26,29L26,25C26,24.448 25.552,24 25,24z"/>
+</vector>

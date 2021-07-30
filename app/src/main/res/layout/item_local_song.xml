@@ -28,17 +28,19 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="48dp"
         android:layout_height="48dp"
-        app:cardCornerRadius="8dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="6dp">
+        app:cardBackgroundColor="#00000000"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/ic_custom_song"
-            android:contentDescription="@string/album_art"/>
+            android:contentDescription="@string/album_art"
+            app:srcCompat="@drawable/ic_custom_song" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottieView"
@@ -46,11 +48,11 @@
             android:layout_height="match_parent"
             android:background="#7A000000"
             android:visibility="gone"
-            app:lottie_loop="true"
             app:lottie_autoPlay="true"
+            app:lottie_colorFilter="?colorPrimary"
+            app:lottie_loop="true"
             app:lottie_rawRes="@raw/equalizer"
-            app:lottie_repeatMode="restart"
-            app:lottie_colorFilter="?colorPrimary"/>
+            app:lottie_repeatMode="restart" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -65,10 +67,10 @@
             android:id="@+id/titleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:maxLines="1"
             android:ellipsize="end"
-            />
+            android:maxLines="1"
+            android:textColor="@android:color/secondary_text_dark"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/subtitleView"
@@ -98,6 +100,6 @@
         android:layout_marginEnd="8dp"
         android:padding="8dp"
         app:srcCompat="@drawable/ic_menu_vertical"
-        android:tint="?colorControlNormal"
+        app:tint="?colorControlNormal"
         android:contentDescription="@string/more" />
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -20,7 +20,7 @@
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?colorButtonNormal"
+    android:background="?colorSurface"
     app:behavior_skipCollapsed="true"
     app:behavior_hideable="true"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -40,6 +40,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_album_image_overlay" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/shapes_background"
+        app:lottie_repeatMode="restart" />
 
 
     <LinearLayout
@@ -124,7 +139,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <TextView
         android:id="@+id/timerView"
         android:layout_width="wrap_content"
@@ -193,7 +207,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/share"
-            android:tint="?attr/colorControlNormal"
+            app:tint="?attr/colorControlNormal"
             app:srcCompat="@drawable/ic_connect_small" />
 
         <ImageButton
@@ -203,7 +217,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/gif"
-            android:tint="?attr/colorControlNormal"
+            app:tint="?colorControlNormal"
             app:srcCompat="@drawable/ic_gif" />
     </LinearLayout>
 
@@ -214,7 +228,7 @@
         android:background="@null"
         android:contentDescription="@string/skip_prev"
         android:padding="8dp"
-        android:tint="?colorPrimary"
+        app:tint="?colorPrimary"
         android:src="@drawable/ic_skip_to_previous"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -231,7 +245,7 @@
         android:padding="16dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_play"
-        android:tint="?colorControlNormal"
+        app:tint="?colorControlNormal"
         app:layout_constraintBottom_toTopOf="@id/textView9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -243,7 +257,7 @@
         android:background="@null"
         android:contentDescription="@string/skip_next"
         android:padding="8dp"
-        android:tint="?colorPrimary"
+        app:tint="?colorPrimary"
         android:src="@drawable/ic_skip_to_next"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"

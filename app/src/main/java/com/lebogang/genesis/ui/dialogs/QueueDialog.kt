@@ -35,8 +35,6 @@ import com.lebogang.genesis.ui.helpers.CommonActivity
 class QueueDialog: DialogFragment(), OnAudioClickListener {
     private val viewBinding:DialogQueueBinding by lazy { DialogQueueBinding.inflate(layoutInflater) }
     private val adapter = ItemQueueSongAdapter().apply { listener = this@QueueDialog }
-    private val musicService:MusicService? by lazy {(requireActivity() as CommonActivity).getMusicService()}
-    private val musicQueue : MusicQueue by lazy {(requireActivity().application as GenesisApplication).musicQueue}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?
                               , savedInstanceState: Bundle?): View {
@@ -52,21 +50,21 @@ class QueueDialog: DialogFragment(), OnAudioClickListener {
         viewBinding.cancelView.setOnClickListener { dismiss() }
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
         viewBinding.recyclerView.adapter = adapter
-        adapter.setAudioData(musicQueue.audioQueue)
-        viewBinding.counterView.text = musicQueue.audioQueue.size.toString()
-        musicQueue.currentAudio.observe(viewLifecycleOwner,{
+        adapter.setAudioData(MusicQueue.audioQueue)
+        viewBinding.counterView.text = MusicQueue.audioQueue.size.toString()
+        MusicQueue.currentAudio.observe(viewLifecycleOwner,{
             adapter.setNowPlaying(it.id)
             viewBinding.recyclerView.scrollToPosition(adapter.getNowPlayingIndex())
         })
     }
 
     override fun onAudioClick(audio: Audio) {
-        musicService?.play(audio)
+        (requireActivity() as MainActivity).playAudio(audio, null)
     }
 
     override fun onAudioClickOptions(audio: Audio) {
-        musicQueue.removeAudio(audio)
-        adapter.setAudioData(musicQueue.audioQueue)
-        viewBinding.counterView.text = musicQueue.audioQueue.size.toString()
+        MusicQueue.removeAudio(audio)
+        adapter.setAudioData(MusicQueue.audioQueue)
+        viewBinding.counterView.text = MusicQueue.audioQueue.size.toString()
     }
 }

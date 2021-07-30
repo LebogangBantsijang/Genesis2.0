@@ -24,13 +24,12 @@ import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.ItemLocalAlbumArtistSongBinding
 import com.lebogang.genesis.ui.adapters.utils.AdapterInterface
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.genesis.ui.helpers.ThemeHelper
 
 class ItemAlbumArtistSongAdapter :RecyclerView.Adapter<ItemAlbumArtistSongAdapter.ViewHolder>(), AdapterInterface{
     var listener: OnAudioClickListener? = null
     var listAudio = mutableListOf<Audio>()
     var audioId:Long = -3
-    private var previousSelection = -2
-    private var currentSelection = -1;
 
     override fun setAudioData(mutableList: MutableList<Audio>){
         listAudio = mutableList
@@ -40,6 +39,15 @@ class ItemAlbumArtistSongAdapter :RecyclerView.Adapter<ItemAlbumArtistSongAdapte
     override fun setNowPlaying(audioId:Long){
         this.audioId = audioId
         notifyDataSetChanged()
+    }
+
+    fun nowPlayingIndex(audioId: Long):Int{
+        listAudio.forEach {
+            if (it.id == audioId){
+                return listAudio.indexOf(it)
+            }
+        }
+        return 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -61,13 +69,15 @@ class ItemAlbumArtistSongAdapter :RecyclerView.Adapter<ItemAlbumArtistSongAdapte
 
     private fun updateNowPlaying(holder: ViewHolder, audio: Audio){
         if (audio.id == audioId) {
-            if(currentSelection < 0){
-                currentSelection = holder.adapterPosition
-            }
             holder.viewBinding.lottieView.visibility = View.VISIBLE
+            holder.viewBinding.titleView.setTextColor(ThemeHelper.PRIMARY_COLOR)
+            holder.viewBinding.subtitleView.setTextColor(ThemeHelper.PRIMARY_COLOR)
         }
-        else
+        else{
             holder.viewBinding.lottieView.visibility = View.GONE
+            holder.viewBinding.titleView.setTextColor(ThemeHelper.PRIMARY_TEXTCOLOR)
+            holder.viewBinding.subtitleView.setTextColor(ThemeHelper.SECONDARY_TEXTCOLOR)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -78,8 +88,6 @@ class ItemAlbumArtistSongAdapter :RecyclerView.Adapter<ItemAlbumArtistSongAdapte
         :RecyclerView.ViewHolder(viewBinding.root){
         init {
             viewBinding.root.setOnClickListener {
-                previousSelection = currentSelection
-                currentSelection = adapterPosition
                 listener?.onAudioClick(listAudio[adapterPosition]) }
             viewBinding.optionsView.setOnClickListener {
                 listener?.onAudioClickOptions(listAudio[adapterPosition]) }

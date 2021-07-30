@@ -26,9 +26,9 @@ import androidx.core.view.GestureDetectorCompat
 import androidx.navigation.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.R
 import com.lebogang.genesis.databinding.ActivityMainBinding
+import com.lebogang.genesis.service.MusicQueue
 import com.lebogang.genesis.service.MusicService
 import com.lebogang.genesis.servicehelpers.OnStateChangedListener
 import com.lebogang.genesis.servicehelpers.PlaybackState
@@ -42,10 +42,9 @@ import com.lebogang.genesis.utils.SeekBarThreader
 import com.lebogang.genesis.utils.GlideManager
 
 @SuppressLint("ClickableViewAccessibility")
-class Player(private val activity: CommonActivity, private val viewBinding: ActivityMainBinding): BottomSheetHelper()
+class Player(private val activity: MainActivity, private val viewBinding: ActivityMainBinding): BottomSheetHelper()
         , OnStateChangedListener{
     private val playerSettings = PlayerSettings(activity)
-    private val musicQueue = (activity.application as GenesisApplication).musicQueue
     var musicService: MusicService? = null
     lateinit var seekBarThreader:SeekBarThreader
     private val bottomSheet = BottomSheetBehavior.from(viewBinding.player.bottomSheet).apply {
@@ -56,13 +55,15 @@ class Player(private val activity: CommonActivity, private val viewBinding: Acti
         override fun onDoubleTap(e: MotionEvent?): Boolean {
             musicService?.togglePlayPause()
             return true
-        } })
+        }
+
+    })
 
     init {
         initOnClicks()
-        musicQueue.currentAudio.observe(activity, {
+        MusicQueue.currentAudio.observe(activity, {
             //launcher
-            showLauncher(viewBinding.launcherView.root)
+            activity.showLauncher()
             viewBinding.launcherView.titleView.text = it.title
             viewBinding.launcherView.subtitleView.text = it.artist
             viewBinding.launcherView.progressBar.max = it.duration.toInt()
@@ -78,13 +79,6 @@ class Player(private val activity: CommonActivity, private val viewBinding: Acti
         })
         if (playerSettings.getBackgroundType() == PlayerBackgroundType.GIF)
             loadGif()
-    }
-
-    private fun showLauncher(v:View){
-        if (musicQueue.currentAudio.value != null && musicQueue.audioQueue.isNotEmpty()){
-            if (v.visibility == View.GONE)
-                v.visibility = View.VISIBLE
-        }
     }
 
     private fun initOnClicks(){
@@ -117,7 +111,7 @@ class Player(private val activity: CommonActivity, private val viewBinding: Acti
                 action = Intent.ACTION_SEND
                 type = "audio/*"
             }
-            musicQueue.currentAudio.value?.let {
+            MusicQueue.currentAudio.value?.let {
                 intent.putExtra(Intent.EXTRA_STREAM, it.getUri())
                 activity.startActivity(Intent.createChooser(intent,"Share from Genesis"))
             }
@@ -135,7 +129,7 @@ class Player(private val activity: CommonActivity, private val viewBinding: Acti
     }
 
     fun changeBackground(){
-        val uri = musicQueue.currentAudio.value?.getArtUri()
+        val uri = MusicQueue.currentAudio.value?.getArtUri()
         uri?.let {
             when(playerSettings.getBackgroundType()){
                 PlayerBackgroundType.NONE -> viewBinding.player.artView.setImageBitmap(null)

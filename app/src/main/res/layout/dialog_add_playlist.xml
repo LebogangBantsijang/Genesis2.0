@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="24dp"
-        android:drawableStart="@drawable/ic_playlist"
+        android:drawableStart="@drawable/ic_playlist_ios"
         android:drawablePadding="8dp"
         app:drawableTint="?android:textColorSecondaryNoDisable"
         android:gravity="center_vertical"

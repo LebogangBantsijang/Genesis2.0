@@ -37,7 +37,6 @@ import com.lebogang.genesis.ui.adapters.utils.OnDeezerAlbumClickListener
 import com.lebogang.genesis.ui.adapters.utils.OnDeezerArtistClickListener
 import com.lebogang.genesis.ui.adapters.utils.OnDeezerAudioClickListener
 import com.lebogang.genesis.utils.Keys
-import com.lebogang.genesis.utils.Validator
 import com.lebogang.genesis.viewmodels.DeezerViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
@@ -65,16 +64,16 @@ class DeezerSearchFragment: Fragment(), OnDeezerAudioClickListener, OnDeezerArti
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.recyclerView.adapter = adapterTrack
         viewBinding.submitView.setOnClickListener {
-            val query = viewBinding.searchView.text?.toString()
-            if (Validator.isValueValid(query)){
-                query(viewBinding.chipGroupView.checkedChipId, query!!)
+            val query = viewBinding.searchView.text
+            if (!query.isNullOrEmpty()){
+                query(viewBinding.chipGroupView.checkedChipId, query.toString())
             }
         }
         viewBinding.searchView.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH){
-                val query = viewBinding.searchView.text?.toString()
-                if (Validator.isValueValid(query)){
-                    query(viewBinding.chipGroupView.checkedChipId, query!!)
+                val query = viewBinding.searchView.text
+                if (!query.isNullOrEmpty()){
+                    query(viewBinding.chipGroupView.checkedChipId, query.toString())
                 }
                 true
             }else
@@ -100,9 +99,9 @@ class DeezerSearchFragment: Fragment(), OnDeezerAudioClickListener, OnDeezerArti
                     viewBinding.recyclerView.scrollToPosition(0)
                 }
             }
-            val query = viewBinding.searchView.text?.toString()
-            if (Validator.isValueValid(query)){
-                query(viewBinding.chipGroupView.checkedChipId, query!!)
+            val query = viewBinding.searchView.text
+            if (!query.isNullOrEmpty()){
+                query(viewBinding.chipGroupView.checkedChipId, query.toString())
             }
         }
     }

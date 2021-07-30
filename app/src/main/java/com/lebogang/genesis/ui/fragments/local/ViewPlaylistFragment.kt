@@ -17,9 +17,13 @@
 package com.lebogang.genesis.ui.fragments.local
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.*
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Audio
@@ -45,8 +49,6 @@ class ViewPlaylistFragment : Fragment(), OnAudioClickListener {
         .getAudioViewModel()}
     private val adapter = ItemPlaylistSongAdapter().apply { listener = this@ViewPlaylistFragment }
     private lateinit var playlist: Playlist
-    private val musicService: MusicService? by lazy{(requireActivity() as CommonActivity).getMusicService()}
-    private val musicQueue : MusicQueue by lazy {(requireActivity().application as GenesisApplication).musicQueue}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +83,30 @@ class ViewPlaylistFragment : Fragment(), OnAudioClickListener {
     private fun initRecyclerView(){
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.recyclerView.adapter = adapter
+        viewBinding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                when(newState){
+                    RecyclerView.SCROLL_STATE_DRAGGING ->{
+                        MusicQueue.currentAudio.value?.let {
+                            if (viewBinding.targetView.visibility != View.VISIBLE)
+                                viewBinding.targetView.visibility = View.VISIBLE
+                        }
+                    }
+                    RecyclerView.SCROLL_STATE_IDLE ->{
+                        if (viewBinding.targetView.visibility == View.VISIBLE)
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                viewBinding.targetView.visibility = View.GONE
+                            },3000)
+                    }
+                }
+            }
+        })
+        viewBinding.targetView.setOnClickListener {
+            MusicQueue.currentAudio.value?.let {
+                viewBinding.recyclerView.scrollToPosition(adapter.nowPlayingIndex(it.id))
+            }
+        }
     }
 
     private fun populateViews(){
@@ -93,7 +119,7 @@ class ViewPlaylistFragment : Fragment(), OnAudioClickListener {
             adapter.setAudioData(it)
             loadingView(it.isNotEmpty())
         })
-        musicQueue.currentAudio.observe(viewLifecycleOwner,{ adapter.setNowPlaying(it.id) })
+        MusicQueue.currentAudio.observe(viewLifecycleOwner,{ adapter.setNowPlaying(it.id) })
     }
 
     /**
@@ -113,8 +139,7 @@ class ViewPlaylistFragment : Fragment(), OnAudioClickListener {
      * @param audio: audio to play
      * */
     override fun onAudioClick(audio: Audio) {
-        musicQueue.audioQueue = adapter.listAudio
-        musicService?.play(audio)
+        (requireActivity() as MainActivity).playAudio(audio, adapter.listAudio)
     }
 
     /**

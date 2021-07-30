@@ -41,7 +41,7 @@ class StatisticsFragment: Fragment(), OnStatisticClickListener {
     private val adapter = ItemStatsAdapter().apply { listener = this@StatisticsFragment }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         return viewBinding.root
     }
 

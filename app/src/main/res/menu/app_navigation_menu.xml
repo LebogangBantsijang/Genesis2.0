@@ -17,14 +17,30 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/homeFragment"
+        android:title="@string/home"
+        android:icon="@drawable/ic_home"/>
 
     <group android:checkableBehavior="none">
-        <item android:title="@string/online">
+        <item android:title="@string/trending">
             <menu>
                 <item
-                    android:id="@+id/deezerFragment"
-                    android:title="@string/deezer"
-                    android:icon="@drawable/ic_deezer"/>
+                    android:id="@+id/topSongsDeezerFragment"
+                    android:title="@string/top_songs"
+                    android:icon="@drawable/ic_deezer_ios"/>
+                <item
+                    android:id="@+id/topAlbumsDeezerFragment"
+                    android:title="@string/top_albums"
+                    android:icon="@drawable/ic_deezer_ios"/>
+                <item
+                    android:id="@+id/topArtistsDeezerFragment"
+                    android:title="@string/top_artists"
+                    android:icon="@drawable/ic_deezer_ios"/>
+                <item
+                    android:id="@+id/deezerSearchFragment"
+                    android:title="@string/search"
+                    android:icon="@drawable/ic_deezer_ios"/>
             </menu>
         </item>
     </group>
@@ -46,7 +62,7 @@
                     android:title="@string/artists" />
                 <item
                     android:id="@+id/playlistFragment"
-                    android:icon="@drawable/ic_music_library"
+                    android:icon="@drawable/ic_music_library_ios"
                     android:title="@string/playlists" />
             </menu>
         </item>
@@ -58,7 +74,7 @@
             <menu>
 
                 <item android:id="@+id/statisticsFragment"
-                    android:icon="@drawable/ic_music_time"
+                    android:icon="@drawable/ic_music_time_ios"
                     android:title="@string/statistics" />
 
                 <item

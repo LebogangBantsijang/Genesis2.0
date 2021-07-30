@@ -23,17 +23,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Artist
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.FragmentArtistViewBinding
 import com.lebogang.genesis.service.MusicQueue
-import com.lebogang.genesis.service.MusicService
 import com.lebogang.genesis.ui.MainActivity
 import com.lebogang.genesis.ui.adapters.ItemAlbumArtistSongAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
-import com.lebogang.genesis.ui.helpers.CommonActivity
 import com.lebogang.genesis.utils.Keys
 import com.lebogang.genesis.utils.GlideManager
 import com.lebogang.genesis.viewmodels.AudioViewModel
@@ -46,8 +43,6 @@ class ViewArtistFragment: Fragment(), OnAudioClickListener {
             .getAudioViewModel()}
     private val adapter = ItemAlbumArtistSongAdapter().apply { listener = this@ViewArtistFragment }
     private lateinit var artist: Artist
-    private val musicService: MusicService? by lazy{(requireActivity() as CommonActivity).getMusicService()}
-    private val musicQueue : MusicQueue by lazy {(requireActivity().application as GenesisApplication).musicQueue}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         artist = requireArguments().getParcelable(Keys.ARTIST_KEY)!!
@@ -75,7 +70,7 @@ class ViewArtistFragment: Fragment(), OnAudioClickListener {
             viewBinding.subtitleView.text = list.size.toString()
             loadingView(list.isNotEmpty())
         })
-        musicQueue.currentAudio.observe(viewLifecycleOwner,{ adapter.setNowPlaying(it.id) })
+        MusicQueue.currentAudio.observe(viewLifecycleOwner,{ adapter.setNowPlaying(it.id) })
     }
 
     /**
@@ -107,8 +102,7 @@ class ViewArtistFragment: Fragment(), OnAudioClickListener {
      * @param audio: audio to play
      * */
     override fun onAudioClick(audio: Audio) {
-        musicQueue.audioQueue = adapter.listAudio
-        musicService?.play(audio)
+        (requireActivity() as MainActivity).playAudio(audio, adapter.listAudio)
     }
 
     /**
@@ -117,7 +111,7 @@ class ViewArtistFragment: Fragment(), OnAudioClickListener {
      * */
     override fun onAudioClickOptions(audio: Audio) {
         val bundle = Bundle().apply{
-            putParcelable(Keys.SONG_KEY, audio)
+            putParcelable(Keys.MUSIC_KEY, audio)
             putBoolean(Keys.ENABLE_UPDATE_KEY,false) }
         val controller = findNavController()
         controller.navigate(R.id.audioOptionsDialog, bundle)

@@ -42,4 +42,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/noPlaylistsView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:text="@string/no_playlists" />
+
 </LinearLayout>

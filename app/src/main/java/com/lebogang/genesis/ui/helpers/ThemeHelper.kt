@@ -42,7 +42,7 @@ abstract class ThemeHelper:CommonActivity() {
         PRIMARY_COLOR = getColorById(R.color.primaryColor)
         SECONDARY_TEXTCOLOR_NO_DISABLE = getColorById(R.color.secondaryTextColorLightNoDisable)
         when(themeSettings.getThemeMode()){
-            AppCompatDelegate.MODE_NIGHT_YES->{
+            AppCompatDelegate.MODE_NIGHT_NO->{
                 PRIMARY_TEXTCOLOR = getColorById(R.color.primaryTextColorLight)
                 SECONDARY_TEXTCOLOR = getColorById(R.color.secondaryTextColorLight)
             }

@@ -85,7 +85,6 @@ abstract class ManageNotifications(private val context:Context, listener : Audio
                 .setColorized(true)
             .setLargeIcon(getBitmap(audio.getArtUri()))
             .setShowWhen(false)
-            .setNotificationSilent()
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setPriority(channelImportance)
             .setContentIntent(
