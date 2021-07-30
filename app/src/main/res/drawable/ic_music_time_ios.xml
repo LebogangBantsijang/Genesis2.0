@@ -1,0 +1,21 @@
+<!--
+  ~ Copyright (c) 2021. - Lebogang Bantsijang
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<vector android:height="24dp" android:viewportHeight="50"
+    android:tint="?colorControlNormal"
+    android:viewportWidth="50" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#474747" android:pathData="M25,2C12.318,2 2,12.318 2,25C2,37.682 12.318,48 25,48C25.73,48 26.4511,47.9615 27.1641,47.8945C27.1061,47.6545 27.0609,47.4083 27.0469,47.1523L27.0313,47.0781L27.0352,46.8496C27.0412,46.5206 27.0949,46.2027 27.1699,45.8887C26.4569,45.9617 25.733,46 25,46C13.42,46 4,36.58 4,25C4,13.42 13.42,4 25,4C36.445,4 45.7645,13.2056 45.9805,24.5996L47.9785,24.1563C47.5325,11.8632 37.399,2 25,2zM24.9844,6.9863A1.0001,1.0001 0,0 0,24 8L24,22.1758A3,3 0,0 0,22.2949 26.291L16.293,32.293A1.0001,1.0001 0,1 0,17.707 33.707L23.707,27.707A3,3 0,0 0,25 28A3,3 0,0 0,26 22.1719L26,8A1.0001,1.0001 0,0 0,24.9844 6.9863zM49.0527,26C48.9787,25.9962 48.9028,26.0021 48.8262,26.0156L37.1309,28.6094C36.4769,28.7244 36,29.2921 36,29.9551L36,42.1113C36,42.5683 35.6891,42.9671 35.2461,43.0801L31.8008,43.959L31.5098,44.0293C30.2158,44.4143 29.0632,45.4887 29.0352,46.8887C29.0372,46.8977 29.0391,46.9001 29.0391,46.9121C29.0391,48.5581 30.9806,49.8887 32.7656,49.8887L32.8652,49.8887C35.7002,49.8887 38,47.5909 38,44.7559L38,34.1465L48,31.8887L48,39.1289C48,39.5859 47.6891,39.9847 47.2461,40.0977L43.8008,40.9746L43.5098,41.0449C42.2118,41.4319 41,42.442 41,43.918C41.001,43.923 41.002,43.9217 41.002,43.9277C41.002,45.8967 42.9806,46.9043 44.7656,46.9043L44.8652,46.9043C47.7002,46.9043 50,44.6065 50,41.7715L50,27C50,26.4566 49.5708,26.0265 49.0527,26z"/>
+</vector>

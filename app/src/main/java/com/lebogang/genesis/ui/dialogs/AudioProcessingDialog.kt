@@ -24,14 +24,16 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import com.lebogang.genesis.databinding.DialogAudioFxBinding
-import com.lebogang.genesis.interfaces.AudioFxType
+import com.lebogang.genesis.servicehelpers.AudioFxType
 import com.lebogang.genesis.service.MusicService
 import com.lebogang.genesis.ui.MainActivity
+import com.lebogang.genesis.ui.helpers.CommonActivity
 import com.lebogang.genesis.ui.helpers.SeekBarHelper
+
 
 class AudioProcessingDialog : DialogFragment(){
     private val viewBinding: DialogAudioFxBinding by lazy { DialogAudioFxBinding.inflate(layoutInflater) }
-    private val musicService : MusicService by lazy { (requireActivity() as MainActivity).musicService }
+    private val musicService : MusicService? by lazy {(requireActivity() as CommonActivity).getMusicService() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return viewBinding.root
@@ -46,18 +48,20 @@ class AudioProcessingDialog : DialogFragment(){
 
     @RequiresApi(Build.VERSION_CODES.P)
     private fun initView(){
-        val isEnabled = musicService.isAudioFxEnabled()
-        viewBinding.enable.isChecked = isEnabled
-        if (isEnabled){
-            setLevels()
+        musicService?.let {
+            val isEnabled = it.isAudioFxEnabled()
+            viewBinding.enable.isChecked = isEnabled
+            if (isEnabled){
+                setLevels()
+            }
         }
         viewBinding.enable.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked){
-                musicService.enableAudioFx()
+                musicService?.enableAudioFx()
                 setLevels()
             }
             else{
-                musicService.disableAudioFx()
+                musicService?.disableAudioFx()
                 viewBinding.gain.progress = 0
                 viewBinding.limiter.progress = 0
                 viewBinding.postEq.progress = 0
@@ -67,36 +71,46 @@ class AudioProcessingDialog : DialogFragment(){
         }
         viewBinding.preEq.setOnSeekBarChangeListener(object : SeekBarHelper(){
             override fun progressChanged(progress: Int) {
-                if (musicService.isAudioFxEnabled()){
-                    musicService.setEffectLevel(progress.toFloat(), AudioFxType.PRE_EQ)
+                musicService?.let{
+                    if (it.isAudioFxEnabled()){
+                        it.setEffectLevel(progress.toFloat(), AudioFxType.PRE_EQ)
+                    }
                 }
             }
         })
         viewBinding.compressor.setOnSeekBarChangeListener(object : SeekBarHelper(){
             override fun progressChanged(progress: Int) {
-                if (musicService.isAudioFxEnabled()){
-                    musicService.setEffectLevel(progress.toFloat(), AudioFxType.COMPRESSOR)
+                musicService?.let{
+                    if (it.isAudioFxEnabled()){
+                        it.setEffectLevel(progress.toFloat(), AudioFxType.COMPRESSOR)
+                    }
                 }
             }
         })
         viewBinding.postEq.setOnSeekBarChangeListener(object : SeekBarHelper(){
             override fun progressChanged(progress: Int) {
-                if (musicService.isAudioFxEnabled()){
-                    musicService.setEffectLevel(progress.toFloat(), AudioFxType.POST_EQ)
+                musicService?.let {
+                    if (it.isAudioFxEnabled()){
+                        it.setEffectLevel(progress.toFloat(), AudioFxType.POST_EQ)
+                    }
                 }
             }
         })
         viewBinding.limiter.setOnSeekBarChangeListener(object : SeekBarHelper(){
             override fun progressChanged(progress: Int) {
-                if (musicService.isAudioFxEnabled()){
-                    musicService.setEffectLevel(progress.toFloat(), AudioFxType.LIMITER)
+                musicService?.let{
+                    if (it.isAudioFxEnabled()){
+                        it.setEffectLevel(progress.toFloat(), AudioFxType.LIMITER)
+                    }
                 }
             }
         })
         viewBinding.gain.setOnSeekBarChangeListener(object : SeekBarHelper(){
             override fun progressChanged(progress: Int) {
-                if (musicService.isAudioFxEnabled()){
-                    musicService.setEffectLevel(progress.toFloat(), AudioFxType.MASTER_GAIN)
+                musicService?.let {
+                    if (it.isAudioFxEnabled()){
+                        it.setEffectLevel(progress.toFloat(), AudioFxType.MASTER_GAIN)
+                    }
                 }
             }
         })
@@ -104,10 +118,12 @@ class AudioProcessingDialog : DialogFragment(){
 
     @RequiresApi(Build.VERSION_CODES.P)
     private fun setLevels(){
-        viewBinding.gain.progress = musicService.getEffectLevel(AudioFxType.MASTER_GAIN)
-        viewBinding.limiter.progress = musicService.getEffectLevel(AudioFxType.LIMITER)
-        viewBinding.postEq.progress = musicService.getEffectLevel(AudioFxType.POST_EQ)
-        viewBinding.compressor.progress = musicService.getEffectLevel(AudioFxType.COMPRESSOR)
-        viewBinding.preEq.progress = musicService.getEffectLevel(AudioFxType.PRE_EQ)
+        musicService?.let {
+            viewBinding.gain.progress = it.getEffectLevel(AudioFxType.MASTER_GAIN)
+            viewBinding.limiter.progress = it.getEffectLevel(AudioFxType.LIMITER)
+            viewBinding.postEq.progress = it.getEffectLevel(AudioFxType.POST_EQ)
+            viewBinding.compressor.progress = it.getEffectLevel(AudioFxType.COMPRESSOR)
+            viewBinding.preEq.progress = it.getEffectLevel(AudioFxType.PRE_EQ)
+        }
     }
 }

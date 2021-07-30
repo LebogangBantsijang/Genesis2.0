@@ -21,6 +21,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.lebogang.genesis.R
 import com.lebogang.genesis.databinding.FragmentAboutBinding
 
 class AboutFragment: Fragment(){
@@ -29,4 +31,5 @@ class AboutFragment: Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return viewBinding.root
     }
+
 }

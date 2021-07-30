@@ -19,12 +19,17 @@ package com.lebogang.genesis.utils
 object Keys {
     const val ALBUM_KEY = "ALBUM_KEY"
     const val ARTIST_KEY = "ARTIST_KEY"
-    const val SONG_KEY = "SONG_KEY"
+    const val MUSIC_KEY = "SONG_KEY"
     const val PLAYLIST_KEY = "PLAYLIST_KEY"
+    const val GENRE_KEY = "GENRE_KEY"
     const val STATISTICS_KEY = "STATISTICS_KEY"
     const val ENABLE_UPDATE_KEY = "ENABLE_UPDATE_KEY"
     const val DEEZER_SONG_KEY = "DEEZER_SONG_KEY"
     const val DEEZER_ALBUM_KEY = "DEEZER_ALBUM_KEY"
     const val DEEZER_ARTIST_KEY = "DEEZER_ARTIST_KEY"
-
+    const val ALBUM_ART_URL_KEY = "ALBUM_ART_URL_KEY"
+    const val EMAIL_KEY = "EMAIL_KEY"
+    const val ITEM_KEY = "ITEM_KEY"
+    const val THEME_KEY = "THEME_KEY"
+    const val PREFERENCE_NAME = "PREFERENCE"
 }

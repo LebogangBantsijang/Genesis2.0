@@ -29,8 +29,7 @@ import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.FragmentEditAudioBinding
 import com.lebogang.genesis.utils.Keys
-import com.lebogang.genesis.utils.Validator
-import com.lebogang.genesis.utils.glide.GlideManager
+import com.lebogang.genesis.utils.GlideManager
 import com.lebogang.genesis.viewmodels.AudioViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
@@ -40,33 +39,45 @@ class EditAudioFragment: Fragment() {
     private lateinit var audio: Audio
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        audio = requireArguments().getParcelable(Keys.SONG_KEY)!!
+        audio = requireArguments().getParcelable(Keys.MUSIC_KEY)!!
         return viewBinding.root
     }
 
     @SuppressLint("InlinedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        populateViews()
+        onSaveNewValues()
+    }
+
+    private fun populateViews(){
         GlideManager(this).loadAudioArt(audio.getArtUri(),viewBinding.coverView)
         viewBinding.titleView.setText(audio.title)
         viewBinding.artistView.setText(audio.artist)
         viewBinding.albumView.setText(audio.album)
+    }
+
+    /**
+     * Save the new value to the media store when the save button is clicked
+     * */
+    @SuppressLint("InlinedApi")
+    private fun onSaveNewValues(){
         viewBinding.updateView.setOnClickListener {
-            val title = viewBinding.titleView.text?.toString()
-            val artist = viewBinding.artistView.text?.toString()
-            val album = viewBinding.albumView.text?.toString()
-            if (Validator.isValueValid(title) && Validator.isValueValid(artist) &&
-                    Validator.isValueValid(album)){
-                val values = ContentValues()
-                values.put(MediaStore.Audio.Media.TITLE, title)
-                values.put(MediaStore.Audio.Media.ARTIST, artist)
-                values.put(MediaStore.Audio.Media.ALBUM, album)
+            val title = viewBinding.titleView.text
+            val artist = viewBinding.artistView.text
+            val album = viewBinding.albumView.text
+            if (!title.isNullOrEmpty() and !artist.isNullOrEmpty() and !album.isNullOrEmpty()){
+                val values = ContentValues().apply {
+                    put(MediaStore.Audio.Media.TITLE, title.toString())
+                    put(MediaStore.Audio.Media.ARTIST, artist.toString())
+                    put(MediaStore.Audio.Media.ALBUM, album.toString())
+                }
                 viewModel.updateAudio(audio, values)
-                Snackbar.make(view, getString(R.string.update_successful), Snackbar.LENGTH_SHORT)
-                    .show()
+                Snackbar.make(viewBinding.root, getString(R.string.update_successful), Snackbar.LENGTH_SHORT)
+                        .show()
             }else{
-                Snackbar.make(view, getString(R.string.null_values), Snackbar.LENGTH_SHORT)
-                    .show()
+                Snackbar.make(viewBinding.root, getString(R.string.null_values), Snackbar.LENGTH_SHORT)
+                        .show()
             }
         }
     }

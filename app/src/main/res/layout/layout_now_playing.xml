@@ -21,77 +21,90 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/root"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:visibility="gone"
     android:layout_gravity="bottom"
     android:clickable="true"
     android:focusable="true"
     android:background="?selectableItemBackground">
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_margin="8dp"
-        app:cardCornerRadius="4dp">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/add_cover_image"
-            app:srcCompat="@drawable/ic_custom_song"
-            />
-
-    </com.google.android.material.card.MaterialCardView>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginEnd="8dp"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/titleView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textStyle="bold"
-            android:ellipsize="end"
-            android:layout_marginBottom="4dp"/>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="4dp">
 
-        <TextView
-            android:id="@+id/subtitleView"
-            android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/add_cover_image"
+                app:srcCompat="@drawable/ic_custom_song"
+                />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            android:maxLines="1"
-            android:ellipsize="end"/>
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/subtitleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/playPauseView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="?selectableItemBackground"
+            android:contentDescription="@string/play"
+            android:padding="6dp"
+            android:src="@drawable/ic_play"
+            app:tint="?colorPrimary" />
+
+        <ImageButton
+            android:id="@+id/queueView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="6dp"
+            android:layout_marginEnd="8dp"
+            android:background="?selectableItemBackground"
+            android:contentDescription="@string/play"
+            app:tint="?colorControlNormal"
+            android:src="@drawable/ic_playlist_ios" />
 
     </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/playPauseView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:background="?selectableItemBackground"
-        android:contentDescription="@string/play"
-        android:padding="6dp"
-        android:src="@drawable/ic_play"
-        app:tint="?colorPrimary" />
-
-    <ImageButton
-        android:id="@+id/queueView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:padding="6dp"
-        android:layout_marginEnd="8dp"
-        android:background="?selectableItemBackground"
-        android:contentDescription="@string/play"
-        app:tint="?colorControlNormal"
-        android:src="@drawable/ic_playlist" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

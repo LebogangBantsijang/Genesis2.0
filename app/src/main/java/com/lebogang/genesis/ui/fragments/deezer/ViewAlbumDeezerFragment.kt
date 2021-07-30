@@ -32,7 +32,7 @@ import com.lebogang.genesis.ui.adapters.ItemDeezerAlbumArtistSongAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnDeezerAudioClickListener
 import com.lebogang.genesis.ui.helpers.ThemeHelper
 import com.lebogang.genesis.utils.Keys
-import com.lebogang.genesis.utils.glide.GlideManager
+import com.lebogang.genesis.utils.GlideManager
 import com.lebogang.genesis.viewmodels.DeezerViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
@@ -70,7 +70,10 @@ class ViewAlbumDeezerFragment: Fragment(), OnDeezerAudioClickListener {
 
     override fun onAudioClick(audio: TrackDeezer) {
         val controller = findNavController()
-        val bundle = Bundle().apply { putParcelable(Keys.DEEZER_SONG_KEY, audio) }
+        val bundle = Bundle().apply {
+            putParcelable(Keys.DEEZER_SONG_KEY, audio)
+            putString(Keys.ALBUM_ART_URL_KEY, album.coverMedium)
+        }
         controller.navigate(R.id.dialogDeezerPreview, bundle)
     }
 }

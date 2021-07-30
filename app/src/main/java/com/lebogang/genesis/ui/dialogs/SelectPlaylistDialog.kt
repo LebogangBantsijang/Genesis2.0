@@ -22,7 +22,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.DialogAddAudioToPlaylistBinding
 import com.lebogang.genesis.room.models.Playlist
@@ -43,36 +42,27 @@ class SelectPlaylistDialog:DialogFragment(),OnSelectPlaylistListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?
                               , savedInstanceState: Bundle?): View {
-        audio = requireArguments().getParcelable(Keys.SONG_KEY)!!
+        audio = requireArguments().getParcelable(Keys.MUSIC_KEY)!!
         return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initCancelView()
-        initListView()
-        observeData()
+        initViews()
     }
 
-    private fun initCancelView(){
-        viewBinding.cancelView.setOnClickListener {
-            dismissAllowingStateLoss()
-        }
-    }
-
-    private fun initListView(){
+    private fun initViews(){
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
         viewBinding.recyclerView.adapter = adapter
-    }
-
-    private fun observeData(){
         playlistViewModel.liveData.observe(viewLifecycleOwner, {
             adapter.setData(it)
+            if (it.isEmpty())
+                viewBinding.noPlaylistsView.visibility = View.VISIBLE
         })
     }
 
     override fun onPlaylistClick(playlist: Playlist) {
         playlistViewModel.insertPlaylistAudio(playlist.id, audio.id)
-        dismissAllowingStateLoss()
+        dismiss()
     }
 }

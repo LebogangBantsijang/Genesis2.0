@@ -22,12 +22,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.DialogQueueBinding
-import com.lebogang.genesis.service.Queue
+import com.lebogang.genesis.service.MusicQueue
+import com.lebogang.genesis.service.MusicService
 import com.lebogang.genesis.ui.MainActivity
 import com.lebogang.genesis.ui.adapters.ItemQueueSongAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.genesis.ui.helpers.CommonActivity
 
 class QueueDialog: DialogFragment(), OnAudioClickListener {
     private val viewBinding:DialogQueueBinding by lazy { DialogQueueBinding.inflate(layoutInflater) }
@@ -40,26 +43,28 @@ class QueueDialog: DialogFragment(), OnAudioClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
-        viewBinding.recyclerView.adapter = adapter
-        adapter.setAudioData(Queue.audioQueue)
-        viewBinding.counterView.text = Queue.audioQueue.size.toString()
-        observeAudio()
+        initViews()
     }
 
-    private fun observeAudio(){
-        Queue.currentAudio.observe(viewLifecycleOwner,{
+    private fun initViews(){
+        viewBinding.cancelView.setOnClickListener { dismiss() }
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
+        viewBinding.recyclerView.adapter = adapter
+        adapter.setAudioData(MusicQueue.audioQueue)
+        viewBinding.counterView.text = MusicQueue.audioQueue.size.toString()
+        MusicQueue.currentAudio.observe(viewLifecycleOwner,{
             adapter.setNowPlaying(it.id)
+            viewBinding.recyclerView.scrollToPosition(adapter.getNowPlayingIndex())
         })
     }
 
     override fun onAudioClick(audio: Audio) {
-        (activity as MainActivity).playAudio(audio)
+        (requireActivity() as MainActivity).playAudio(audio, null)
     }
 
     override fun onAudioClickOptions(audio: Audio) {
-        Queue.removeAudio(audio)
-        adapter.setAudioData(Queue.audioQueue)
-        viewBinding.counterView.text = Queue.audioQueue.size.toString()
+        MusicQueue.removeAudio(audio)
+        adapter.setAudioData(MusicQueue.audioQueue)
+        viewBinding.counterView.text = MusicQueue.audioQueue.size.toString()
     }
 }

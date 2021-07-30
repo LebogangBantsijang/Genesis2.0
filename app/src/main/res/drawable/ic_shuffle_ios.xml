@@ -1,0 +1,21 @@
+<!--
+  ~ Copyright (c) 2021. - Lebogang Bantsijang
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<vector android:height="24dp" android:viewportHeight="50"
+    android:tint="?colorPrimary"
+    android:viewportWidth="50" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#424242" android:pathData="M36.7188,5.2813L35.2813,6.7188L38.5625,10L32.5625,10C30.625,10 28.8477,11.1484 28.0313,12.9063L24.3125,20.8438L25.4375,23.2188L29.8438,13.75C30.332,12.6953 31.3984,12 32.5625,12L38.5625,12L35.2813,15.2813L36.7188,16.7188L41.7188,11.7188L42.4063,11L41.7188,10.2813ZM8,10L8,12L14.4375,12C15.6094,12 16.6641,12.6875 17.1563,13.75L28.0313,37.0938C28.8516,38.8555 30.6172,40 32.5625,40L38.5625,40L35.2813,43.2813L36.7188,44.7188L41.7188,39.7188L42.4063,39L41.7188,38.2813L36.7188,33.2813L35.2813,34.7188L38.5625,38L32.5625,38C31.3906,38 30.3359,37.3125 29.8438,36.25L18.9688,12.9063C18.1484,11.1445 16.3828,10 14.4375,10ZM21.5625,26.7813L17.1563,36.25C16.668,37.3047 15.6016,38 14.4375,38L8,38L8,40L14.4375,40C16.375,40 18.1523,38.8516 18.9688,37.0938L22.6875,29.1563Z"/>
+</vector>

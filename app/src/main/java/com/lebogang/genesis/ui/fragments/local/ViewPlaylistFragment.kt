@@ -17,17 +17,24 @@
 package com.lebogang.genesis.ui.fragments.local
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.*
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.FragmentViewPlaylistBinding
 import com.lebogang.genesis.room.models.Playlist
-import com.lebogang.genesis.service.Queue
+import com.lebogang.genesis.service.MusicQueue
+import com.lebogang.genesis.service.MusicService
 import com.lebogang.genesis.ui.MainActivity
 import com.lebogang.genesis.ui.adapters.ItemPlaylistSongAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.genesis.ui.helpers.CommonActivity
 import com.lebogang.genesis.utils.Keys
 import com.lebogang.genesis.viewmodels.AudioViewModel
 import com.lebogang.genesis.viewmodels.PlaylistViewModel
@@ -48,20 +55,6 @@ class ViewPlaylistFragment : Fragment(), OnAudioClickListener {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        playlist = requireArguments().getParcelable(Keys.PLAYLIST_KEY)!!
-        return viewBinding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewBinding.titleView.text = playlist.title
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        viewBinding.recyclerView.adapter = adapter
-        initObservers()
-    }
-
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.playlist_audio_menu, menu)
     }
@@ -76,7 +69,48 @@ class ViewPlaylistFragment : Fragment(), OnAudioClickListener {
         }
     }
 
-    private fun initObservers(){
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        playlist = requireArguments().getParcelable(Keys.PLAYLIST_KEY)!!
+        return viewBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
+        populateViews()
+    }
+
+    private fun initRecyclerView(){
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.recyclerView.adapter = adapter
+        viewBinding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                when(newState){
+                    RecyclerView.SCROLL_STATE_DRAGGING ->{
+                        MusicQueue.currentAudio.value?.let {
+                            if (viewBinding.targetView.visibility != View.VISIBLE)
+                                viewBinding.targetView.visibility = View.VISIBLE
+                        }
+                    }
+                    RecyclerView.SCROLL_STATE_IDLE ->{
+                        if (viewBinding.targetView.visibility == View.VISIBLE)
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                viewBinding.targetView.visibility = View.GONE
+                            },3000)
+                    }
+                }
+            }
+        })
+        viewBinding.targetView.setOnClickListener {
+            MusicQueue.currentAudio.value?.let {
+                viewBinding.recyclerView.scrollToPosition(adapter.nowPlayingIndex(it.id))
+            }
+        }
+    }
+
+    private fun populateViews(){
+        viewBinding.titleView.text = playlist.title
         viewModelPlaylist.getPlaylistAudio(playlist.id)
         viewModelPlaylist.liveDataAudioIds.observe(viewLifecycleOwner,{
             viewModelAudio.getAudio(it)
@@ -85,11 +119,12 @@ class ViewPlaylistFragment : Fragment(), OnAudioClickListener {
             adapter.setAudioData(it)
             loadingView(it.isNotEmpty())
         })
-        Queue.currentAudio.observe(viewLifecycleOwner,{
-            adapter.setNowPlaying(it.id)
-        })
+        MusicQueue.currentAudio.observe(viewLifecycleOwner,{ adapter.setNowPlaying(it.id) })
     }
 
+    /**
+     * Show or hide loading view
+     * */
     private fun loadingView(hasContent:Boolean){
         viewBinding.loadingView.visibility = View.GONE
         if (hasContent){
@@ -99,10 +134,17 @@ class ViewPlaylistFragment : Fragment(), OnAudioClickListener {
         }
     }
 
+    /**
+     * Play audio
+     * @param audio: audio to play
+     * */
     override fun onAudioClick(audio: Audio) {
         (requireActivity() as MainActivity).playAudio(audio, adapter.listAudio)
     }
 
+    /**
+     * Remove audio from playlist
+     * */
     override fun onAudioClickOptions(audio: Audio) {
         viewModelPlaylist.deletePlaylistAudio(playlist.id, audio.id)
     }

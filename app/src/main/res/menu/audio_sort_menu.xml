@@ -19,11 +19,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/app_bar_search"
+        android:id="@+id/search"
         android:icon="@drawable/ic_round_search_24"
         android:title="@string/search"
-        android:actionLayout="@layout/action_layout_search"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom" />
 
     <item
@@ -39,19 +37,15 @@
             <group android:checkableBehavior="none">
                 <item
                     android:id="@+id/titleAsc"
-                    android:icon="@drawable/ic_font_size"
                     android:title="@string/title_asc" />
                 <item
                     android:id="@+id/titleDesc"
-                    android:icon="@drawable/ic_font_size"
                     android:title="@string/title_desc" />
                 <item
                     android:id="@+id/dateAsc"
-                    android:icon="@drawable/ic_schedule"
                     android:title="@string/date_asc" />
                 <item
                     android:id="@+id/dateDesc"
-                    android:icon="@drawable/ic_schedule"
                     android:title="@string/date_desc" />
             </group>
         </menu>

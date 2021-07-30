@@ -16,6 +16,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -59,14 +60,14 @@
 
     </RadioGroup>
 
-    <TextView
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-        android:text="@string/theme_note"/>
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        app:cornerRadius="0dp"
+        android:text="@string/save" />
 
 </LinearLayout>

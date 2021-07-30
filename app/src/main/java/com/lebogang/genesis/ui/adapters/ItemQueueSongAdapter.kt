@@ -24,6 +24,7 @@ import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.ItemLocalQueueSongBinding
 import com.lebogang.genesis.ui.adapters.utils.AdapterInterface
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.genesis.ui.helpers.ThemeHelper
 
 class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder>(),AdapterInterface{
     var listener: OnAudioClickListener? = null
@@ -35,15 +36,20 @@ class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder
         notifyDataSetChanged()
     }
 
-    override fun setNowPlaying(audioId:Long):Int{
+    override fun setNowPlaying(audioId:Long){
         this.audioId = audioId
         notifyDataSetChanged()
+    }
+
+    fun getNowPlayingIndex():Int{
+        var index = 0
         listAudio.forEach {
-            if (it.id == audioId){
-                return listAudio.indexOf(it)
+            if(audioId == it.id){
+                index = listAudio.indexOf(it)
+                return@forEach
             }
         }
-        return 0
+        return index
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -61,10 +67,16 @@ class ItemQueueSongAdapter :RecyclerView.Adapter<ItemQueueSongAdapter.ViewHolder
     }
 
     private fun updateNowPlaying(holder: ViewHolder, audio: Audio){
-        if (audio.id == audioId)
+        if (audio.id == audioId) {
             holder.viewBinding.lottieView.visibility = View.VISIBLE
-        else
+            holder.viewBinding.titleView.setTextColor(ThemeHelper.PRIMARY_COLOR)
+            holder.viewBinding.subtitleView.setTextColor(ThemeHelper.PRIMARY_COLOR)
+        }
+        else{
             holder.viewBinding.lottieView.visibility = View.GONE
+            holder.viewBinding.titleView.setTextColor(ThemeHelper.PRIMARY_TEXTCOLOR)
+            holder.viewBinding.subtitleView.setTextColor(ThemeHelper.SECONDARY_TEXTCOLOR)
+        }
     }
 
     override fun getItemCount(): Int {

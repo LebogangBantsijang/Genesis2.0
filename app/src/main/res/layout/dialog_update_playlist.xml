@@ -51,25 +51,28 @@
         android:id="@+id/playlistNameView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_edit_background"
-        android:padding="16dp"
-        android:backgroundTint="?colorButtonNormal"
+        android:background="@drawable/ic_search_background"
+        android:padding="15dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:gravity="center_vertical"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:drawableStart="@drawable/ic_playlist_ios"
+        android:drawablePadding="8dp"
+        app:drawableTint="?android:textColorSecondaryNoDisable"
         android:hint="@string/playlist_name"
         android:inputType="textPersonName"
         android:autofillHints="@string/playlist_name" />
+
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/saveView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        app:cornerRadius="16dp"
-        android:text="@string/update" />
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        app:cornerRadius="0dp"
+        android:text="@string/save" />
 
 </LinearLayout>

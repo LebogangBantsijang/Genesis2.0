@@ -17,6 +17,7 @@
 package com.lebogang.genesis.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -27,41 +28,45 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.lebogang.genesis.R
 import com.lebogang.genesis.databinding.ActivityMainBinding
+import com.lebogang.genesis.service.MusicQueue
 import com.lebogang.genesis.service.MusicService
-import com.lebogang.genesis.service.Queue
-import com.lebogang.genesis.interfaces.OnStateChangedListener
-import com.lebogang.genesis.interfaces.PlaybackState
-import com.lebogang.genesis.interfaces.RepeatSate
+import com.lebogang.genesis.servicehelpers.OnStateChangedListener
+import com.lebogang.genesis.servicehelpers.PlaybackState
+import com.lebogang.genesis.servicehelpers.RepeatSate
 import com.lebogang.genesis.settings.PlayerBackgroundType
 import com.lebogang.genesis.settings.PlayerSettings
 import com.lebogang.genesis.ui.helpers.BottomSheetHelper
+import com.lebogang.genesis.ui.helpers.CommonActivity
 import com.lebogang.genesis.ui.helpers.SeekBarHelper
 import com.lebogang.genesis.utils.SeekBarThreader
-import com.lebogang.genesis.utils.glide.GlideManager
+import com.lebogang.genesis.utils.GlideManager
 
 @SuppressLint("ClickableViewAccessibility")
-class Player(private val activity:MainActivity, private val viewBinding: ActivityMainBinding):
-    BottomSheetHelper(), OnStateChangedListener{
+class Player(private val activity: MainActivity, private val viewBinding: ActivityMainBinding): BottomSheetHelper()
+        , OnStateChangedListener{
+    private val playerSettings = PlayerSettings(activity)
+    var musicService: MusicService? = null
+    lateinit var seekBarThreader:SeekBarThreader
     private val bottomSheet = BottomSheetBehavior.from(viewBinding.player.bottomSheet).apply {
         state = BottomSheetBehavior.STATE_HIDDEN
-        addBottomSheetCallback(this@Player) }
+        addBottomSheetCallback(this@Player)
+    }
     private val gestureDetector = GestureDetectorCompat(activity, object : GestureDetector.SimpleOnGestureListener(){
         override fun onDoubleTap(e: MotionEvent?): Boolean {
-            musicService.togglePlayPause()
+            musicService?.togglePlayPause()
             return true
-        } })
-    private val playerSettings = PlayerSettings(activity)
-    lateinit var musicService: MusicService
-    lateinit var seekBarThreader:SeekBarThreader
+        }
+
+    })
 
     init {
         initOnClicks()
-        Queue.currentAudio.observe(activity, {
+        MusicQueue.currentAudio.observe(activity, {
             //launcher
-            if (viewBinding.launcherView.root.visibility == View.GONE)
-                viewBinding.launcherView.root.visibility = View.VISIBLE
+            activity.showLauncher()
             viewBinding.launcherView.titleView.text = it.title
             viewBinding.launcherView.subtitleView.text = it.artist
+            viewBinding.launcherView.progressBar.max = it.duration.toInt()
             GlideManager(activity).loadAudioArt(it.getArtUri(), viewBinding.launcherView.imageView)
             //player
             viewBinding.player.titleView.text = it.title
@@ -89,22 +94,29 @@ class Player(private val activity:MainActivity, private val viewBinding: Activit
         viewBinding.launcherView.queueView.setOnClickListener {
             val controller = activity.findNavController(R.id.navFragmentContainer)
             controller.navigate(R.id.queueDialog) }
-        viewBinding.launcherView.playPauseView.setOnClickListener { musicService.togglePlayPause() }
+        viewBinding.launcherView.playPauseView.setOnClickListener { musicService?.togglePlayPause() }
         viewBinding.player.seekBar.setOnSeekBarChangeListener(object : SeekBarHelper(){
             override fun progressChanged(progress: Int) {
-                musicService.seekTo(progress)
+                musicService?.seekTo(progress)
             }
         })
-        viewBinding.player.previousView.setOnClickListener { musicService.skipToPrevious() }
-        viewBinding.player.playPauseView.setOnClickListener { musicService.togglePlayPause() }
-        viewBinding.player.nextView.setOnClickListener { musicService.skipToNext() }
+        viewBinding.player.previousView.setOnClickListener { musicService?.skipToPrevious() }
+        viewBinding.player.playPauseView.setOnClickListener { musicService?.togglePlayPause() }
+        viewBinding.player.nextView.setOnClickListener { musicService?.skipToNext() }
         viewBinding.player.queueView.setOnClickListener {
             val controller = activity.findNavController(R.id.navFragmentContainer)
             controller.navigate(R.id.queueDialog) }
         viewBinding.player.shareView.setOnClickListener {
-            //finish later
+            val intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "audio/*"
+            }
+            MusicQueue.currentAudio.value?.let {
+                intent.putExtra(Intent.EXTRA_STREAM, it.getUri())
+                activity.startActivity(Intent.createChooser(intent,"Share from Genesis"))
+            }
         }
-        viewBinding.player.repeatView.setOnClickListener { musicService.changeRepeatMode() }
+        viewBinding.player.repeatView.setOnClickListener { musicService?.changeRepeatMode() }
         viewBinding.player.backView.setOnClickListener { hideSheet() }
         viewBinding.player.gifView.setOnClickListener {
             val controller = activity.findNavController(R.id.navFragmentContainer)
@@ -117,7 +129,7 @@ class Player(private val activity:MainActivity, private val viewBinding: Activit
     }
 
     fun changeBackground(){
-        val uri = Queue.currentAudio.value?.getArtUri()
+        val uri = MusicQueue.currentAudio.value?.getArtUri()
         uri?.let {
             when(playerSettings.getBackgroundType()){
                 PlayerBackgroundType.NONE -> viewBinding.player.artView.setImageBitmap(null)

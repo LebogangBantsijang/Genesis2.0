@@ -25,6 +25,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
@@ -33,7 +34,7 @@ import androidx.core.app.NotificationCompat
 import androidx.media.app.NotificationCompat.MediaStyle
 import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Audio
-import com.lebogang.genesis.interfaces.PlaybackState
+import com.lebogang.genesis.servicehelpers.PlaybackState
 import com.lebogang.genesis.ui.MainActivity
 import java.io.FileNotFoundException
 
@@ -45,11 +46,7 @@ abstract class ManageNotifications(private val context:Context, listener : Audio
     @SuppressLint("InlinedApi")
     private val channelImportance = NotificationManager.IMPORTANCE_LOW
     @RequiresApi(Build.VERSION_CODES.O)
-    private val channel = NotificationChannel(channelId, channelName, channelImportance).apply {
-        description = channelDescription
-        enableLights(false)
-        enableVibration(false)
-    }
+    private var channel :NotificationChannel? = null
     private var isChannelCreated = false
     private val notificationManager = context.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE)
             as NotificationManager
@@ -60,21 +57,34 @@ abstract class ManageNotifications(private val context:Context, listener : Audio
     private fun setChannel(){
         if (!isChannelCreated)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                notificationManager.createNotificationChannel(channel)
+                notificationManager.createNotificationChannel(getNotificationChannel())
                 isChannelCreated = true
             }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getNotificationChannel():NotificationChannel{
+        if (channel == null){
+            channel = NotificationChannel(channelId, channelName, channelImportance).apply {
+                description = channelDescription
+                enableLights(false)
+                enableVibration(false)
+            }
+        }
+        return channel!!
     }
 
     override fun createNotification(audio: Audio, playbackState: PlaybackState): Notification {
         val subtitle = audio.artist + "-" + audio.album
         val  builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_music_note_24dp)
+            .setSmallIcon(R.drawable.ic_itunes)
             .setCategory(Notification.CATEGORY_TRANSPORT)
             .setContentTitle(audio.title)
             .setContentText(subtitle)
+                .setColor(0)
+                .setColorized(true)
             .setLargeIcon(getBitmap(audio.getArtUri()))
             .setShowWhen(false)
-            .setNotificationSilent()
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setPriority(channelImportance)
             .setContentIntent(
@@ -84,6 +94,11 @@ abstract class ManageNotifications(private val context:Context, listener : Audio
                 it.setShowCancelButton(false)
                 it.setShowActionsInCompactView(0,1,2)
             })
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val color = Color.valueOf(1f,0.6f,0f).toArgb()
+            builder.color = color
+            builder.setColorized(true)
+        }
         builder.addAction(
             R.drawable.ic_round_navigate_before_24, "",
             PendingIntent.getBroadcast(context, 0, Intent(SKIP_PREV_ACTION), PendingIntent.FLAG_UPDATE_CURRENT))

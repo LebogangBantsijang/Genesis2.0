@@ -19,7 +19,7 @@ package com.lebogang.genesis.ui.adapters.utils
 import com.lebogang.genesis.data.models.Audio
 
 interface AdapterInterface {
-    fun setNowPlaying(audioId:Long):Int
+    fun setNowPlaying(audioId:Long)
 
     fun setAudioData(mutableList: MutableList<Audio>)
 }

@@ -16,16 +16,27 @@
 
 package com.lebogang.genesis.ui.fragments.local
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.*
-import androidx.appcompat.widget.SearchView
+import android.os.Handler
+import android.os.Looper
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.View
+import android.view.ViewGroup
+import android.view.MenuInflater
+import android.view.MenuItem
+import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.FragmentSongsBinding
-import com.lebogang.genesis.service.Queue
+import com.lebogang.genesis.service.MusicQueue
 import com.lebogang.genesis.settings.ContentSettings
 import com.lebogang.genesis.ui.MainActivity
 import com.lebogang.genesis.ui.adapters.ItemSongAdapter
@@ -52,28 +63,72 @@ class SongsFragment: Fragment(), OnAudioClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
+        initSearchView()
+        requestPermission()
+    }
+
+    private fun initRecyclerView(){
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
         viewBinding.recyclerView.adapter = adapter
-        initObservers()
-        viewModel.getAudio()
-        viewModel.registerContentObserver()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.audio_sort_menu, menu)
-        val searchView = menu.findItem(R.id.app_bar_search).actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                adapter.filter.filter(newText)
-                return true
+        viewBinding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                when(newState){
+                    RecyclerView.SCROLL_STATE_DRAGGING ->{
+                        MusicQueue.currentAudio.value?.let {
+                            if (viewBinding.targetView.visibility != View.VISIBLE)
+                                viewBinding.targetView.visibility = View.VISIBLE
+                        }
+                    }
+                    RecyclerView.SCROLL_STATE_IDLE ->{
+                        if (viewBinding.targetView.visibility == View.VISIBLE)
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                viewBinding.targetView.visibility = View.GONE
+                            },3000)
+                    }
+                }
             }
         })
+        viewBinding.targetView.setOnClickListener {
+            MusicQueue.currentAudio.value?.let {
+                viewBinding.recyclerView.scrollToPosition(adapter.nowPlayingIndex(it.id))
+            }
+        }
     }
 
+    /**
+     * Seeing that this is the home fragment, check if write permissions are granted
+     * */
+    private fun requestPermission(){
+        if(ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED){
+            populateViews()
+        }else
+            requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 25)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>
+                                            , grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 25 && grantResults.isNotEmpty()){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                populateViews()
+            }else
+                requireActivity().finish()
+        }
+    }
+
+    /**
+     * Create search view for songs
+     * */
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.audio_sort_menu, menu)
+    }
+
+    /**
+     * Handle songs options
+     * */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.titleAsc ->{
@@ -96,26 +151,55 @@ class SongsFragment: Fragment(), OnAudioClickListener {
                 viewModel.getAudio()
                 true
             }
-            R.id.refresh ->{
+            R.id.search->{
+                showHideSearchView(true)
+                true
+            }
+            R.id.refresh->{
                 viewModel.getAudio()
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            else-> false
         }
     }
 
-    private fun initObservers(){
+    private fun showHideSearchView(show:Boolean){
+        if (show){
+            viewBinding.searchContainerView.visibility = View.VISIBLE
+            viewBinding.searchContainerView.animate().alpha(1f).setDuration(1500)
+                .withEndAction { viewBinding.searchView.requestFocus() }.start()
+        }else{
+            viewBinding.searchContainerView.animate().alpha(0f).setDuration(1000)
+                .withEndAction {
+                    viewBinding.searchView.text = null
+                    viewBinding.recyclerView.requestFocus()
+                    viewBinding.searchContainerView.visibility = View.GONE
+                }.start()
+        }
+    }
+
+    private fun initSearchView(){
+        viewBinding.closeSearchView.setOnClickListener { showHideSearchView(false) }
+        viewBinding.searchView.addTextChangedListener {
+            adapter.filter.filter(it.toString())
+        }
+    }
+
+    private fun populateViews(){
+        viewModel.getAudio()
+        viewModel.registerContentObserver()
         viewModel.liveData.observe(viewLifecycleOwner,{
             adapter.setAudioData(it)
             loadingView(it.isNotEmpty())
             val count = getString(R.string.total) + " " + it.size.toString()
             viewBinding.counterView.text = count
         })
-        Queue.currentAudio.observe(viewLifecycleOwner, {
-            adapter.setNowPlaying(it.id)
-        })
+        MusicQueue.currentAudio.observe(viewLifecycleOwner,{ adapter.setNowPlaying(it.id) })
     }
 
+    /**
+     * Show or hide loading view
+     * */
     private fun loadingView(hasContent:Boolean){
         viewBinding.loadingView.visibility = View.GONE
         if (hasContent){
@@ -125,18 +209,29 @@ class SongsFragment: Fragment(), OnAudioClickListener {
         }
     }
 
+    /**
+     * Remove content observer
+     * */
     override fun onDestroy() {
         super.onDestroy()
         viewModel.unregisterContentContentObserver()
     }
 
+    /**
+     * Play audio
+     * @param audio: audio play
+     * */
     override fun onAudioClick(audio: Audio) {
         (requireActivity() as MainActivity).playAudio(audio, adapter.getList())
     }
 
+    /**
+     * Open that audio options dialog.
+     * @param audio: audio for the menu
+     * */
     override fun onAudioClickOptions(audio: Audio) {
         val bundle = Bundle().apply{
-            putParcelable(Keys.SONG_KEY, audio)
+            putParcelable(Keys.MUSIC_KEY, audio)
             putBoolean(Keys.ENABLE_UPDATE_KEY,true) }
         val controller = findNavController()
         controller.navigate(R.id.audioOptionsDialog, bundle)

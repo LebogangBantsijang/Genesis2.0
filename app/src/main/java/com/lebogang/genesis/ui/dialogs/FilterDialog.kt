@@ -42,11 +42,10 @@ class FilterDialog: DialogFragment(){
 
     private fun initSeekView(){
         viewBinding.seekBar.progress = (contentSettings.getDurationFilter()/10).toInt()
-        viewBinding.seekBar.setOnSeekBarChangeListener(object : SeekBarHelper(){
-            override fun progressChanged(progress: Int) {
-                val duration:Long = (progress*10).toLong()
-                contentSettings.setDurationFilter(duration)
-            }
-        })
+        viewBinding.saveView.setOnClickListener {
+            val duration = (viewBinding.seekBar.progress * 10).toLong()
+            contentSettings.setDurationFilter(duration)
+            dismiss()
+        }
     }
 }

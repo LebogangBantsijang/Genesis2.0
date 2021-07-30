@@ -24,7 +24,8 @@ import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.ItemLocalPlaylistSongBinding
 import com.lebogang.genesis.ui.adapters.utils.AdapterInterface
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
-import com.lebogang.genesis.utils.glide.GlideManager
+import com.lebogang.genesis.ui.helpers.ThemeHelper
+import com.lebogang.genesis.utils.GlideManager
 
 class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holder>(),AdapterInterface{
     private var audioId:Long = -1
@@ -36,9 +37,12 @@ class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holde
         notifyDataSetChanged()
     }
 
-    override fun setNowPlaying(audioId:Long):Int{
+    override fun setNowPlaying(audioId:Long){
         this.audioId = audioId
         notifyDataSetChanged()
+    }
+
+    fun nowPlayingIndex(audioId: Long):Int{
         listAudio.forEach {
             if (it.id == audioId){
                 return listAudio.indexOf(it)
@@ -64,10 +68,16 @@ class ItemPlaylistSongAdapter:RecyclerView.Adapter<ItemPlaylistSongAdapter.Holde
     }
 
     private fun updateNowPlaying(holder: Holder, audio: Audio){
-        if (audio.id == audioId)
+        if (audio.id == audioId) {
             holder.viewBinding.lottieView.visibility = View.VISIBLE
-        else
+            holder.viewBinding.titleView.setTextColor(ThemeHelper.PRIMARY_COLOR)
+            holder.viewBinding.subtitleView.setTextColor(ThemeHelper.PRIMARY_COLOR)
+        }
+        else{
             holder.viewBinding.lottieView.visibility = View.GONE
+            holder.viewBinding.titleView.setTextColor(ThemeHelper.PRIMARY_TEXTCOLOR)
+            holder.viewBinding.subtitleView.setTextColor(ThemeHelper.SECONDARY_TEXTCOLOR)
+        }
     }
 
     override fun getItemCount(): Int {

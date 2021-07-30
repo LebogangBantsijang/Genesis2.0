@@ -16,6 +16,8 @@
 
 package com.lebogang.genesis.ui.dialogs
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +28,7 @@ import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.DialogAudioOptionsBinding
 import com.lebogang.genesis.utils.Keys
-import com.lebogang.genesis.utils.glide.GlideManager
+import com.lebogang.genesis.utils.GlideManager
 import com.lebogang.genesis.viewmodels.AlbumViewModel
 import com.lebogang.genesis.viewmodels.ArtistViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
@@ -41,25 +43,28 @@ class AudioOptionsDialog :BottomSheetDialogFragment(){
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        audio = requireArguments().getParcelable(Keys.SONG_KEY)!!
+        audio = requireArguments().getParcelable(Keys.MUSIC_KEY)!!
         return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews()
+        populateViews()
         initOnClicks()
     }
 
-    private fun initViews(){
+    @SuppressLint("SetTextI18n")
+    private fun populateViews(){
         GlideManager(this).loadAudioArt(audio.getArtUri(), viewBinding.coverView)
         viewBinding.titleView.text = audio.title
         viewBinding.subtitleView.text = audio.artist
+        viewBinding.albumView.text = getString(R.string.view_album) + ":" + audio.album
+        viewBinding.artistView.text = getString(R.string.view_artist) + ":" + audio.artist
     }
 
     private fun initOnClicks(){
         viewBinding.addToListView.setOnClickListener {
-            val bundle = Bundle().apply { putParcelable(Keys.SONG_KEY, audio) }
+            val bundle = Bundle().apply { putParcelable(Keys.MUSIC_KEY, audio) }
             val controller = findNavController()
             controller.navigate(R.id.selectPlaylistDialog, bundle)
         }
@@ -77,7 +82,7 @@ class AudioOptionsDialog :BottomSheetDialogFragment(){
         }
         if(requireArguments().getBoolean(Keys.ENABLE_UPDATE_KEY))
             viewBinding.editView.setOnClickListener {
-                val bundle = Bundle().apply { putParcelable(Keys.SONG_KEY, audio) }
+                val bundle = Bundle().apply { putParcelable(Keys.MUSIC_KEY, audio) }
                 val controller = findNavController()
                 controller.navigate(R.id.editAudioFragment, bundle)
             }
@@ -85,12 +90,17 @@ class AudioOptionsDialog :BottomSheetDialogFragment(){
             viewBinding.editView.visibility = View.GONE
 
         viewBinding.infoView.setOnClickListener {
-            val bundle = Bundle().apply { putParcelable(Keys.SONG_KEY, audio) }
+            val bundle = Bundle().apply { putParcelable(Keys.MUSIC_KEY, audio) }
             val controller = findNavController()
             controller.navigate(R.id.infoAudioFragment, bundle)
         }
         viewBinding.shareView.setOnClickListener {
-
+            val intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_STREAM, audio.getUri())
+                type = "audio/*"
+            }
+            startActivity(Intent.createChooser(intent,"Share from Genesis"))
         }
     }
 

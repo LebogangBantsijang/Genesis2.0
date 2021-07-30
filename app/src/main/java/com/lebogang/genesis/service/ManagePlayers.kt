@@ -17,32 +17,41 @@
 package com.lebogang.genesis.service
 
 import android.content.Context
-import android.media.AsyncPlayer
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.media.audiofx.DynamicsProcessing
-import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.lebogang.genesis.data.models.Audio
-import com.lebogang.genesis.interfaces.AudioFxType
+import com.lebogang.genesis.servicehelpers.AudioFxType
+import com.lebogang.genesis.servicehelpers.OnStateChangedListener
+import com.lebogang.genesis.servicehelpers.PlaybackState
 
 class ManagePlayers(private val context: Context, listener:AudioManager.OnAudioFocusChangeListener
                     , completion:MediaPlayer.OnCompletionListener ) :ManageNotifications(context, listener) {
 
-    private var mediaPlayer = MediaPlayer().apply {
-        setOnCompletionListener(completion)
-        setAudioAttributes(focusAttributes)
+    private var mediaPlayer = MediaPlayer()
+    private var onlinePlayer:MediaPlayer? = null
+
+    init {
+        mediaPlayer.setOnCompletionListener(completion)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mediaPlayer.setAudioAttributes(getFocusAttributes())
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
-    private val config = DynamicsProcessing.Config.Builder(0,1,true,
-            1, true, 1, true,1,
-            true)
-            .build()
-
+    private lateinit var config : android.media.audiofx.DynamicsProcessing.Config
     @RequiresApi(Build.VERSION_CODES.P)
-    private var dynamicsProcessing :DynamicsProcessing? = null
+    private var dynamicsProcessing :android.media.audiofx.DynamicsProcessing? = null
+
+    init{
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+            config = android.media.audiofx.DynamicsProcessing.Config.Builder(0,1,true,
+                    1, true, 1, true,1,
+                    true)
+                    .build()
+        }
+    }
 
     fun prepare(audio: Audio) {
         requestFocus()
@@ -59,8 +68,32 @@ class ManagePlayers(private val context: Context, listener:AudioManager.OnAudioF
         mediaPlayer.start()
     }
 
-    fun play(url:String){
-        mediaPlayer.setDataSource(url)
+    fun playOnline(url:String, state:OnStateChangedListener){
+        state.onPlaybackChanged(PlaybackState.NONE)
+        onlinePlayer = MediaPlayer()
+        onlinePlayer!!.setOnPreparedListener {
+            requestFocus()
+            state.onPlaybackChanged(PlaybackState.PLAYING)
+            it.start()
+        }
+        onlinePlayer!!.setDataSource(url)
+        onlinePlayer!!.prepareAsync()
+    }
+
+    fun getOnlineDuration():Int{
+        return onlinePlayer!!.duration
+    }
+
+    fun stopOnline(){
+        abandonFocus()
+        try {
+            onlinePlayer!!.stop()
+        }catch (e:IllegalStateException){
+            //do nothing
+        }
+        onlinePlayer!!.reset()
+        onlinePlayer!!.release()
+        onlinePlayer = null
     }
 
     fun play() {
@@ -91,7 +124,7 @@ class ManagePlayers(private val context: Context, listener:AudioManager.OnAudioF
     @RequiresApi(Build.VERSION_CODES.P)
     fun enableAudioFx(){
         if (dynamicsProcessing == null)
-            dynamicsProcessing = DynamicsProcessing(100, mediaPlayer.audioSessionId, config)
+            dynamicsProcessing = android.media.audiofx.DynamicsProcessing(100, mediaPlayer.audioSessionId, config)
         dynamicsProcessing?.enabled = true
     }
 

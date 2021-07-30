@@ -42,15 +42,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/cancelView"
+    <TextView
+        android:id="@+id/noPlaylistsView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        app:cornerRadius="16dp"
-        android:text="@string/cancel" />
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:text="@string/no_playlists" />
 
 </LinearLayout>

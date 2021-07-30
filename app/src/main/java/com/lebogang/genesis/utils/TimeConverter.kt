@@ -30,4 +30,8 @@ object TimeConverter {
         duration += if (sec < 10) ":0$sec" else ":$sec"
         return duration
     }
+
+    fun toGeneralTime(time: Long): String {
+        return "" + TimeUnit.MINUTES.convert(time, TimeUnit.MILLISECONDS) + " minutes"
+    }
 }

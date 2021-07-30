@@ -15,14 +15,13 @@
   ~    limitations under the License.
   -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -75,5 +74,14 @@
             android:text="@string/gif" />
 
     </RadioGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        app:cornerRadius="0dp"
+        android:text="@string/save" />
 
 </LinearLayout>

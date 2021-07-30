@@ -21,10 +21,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.lebogang.genesis.GenesisApplication
 import com.lebogang.genesis.databinding.DialogAddPlaylistBinding
 import com.lebogang.genesis.room.models.Playlist
-import com.lebogang.genesis.utils.Validator
 import com.lebogang.genesis.viewmodels.PlaylistViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
@@ -44,10 +42,10 @@ class AddPlaylistDialog:DialogFragment() {
 
     private fun initSaveView(){
         viewBinding.saveView.setOnClickListener {
-            val name = viewBinding.playlistNameView.text.toString()
-            if (Validator.isValueValid(name)){
-                playlistViewModel.insertPlaylist(Playlist(0, name))
-                dismissAllowingStateLoss()
+            val name = viewBinding.playlistNameView.text
+            if (!name.isNullOrEmpty()){
+                playlistViewModel.insertPlaylist(Playlist(0, name.toString()))
+                dismiss()
             }
         }
     }

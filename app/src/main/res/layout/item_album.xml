@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021. - Lebogang Bantsijang
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_marginTop="4dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="2dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="106dp"
+        android:layout_height="106dp"
+        android:layout_marginStart="4dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/image"
+            app:srcCompat="@drawable/album_drawable" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginBottom="2dp"
+            android:layout_gravity="bottom"
+            android:background="?android:attr/listDivider" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="6dp">
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:singleLine="true"
+                android:gravity="bottom"
+                android:ellipsize="marquee"
+                android:text="@string/settings"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+            <TextView
+                android:id="@+id/artistTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_row="1"
+                android:maxLines="2"
+                android:text="@string/settings"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:layout_marginTop="4dp"
+                android:textColor="?colorPrimary"
+                android:layout_marginBottom="2dp"
+                />
+
+            <TextView
+                android:id="@+id/durationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@string/settings"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_column="0"/>
+
+            <TextView
+                android:id="@+id/sizeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="3"
+                android:text="@string/settings"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_column="0"/>
+        </GridLayout>
+
+        <ImageButton
+            android:id="@+id/favouriteImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:padding="12dp"
+            android:background="?selectableItemBackground"
+            android:contentDescription="@string/image"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="8dp"
+            app:srcCompat="@drawable/ic_melting_heart_ios" />
+
+    </FrameLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

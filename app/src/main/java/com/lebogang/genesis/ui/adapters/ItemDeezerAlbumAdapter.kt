@@ -23,7 +23,7 @@ import com.lebogang.genesis.databinding.ItemOnlineDeezerAlbumBinding
 import com.lebogang.genesis.network.models.AlbumDeezer
 import com.lebogang.genesis.ui.adapters.utils.OnDeezerAlbumClickListener
 import com.lebogang.genesis.ui.helpers.ThemeHelper
-import com.lebogang.genesis.utils.glide.GlideManager
+import com.lebogang.genesis.utils.GlideManager
 
 class ItemDeezerAlbumAdapter:RecyclerView.Adapter<ItemDeezerAlbumAdapter.ViewHolder>() {
     private var listAlbum = listOf<AlbumDeezer>()

@@ -40,20 +40,21 @@ class PlayerBackgroundDialog : DialogFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRadioViews()
+        initView()
     }
 
-    private fun initRadioViews(){
+    private fun initView(){
         val backgroundType = playerSettings.getBackgroundType()
         viewBinding.radioGroup.check(getValueId(backgroundType))
-        viewBinding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when(checkedId){
+        viewBinding.saveView.setOnClickListener {
+            when(viewBinding.radioGroup.checkedRadioButtonId){
                 R.id.noneView-> playerSettings.setBackgroundType(PlayerBackgroundType.NONE)
                 R.id.adaptiveImage-> playerSettings.setBackgroundType(PlayerBackgroundType.ADAPTIVE_IMAGE)
                 R.id.adaptiveBlurr-> playerSettings.setBackgroundType(PlayerBackgroundType.ADAPTIVE_BLURRY)
                 R.id.gif-> playerSettings.setBackgroundType(PlayerBackgroundType.GIF)
             }
             (requireActivity() as MainActivity).changePlayerBackground(playerSettings.getBackgroundType())
+            dismiss()
         }
     }
 

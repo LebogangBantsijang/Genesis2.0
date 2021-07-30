@@ -75,13 +75,13 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground"
                 android:text="@string/add_to_playlist"
-                android:textColor="?colorPrimary"
+                android:textColor="?colorControlNormal"
                 android:textStyle="bold"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
                 app:drawableEndCompat="@drawable/ic_forward"
-                app:drawableTint="?colorPrimary"
-                app:drawableStartCompat="@drawable/ic_music_library"/>
+                app:drawableTint="?colorControlNormal"
+                app:drawableStartCompat="@drawable/ic_music_library_ios"/>
 
             <TextView
                 android:id="@+id/albumView"
@@ -93,11 +93,11 @@
                 android:background="?selectableItemBackground"
                 android:text="@string/view_album"
                 android:textStyle="bold"
-                android:textColor="?colorPrimary"
+                android:textColor="?colorControlNormal"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
                 app:drawableEndCompat="@drawable/ic_forward"
-                app:drawableTint="?colorPrimary"
+                app:drawableTint="?colorControlNormal"
                 app:drawableStartCompat="@drawable/ic_music_record_24" />
 
             <TextView
@@ -109,12 +109,12 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground"
                 android:text="@string/view_artist"
-                android:textColor="?colorPrimary"
+                android:textColor="?colorControlNormal"
                 android:textStyle="bold"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
                 app:drawableEndCompat="@drawable/ic_forward"
-                app:drawableTint="?colorPrimary"
+                app:drawableTint="?colorControlNormal"
                 app:drawableStartCompat="@drawable/ic_user_24"/>
 
             <TextView
@@ -126,12 +126,12 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground"
                 android:text="@string/info"
-                android:textColor="?colorPrimary"
+                android:textColor="?colorControlNormal"
                 android:textStyle="bold"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
                 app:drawableEndCompat="@drawable/ic_forward"
-                app:drawableTint="?colorPrimary"
+                app:drawableTint="?colorControlNormal"
                 app:drawableStartCompat="@drawable/ic_info"/>
 
             <TextView
@@ -143,12 +143,12 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground"
                 android:text="@string/modify"
-                android:textColor="?colorPrimary"
+                android:textColor="?colorControlNormal"
                 android:textStyle="bold"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
                 app:drawableEndCompat="@drawable/ic_forward"
-                app:drawableTint="?colorPrimary"
+                app:drawableTint="?colorControlNormal"
                 app:drawableStartCompat="@drawable/ic_edit"/>
 
             <TextView
@@ -160,12 +160,12 @@
                 android:focusable="true"
                 android:background="?selectableItemBackground"
                 android:text="@string/share"
-                android:textColor="?colorPrimary"
+                android:textColor="?colorControlNormal"
                 android:textStyle="bold"
                 android:layout_marginBottom="12dp"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
-                app:drawableTint="?colorPrimary"
+                app:drawableTint="?colorControlNormal"
                 app:drawableStartCompat="@drawable/ic_connect"
                 app:drawableEndCompat="@drawable/ic_forward" />
 

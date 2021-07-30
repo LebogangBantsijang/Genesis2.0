@@ -16,49 +16,49 @@
 
 package com.lebogang.genesis.ui.helpers
 
-import android.graphics.Color
-import android.graphics.ColorSpace
 import android.os.Bundle
-import android.util.TypedValue
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.lebogang.genesis.R
 import com.lebogang.genesis.settings.ThemeSettings
 
-abstract class ThemeHelper:AppCompatActivity() {
+abstract class ThemeHelper:CommonActivity() {
     val themeSettings: ThemeSettings by lazy{
         ThemeSettings(this)
     }
-    private var lastTheme:Int = -1
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        delegate.localNightMode = themeSettings.getThemeMode()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lastTheme = themeSettings.getThemeResource()
-        setTheme(lastTheme)
         getColors()
     }
 
-    @Suppress("DEPRECATION")
     private fun getColors(){
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            PRIMARY_COLOR = getColor(R.color.primaryColor)
-            SECONDARY_TEXTCOLOR_NO_DISABLE = getColor(R.color.secondaryTextColorLightNoDisable)
-            if (themeSettings.isThemeLight()){
-                PRIMARY_TEXTCOLOR = getColor(R.color.primaryTextColorLight)
-                SECONDARY_TEXTCOLOR = getColor(R.color.secondaryTextColorLight)
-            }else{
-                PRIMARY_TEXTCOLOR = getColor(R.color.primaryTextColorDark)
-                SECONDARY_TEXTCOLOR = getColor(R.color.secondaryTextColorDark)
+        PRIMARY_COLOR = getColorById(R.color.primaryColor)
+        SECONDARY_TEXTCOLOR_NO_DISABLE = getColorById(R.color.secondaryTextColorLightNoDisable)
+        when(themeSettings.getThemeMode()){
+            AppCompatDelegate.MODE_NIGHT_NO->{
+                PRIMARY_TEXTCOLOR = getColorById(R.color.primaryTextColorLight)
+                SECONDARY_TEXTCOLOR = getColorById(R.color.secondaryTextColorLight)
             }
-        }else{
-            PRIMARY_COLOR = resources.getColor(R.color.primaryColor)
-            if (themeSettings.isThemeLight()){
-                PRIMARY_TEXTCOLOR = resources.getColor(R.color.primaryTextColorLight)
-                SECONDARY_TEXTCOLOR = resources.getColor(R.color.secondaryTextColorLight)
-            }else{
-                PRIMARY_TEXTCOLOR = resources.getColor(R.color.primaryTextColorDark)
-                SECONDARY_TEXTCOLOR = resources.getColor(R.color.secondaryTextColorDark)
+            else ->{
+                PRIMARY_TEXTCOLOR = getColorById(R.color.primaryTextColorDark)
+                SECONDARY_TEXTCOLOR = getColorById(R.color.secondaryTextColorDark)
             }
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun getColorById(id:Int):Int{
+        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            resources.getColor(id, theme)
+        } else {
+            resources.getColor(id)
         }
     }
 
@@ -68,4 +68,6 @@ abstract class ThemeHelper:AppCompatActivity() {
         @ColorInt var SECONDARY_TEXTCOLOR:Int = 0
         @ColorInt var SECONDARY_TEXTCOLOR_NO_DISABLE:Int = 0
     }
+
+
 }

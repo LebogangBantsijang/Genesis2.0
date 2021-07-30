@@ -33,7 +33,6 @@
         android:id="@+id/titleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/ic_text_overlay"
         android:gravity="center_vertical"
         android:padding="8dp"
         android:maxLines="1"

@@ -91,6 +91,7 @@
         android:background="?selectableItemBackground"
         android:layout_marginEnd="8dp"
         android:padding="8dp"
+        android:tint="?colorControlNormal"
         app:srcCompat="@drawable/ic_menu_vertical"
         android:contentDescription="@string/more" />
 </androidx.appcompat.widget.LinearLayoutCompat>

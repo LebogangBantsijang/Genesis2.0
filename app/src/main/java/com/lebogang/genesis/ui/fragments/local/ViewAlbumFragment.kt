@@ -27,20 +27,17 @@ import com.lebogang.genesis.R
 import com.lebogang.genesis.data.models.Album
 import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.FragmentViewAlbumBinding
-import com.lebogang.genesis.service.Queue
+import com.lebogang.genesis.service.MusicQueue
 import com.lebogang.genesis.ui.MainActivity
 import com.lebogang.genesis.ui.adapters.ItemAlbumArtistSongAdapter
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
 import com.lebogang.genesis.utils.Keys
-import com.lebogang.genesis.utils.glide.GlideManager
-import com.lebogang.genesis.viewmodels.AlbumViewModel
+import com.lebogang.genesis.utils.GlideManager
 import com.lebogang.genesis.viewmodels.AudioViewModel
 import com.lebogang.genesis.viewmodels.ViewModelFactory
 
 class ViewAlbumFragment: Fragment(), OnAudioClickListener {
     private val viewBinding: FragmentViewAlbumBinding by lazy{ FragmentViewAlbumBinding.inflate(layoutInflater) }
-    private val viewModelAlbum: AlbumViewModel by lazy { ViewModelFactory(requireActivity().application)
-            .getAlbumViewModel() }
     private val viewModelAudio: AudioViewModel by lazy { ViewModelFactory(requireActivity().application)
             .getAudioViewModel() }
     private val adapter = ItemAlbumArtistSongAdapter().apply { listener = this@ViewAlbumFragment }
@@ -54,25 +51,43 @@ class ViewAlbumFragment: Fragment(), OnAudioClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.titleView.text = album.title
-        GlideManager(this).loadAlbumArt(album.getArtUri(),viewBinding.artView)
-        viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        viewBinding.recyclerView.adapter = adapter
-        initObservers()
+        initRecyclerView()
+        populateViews()
+        initButtons()
     }
 
-    private fun initObservers(){
+    private fun initRecyclerView(){
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.recyclerView.adapter = adapter
+    }
+
+    private fun populateViews(){
+        viewBinding.titleView.text = album.title
+        GlideManager(this).loadAlbumArt(album.getArtUri(),viewBinding.artView)
         viewModelAudio.getAlbumAudio(album.title)
         viewModelAudio.liveData.observe(viewLifecycleOwner,{list->
             adapter.setAudioData(list)
             viewBinding.subtitleView.text = list.size.toString()
             loadingView(list.isNotEmpty())
         })
-        Queue.currentAudio.observe(viewLifecycleOwner, {
-            adapter.setNowPlaying(it.id)
-        })
+        MusicQueue.currentAudio.observe(viewLifecycleOwner,{ adapter.setNowPlaying(it.id) })
     }
 
+    /**
+     * Init that random play button
+     * */
+    private fun initButtons(){
+        viewBinding.randomPlayView.setOnClickListener {
+            if (adapter.listAudio.isNotEmpty()){
+                val audio = adapter.listAudio[0]
+                onAudioClick(audio)
+            }
+        }
+    }
+
+    /**
+     * Show or hide loading view
+     * */
     private fun loadingView(hasContent:Boolean){
         viewBinding.loadingView.visibility = View.GONE
         if (hasContent){
@@ -82,13 +97,21 @@ class ViewAlbumFragment: Fragment(), OnAudioClickListener {
         }
     }
 
+    /**
+     * Play audio
+     * @param audio: audio to play
+     * */
     override fun onAudioClick(audio: Audio) {
         (requireActivity() as MainActivity).playAudio(audio, adapter.listAudio)
     }
 
+    /**
+     * Open audio context menu (Audio processing dialog).
+     * @param audio: audio for the menu
+     * */
     override fun onAudioClickOptions(audio: Audio) {
         val bundle = Bundle().apply{
-            putParcelable(Keys.SONG_KEY, audio)
+            putParcelable(Keys.MUSIC_KEY, audio)
             putBoolean(Keys.ENABLE_UPDATE_KEY,false) }
         val controller = findNavController()
         controller.navigate(R.id.audioOptionsDialog, bundle)

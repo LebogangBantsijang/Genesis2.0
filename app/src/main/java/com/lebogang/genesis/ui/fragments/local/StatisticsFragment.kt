@@ -41,12 +41,16 @@ class StatisticsFragment: Fragment(), OnStatisticClickListener {
     private val adapter = ItemStatsAdapter().apply { listener = this@StatisticsFragment }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView(){
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.recyclerView.adapter = adapter
         viewModel.liveData.observe(viewLifecycleOwner,{
@@ -54,6 +58,10 @@ class StatisticsFragment: Fragment(), OnStatisticClickListener {
         })
     }
 
+    /**
+     * Navigate to the statistics view fragment
+     * @param statistics: statistic to view
+     * */
     override fun onStatisticClick(statistics: Statistics) {
         val bundle = Bundle().apply{putParcelable(Keys.STATISTICS_KEY, statistics)}
         val controller = findNavController()

@@ -24,20 +24,24 @@ import com.lebogang.genesis.data.models.Audio
 import com.lebogang.genesis.databinding.ItemLocalAlbumArtistSongBinding
 import com.lebogang.genesis.ui.adapters.utils.AdapterInterface
 import com.lebogang.genesis.ui.adapters.utils.OnAudioClickListener
+import com.lebogang.genesis.ui.helpers.ThemeHelper
 
 class ItemAlbumArtistSongAdapter :RecyclerView.Adapter<ItemAlbumArtistSongAdapter.ViewHolder>(), AdapterInterface{
     var listener: OnAudioClickListener? = null
     var listAudio = mutableListOf<Audio>()
-    var audioId:Long = -1
+    var audioId:Long = -3
 
     override fun setAudioData(mutableList: MutableList<Audio>){
         listAudio = mutableList
         notifyDataSetChanged()
     }
 
-    override fun setNowPlaying(audioId:Long):Int{
+    override fun setNowPlaying(audioId:Long){
         this.audioId = audioId
         notifyDataSetChanged()
+    }
+
+    fun nowPlayingIndex(audioId: Long):Int{
         listAudio.forEach {
             if (it.id == audioId){
                 return listAudio.indexOf(it)
@@ -64,10 +68,16 @@ class ItemAlbumArtistSongAdapter :RecyclerView.Adapter<ItemAlbumArtistSongAdapte
     }
 
     private fun updateNowPlaying(holder: ViewHolder, audio: Audio){
-        if (audio.id == audioId)
+        if (audio.id == audioId) {
             holder.viewBinding.lottieView.visibility = View.VISIBLE
-        else
+            holder.viewBinding.titleView.setTextColor(ThemeHelper.PRIMARY_COLOR)
+            holder.viewBinding.subtitleView.setTextColor(ThemeHelper.PRIMARY_COLOR)
+        }
+        else{
             holder.viewBinding.lottieView.visibility = View.GONE
+            holder.viewBinding.titleView.setTextColor(ThemeHelper.PRIMARY_TEXTCOLOR)
+            holder.viewBinding.subtitleView.setTextColor(ThemeHelper.SECONDARY_TEXTCOLOR)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -77,7 +87,8 @@ class ItemAlbumArtistSongAdapter :RecyclerView.Adapter<ItemAlbumArtistSongAdapte
     inner class ViewHolder(val viewBinding: ItemLocalAlbumArtistSongBinding)
         :RecyclerView.ViewHolder(viewBinding.root){
         init {
-            viewBinding.root.setOnClickListener { listener?.onAudioClick(listAudio[adapterPosition]) }
+            viewBinding.root.setOnClickListener {
+                listener?.onAudioClick(listAudio[adapterPosition]) }
             viewBinding.optionsView.setOnClickListener {
                 listener?.onAudioClickOptions(listAudio[adapterPosition]) }
             viewBinding.root.setOnLongClickListener {

@@ -19,7 +19,7 @@
 
     <item>
         <shape
-            android:tint="?colorBackgroundFloating"
+            android:tint="?colorButtonNormal"
             android:shape="oval">
             <corners
                 android:radius="8dp"/>
