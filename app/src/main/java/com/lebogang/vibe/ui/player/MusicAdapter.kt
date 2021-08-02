@@ -21,13 +21,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.databinding.ItemQueueBinding
-import com.lebogang.vibe.database.local.models.AbstractMusic
 import com.lebogang.vibe.ui.ItemClickInterface
 import com.lebogang.vibe.ui.ItemOptionsInterface
 import com.lebogang.vibe.ui.Type
 
 class MusicAdapter:RecyclerView.Adapter<MusicAdapter.Holder>() {
-    private var list = mutableListOf<AbstractMusic>()
+    private var list = mutableListOf<Music>()
     lateinit var itemClickInterface: ItemClickInterface
     lateinit var itemOptionsInterface: ItemOptionsInterface
 
@@ -36,7 +35,7 @@ class MusicAdapter:RecyclerView.Adapter<MusicAdapter.Holder>() {
         notifyDataSetChanged()
     }
 
-    fun setData(list: MutableList<AbstractMusic>){
+    fun setData(list: MutableList<Music>){
         this.list = list
         notifyDataSetChanged()
     }

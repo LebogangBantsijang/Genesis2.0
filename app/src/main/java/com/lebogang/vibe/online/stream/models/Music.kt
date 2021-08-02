@@ -16,9 +16,7 @@
 
 package com.lebogang.vibe.online.stream.models
 
-import android.net.Uri
 import android.os.Parcelable
-import com.lebogang.vibe.database.local.models.AbstractMusic
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -33,26 +31,4 @@ data class Music(
     val artist:String,
     val artistIds:List<Long>,
     val genres:List<String>,
-    val album: Album): AbstractMusic(),Parcelable {
-
-    override fun getItemId(): Long = id
-
-    override fun getItemTitle(): String = title
-
-    override fun getItemArtist(): String = artist
-
-    override fun getItemAlbum(): String = album.title
-
-    override fun getItemImagePath(): String = album.coverMedium
-
-    override fun getItemArtUri(): Uri = Uri.parse(album.coverMedium)
-
-    override fun getItemContentPath(): String = link
-
-    override fun getItemContentUri(): Uri = Uri.parse(link)
-
-    override fun getItemDuration(): Long = duration
-
-    override fun isItemFavourite(): Boolean = false
-
-}
+    val album: Album): Parcelable

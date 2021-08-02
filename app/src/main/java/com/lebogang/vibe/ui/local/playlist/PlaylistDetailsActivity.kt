@@ -73,12 +73,12 @@ class PlaylistDetailsActivity : AppCompatActivity() {
             playlistViewModel.getPlaylistMusicIds(playlist.id).observe(this,{
                 val idArrayList = mutableListOf<Long>()
                 it.forEach { item-> idArrayList.add(item.musicId) }
-                initRecyclerView(idArrayList.toTypedArray())
+                initRecyclerView(idArrayList)
             })
         }
     }
 
-    private fun initRecyclerView(idArray: Array<Long>){
+    private fun initRecyclerView(idArray: List<Long>){
         val typedValue = TypedValue()
         theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue,true)
         adapter.selectableBackgroundId = typedValue.resourceId

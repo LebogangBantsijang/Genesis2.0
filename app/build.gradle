@@ -10,12 +10,11 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId 'com.lebogang.gmusic'
+        applicationId 'com.lebogang.vibe'
         minSdkVersion 23
         targetSdkVersion 31
         versionCode 1
         versionName '1.0.1'
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

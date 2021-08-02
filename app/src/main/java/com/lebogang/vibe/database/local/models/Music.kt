@@ -16,9 +16,8 @@
 
 package com.lebogang.vibe.database.local.models
 
-import android.net.Uri
+import android.os.Parcelable
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
@@ -39,36 +38,4 @@ data class Music (
     val date:Long,
     var isFavourite:Boolean,
     val contentUri:String,
-    var artUri:String): AbstractMusic() {
-
-    @Ignore
-    override fun getItemId(): Long = id
-
-    @Ignore
-    override fun getItemTitle(): String = title
-
-    @Ignore
-    override fun getItemArtist(): String = artist
-
-    @Ignore
-    override fun getItemAlbum(): String = album
-
-    @Ignore
-    override fun isItemFavourite(): Boolean = isFavourite
-
-    @Ignore
-    override fun getItemImagePath(): String = artUri
-
-    @Ignore
-    override fun getItemArtUri(): Uri = Uri.parse(artUri)
-
-    @Ignore
-    override fun getItemDuration(): Long = duration
-
-    @Ignore
-    override fun getItemContentPath(): String = contentUri
-
-    @Ignore
-    override fun getItemContentUri(): Uri = Uri.parse(contentUri)
-
-}
+    var artUri:String):Parcelable

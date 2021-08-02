@@ -31,7 +31,7 @@ interface MusicAccess {
     fun getMusic():Flow<MutableList<Music>>
 
     @Query("SELECT * FROM Music WHERE id IN(:idArray)")
-    fun getMusic(idArray:Array<Long>):Flow<MutableList<Music>>
+    fun getMusic(idArray:List<Long>):Flow<MutableList<Music>>
 
     @Query("SELECT * FROM Music WHERE id = :id")
     fun getMusic(id:Long):Music?

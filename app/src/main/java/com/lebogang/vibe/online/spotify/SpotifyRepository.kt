@@ -34,7 +34,7 @@ class SpotifyRepository(private val spotifyAccess: SpotifyAccess,
         spotifyAuthentication.authenticate(getCallbacksMusic(id,callback))
     }
 
-    fun getCallbacksAlbums(callback: Callback<AlbumElements>) = object :Callback<Authentication>{
+    private fun getCallbacksAlbums(callback: Callback<AlbumElements>) = object :Callback<Authentication>{
         override fun onResponse(call: Call<Authentication>, response: Response<Authentication>) {
             if (response.isSuccessful){
                 val authentication = response.body()!!
@@ -42,11 +42,10 @@ class SpotifyRepository(private val spotifyAccess: SpotifyAccess,
                     .enqueue(callback)
             }
         }
-        override fun onFailure(call: Call<Authentication>, t: Throwable) {
-        }
+        override fun onFailure(call: Call<Authentication>, t: Throwable){}
     }
 
-    fun getCallbacksMusic(id:String,callback: Callback<MusicElements>) = object :Callback<Authentication>{
+    private fun getCallbacksMusic(id:String, callback: Callback<MusicElements>) = object :Callback<Authentication>{
         override fun onResponse(call: Call<Authentication>, response: Response<Authentication>) {
             if (response.isSuccessful){
                 val authentication = response.body()!!
@@ -54,7 +53,6 @@ class SpotifyRepository(private val spotifyAccess: SpotifyAccess,
                     .enqueue(callback)
             }
         }
-        override fun onFailure(call: Call<Authentication>, t: Throwable) {
-        }
+        override fun onFailure(call: Call<Authentication>, t: Throwable) {}
     }
 }

@@ -49,7 +49,7 @@ class MusicViewModel(private val musicRepository: MusicRepository): ViewModel() 
 
     fun getArtistMusic(artistId:Long) = musicRepository.getArtistMusic(artistId).asLiveData()
 
-    fun getMusic(idArray: Array<Long>) = musicRepository.getMusic(idArray).asLiveData()
+    fun getMusic(idArray: List<Long>) = musicRepository.getMusic(idArray).asLiveData()
 
     fun addMusic(music: Music) = viewModelScope.launch(Dispatchers.IO) {
         musicRepository.addMusic(music)

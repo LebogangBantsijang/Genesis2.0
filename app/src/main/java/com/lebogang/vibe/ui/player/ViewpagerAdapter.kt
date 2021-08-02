@@ -21,7 +21,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.databinding.ItemPlayerBinding
-import com.lebogang.vibe.database.local.models.AbstractMusic
+import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.ui.ImageLoader
 import com.lebogang.vibe.ui.Type
 
@@ -41,16 +41,16 @@ import com.lebogang.vibe.ui.Type
  *    limitations under the License.
  */
 class ViewpagerAdapter:RecyclerView.Adapter<ViewpagerAdapter.Holder>(){
-    private var list = listOf<AbstractMusic>()
+    private var list = listOf<Music>()
     lateinit var imageLoader: ImageLoader
     lateinit var context:Context
 
-    fun setData(list: List<AbstractMusic>){
+    fun setData(list: List<Music>){
         this.list = list
         notifyDataSetChanged()
     }
 
-    fun getItems(position: Int): AbstractMusic = list[position]
+    fun getItems(position: Int): Music = list[position]
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
@@ -60,7 +60,7 @@ class ViewpagerAdapter:RecyclerView.Adapter<ViewpagerAdapter.Holder>(){
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val music = list[position]
-        imageLoader.loadImage(music.getItemImagePath(),Type.MUSIC,holder.bind.imageView)
+        imageLoader.loadImage(music.artUri,Type.MUSIC,holder.bind.imageView)
     }
 
     override fun getItemCount(): Int = list.size

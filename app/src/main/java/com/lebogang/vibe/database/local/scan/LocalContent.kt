@@ -32,7 +32,10 @@ import com.lebogang.vibe.database.local.models.Artist
 import com.lebogang.vibe.database.local.models.Genre
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.utils.TimeConverter
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class LocalContent(private val context: Context,
                    private val musicRepository: MusicRepository,
@@ -80,7 +83,7 @@ class LocalContent(private val context: Context,
     /**
      * Get music from the local database and save it in to our database
      * */
-    @SuppressLint("InlinedApi")
+    @SuppressLint("InlinedApi", "Range")
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun loadMusic(){
@@ -118,6 +121,7 @@ class LocalContent(private val context: Context,
     /**
      * Get albums from the local database and save it in to our database
      * */
+    @SuppressLint("Range")
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun loadAlbums(){
@@ -152,6 +156,7 @@ class LocalContent(private val context: Context,
     /**
      * Get artists from the local database and save it in to our database
      * */
+    @SuppressLint("Range")
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun loadArtists(){
@@ -180,6 +185,7 @@ class LocalContent(private val context: Context,
         artistRepository.addArtist(artistMap)
     }
 
+    @SuppressLint("Range")
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun loadGenres(){
@@ -203,6 +209,7 @@ class LocalContent(private val context: Context,
         genreRepository.addGenreMusic(genreMusicList)
     }
 
+    @SuppressLint("Range")
     private fun loadGenreMembers(genreId: Long):List<Genre.Members>{
         val list = mutableListOf<Genre.Members>()
         val cursor = contentResolver.query(ResolverConstants.getGenreMemberUri(genreId)
@@ -230,10 +237,10 @@ class LocalContent(private val context: Context,
      *
      * @return: An array of the details
      * */
-    @SuppressLint("InlinedApi")
+    @SuppressLint("InlinedApi", "Range")
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    private suspend fun getDetails(itemTitle:String, isAlbum:Boolean):Array<Long>{
+    private suspend fun getDetails(itemTitle:String, isAlbum:Boolean):List<Long>{
         var duration = 0L
         var size = 0L
         var albumId = 0L
@@ -251,7 +258,7 @@ class LocalContent(private val context: Context,
         }
         val count:Long = cursor?.count?.toLong() ?: 0L
         cursor?.close()
-        return arrayOf(duration,size,count,albumId)
+        return listOf(duration,size,count,albumId)
     }
 
     private fun getArtUri(id:Long):String{
@@ -312,11 +319,6 @@ class LocalContent(private val context: Context,
         @SuppressLint("InlinedApi")
         fun getGenreMemberUri(genreId:Long): Uri = MediaStore.Audio.Genres.Members
             .getContentUri(MediaStore.VOLUME_EXTERNAL, genreId)
-    }
-
-    object SORT{
-        const val TITLE_ASC:String = "ORDER BY title DESC"
-        var TITLE_DESC:String = ""
     }
 
 }

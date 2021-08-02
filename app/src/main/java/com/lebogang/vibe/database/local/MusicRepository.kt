@@ -23,7 +23,7 @@ class MusicRepository(private val musicAccess: MusicAccess) {
 
     fun getMusic() = musicAccess.getMusic()
 
-    fun getMusic(idArray:Array<Long>) = musicAccess.getMusic(idArray)
+    fun getMusic(idArray:List<Long>) = musicAccess.getMusic(idArray)
 
     fun getAlbumMusic(albumId:Long) = musicAccess.getAlbumMusic(albumId)
 

@@ -60,13 +60,13 @@ class GenreDetailsActivity : AppCompatActivity() {
     private fun initData(){
         genre?.let { item->
             genreViewModel.getGenreMusicIds(item.id).observe(this,{
-                val idArray = it.toTypedArray()
+                val idArray = it
                 initRecyclerView(idArray)
             })
         }
     }
 
-    private fun initRecyclerView(idArray: Array<Long>){
+    private fun initRecyclerView(idArray: List<Long>){
         adapter.selectableBackground = Colors.getSelectableBackground(theme)
         adapter.imageLoader = ImageLoader(this)
         adapter.favouriteClickInterface = getFavouriteInterface()

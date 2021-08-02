@@ -23,6 +23,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.lebogang.vibe.R
 import com.lebogang.vibe.data.models.Audio
 import com.lebogang.vibe.databinding.ActivityMainBinding
@@ -70,13 +71,13 @@ class MainActivity : ThemeHelper() {
         val navHost = supportFragmentManager.findFragmentById(R.id.navFragmentContainer) as NavHostFragment
         val controller = navHost.navController
         val destination = controller.currentDestination?.id
-        if (destination == R.id.songsFragment || destination == R.id.viewAlbumFragment
+        /*if (destination == R.id.songsFragment || destination == R.id.viewAlbumFragment
                 || destination == R.id.viewArtistFragment || destination == R.id.viewPlaylistFragment){
             if (MusicQueue.currentAudio.value != null && MusicQueue.audioQueue.isNotEmpty()){
                 viewBinding.launcherView.getRoot().visibility = View.VISIBLE
             }
         }else
-            viewBinding.launcherView.getRoot().visibility = View.GONE
+            viewBinding.launcherView.getRoot().visibility = View.GONE*/
     }
 
     override fun onSupportNavigateUp(): Boolean {
