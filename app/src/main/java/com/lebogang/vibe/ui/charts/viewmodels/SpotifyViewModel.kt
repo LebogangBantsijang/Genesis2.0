@@ -44,8 +44,7 @@ class SpotifyViewModel(private val spotifyRepository: SpotifyRepository): ViewMo
             albumLiveData.postValue(response.body()?.albums?.items)
         }
 
-        override fun onFailure(call: Call<AlbumElements>, t: Throwable) {
-        }
+        override fun onFailure(call: Call<AlbumElements>, t: Throwable) {}
     }
 
     private fun getAlbumMusicCallback() = object : Callback<MusicElements> {
@@ -53,7 +52,6 @@ class SpotifyViewModel(private val spotifyRepository: SpotifyRepository): ViewMo
             musicLiveData.postValue(response.body()?.items)
         }
 
-        override fun onFailure(call: Call<MusicElements>, t: Throwable) {
-        }
+        override fun onFailure(call: Call<MusicElements>, t: Throwable) {}
     }
 }
