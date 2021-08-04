@@ -45,10 +45,12 @@ class StreamDetailsActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 if (position > 0){
-                    bind.carousel[position].backgroundTintList = Colors.getPrimaryColorTintList(this@StreamDetailsActivity)
+                    bind.carousel[position].backgroundTintList =
+                        Colors.getPrimaryColorTintList(this@StreamDetailsActivity)
                     bind.carousel[0].backgroundTintList = Colors.getButtonNormalTintList(theme)
                 }else{
-                    bind.carousel[0].backgroundTintList = Colors.getPrimaryColorTintList(this@StreamDetailsActivity)
+                    bind.carousel[0].backgroundTintList =
+                        Colors.getPrimaryColorTintList(this@StreamDetailsActivity)
                     bind.carousel[position].backgroundTintList = Colors.getButtonNormalTintList(theme)
                 }
             }

@@ -70,7 +70,8 @@ class AlbumsFragment: Fragment(), OnAlbumClickListener {
     }
 
     private fun initRecyclingView(){
-        viewBinding.recyclerView.layoutManager = StaggeredGridLayoutManager(themeSettings.getColumnCount(), StaggeredGridLayoutManager.VERTICAL)
+        viewBinding.recyclerView.layoutManager =
+            StaggeredGridLayoutManager(themeSettings.getColumnCount(), StaggeredGridLayoutManager.VERTICAL)
         viewBinding.recyclerView.adapter = adapter
     }
 
