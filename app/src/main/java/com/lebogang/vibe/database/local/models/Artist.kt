@@ -18,7 +18,9 @@ package com.lebogang.vibe.database.local.models
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.lebogang.vibe.utils.models.ArtistAbstract
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -32,4 +34,30 @@ data class Artist(
     val size:String,
     var isFavourite:Boolean,
     val contentUri:String,
-    var artUri:String):Parcelable
+    var artUri:String):ArtistAbstract(){
+
+    @Ignore
+    override fun getItemId(): Any = id
+
+    @Ignore
+    override fun getItemTitle(): String = title
+
+    @Ignore
+    override fun getAudioCount(): String = "Songs: $trackCount"
+
+    @Ignore
+    override fun getItemSize(): String = size
+
+    @Ignore
+    override fun getIsItemFavourite(): Boolean = isFavourite
+
+    @Ignore
+    override fun getItemContent(): String = contentUri
+
+    @Ignore
+    override fun getItemArt(): String = artUri
+
+    @Ignore
+    override fun getItemDuration(): String = duration
+
+}

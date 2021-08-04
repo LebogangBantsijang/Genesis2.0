@@ -20,38 +20,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.databinding.ItemMusicBinding
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemOptionsInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemOptionsInterface
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.ui.local.Sort
+import com.lebogang.vibe.ui.utils.DiffUtilMusic
 import com.lebogang.vibe.utils.SortHelper
 
 class MusicAdapter:RecyclerView.Adapter<MusicAdapter.Holder>() {
-    private val asyncListDiffer = AsyncListDiffer(this,DiffCallback)
-    lateinit var imageLoader:ImageLoader
-    lateinit var favouriteClickInterface:ItemOptionsInterface
+    private val asyncListDiffer = AsyncListDiffer(this,DiffUtilMusic)
+    lateinit var imageLoader: ImageLoader
+    lateinit var favouriteClickInterface: ItemOptionsInterface
     lateinit var optionsClickInterface: ItemOptionsInterface
     var selectableBackground:Int = 0
     var hideFavouriteButton:Boolean = false
     var showOptions:Boolean = true
 
     fun sort(sort: Sort){
-        val list = SortHelper.sortList(sort, asyncListDiffer.currentList)
+        val list = SortHelper.sortListAbstract(sort, asyncListDiffer.currentList)
         asyncListDiffer.submitList(list)
     }
 
     fun setData(list: List<Music>) = asyncListDiffer.submitList(list)
-
-    companion object DiffCallback:DiffUtil.ItemCallback<Music>(){
-        override fun areItemsTheSame(o: Music, n: Music):Boolean = o.id == n.id
-
-        override fun areContentsTheSame(o: Music, n: Music): Boolean = o == n
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
@@ -63,15 +57,15 @@ class MusicAdapter:RecyclerView.Adapter<MusicAdapter.Holder>() {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val music = asyncListDiffer.currentList[position]
-        holder.bind.titleTextView.text = music.title
-        holder.bind.subtitleView.text = music.artist
+        holder.bind.titleTextView.text = music.getItemTitle()
+        holder.bind.subtitleView.text = music.getItemArtist()
         if (!hideFavouriteButton){
-            if (music.isFavourite)
+            if (music.getIsItemFavourite())
                 holder.bind.favouriteView.setImageResource(R.drawable.ic_melting_heart_filled_ios)
             else
                 holder.bind.favouriteView.setImageResource(R.drawable.ic_melting_heart_ios)
         }
-        imageLoader.loadImage(music.artUri,Type.MUSIC,holder.bind.imageView)
+        imageLoader.loadImage(music.getItemArt(), Type.MUSIC,holder.bind.imageView)
     }
 
     private fun highlight(holder:Holder,isSelected:Boolean){

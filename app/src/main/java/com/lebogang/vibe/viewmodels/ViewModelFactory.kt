@@ -19,12 +19,12 @@ package com.lebogang.vibe.viewmodels
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.ui.local.viewmodel.MusicViewModel
 import java.lang.IllegalArgumentException
 
 class ViewModelFactory(private val application:Application): ViewModelProvider.Factory {
-    private val gensysApp = application as GApplication
+    private val gensysApp = application as VibeApplication
 
     //new
     fun getMusicViewModel(): MusicViewModel = create(MusicViewModel::class.java)

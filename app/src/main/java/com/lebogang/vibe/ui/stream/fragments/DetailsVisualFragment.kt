@@ -28,11 +28,12 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.lebogang.vibe.databinding.FragmentDetailsVisualsBinding
 import com.lebogang.vibe.online.stream.models.AbstractDetails
-import com.lebogang.vibe.ui.ImageLoader
+import com.lebogang.vibe.ui.utils.ImageLoader
 import com.lebogang.vibe.utils.Keys
+import com.lebogang.vibe.utils.models.ArtistAbstract
 import jp.wasabeef.blurry.Blurry
 
-class DetailsVisualFragment(var details: AbstractDetails?):Fragment(){
+class DetailsVisualFragment(var details: ArtistAbstract?):Fragment(){
     private lateinit var bind:FragmentDetailsVisualsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +54,7 @@ class DetailsVisualFragment(var details: AbstractDetails?):Fragment(){
     private fun initViews(){
         details?.let {
             ImageLoader(requireActivity())
-                .loadImage(it.getImagePath(),bind.imageView,getRequestListener())
+                .loadImage(it.getItemArt(),bind.imageView,getRequestListener())
         }
     }
 

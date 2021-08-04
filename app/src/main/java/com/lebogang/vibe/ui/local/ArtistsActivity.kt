@@ -23,21 +23,21 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Artist
 import com.lebogang.vibe.databinding.ActivityArtistsBinding
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.ItemOptionsInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.ItemOptionsInterface
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.ui.local.adapters.ArtistAdapter
 import com.lebogang.vibe.ui.local.viewmodel.ArtistViewModel
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.utils.Keys
 
 class ArtistsActivity : AppCompatActivity() {
-    private val app:GApplication by lazy { application as GApplication }
+    private val app:VibeApplication by lazy { application as VibeApplication }
     private val bind:ActivityArtistsBinding by lazy { ActivityArtistsBinding.inflate(layoutInflater) }
     private val artistViewModel:ArtistViewModel by lazy { ModelFactory(app).getArtistViewModel() }
     private val adapter = ArtistAdapter()
@@ -68,7 +68,7 @@ class ArtistsActivity : AppCompatActivity() {
         bind.recyclerView.adapter = adapter
     }
 
-    private fun getFavouriteInterface() = object :ItemOptionsInterface{
+    private fun getFavouriteInterface() = object : ItemOptionsInterface {
         override fun onOptionsClick(item: Any) {
             val artist = item as Artist
             artist.isFavourite = !artist.isFavourite
@@ -76,7 +76,7 @@ class ArtistsActivity : AppCompatActivity() {
         }
     }
 
-    private fun getItemClick() = object :ItemClickInterface{
+    private fun getItemClick() = object : ItemClickInterface {
         override fun onItemClick(view: View, item: Any?, type: Type) {
             val artist = item as Artist
             val intent = Intent(this@ArtistsActivity,ArtistDetailsActivity::class.java)

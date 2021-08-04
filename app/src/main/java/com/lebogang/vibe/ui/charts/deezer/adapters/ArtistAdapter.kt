@@ -18,22 +18,21 @@ package com.lebogang.vibe.ui.charts.deezer.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.databinding.ItemArtistOnlineBinding
 import com.lebogang.vibe.online.deezer.models.Artist
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.DiffUtilArtist
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 
 class ArtistAdapter:RecyclerView.Adapter<ArtistAdapter.Holder>() {
-    private var list = listOf<Artist>()
+    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilArtist)
     lateinit var imageLoader: ImageLoader
     lateinit var itemClickInterface: ItemClickInterface
 
-    fun setData(list: List<Artist>){
-        this.list = list
-        notifyDataSetChanged()
-    }
+    fun setData(list: List<Artist>) = asyncListDiffer.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
@@ -42,17 +41,17 @@ class ArtistAdapter:RecyclerView.Adapter<ArtistAdapter.Holder>() {
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val artist = list[position]
-        holder.bind.titleView.text = artist.title
-        imageLoader.loadImage(artist.coverMedium,Type.ARTIST,holder.bind.imageView)
+        val artist = asyncListDiffer.currentList[position]
+        holder.bind.titleView.text = artist.getItemTitle()
+        imageLoader.loadImage(artist.getItemArt(), Type.ARTIST,holder.bind.imageView)
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = asyncListDiffer.currentList.size
 
     inner class Holder(val bind:ItemArtistOnlineBinding):RecyclerView.ViewHolder(bind.root){
         init {
             itemView.setOnClickListener { itemClickInterface
-                .onItemClick(itemView,list[bindingAdapterPosition],Type.ARTIST) }
+                .onItemClick(itemView,asyncListDiffer.currentList[bindingAdapterPosition], Type.ARTIST) }
         }
     }
 }

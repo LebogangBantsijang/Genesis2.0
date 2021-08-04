@@ -25,21 +25,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Genre
 import com.lebogang.vibe.databinding.ItemGenreBinding
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.DiffUtilGenre
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 
 class GenreAdapter :RecyclerView.Adapter<GenreAdapter.Holder>(){
-    private val asyncListDiffer = AsyncListDiffer(this,DiffCallback)
+    private val asyncListDiffer = AsyncListDiffer(this,DiffUtilGenre)
     private var colorList = mutableListOf<Int>()
     lateinit var itemClickInterface: ItemClickInterface
 
     fun setData(list: List<Genre>) = asyncListDiffer.submitList(list)
-
-    companion object DiffCallback:DiffUtil.ItemCallback<Genre>(){
-        override fun areItemsTheSame(o: Genre, n: Genre): Boolean = o.id == n.id
-
-        override fun areContentsTheSame(o: Genre, n: Genre): Boolean = o.equals(n)
-    }
 
     private fun getRandomColors(context: Context){
         colorList.add(context.getColor(R.color.blue_light))
@@ -75,7 +70,7 @@ class GenreAdapter :RecyclerView.Adapter<GenreAdapter.Holder>(){
     inner class Holder(val bind:ItemGenreBinding):RecyclerView.ViewHolder(bind.root){
         init {
             itemView.setOnClickListener { itemClickInterface
-                .onItemClick(itemView,asyncListDiffer.currentList[bindingAdapterPosition],Type.GENRE) }
+                .onItemClick(itemView,asyncListDiffer.currentList[bindingAdapterPosition], Type.GENRE) }
         }
     }
 

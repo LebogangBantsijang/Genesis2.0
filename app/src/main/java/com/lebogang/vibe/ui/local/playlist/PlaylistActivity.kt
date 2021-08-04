@@ -24,23 +24,23 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Playlist
 import com.lebogang.vibe.databinding.ActivityPlaylistBinding
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.ItemOptionsInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.ItemOptionsInterface
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.ui.local.adapters.PlaylistAdapter
 import com.lebogang.vibe.ui.local.playlist.dialogs.PlaylistDialog
 import com.lebogang.vibe.ui.local.playlist.dialogs.PlaylistOptionsDialog
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.ui.local.viewmodel.PlaylistViewModel
 import com.lebogang.vibe.utils.Keys
 
 class PlaylistActivity : AppCompatActivity() {
     private val bind: ActivityPlaylistBinding by lazy { ActivityPlaylistBinding.inflate(layoutInflater) }
-    private val app:GApplication by lazy{application as GApplication}
+    private val app:VibeApplication by lazy{application as VibeApplication}
     private val playlistViewModel: PlaylistViewModel by lazy{ ModelFactory(app).getPlaylistViewModel()}
     private val adapter = PlaylistAdapter()
 
@@ -69,7 +69,7 @@ class PlaylistActivity : AppCompatActivity() {
         bind.newButton.setOnClickListener{PlaylistDialog().showNow(supportFragmentManager,null)}
     }
 
-    private fun getItemClickInterface() = object :ItemClickInterface{
+    private fun getItemClickInterface() = object : ItemClickInterface {
         override fun onItemClick(view: View, item: Any?, type: Type) {
             val playlist = item as Playlist
             val intent = Intent(this@PlaylistActivity, PlaylistDetailsActivity::class.java)

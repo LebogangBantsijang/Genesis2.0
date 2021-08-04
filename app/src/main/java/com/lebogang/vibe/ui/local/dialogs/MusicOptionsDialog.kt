@@ -26,15 +26,15 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Music
-import com.lebogang.vibe.ui.DialogStyle
+import com.lebogang.vibe.ui.utils.DialogStyle
 import com.lebogang.vibe.ui.local.AlbumDetailsActivity
 import com.lebogang.vibe.ui.local.ArtistDetailsActivity
 import com.lebogang.vibe.ui.local.EditActivity
 import com.lebogang.vibe.ui.local.InformationActivity
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.ui.local.viewmodel.MusicViewModel
 import com.lebogang.vibe.utils.Keys
 
@@ -42,7 +42,7 @@ class MusicOptionsDialog :DialogFragment(){
     var music:Music? = null
     var showExtraOption :Boolean = true
     private val musicViewModel: MusicViewModel by lazy {
-        ModelFactory(requireActivity().application as GApplication).getMusicViewModel()}
+        ModelFactory(requireActivity().application as VibeApplication).getMusicViewModel()}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -45,9 +45,9 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class GApplication:Application() {
+class VibeApplication:Application() {
     //new
-    private val appDatabase:GDatabase by lazy { GDatabase.getDatabase(this) }
+    private val appDatabase:VibeDatabase by lazy { VibeDatabase.getDatabase(this) }
     val musicRepository:MusicRepository by lazy {MusicRepository(appDatabase.getMusicAccess())}
     val albumRepository:AlbumRepository by lazy {AlbumRepository(appDatabase.getAlbumAccess())}
     val artistRepository:ArtistRepository by lazy {ArtistRepository(appDatabase.getArtistAccess())}

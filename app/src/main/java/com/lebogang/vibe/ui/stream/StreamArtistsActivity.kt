@@ -22,8 +22,8 @@ import android.view.View
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.lebogang.vibe.R
 import com.lebogang.vibe.databinding.ActivityStreamArtistsBinding
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.ui.stream.adapters.ArtistAdapter
 
 class StreamArtistsActivity : AppCompatActivity() {
@@ -49,7 +49,7 @@ class StreamArtistsActivity : AppCompatActivity() {
         bind.recyclerView.adapter = adapter
     }
 
-    private fun getItemClickInterface() = object :ItemClickInterface{
+    private fun getItemClickInterface() = object : ItemClickInterface {
         override fun onItemClick(view: View, item: Any?, type: Type) {
             TODO("Not yet implemented")
         }

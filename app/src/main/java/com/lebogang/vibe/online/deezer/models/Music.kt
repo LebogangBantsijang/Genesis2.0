@@ -19,6 +19,7 @@ package com.lebogang.vibe.online.deezer.models
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.lebogang.vibe.utils.models.MusicAbstract
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -33,13 +34,31 @@ class Music (
     @SerializedName(value = "explicit_lyrics")
     val hasExplicitLyrics:Boolean,
     @Expose
-    var artist: Artist,
+    var artist: Artist?,
     @Expose
-    var album: Album,
+    var album: Album?,
     @Expose
     @SerializedName(value = "preview")
-    val link:String):Parcelable{
+    val link:String):MusicAbstract(){
 
     class Members(@Expose val data:List<Music>)
+
+    override fun getItemId(): Any = id
+
+    override fun getItemTitle(): String = title
+
+    override fun getItemAlbum(): String = album?.title ?: "Explicit"
+
+    override fun getItemArtist(): String = artist?.title ?: "Unknown"
+
+    override fun getItemDuration(): Long = duration.toLong()
+
+    override fun getItemContent(): String = link
+
+    override fun getItemArt(): String = album?.coverMedium ?: artist?.coverMedium ?: ""
+
+    override fun getItemDate(): Long = 0
+
+    override fun getIsItemFavourite(): Boolean = false
 
 }

@@ -24,9 +24,9 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.history.models.History
-import com.lebogang.vibe.ui.DialogStyle
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.DialogStyle
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.Type
 
 class HistoryDialog:DialogFragment(){
     var history:History? = null
@@ -51,7 +51,7 @@ class HistoryDialog:DialogFragment(){
 
     private fun initViews(){
         dialog?.findViewById<ImageView>(R.id.imageView)?.let {
-            ImageLoader(requireActivity()).loadImage(history?.artUri,Type.MUSIC,it)
+            ImageLoader(requireActivity()).loadImage(history?.artUri, Type.MUSIC,it)
         }
         dialog?.findViewById<TextView>(R.id.titleTextView)?.text = history?.title
         dialog?.findViewById<TextView>(R.id.artistTextView)?.text = history?.artist

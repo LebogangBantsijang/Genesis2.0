@@ -20,6 +20,7 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import com.google.firebase.auth.FirebaseAuth
 import com.lebogang.vibe.R
 import com.lebogang.vibe.databinding.ActivityForgotPasswordBinding

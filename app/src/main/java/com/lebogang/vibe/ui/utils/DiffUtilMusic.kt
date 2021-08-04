@@ -14,12 +14,15 @@
  *    limitations under the License.
  */
 
-package com.lebogang.vibe.ui
+package com.lebogang.vibe.ui.utils
 
-import android.view.View
+import androidx.recyclerview.widget.DiffUtil
+import com.lebogang.vibe.utils.models.MusicAbstract
 
-interface ItemClickInterface {
+object DiffUtilMusic: DiffUtil.ItemCallback<MusicAbstract>(){
+    override fun areItemsTheSame(o: MusicAbstract, n: MusicAbstract):Boolean =
+        o.getItemId() == n.getItemId()
 
-    fun onItemClick(view: View, item:Any?, type: Type)
+    override fun areContentsTheSame(o: MusicAbstract, n: MusicAbstract): Boolean = false
 
 }

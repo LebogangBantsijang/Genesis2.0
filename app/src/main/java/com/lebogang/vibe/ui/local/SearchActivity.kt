@@ -23,16 +23,16 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.databinding.ActivitySearchBinding
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.ui.local.adapters.SearchAdapter
 import com.lebogang.vibe.ui.local.viewmodel.MusicViewModel
 
 class SearchActivity : AppCompatActivity(),SearchView.OnQueryTextListener {
     private val bind:ActivitySearchBinding by lazy{ActivitySearchBinding.inflate(layoutInflater)}
-    private val app: GApplication by lazy { application as GApplication }
+    private val app: VibeApplication by lazy { application as VibeApplication }
     private val musicViewModel: MusicViewModel by lazy{ ModelFactory(app).getMusicViewModel()}
     private val adapter = SearchAdapter()
 

@@ -34,7 +34,7 @@ import com.lebogang.vibe.database.user.models.User
     Playlist.Members::class, Genre::class,Genre.Members::class,User::class]
     ,version = 19,
     exportSchema = false)
-abstract class GDatabase:RoomDatabase() {
+abstract class VibeDatabase:RoomDatabase() {
     abstract fun getMusicAccess():MusicAccess
     abstract fun getAlbumAccess():AlbumAccess
     abstract fun getArtistAccess():ArtistAccess
@@ -45,12 +45,12 @@ abstract class GDatabase:RoomDatabase() {
 
     companion object AppDatabase{
         @Volatile
-        private var gDatabase:GDatabase? = null
+        private var vibeDatabase:VibeDatabase? = null
 
-        fun getDatabase(context: Context):GDatabase{
-            return gDatabase ?: synchronized(this){
-                val db = Room.databaseBuilder(context, GDatabase::class.java
-                    , "GensysDatabase")
+        fun getDatabase(context: Context):VibeDatabase{
+            return vibeDatabase ?: synchronized(this){
+                val db = Room.databaseBuilder(context, VibeDatabase::class.java
+                    , "VibeDatabase")
                     .fallbackToDestructiveMigration()
                     .addCallback(object :RoomDatabase.Callback(){
                         override fun onCreate(db: SupportSQLiteDatabase) {
@@ -59,7 +59,7 @@ abstract class GDatabase:RoomDatabase() {
                         }
                     })
                     .build()
-                gDatabase = db
+                vibeDatabase = db
                 db
             }
         }

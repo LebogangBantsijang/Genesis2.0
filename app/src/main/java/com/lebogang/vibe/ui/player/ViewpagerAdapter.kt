@@ -22,8 +22,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.databinding.ItemPlayerBinding
 import com.lebogang.vibe.database.local.models.Music
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.Type
 
 /*
  * Copyright (c) 2021. - Lebogang Bantsijang
@@ -60,7 +60,7 @@ class ViewpagerAdapter:RecyclerView.Adapter<ViewpagerAdapter.Holder>(){
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val music = list[position]
-        imageLoader.loadImage(music.artUri,Type.MUSIC,holder.bind.imageView)
+        imageLoader.loadImage(music.artUri, Type.MUSIC,holder.bind.imageView)
     }
 
     override fun getItemCount(): Int = list.size

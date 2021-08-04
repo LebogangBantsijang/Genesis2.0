@@ -23,21 +23,21 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.databinding.ActivityDeezerAlbumBinding
 import com.lebogang.vibe.online.deezer.models.Album
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.ui.charts.deezer.adapters.AlbumAdapter
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.utils.Keys
 
 class DeezerAlbumActivity : AppCompatActivity(){
     private val bind: ActivityDeezerAlbumBinding by lazy{
         ActivityDeezerAlbumBinding.inflate(layoutInflater) }
-    private val deezerViewModel by lazy { ModelFactory(application as GApplication).getDeezerViewModel() }
+    private val deezerViewModel by lazy { ModelFactory(application as VibeApplication).getDeezerViewModel() }
     private val adapter = AlbumAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {

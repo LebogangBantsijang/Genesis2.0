@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.vibe.ui
+package com.lebogang.vibe.ui.utils
 
 import android.graphics.Bitmap
 import android.widget.ImageView
@@ -26,7 +26,7 @@ import com.lebogang.vibe.R
 
 class ImageLoader(private val activity: FragmentActivity) {
 
-    fun loadImage(url:String?, type: Type, view:ImageView){
+    fun loadImage(url:String?, type: Type, view: ImageView){
         when(type){
             Type.ALBUM -> loadAlbum(url,view)
             Type.ARTIST -> loadArtist(url, view)
@@ -37,7 +37,7 @@ class ImageLoader(private val activity: FragmentActivity) {
         }
     }
 
-    fun loadImage(url:String?, view:ImageView,listener:RequestListener<Bitmap>){
+    fun loadImage(url:String?, view: ImageView, listener: RequestListener<Bitmap>){
         Glide.with(activity).asBitmap()
             .load(url)
             .listener(listener)

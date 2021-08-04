@@ -23,21 +23,21 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Album
 import com.lebogang.vibe.databinding.ActivityAlbumsBinding
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.ItemOptionsInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.ItemOptionsInterface
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.ui.local.adapters.AlbumAdapter
 import com.lebogang.vibe.ui.local.viewmodel.AlbumViewModel
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.utils.Keys
 
 class AlbumsActivity : AppCompatActivity() {
-    private val app:GApplication by lazy { application as GApplication }
+    private val app:VibeApplication by lazy { application as VibeApplication }
     private val bind:ActivityAlbumsBinding by lazy{ActivityAlbumsBinding.inflate(layoutInflater)}
     private val adapter = AlbumAdapter()
     private val albumsViewModel: AlbumViewModel by lazy{ ModelFactory(app).getAlbumViewModel()}
@@ -57,18 +57,18 @@ class AlbumsActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView(){
+        adapter.imageLoader = ImageLoader(this)
+        adapter.itemOptionsInterface = getFavouriteInterface()
+        adapter.itemClickInterface = getItemClick()
         albumsViewModel.getAlbums().observe(this,{
             adapter.setData(it)
             bind.progressBar.visibility = View.GONE
         })
-        adapter.imageLoader = ImageLoader(this)
-        adapter.itemOptionsInterface = getFavouriteInterface()
-        adapter.itemClickInterface = getItemClick()
         bind.recyclerView.layoutManager = LinearLayoutManager(this)
         bind.recyclerView.adapter = adapter
     }
 
-    private fun getFavouriteInterface() = object :ItemOptionsInterface{
+    private fun getFavouriteInterface() = object : ItemOptionsInterface {
         override fun onOptionsClick(item: Any) {
             val album = item as Album
             album.isFavourite = !album.isFavourite

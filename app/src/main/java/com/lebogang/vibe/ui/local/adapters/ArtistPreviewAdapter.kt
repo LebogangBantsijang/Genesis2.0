@@ -25,23 +25,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Artist
 import com.lebogang.vibe.databinding.ItemArtistPreviewsBinding
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.DiffUtilArtist
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 
 class ArtistPreviewAdapter:RecyclerView.Adapter<ArtistPreviewAdapter.Holder>() {
-    private val asyncListDiffer = AsyncListDiffer(this, DiffCallback)
+    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilArtist)
     var showMore:Boolean = true
     lateinit var imageLoader: ImageLoader
     lateinit var itemClickInterface: ItemClickInterface
 
-    fun setData(list: MutableList<Artist>) = asyncListDiffer.submitList(list)
-
-    companion object DiffCallback: DiffUtil.ItemCallback<Artist>(){
-        override fun areItemsTheSame(o: Artist, n: Artist): Boolean = o.id == n.id
-
-        override fun areContentsTheSame(o: Artist, n: Artist): Boolean = o == n
-    }
+    fun setData(list: List<Artist>) = asyncListDiffer.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
@@ -54,16 +49,16 @@ class ArtistPreviewAdapter:RecyclerView.Adapter<ArtistPreviewAdapter.Holder>() {
         if (showMore){
             if (position < 5){
                 holder.bind.titleTextView.visibility = View.VISIBLE
-                holder.bind.titleTextView.text = artist.title
-                imageLoader.loadImage(artist.artUri, Type.ARTIST,holder.bind.imageView)
+                holder.bind.titleTextView.text = artist.getItemTitle()
+                imageLoader.loadImage(artist.getItemArt(), Type.ARTIST,holder.bind.imageView)
             }else{
                 holder.bind.titleTextView.visibility = View.GONE
                 holder.bind.imageView.setImageResource(R.drawable.more_drawable)
             }
         }else{
             holder.bind.titleTextView.visibility = View.VISIBLE
-            holder.bind.titleTextView.text = artist.title
-            imageLoader.loadImage(artist.artUri, Type.ARTIST,holder.bind.imageView)
+            holder.bind.titleTextView.text = artist.getItemTitle()
+            imageLoader.loadImage(artist.getItemArt(), Type.ARTIST,holder.bind.imageView)
         }
     }
 
@@ -75,12 +70,12 @@ class ArtistPreviewAdapter:RecyclerView.Adapter<ArtistPreviewAdapter.Holder>() {
                 if (showMore){
                     if (bindingAdapterPosition < 5)
                         itemClickInterface.onItemClick(itemView,
-                            asyncListDiffer.currentList[bindingAdapterPosition],Type.ARTIST)
+                            asyncListDiffer.currentList[bindingAdapterPosition], Type.ARTIST)
                     else
-                        itemClickInterface.onItemClick(itemView,null,Type.ARTIST)
+                        itemClickInterface.onItemClick(itemView,null, Type.ARTIST)
                 }else{
                     itemClickInterface.onItemClick(itemView,
-                        asyncListDiffer.currentList[bindingAdapterPosition],Type.ARTIST)
+                        asyncListDiffer.currentList[bindingAdapterPosition], Type.ARTIST)
                 }
             }
         }

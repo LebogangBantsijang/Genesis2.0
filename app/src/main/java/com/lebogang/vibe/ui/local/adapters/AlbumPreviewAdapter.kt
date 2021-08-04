@@ -20,28 +20,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.R
-import com.lebogang.vibe.databinding.ItemAlbumPreviewsBinding
 import com.lebogang.vibe.database.local.models.Album
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.databinding.ItemAlbumPreviewsBinding
+import com.lebogang.vibe.ui.utils.DiffUtilAlbum
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 
 class AlbumPreviewAdapter:RecyclerView.Adapter<AlbumPreviewAdapter.Holder>() {
-    private val asyncListDiffer = AsyncListDiffer(this,DiffCallback)
+    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilAlbum)
     var showMore:Boolean = true
     lateinit var imageLoader: ImageLoader
     lateinit var itemClickInterface: ItemClickInterface
 
-    fun setData(list: MutableList<Album>) = asyncListDiffer.submitList(list)
-
-    companion object DiffCallback: DiffUtil.ItemCallback<Album>(){
-        override fun areItemsTheSame(o: Album, n: Album): Boolean = o.id == n.id
-
-        override fun areContentsTheSame(o: Album, n: Album): Boolean = o == n
-    }
+    fun setData(list: List<Album>) = asyncListDiffer.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
@@ -54,16 +48,16 @@ class AlbumPreviewAdapter:RecyclerView.Adapter<AlbumPreviewAdapter.Holder>() {
         if (showMore){
             if (position < 5){
                 holder.bind.titleTextView.visibility = View.VISIBLE
-                holder.bind.titleTextView.text = album.title
-                imageLoader.loadImage(album.artUri, Type.ALBUM, holder.bind.imageView)
+                holder.bind.titleTextView.text = album.getItemTitle()
+                imageLoader.loadImage(album.getItemArt(), Type.ALBUM, holder.bind.imageView)
             }else{
                 holder.bind.titleTextView.visibility = View.GONE
                 holder.bind.imageView.setImageResource(R.drawable.more_drawable)
             }
         } else{
             holder.bind.titleTextView.visibility = View.VISIBLE
-            holder.bind.titleTextView.text = album.title
-            imageLoader.loadImage(album.artUri, Type.ALBUM, holder.bind.imageView)
+            holder.bind.titleTextView.text = album.getItemTitle()
+            imageLoader.loadImage(album.getItemArt(), Type.ALBUM, holder.bind.imageView)
         }
     }
 
@@ -75,13 +69,13 @@ class AlbumPreviewAdapter:RecyclerView.Adapter<AlbumPreviewAdapter.Holder>() {
                 if (showMore){
                     if (bindingAdapterPosition < 5)
                         itemClickInterface.onItemClick(bind.imageView
-                            ,asyncListDiffer.currentList[bindingAdapterPosition],Type.ALBUM)
+                            ,asyncListDiffer.currentList[bindingAdapterPosition], Type.ALBUM)
                     else
-                        itemClickInterface.onItemClick(bind.imageView,null,Type.ALBUM)
+                        itemClickInterface.onItemClick(bind.imageView,null, Type.ALBUM)
                 }
                 else
                     itemClickInterface.onItemClick(bind.imageView
-                        ,asyncListDiffer.currentList[bindingAdapterPosition],Type.ALBUM)
+                        ,asyncListDiffer.currentList[bindingAdapterPosition], Type.ALBUM)
             }
         }
     }

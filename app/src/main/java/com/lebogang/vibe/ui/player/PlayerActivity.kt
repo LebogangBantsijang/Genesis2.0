@@ -18,14 +18,14 @@ package com.lebogang.vibe.ui.player
 
 import android.content.Intent
 import android.os.Bundle
-import com.lebogang.vibe.GApplication
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.VibeApplication
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.ui.local.viewmodel.MusicViewModel
 
 class PlayerActivity : PlayerHelper() {
     private val adapter = ViewpagerAdapter()
-    private val app: GApplication by lazy { application as GApplication }
+    private val app: VibeApplication by lazy { application as VibeApplication }
     private val musicViewModel: MusicViewModel by lazy{ ModelFactory(app).getMusicViewModel()}
 
     override fun onCreate(savedInstanceState: Bundle?) {

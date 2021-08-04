@@ -18,22 +18,21 @@ package com.lebogang.vibe.ui.charts.spotify.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.databinding.ItemAlbumOnlineBinding
 import com.lebogang.vibe.online.spotify.models.Album
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.DiffUtilAlbum
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 
 class AlbumAdapter:RecyclerView.Adapter<AlbumAdapter.Holder>(){
-    private var list = listOf<Album>()
-    lateinit var itemClickInterface:ItemClickInterface
-    lateinit var imageLoader:ImageLoader
+    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilAlbum)
+    lateinit var itemClickInterface: ItemClickInterface
+    lateinit var imageLoader: ImageLoader
 
-    fun setData(list: List<Album>){
-        this.list = list
-        notifyDataSetChanged()
-    }
+    fun setData(list: List<Album>) = asyncListDiffer.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):Holder {
         val inflater = LayoutInflater.from(parent.context)
@@ -42,26 +41,18 @@ class AlbumAdapter:RecyclerView.Adapter<AlbumAdapter.Holder>(){
     }
 
     override fun onBindViewHolder(holder: AlbumAdapter.Holder, position: Int) {
-        val album = list[position]
-        var artists = ""
-        album.artists.forEachIndexed{index, artist ->
-            if (index == (album.artists.size -1)){
-                artists += artist.title
-                return@forEachIndexed
-            }
-            artists+= artist.title + ", "
-        }
-        holder.bind.titleView.text = album.title
-        holder.bind.subtitleView.text = artists
-        imageLoader.loadImage(album.images.first().url,Type.ALBUM,holder.bind.imageView)
+        val album = asyncListDiffer.currentList[position]
+        holder.bind.titleView.text = album.getItemTitle()
+        holder.bind.subtitleView.text = album.getItemArtist()
+        imageLoader.loadImage(album.getItemArt(), Type.ALBUM,holder.bind.imageView)
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = asyncListDiffer.currentList.size
 
     inner class Holder(val bind: ItemAlbumOnlineBinding): RecyclerView.ViewHolder(bind.root){
         init {
             itemView.setOnClickListener { itemClickInterface
-                .onItemClick(itemView,list[bindingAdapterPosition], Type.ALBUM) }
+                .onItemClick(itemView,asyncListDiffer.currentList[bindingAdapterPosition], Type.ALBUM) }
         }
     }
 

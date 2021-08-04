@@ -20,7 +20,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.database.local.AlbumRepository
 import com.lebogang.vibe.database.local.models.Album
 import com.lebogang.vibe.database.local.scan.LocalContent
@@ -33,7 +33,7 @@ class AlbumViewModel(private val albumRepository: AlbumRepository):ViewModel() {
 
     private val mediaStoreObserver = object : MediaStoreObserver(){
         override fun onContentChanged() {
-            localContent.initDatabase()
+            localContent.reset()
         }
     }
 
@@ -53,13 +53,13 @@ class AlbumViewModel(private val albumRepository: AlbumRepository):ViewModel() {
         albumRepository.addAlbum(album)
     }
 
-    fun registerObserver(application: GApplication){
+    fun registerObserver(application: VibeApplication){
         localContent = application.localContent
         application.contentResolver.registerContentObserver(LocalContent.ResolverConstants.ALBUM_URI
             ,true,mediaStoreObserver)
     }
 
-    fun unregisterObserver(application: GApplication){
+    fun unregisterObserver(application: VibeApplication){
         application.contentResolver.unregisterContentObserver(mediaStoreObserver)
     }
 

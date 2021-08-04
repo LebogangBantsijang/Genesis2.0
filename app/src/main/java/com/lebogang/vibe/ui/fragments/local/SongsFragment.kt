@@ -179,9 +179,6 @@ class SongsFragment: Fragment(), OnAudioClickListener {
 
     private fun initSearchView(){
         viewBinding.closeSearchView.setOnClickListener { showHideSearchView(false) }
-        viewBinding.searchView.addTextChangedListener {
-            adapter.filter.filter(it.toString())
-        }
     }
 
     private fun populateViews(){

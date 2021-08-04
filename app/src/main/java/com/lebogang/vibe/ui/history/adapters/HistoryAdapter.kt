@@ -23,9 +23,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.database.history.models.History
 import com.lebogang.vibe.databinding.ItemMusicHistoryBinding
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 
 class HistoryAdapter:RecyclerView.Adapter<HistoryAdapter.Holder>() {
     private var asyncListDiffer = AsyncListDiffer(this,DiffCallBack)
@@ -50,7 +50,7 @@ class HistoryAdapter:RecyclerView.Adapter<HistoryAdapter.Holder>() {
         val history = asyncListDiffer.currentList[position]
         holder.bind.titleView.text = history.title
         holder.bind.subtitleView.text = history.artist
-        imageLoader.loadImage(history.artUri,Type.MUSIC,holder.bind.imageView)
+        imageLoader.loadImage(history.artUri, Type.MUSIC,holder.bind.imageView)
     }
 
     override fun getItemCount(): Int = asyncListDiffer.currentList.size
@@ -59,7 +59,7 @@ class HistoryAdapter:RecyclerView.Adapter<HistoryAdapter.Holder>() {
         init {
             itemView.setOnClickListener {
                 itemClickInterface.onItemClick(itemView
-                    ,asyncListDiffer.currentList[bindingAdapterPosition],Type.MUSIC)}
+                    ,asyncListDiffer.currentList[bindingAdapterPosition], Type.MUSIC)}
         }
     }
 }

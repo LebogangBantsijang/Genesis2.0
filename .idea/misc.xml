@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/drawable/ic_add_ios.xml" value="0.240625" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/drawable/ic_vibe_logo.xml" value="0.240625" />
         <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_album_details.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_artist_details.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_charts.xml" value="0.22447916666666667" />
@@ -11,10 +13,12 @@
         <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_information.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_music.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_settings.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_sign_in.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/activity_stream.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/dialog_add_audio_to_playlist.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/dialog_audio_fx.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/dialog_history.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/item_album_online.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/layout/item_music_history.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/menu/application_delete.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/default.LAPTOP-J5N9T1TB/AndroidStudioProjects/Genesis20/app/src/main/res/menu/application_search_refresh.xml" value="0.22447916666666667" />

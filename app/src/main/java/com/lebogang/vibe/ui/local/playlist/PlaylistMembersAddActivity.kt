@@ -23,14 +23,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Playlist
 import com.lebogang.vibe.databinding.ActivityPlaylistMembersAddBinding
-import com.lebogang.vibe.ui.Colors
+import com.lebogang.vibe.ui.utils.Colors
 import com.lebogang.vibe.ui.local.Sort
 import com.lebogang.vibe.ui.local.playlist.adapters.MusicAddAdapter
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.ui.local.viewmodel.MusicViewModel
 import com.lebogang.vibe.ui.local.viewmodel.PlaylistViewModel
 import com.lebogang.vibe.utils.Keys
@@ -38,7 +38,7 @@ import com.lebogang.vibe.utils.Keys
 class PlaylistMembersAddActivity : AppCompatActivity() {
     private val bind: ActivityPlaylistMembersAddBinding by lazy{
         ActivityPlaylistMembersAddBinding.inflate(layoutInflater) }
-    private val app: GApplication by lazy { application as GApplication }
+    private val app: VibeApplication by lazy { application as VibeApplication }
     private val playlistViewModel: PlaylistViewModel by lazy{ ModelFactory(app).getPlaylistViewModel()}
     private val musicViewModel: MusicViewModel by lazy { ModelFactory(app).getMusicViewModel() }
     private val adapter = MusicAddAdapter()

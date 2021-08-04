@@ -19,15 +19,28 @@ package com.lebogang.vibe.ui.stream
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.app
 import com.lebogang.vibe.R
 import com.lebogang.vibe.databinding.ActivityStreamBinding
 import com.lebogang.vibe.ui.SettingsActivity
 import com.lebogang.vibe.ui.charts.ChartsActivity
 import com.lebogang.vibe.ui.local.HomeActivity
+import com.lebogang.vibe.ui.stream.adapters.AlbumAdapter
+import com.lebogang.vibe.ui.stream.adapters.ArtistAdapter
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 
 class StreamActivity : AppCompatActivity() {
     private val bind:ActivityStreamBinding by lazy{ ActivityStreamBinding.inflate(layoutInflater)}
+    private val imageLoader:ImageLoader by lazy { ImageLoader(this) }
+    private val albumAdapter = AlbumAdapter()
+    private val artistAdapter = ArtistAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +49,20 @@ class StreamActivity : AppCompatActivity() {
         setContentView(bind.root)
         setSupportActionBar(bind.toolbar)
         initBottomNavigation()
+    }
+
+    private fun initAlbumRecyclerView(){
+        albumAdapter.imageLoader = imageLoader
+        albumAdapter.itemClickInterface = getItemClickInterface()
+        bind.recyclerViewAlbums.layoutManager = LinearLayoutManager(this
+            ,LinearLayoutManager.HORIZONTAL, false)
+        bind.recyclerViewAlbums.adapter = albumAdapter
+    }
+
+    private fun getItemClickInterface() = object:ItemClickInterface{
+        override fun onItemClick(view: View, item: Any?, type: Type) {
+            TODO("Not yet implemented")
+        }
     }
 
     private fun initBottomNavigation(){
@@ -49,4 +76,8 @@ class StreamActivity : AppCompatActivity() {
             false
         }
     }
+
+
+
+    private fun isUserSignedIn() = FirebaseAuth.getInstance().currentUser != null
 }

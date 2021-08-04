@@ -21,8 +21,8 @@ import android.os.Bundle
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.databinding.ActivityInformationBinding
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.utils.Keys
 import java.util.*
 
@@ -53,7 +53,7 @@ class InformationActivity : AppCompatActivity() {
             bind.sizeTextView.text = it.size
             bind.favouriteTextView.text = it.isFavourite.toString()
             bind.yearTextView.text = if (it.date <= 0) getString(R.string.unknown) else Date(it.date).toString()
-            ImageLoader(this).loadImage(it.artUri,Type.MUSIC,bind.imageView)
+            ImageLoader(this).loadImage(it.artUri, Type.MUSIC,bind.imageView)
         }
     }
 

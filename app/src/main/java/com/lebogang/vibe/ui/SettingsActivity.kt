@@ -21,15 +21,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate.*
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.databinding.ActivitySettingsBinding
 import com.lebogang.vibe.ui.local.viewmodel.MusicViewModel
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.utils.Keys
 
 class SettingsActivity : AppCompatActivity() {
     private val bind:ActivitySettingsBinding by lazy{ActivitySettingsBinding.inflate(layoutInflater)}
-    private val app:GApplication by lazy { application as GApplication }
-    private val musicViewModel:MusicViewModel by lazy{ModelFactory(app).getMusicViewModel()}
+    private val app:VibeApplication by lazy { application as VibeApplication }
+    private val musicViewModel:MusicViewModel by lazy{ ModelFactory(app).getMusicViewModel()}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +46,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun initTheme(){
-        bind.themeSwitch.isChecked = getDefaultNightMode() == MODE_NIGHT_NO
+        bind.themeSwitch.isChecked = getDefaultNightMode() == MODE_NIGHT_YES
         bind.themeSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) setDefaultNightMode(MODE_NIGHT_YES)
             else setDefaultNightMode(MODE_NIGHT_NO)
@@ -55,7 +56,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun initViews(){
-        bind.resetDatabase.setOnClickListener { musicViewModel.localContent.initDatabase() }
+        bind.resetDatabase.setOnClickListener { app.localContent.initDatabase() }
         bind.rateApp.setOnClickListener {
             val manager = ReviewManagerFactory.create(this)
             manager.requestReviewFlow().addOnCompleteListener {

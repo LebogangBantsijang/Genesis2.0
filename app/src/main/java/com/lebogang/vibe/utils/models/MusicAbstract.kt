@@ -14,17 +14,28 @@
  *    limitations under the License.
  */
 
-package com.lebogang.vibe.ui
+package com.lebogang.vibe.utils.models
 
-import android.content.Context
-import android.content.Intent
-import androidx.activity.result.contract.ActivityResultContracts
+import android.os.Parcelable
 
-class ImageRequestContract : ActivityResultContracts.GetContent() {
-    override fun createIntent(context: Context, input: String): Intent {
-        return super.createIntent(context, input).apply {
-            putExtra(Intent.EXTRA_LOCAL_ONLY, true)
-            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
-        }
-    }
+abstract class MusicAbstract: Parcelable {
+
+    abstract fun getItemId():Any
+
+    abstract fun getItemTitle():String
+
+    abstract fun getItemAlbum():String
+
+    abstract fun getItemArtist():String
+
+    abstract fun getItemDuration():Long
+
+    abstract fun getItemContent():String
+
+    abstract fun getItemArt():String
+
+    abstract fun getItemDate():Long
+
+    abstract fun getIsItemFavourite():Boolean
+
 }

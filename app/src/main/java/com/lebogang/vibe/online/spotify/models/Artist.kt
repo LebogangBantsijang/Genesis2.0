@@ -19,6 +19,7 @@ package com.lebogang.vibe.online.spotify.models
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.lebogang.vibe.utils.models.ArtistAbstract
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -27,4 +28,22 @@ class Artist(
     val id:String,
     @Expose
     @SerializedName(value = "name")
-    val title:String):Parcelable
+    val title:String):ArtistAbstract(){
+
+    override fun getItemId(): Any = id
+
+    override fun getItemTitle(): String = title
+
+    override fun getAudioCount(): String = ""
+
+    override fun getItemSize(): String = ""
+
+    override fun getIsItemFavourite(): Boolean = false
+
+    override fun getItemContent(): String = ""
+
+    override fun getItemArt(): String = ""
+
+    override fun getItemDuration(): String = ""
+
+}

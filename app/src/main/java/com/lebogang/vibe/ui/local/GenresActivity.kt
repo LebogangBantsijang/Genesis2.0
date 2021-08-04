@@ -23,19 +23,19 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Genre
 import com.lebogang.vibe.databinding.ActivityGenresBinding
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.ui.local.adapters.GenreAdapter
 import com.lebogang.vibe.ui.local.viewmodel.GenreViewModel
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.utils.Keys
 
 class GenresActivity : AppCompatActivity() {
-    private val app:GApplication by lazy { application as GApplication }
+    private val app:VibeApplication by lazy { application as VibeApplication }
     private val bind:ActivityGenresBinding by lazy {ActivityGenresBinding.inflate(layoutInflater)}
     private val adapter = GenreAdapter()
     private val genreViewModel:GenreViewModel by lazy { ModelFactory(app).getGenreViewModel() }
@@ -65,7 +65,7 @@ class GenresActivity : AppCompatActivity() {
         bind.recyclerView.adapter = adapter
     }
 
-    private fun getItemClickInterface() = object :ItemClickInterface{
+    private fun getItemClickInterface() = object : ItemClickInterface {
         override fun onItemClick(view: View, item: Any?, type: Type) {
             val genre = item as Genre
             val intent = Intent(this@GenresActivity,GenreDetailsActivity::class.java)

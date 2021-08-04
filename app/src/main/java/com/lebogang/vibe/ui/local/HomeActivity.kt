@@ -28,7 +28,7 @@ import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Album
 import com.lebogang.vibe.database.local.models.Artist
@@ -47,10 +47,11 @@ import com.lebogang.vibe.ui.local.viewmodel.ArtistViewModel
 import com.lebogang.vibe.ui.local.viewmodel.GenreViewModel
 import com.lebogang.vibe.ui.player.PlayerActivity
 import com.lebogang.vibe.ui.stream.StreamActivity
+import com.lebogang.vibe.ui.utils.*
 import com.lebogang.vibe.utils.Keys
 
 class HomeActivity : AppCompatActivity() {
-    private val app:GApplication by lazy { application as GApplication }
+    private val app:VibeApplication by lazy { application as VibeApplication }
     private val bind: ActivityHomeBinding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
     private val albumViewModel: AlbumViewModel by lazy { ModelFactory(app).getAlbumViewModel()}
     private val artistViewModel:ArtistViewModel by lazy { ModelFactory(app).getArtistViewModel()}
@@ -153,7 +154,7 @@ class HomeActivity : AppCompatActivity() {
         bind.recyclerViewAlbums.adapter = albumAdapter
     }
 
-    private fun getAlbumItemClickInterface() = object :ItemClickInterface{
+    private fun getAlbumItemClickInterface() = object : ItemClickInterface {
         override fun onItemClick(view: View, item: Any?, type: Type) {
             when (item) {
                 null -> {
@@ -180,7 +181,7 @@ class HomeActivity : AppCompatActivity() {
         bind.recyclerViewArtists.adapter = artistAdapter
     }
 
-    private fun getArtistItemClickInterface() = object :ItemClickInterface{
+    private fun getArtistItemClickInterface() = object : ItemClickInterface {
         override fun onItemClick(view: View, item: Any?, type: Type) {
             when (item) {
                 null -> startActivity(Intent(this@HomeActivity,
@@ -211,7 +212,7 @@ class HomeActivity : AppCompatActivity() {
             GenresActivity::class.java))}
     }
 
-    private fun geGenreItemClickInterface() = object :ItemClickInterface{
+    private fun geGenreItemClickInterface() = object : ItemClickInterface {
         override fun onItemClick(view: View, item: Any?, type: Type) {
             val genre = item as Genre
             val intent = Intent(this@HomeActivity,GenreDetailsActivity::class.java)

@@ -18,22 +18,21 @@ package com.lebogang.vibe.ui.charts.deezer.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.databinding.ItemAlbumOnlineBinding
 import com.lebogang.vibe.online.deezer.models.Album
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.DiffUtilAlbum
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 
 class AlbumAdapter:RecyclerView.Adapter<AlbumAdapter.Holder>() {
-    private var list = listOf<Album>()
+    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilAlbum)
     lateinit var imageLoader: ImageLoader
     lateinit var itemClickInterface: ItemClickInterface
 
-    fun setData(list: List<Album>){
-        this.list = list
-        notifyDataSetChanged()
-    }
+    fun setData(list: List<Album>) = asyncListDiffer.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
@@ -42,18 +41,18 @@ class AlbumAdapter:RecyclerView.Adapter<AlbumAdapter.Holder>() {
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val album = list[position]
-        holder.bind.titleView.text = album.title
-        holder.bind.subtitleView.text = album.artist.title
-        imageLoader.loadImage(album.coverMedium,Type.ALBUM,holder.bind.imageView)
+        val album = asyncListDiffer.currentList[position]
+        holder.bind.titleView.text = album.getItemTitle()
+        holder.bind.subtitleView.text = album.getItemArtist()
+        imageLoader.loadImage(album.getItemArt(), Type.ALBUM,holder.bind.imageView)
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = asyncListDiffer.currentList.size
 
     inner class Holder(val bind:ItemAlbumOnlineBinding):RecyclerView.ViewHolder(bind.root){
         init {
             itemView.setOnClickListener { itemClickInterface
-                .onItemClick(itemView,list[bindingAdapterPosition],Type.ALBUM) }
+                .onItemClick(itemView,asyncListDiffer.currentList[bindingAdapterPosition], Type.ALBUM) }
         }
     }
 

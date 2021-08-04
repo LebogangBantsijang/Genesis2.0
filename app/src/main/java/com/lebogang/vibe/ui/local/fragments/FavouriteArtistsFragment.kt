@@ -23,22 +23,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.database.local.models.Artist
 import com.lebogang.vibe.databinding.FragmentFavouriteLayoutBinding
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.ItemOptionsInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.ItemOptionsInterface
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.ui.local.ArtistDetailsActivity
 import com.lebogang.vibe.ui.local.adapters.ArtistAdapter
 import com.lebogang.vibe.ui.local.viewmodel.ArtistViewModel
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.utils.Keys
 
 class FavouriteArtistsFragment:Fragment() {
     private lateinit var bind:FragmentFavouriteLayoutBinding
-    private val app: GApplication by lazy { requireActivity().application as GApplication }
+    private val app: VibeApplication by lazy { requireActivity().application as VibeApplication }
     private val artistViewModel: ArtistViewModel by lazy { ModelFactory(app).getArtistViewModel()}
     private val adapter = ArtistAdapter()
 
@@ -61,7 +61,7 @@ class FavouriteArtistsFragment:Fragment() {
         bind.recyclerView.adapter = adapter
     }
 
-    private fun getFavouriteInterface() = object : ItemOptionsInterface{
+    private fun getFavouriteInterface() = object : ItemOptionsInterface {
         override fun onOptionsClick(item: Any) {
             val artist = item as Artist
             artist.isFavourite = !artist.isFavourite

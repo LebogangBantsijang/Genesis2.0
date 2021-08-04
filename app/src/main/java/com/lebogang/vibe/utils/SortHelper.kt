@@ -18,27 +18,48 @@ package com.lebogang.vibe.utils
 
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.ui.local.Sort
+import com.lebogang.vibe.utils.models.MusicAbstract
 
 object SortHelper {
-    fun sortList(sort: Sort,list: List<Music>):List<Music> = list.sortedWith { o1, o2 ->
+
+    fun sortListAbstract(sort: Sort,list: List<MusicAbstract>):List<MusicAbstract> = list.sortedWith { o1, o2 ->
         when(sort) {
             Sort.TITLE-> when {
-                o1.title > o2.title -> 1
-                o1.title < o2.title -> -1
+                o1.getItemTitle() > o2.getItemTitle() -> 1
+                o1.getItemTitle() < o2.getItemTitle() -> -1
                 else -> 0
             }
             Sort.NEW -> when {
-                o1.date < o2.date -> 1
-                o1.date > o2.date -> -1
+                o1.getItemDate() < o2.getItemDate() -> 1
+                o1.getItemDate() > o2.getItemDate() -> -1
                 else -> 0
             }
             Sort.DURATION -> when {
-                o1.duration < o2.duration -> 1
-                o1.duration > o2.duration -> -1
+                o1.getItemDuration() < o2.getItemDuration() -> 1
+                o1.getItemDuration() > o2.getItemDuration() -> -1
                 else -> 0
             }
         }
     }
 
+    fun sortList(sort: Sort,list: List<Music>):List<Music> = list.sortedWith { o1, o2 ->
+        when(sort) {
+            Sort.TITLE-> when {
+                o1.getItemTitle() > o2.getItemTitle() -> 1
+                o1.getItemTitle() < o2.getItemTitle() -> -1
+                else -> 0
+            }
+            Sort.NEW -> when {
+                o1.getItemDate() < o2.getItemDate() -> 1
+                o1.getItemDate() > o2.getItemDate() -> -1
+                else -> 0
+            }
+            Sort.DURATION -> when {
+                o1.getItemDuration() < o2.getItemDuration() -> 1
+                o1.getItemDuration() > o2.getItemDuration() -> -1
+                else -> 0
+            }
+        }
+    }
 
 }

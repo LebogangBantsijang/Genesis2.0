@@ -19,29 +19,22 @@ package com.lebogang.vibe.ui.local.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Genre
 import com.lebogang.vibe.databinding.ItemGenrePreviewBinding
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.DiffUtilGenre
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 
 class GenrePreviewAdapter :RecyclerView.Adapter<GenrePreviewAdapter.Holder>(){
-    private var list = listOf<Genre>()
+    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilGenre)
     private var colorList = mutableListOf<Int>()
     lateinit var itemClickInterface: ItemClickInterface
 
-    fun setData(list: List<Genre>){
-        this.list = list
-        notifyDataSetChanged()
-    }
-
-    companion object DiffCallback: DiffUtil.ItemCallback<Genre>(){
-        override fun areItemsTheSame(o: Genre, n: Genre): Boolean = o.id == n.id
-
-        override fun areContentsTheSame(o: Genre, n: Genre): Boolean = o.equals(n)
-    }
+    fun setData(list: List<Genre>) = asyncListDiffer.submitList(list)
 
     private fun getRandomColors(context: Context){
         colorList.add(context.getColor(R.color.blue_light))
@@ -68,16 +61,17 @@ class GenrePreviewAdapter :RecyclerView.Adapter<GenrePreviewAdapter.Holder>(){
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val genre = list[position]
+        val genre = asyncListDiffer.currentList[position]
         holder.bind.titleTextView.text = genre.title
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = asyncListDiffer.currentList.size
 
     inner class Holder(val bind:ItemGenrePreviewBinding):RecyclerView.ViewHolder(bind.root){
         init {
             itemView.setOnClickListener {
-                itemClickInterface.onItemClick(itemView,list[bindingAdapterPosition],Type.GENRE) }
+                itemClickInterface.onItemClick(itemView,
+                    asyncListDiffer.currentList[bindingAdapterPosition], Type.GENRE) }
         }
     }
 
