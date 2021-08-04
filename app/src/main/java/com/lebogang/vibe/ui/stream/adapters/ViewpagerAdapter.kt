@@ -19,7 +19,6 @@ package com.lebogang.vibe.ui.stream.adapters
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.lebogang.vibe.online.stream.models.AbstractDetails
 import com.lebogang.vibe.ui.stream.fragments.DetailsInfoFragment
 import com.lebogang.vibe.ui.stream.fragments.DetailsVisualFragment
 import com.lebogang.vibe.utils.models.ArtistAbstract

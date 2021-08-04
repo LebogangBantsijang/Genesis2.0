@@ -27,7 +27,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.lebogang.vibe.databinding.FragmentDetailsVisualsBinding
-import com.lebogang.vibe.online.stream.models.AbstractDetails
 import com.lebogang.vibe.ui.utils.ImageLoader
 import com.lebogang.vibe.utils.Keys
 import com.lebogang.vibe.utils.models.ArtistAbstract
