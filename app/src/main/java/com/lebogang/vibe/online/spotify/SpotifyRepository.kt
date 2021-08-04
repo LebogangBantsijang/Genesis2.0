@@ -42,7 +42,9 @@ class SpotifyRepository(private val spotifyAccess: SpotifyAccess,
                     .enqueue(callback)
             }
         }
-        override fun onFailure(call: Call<Authentication>, t: Throwable){}
+        override fun onFailure(call: Call<Authentication>, t: Throwable){
+            //failed
+        }
     }
 
     private fun getCallbacksMusic(id:String, callback: Callback<MusicElements>) = object :Callback<Authentication>{
