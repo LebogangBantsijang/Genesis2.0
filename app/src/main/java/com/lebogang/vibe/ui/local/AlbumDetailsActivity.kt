@@ -20,8 +20,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.databinding.ActivityAlbumDetailsBinding
 import com.lebogang.vibe.ui.local.adapters.MusicAdapter
@@ -30,7 +30,6 @@ import com.lebogang.vibe.ui.local.viewmodel.AlbumViewModel
 import com.lebogang.vibe.ui.local.viewmodel.MusicViewModel
 import com.lebogang.vibe.ui.utils.*
 import com.lebogang.vibe.utils.Keys
-import kotlin.jvm.Throws
 
 class AlbumDetailsActivity : AppCompatActivity() {
     private val bind:ActivityAlbumDetailsBinding by lazy{ActivityAlbumDetailsBinding.inflate(layoutInflater)}
@@ -46,12 +45,8 @@ class AlbumDetailsActivity : AppCompatActivity() {
         setContentView(bind.root)
         val albumId = intent.extras?.getLong(Keys.ALBUM_KEY)!!
         initToolbar()
-        try {
-            initData(albumId)
-            initMusic(albumId)
-        }catch (e:NullPointerException){
-            onBackPressed()
-        }
+        initData(albumId)
+        initMusic(albumId)
     }
 
     private fun initToolbar(){
@@ -59,7 +54,6 @@ class AlbumDetailsActivity : AppCompatActivity() {
         bind.toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
-    @Throws(NullPointerException::class)
     private fun initData(id:Long){
         albumViewModel.getAlbums(id).observe(this,{
             bind.albumTitleTextView.text = it.getItemTitle()
