@@ -14,12 +14,18 @@
  *    limitations under the License.
  */
 
-package com.lebogang.vibe.ui
+package com.lebogang.vibe.ui.utils
 
-import android.view.View
+import android.annotation.SuppressLint
+import androidx.recyclerview.widget.DiffUtil
+import com.lebogang.vibe.utils.models.AlbumAbstract
 
-interface ItemClickInterface {
+object DiffUtilAlbum : DiffUtil.ItemCallback<AlbumAbstract>(){
 
-    fun onItemClick(view: View, item:Any?, type: Type)
+    override fun areItemsTheSame(o: AlbumAbstract, n: AlbumAbstract):Boolean =
+        o.getItemId() == n.getItemId()
+
+    @SuppressLint("DiffUtilEquals")
+    override fun areContentsTheSame(o: AlbumAbstract, n: AlbumAbstract): Boolean = false
 
 }

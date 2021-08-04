@@ -16,28 +16,27 @@
 
 package com.lebogang.vibe.ui.local
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.databinding.ActivityArtistDetailsBinding
-import com.lebogang.vibe.ui.*
 import com.lebogang.vibe.ui.local.adapters.MusicAdapter
 import com.lebogang.vibe.ui.local.dialogs.MusicOptionsDialog
 import com.lebogang.vibe.ui.local.viewmodel.ArtistViewModel
 import com.lebogang.vibe.ui.local.viewmodel.MusicViewModel
+import com.lebogang.vibe.ui.utils.*
 import com.lebogang.vibe.utils.Keys
 
 class ArtistDetailsActivity : AppCompatActivity() {
     private val bind: ActivityArtistDetailsBinding by lazy{ActivityArtistDetailsBinding.inflate(layoutInflater)}
-    private val app: GApplication by lazy { application as GApplication }
+    private val app: VibeApplication by lazy { application as VibeApplication }
     private val musicViewModel:MusicViewModel by lazy { ModelFactory(app).getMusicViewModel()}
     private val artistViewModel: ArtistViewModel by lazy{ ModelFactory(app).getArtistViewModel()}
-    private val imageLoader:ImageLoader by lazy { ImageLoader(this) }
+    private val imageLoader: ImageLoader by lazy { ImageLoader(this) }
     private val musicAdapter = MusicAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,29 +54,32 @@ class ArtistDetailsActivity : AppCompatActivity() {
         bind.toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun initData(artistId:Long){
         artistViewModel.getArtist(artistId).observe(this,{
-            bind.artistTitleTextView.text = it.title
-            bind.subtitleTextView.text = "Songs: " + it.trackCount.toString() + " - "+
-                    it.duration + " - " + it.size
-            if (it.isFavourite)
+            try{
+                bind.artistTitleTextView.text = it.getItemTitle()
+            }catch (e:NullPointerException){
+                onBackPressed()
+            }
+            val subTitle = it.getAudioCount() + " - "+ it.getItemDuration() + " - " + it.getItemSize()
+            bind.subtitleTextView.text = subTitle
+            if (it.getIsItemFavourite())
                 bind.imageButton.setImageResource(R.drawable.ic_melting_heart_filled_ios)
             else
                 bind.imageButton.setImageResource(R.drawable.ic_melting_heart_ios)
-            imageLoader.loadImage(it.artUri,Type.ARTIST,bind.imageView)
+            imageLoader.loadImage(it.artUri, Type.ARTIST,bind.imageView)
         })
     }
 
     private fun initMusic(artistId:Long){
         musicAdapter.selectableBackground = Colors.getSelectableBackground(theme)
+        musicAdapter.imageLoader = imageLoader
+        musicAdapter.hideFavouriteButton = true
+        musicAdapter.optionsClickInterface = getOptionClickInterface()
         musicViewModel.getArtistMusic(artistId).observe(this,{list->
             musicAdapter.setData(list)
             bind.progressBar.visibility = View.GONE
         })
-        musicAdapter.imageLoader = imageLoader
-        musicAdapter.hideFavouriteButton = true
-        musicAdapter.optionsClickInterface = getOptionClickInterface()
         bind.recyclerView.layoutManager = LinearLayoutManager(this)
         bind.recyclerView.adapter = musicAdapter
     }

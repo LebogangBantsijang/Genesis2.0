@@ -14,10 +14,26 @@
  *    limitations under the License.
  */
 
-package com.lebogang.vibe.ui
+package com.lebogang.vibe.utils.models
 
-interface ItemOptionsInterface {
+import android.os.Parcelable
 
-    fun onOptionsClick(item:Any)
+abstract class ArtistAbstract: Parcelable {
+
+    abstract fun getItemId():Any
+
+    abstract fun getItemTitle():String
+
+    abstract fun getAudioCount():String
+
+    abstract fun getItemSize():String
+
+    abstract fun getIsItemFavourite():Boolean
+
+    abstract fun getItemContent():String
+
+    abstract fun getItemArt():String
+
+    abstract fun getItemDuration():String
 
 }

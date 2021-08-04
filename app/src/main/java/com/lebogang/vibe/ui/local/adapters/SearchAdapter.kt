@@ -20,16 +20,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.databinding.ItemMusicBinding
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemOptionsInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.DiffUtilMusic
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemOptionsInterface
+import com.lebogang.vibe.ui.utils.Type
 
 class SearchAdapter:RecyclerView.Adapter<SearchAdapter.Holder>(),Filterable{
-    private var list = listOf<Music>()
+    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilMusic)
+    var list = listOf<Music>()
     private var searchResults = mutableListOf<Music>()
     lateinit var imageLoader: ImageLoader
     lateinit var favouriteClickInterface: ItemOptionsInterface
@@ -38,8 +41,6 @@ class SearchAdapter:RecyclerView.Adapter<SearchAdapter.Holder>(),Filterable{
 
     fun setData(list: List<Music>){
         this.list = list
-        if (searchResults.isNotEmpty()) searchResults.clear()
-        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -49,7 +50,7 @@ class SearchAdapter:RecyclerView.Adapter<SearchAdapter.Holder>(),Filterable{
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val music = list[position]
+        val music = searchResults[position]
         holder.bind.titleTextView.text = music.title
         holder.bind.subtitleView.text = music.artist
         if (music.isFavourite)
@@ -73,24 +74,27 @@ class SearchAdapter:RecyclerView.Adapter<SearchAdapter.Holder>(),Filterable{
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 searchResults.clear()
                 constraint?.let {
-                    list.forEach { music ->
-                        if (music.title.contains(it, false)||music.artist.contains(it, false)){
-                            searchResults.add(music)
+                    asyncListDiffer.currentList.forEach { music ->
+                        if (music.getItemTitle().contains(it, false)
+                            ||music.getItemTitle().contains(it, false)){
+                            //searchResults.add(music)
                         }
                     }
                 }
                 return FilterResults()
             }
-            override fun publishResults(c: CharSequence?, r: FilterResults?) = notifyDataSetChanged()
+            override fun publishResults(c: CharSequence?, r: FilterResults?){
+
+            }
         }
     }
 
     inner class Holder(val bind:ItemMusicBinding):RecyclerView.ViewHolder(bind.root){
         init {
             bind.favouriteView.setOnClickListener {
-                favouriteClickInterface.onOptionsClick(list[bindingAdapterPosition]) }
+                favouriteClickInterface.onOptionsClick(asyncListDiffer.currentList[bindingAdapterPosition]) }
             bind.moreView.setOnClickListener {
-                optionsClickInterface.onOptionsClick(list[bindingAdapterPosition]) }
+                optionsClickInterface.onOptionsClick(asyncListDiffer.currentList[bindingAdapterPosition]) }
         }
     }
 }

@@ -29,7 +29,7 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.lebogang.vibe.R
 import com.lebogang.vibe.databinding.ActivityPhoneBinding
-import com.lebogang.vibe.ui.DialogStyle
+import com.lebogang.vibe.ui.utils.DialogStyle
 import java.util.concurrent.TimeUnit
 
 class PhoneActivity : GoogleHelper() {

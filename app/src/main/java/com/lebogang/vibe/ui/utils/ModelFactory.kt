@@ -14,18 +14,18 @@
  *    limitations under the License.
  */
 
-package com.lebogang.vibe.ui
+package com.lebogang.vibe.ui.utils
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.ui.charts.viewmodels.DeezerViewModel
 import com.lebogang.vibe.ui.charts.viewmodels.SpotifyViewModel
 import com.lebogang.vibe.ui.history.viewmodels.HistoryViewModel
-import com.lebogang.vibe.ui.user.viewmodels.UserViewModel
 import com.lebogang.vibe.ui.local.viewmodel.*
+import com.lebogang.vibe.ui.user.viewmodels.UserViewModel
 
-class ModelFactory(private val application: GApplication) : ViewModelProvider.Factory {
+class ModelFactory(private val application: VibeApplication) : ViewModelProvider.Factory {
 
     fun getArtistViewModel(): ArtistViewModel = create(ArtistViewModel::class.java)
 

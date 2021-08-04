@@ -20,20 +20,20 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.databinding.ActivityDeezerArtistDetailsBinding
 import com.lebogang.vibe.online.deezer.models.Artist
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.ui.charts.deezer.adapters.MusicAdapter
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.utils.Keys
 
 class DeezerArtistDetailsActivity : AppCompatActivity() {
     private val bind: ActivityDeezerArtistDetailsBinding by lazy{
         ActivityDeezerArtistDetailsBinding.inflate(layoutInflater) }
-    private val deezerViewModel by lazy { ModelFactory(application as GApplication).getDeezerViewModel() }
+    private val deezerViewModel by lazy { ModelFactory(application as VibeApplication).getDeezerViewModel() }
     private val adapter = MusicAdapter()
     private val imageLoader: ImageLoader by lazy{ ImageLoader(this) }
     private var artist: Artist? = null

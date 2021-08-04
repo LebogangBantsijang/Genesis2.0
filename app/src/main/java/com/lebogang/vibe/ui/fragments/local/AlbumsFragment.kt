@@ -131,9 +131,6 @@ class AlbumsFragment: Fragment(), OnAlbumClickListener {
 
     private fun initSearchView(){
         viewBinding.closeSearchView.setOnClickListener { showHideSearchView(false) }
-        viewBinding.searchView.addTextChangedListener {
-            adapter.filter.filter(it.toString())
-        }
     }
 
     /**

@@ -16,33 +16,22 @@
 
 package com.lebogang.vibe.ui.local.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Album
 import com.lebogang.vibe.databinding.ItemAlbumBinding
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.ItemOptionsInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.*
 
 class AlbumAdapter:RecyclerView.Adapter<AlbumAdapter.Holder>() {
-    private val asyncListDiffer = AsyncListDiffer(this,DiffCallback)
+    private val asyncListDiffer = AsyncListDiffer(this,DiffUtilAlbum)
     lateinit var imageLoader: ImageLoader
     lateinit var itemOptionsInterface: ItemOptionsInterface
     lateinit var itemClickInterface: ItemClickInterface
 
-    fun setData(list: MutableList<Album>) = asyncListDiffer.submitList(list)
-
-    companion object DiffCallback:DiffUtil.ItemCallback<Album>(){
-        override fun areItemsTheSame(o: Album, n: Album): Boolean = o.id == n.id
-
-        override fun areContentsTheSame(o: Album, n: Album): Boolean = o == n
-    }
+    fun setData(list: List<Album>) = asyncListDiffer.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
@@ -50,15 +39,14 @@ class AlbumAdapter:RecyclerView.Adapter<AlbumAdapter.Holder>() {
         return Holder(bind)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val album = asyncListDiffer.currentList[position]
-        holder.bind.titleTextView.text = album.title
-        holder.bind.artistTextView.text = album.artist
-        holder.bind.durationTextView.text = album.duration
-        holder.bind.sizeTextView.text = album.size
-        imageLoader.loadImage(album.artUri, Type.ALBUM, holder.bind.imageView)
-        if (album.isFavourite)
+        holder.bind.titleTextView.text = album.getItemTitle()
+        holder.bind.artistTextView.text = album.getItemArtist()
+        holder.bind.durationTextView.text = album.getItemDuration()
+        holder.bind.sizeTextView.text = album.getItemSize()
+        imageLoader.loadImage(album.getItemArt(), Type.ALBUM, holder.bind.imageView)
+        if (album.getIsItemFavourite())
             holder.bind.favouriteImageView.setImageResource(R.drawable.ic_melting_heart_filled_ios)
         else
             holder.bind.favouriteImageView.setImageResource(R.drawable.ic_melting_heart_ios)
@@ -71,7 +59,7 @@ class AlbumAdapter:RecyclerView.Adapter<AlbumAdapter.Holder>() {
             bind.favouriteImageView.setOnClickListener { itemOptionsInterface
                 .onOptionsClick(asyncListDiffer.currentList[bindingAdapterPosition]) }
             bind.root.setOnClickListener { itemClickInterface.onItemClick(itemView
-                ,asyncListDiffer.currentList[bindingAdapterPosition],Type.ALBUM) }
+                ,asyncListDiffer.currentList[bindingAdapterPosition], Type.ALBUM) }
         }
     }
 }

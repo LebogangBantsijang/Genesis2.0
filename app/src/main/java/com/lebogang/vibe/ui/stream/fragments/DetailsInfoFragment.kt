@@ -24,8 +24,9 @@ import androidx.fragment.app.Fragment
 import com.lebogang.vibe.databinding.FragmentDetailsInfoBinding
 import com.lebogang.vibe.online.stream.models.AbstractDetails
 import com.lebogang.vibe.utils.Keys
+import com.lebogang.vibe.utils.models.ArtistAbstract
 
-class DetailsInfoFragment(var details: AbstractDetails?): Fragment(){
+class DetailsInfoFragment(var details: ArtistAbstract?): Fragment(){
     private lateinit var bind: FragmentDetailsInfoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

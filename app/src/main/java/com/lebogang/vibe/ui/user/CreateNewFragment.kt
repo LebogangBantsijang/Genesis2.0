@@ -20,11 +20,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lebogang.vibe.R
 import com.lebogang.vibe.databinding.FragmentCreateNewBinding
-import com.lebogang.vibe.ui.DialogStyle
+import com.lebogang.vibe.ui.utils.DialogStyle
 
 class CreateNewFragment : Fragment(){
     private lateinit var bind:FragmentCreateNewBinding

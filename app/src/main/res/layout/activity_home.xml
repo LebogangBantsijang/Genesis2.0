@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 app:menu="@menu/application_toolbar_menu"
                 app:navigationIcon="@drawable/ic_audio_wave_2"
-                app:title="@string/app_name" />
+                 />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/linearLayoutCompat"

@@ -21,21 +21,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.databinding.ActivitySpotifyBinding
 import com.lebogang.vibe.online.spotify.models.Album
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.ui.charts.spotify.adapters.AlbumAdapter
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.ui.charts.viewmodels.SpotifyViewModel
 import com.lebogang.vibe.utils.Keys
 
 class SpotifyActivity : AppCompatActivity() {
     private val bind:ActivitySpotifyBinding by lazy{ActivitySpotifyBinding.inflate(layoutInflater)}
-    private val app:GApplication by lazy{application as GApplication}
-    private val spotifyViewModel: SpotifyViewModel by lazy{ModelFactory(app).getSpotifyViewModel()}
+    private val app:VibeApplication by lazy{application as VibeApplication}
+    private val spotifyViewModel: SpotifyViewModel by lazy{ ModelFactory(app).getSpotifyViewModel()}
     private val adapter = AlbumAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +68,7 @@ class SpotifyActivity : AppCompatActivity() {
         spotifyViewModel.getAlbums()
     }
 
-    private fun getItemClickInterface(): ItemClickInterface = object :ItemClickInterface{
+    private fun getItemClickInterface(): ItemClickInterface = object : ItemClickInterface {
         override fun onItemClick(view: View, item: Any?, type: Type) {
             val album = item as Album
             val intent = Intent(this@SpotifyActivity, SpotifyDetailsActivity::class.java)

@@ -24,23 +24,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.database.local.models.Playlist
 import com.lebogang.vibe.databinding.ItemPlaylistBinding
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.ItemOptionsInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.DiffUtilPlaylist
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.ItemOptionsInterface
+import com.lebogang.vibe.ui.utils.Type
 
 class PlaylistAdapter :RecyclerView.Adapter<PlaylistAdapter.Holder>(){
-    private val asyncListDiffer = AsyncListDiffer(this,DiffCallback)
+    private val asyncListDiffer = AsyncListDiffer(this,DiffUtilPlaylist)
     var showOptions:Boolean = true
     lateinit var itemOptionsInterface: ItemOptionsInterface
     lateinit var itemClickInterface: ItemClickInterface
 
     fun setData(list: List<Playlist>) = asyncListDiffer.submitList(list)
-
-    companion object DiffCallback:DiffUtil.ItemCallback<Playlist>(){
-        override fun areItemsTheSame(o: Playlist, n: Playlist): Boolean = o.id == n.id
-
-        override fun areContentsTheSame(o: Playlist, n: Playlist): Boolean = o.equals(n)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
@@ -67,7 +62,7 @@ class PlaylistAdapter :RecyclerView.Adapter<PlaylistAdapter.Holder>(){
             }
             itemView.setOnClickListener {
                 itemClickInterface.onItemClick(it,
-                    asyncListDiffer.currentList[bindingAdapterPosition],Type.PLAYLIST)
+                    asyncListDiffer.currentList[bindingAdapterPosition], Type.PLAYLIST)
             }
         }
     }

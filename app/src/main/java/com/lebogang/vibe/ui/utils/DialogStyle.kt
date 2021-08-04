@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.vibe.ui
+package com.lebogang.vibe.ui.utils
 
 import android.content.Context
 import android.util.TypedValue
@@ -35,7 +35,10 @@ object DialogStyle {
     }
 
     fun getDialogBackground(context: Context): MaterialShapeDrawable {
-        return MaterialShapeDrawable.createWithElevationOverlay(context, getDialogElevation(context)).apply {
+        return MaterialShapeDrawable.createWithElevationOverlay(
+            context,
+            getDialogElevation(context)
+        ).apply {
             setCornerSize(getDialogCornerRadius(context))
         }
     }

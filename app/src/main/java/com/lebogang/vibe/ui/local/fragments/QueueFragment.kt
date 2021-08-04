@@ -24,9 +24,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.databinding.FragmentQueueBinding
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.ItemOptionsInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.ItemOptionsInterface
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.ui.player.MusicAdapter
 
 class QueueFragment: Fragment() {
@@ -50,12 +50,12 @@ class QueueFragment: Fragment() {
         bind.recyclerView.adapter = adapter
     }
 
-    private fun getItemClickInterface() = object:ItemClickInterface{
+    private fun getItemClickInterface() = object: ItemClickInterface {
         override fun onItemClick(view: View, item: Any?, type: Type) {
         }
     }
 
-    private fun getItemOptionsInterface() = object:ItemOptionsInterface{
+    private fun getItemOptionsInterface() = object: ItemOptionsInterface {
         override fun onOptionsClick(item: Any) {
             val music = item as Music
             adapter.removeItem(music)

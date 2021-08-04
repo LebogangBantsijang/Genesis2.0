@@ -44,15 +44,6 @@
                 app:navigationIcon="@drawable/ic_audio_wave_2"
                 app:title="@string/app_name" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/coming_soon"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-                android:textStyle="bold"
-                android:padding="16dp"/>
-
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/linearLayoutCompat"
                 android:layout_width="match_parent"
@@ -69,7 +60,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/stream"
-                    android:enabled="false"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
                     android:textStyle="bold" />
 
@@ -211,15 +201,57 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 android:textColor="?android:textColorPrimary"
                 android:textStyle="bold"
-                android:enabled="false"
                 app:icon="@drawable/ic_right_ios"
                 app:iconGravity="end" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="136dp"
+                tools:itemCount="1" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/random_albums"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:textColor="?android:textColorPrimary"
+                android:textStyle="bold"
+                app:icon="@drawable/ic_right_ios"
+                app:iconGravity="end" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewAlbums"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="136dp"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_album_previews" />
+
+            <TextView
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/your_playlist"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:textColor="?android:textColorPrimary"
+                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="136dp"
-                tools:itemCount="1" />
+                tools:itemCount="1"
+                tools:listitem="@layout/item_album_previews" />
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -230,12 +262,11 @@
                 android:padding="0dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="@string/artists"
+                android:text="@string/random_artist"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 android:textColor="?android:textColorPrimary"
                 android:textStyle="bold"
-                android:enabled="false"
                 app:icon="@drawable/ic_right_ios"
                 app:iconGravity="end" />
 
@@ -245,37 +276,6 @@
                 android:minHeight="136dp"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_artist_previews" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/coming_soon"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-                android:textStyle="bold"
-                android:padding="16dp"/>
-
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/albums"
-                android:textAlignment="viewStart"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:textColor="?android:textColorPrimary"
-                android:textStyle="bold"
-                android:enabled="false"
-                app:icon="@drawable/ic_right_ios"
-                app:iconGravity="end" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="136dp"
-                tools:itemCount="1"
-                tools:listitem="@layout/item_album_previews" />
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -317,16 +317,6 @@
                 android:layout_height="wrap_content"
                 android:minHeight="136dp"
                 tools:itemCount="1" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/coming_soon"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-                android:textStyle="bold"
-                android:padding="16dp"/>
-
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

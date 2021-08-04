@@ -14,8 +14,28 @@
  *    limitations under the License.
  */
 
-package com.lebogang.vibe.ui
+package com.lebogang.vibe.utils.models
 
-enum class Type{
-    MUSIC,ALBUM,ARTIST,USER,GENRE,PLAYLIST,PLAYER,GIF
+import android.os.Parcelable
+
+abstract class MusicAbstract: Parcelable {
+
+    abstract fun getItemId():Any
+
+    abstract fun getItemTitle():String
+
+    abstract fun getItemAlbum():String
+
+    abstract fun getItemArtist():String
+
+    abstract fun getItemDuration():Long
+
+    abstract fun getItemContent():String
+
+    abstract fun getItemArt():String
+
+    abstract fun getItemDate():Long
+
+    abstract fun getIsItemFavourite():Boolean
+
 }

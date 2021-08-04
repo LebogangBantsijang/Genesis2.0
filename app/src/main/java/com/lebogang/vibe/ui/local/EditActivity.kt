@@ -19,6 +19,7 @@ package com.lebogang.vibe.ui.local
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -31,22 +32,22 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.databinding.ActivityEditBinding
-import com.lebogang.vibe.ui.DialogStyle
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ModelFactory
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.DialogStyle
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ModelFactory
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.ui.local.viewmodel.MusicViewModel
 import com.lebogang.vibe.utils.Keys
 
 class EditActivity : AppCompatActivity() {
     private val bind :ActivityEditBinding by lazy{ActivityEditBinding.inflate(layoutInflater)}
     private lateinit var music: Music
-    private val imageLoader:ImageLoader by lazy{ImageLoader(this)}
-    private val musicViewModel: MusicViewModel by lazy{ ModelFactory(application as GApplication)
+    private val imageLoader: ImageLoader by lazy{ ImageLoader(this) }
+    private val musicViewModel: MusicViewModel by lazy{ ModelFactory(application as VibeApplication)
         .getMusicViewModel()}
     private lateinit var permissionContract: ActivityResultLauncher<IntentSenderRequest>
     private lateinit var permissionContract29:ActivityResultLauncher<String>
@@ -58,16 +59,10 @@ class EditActivity : AppCompatActivity() {
         music = intent.extras?.getParcelable(Keys.MUSIC_KEY)!!
         initToolbar()
         permissionContract = registerForActivityResult(StartIntentSenderForResult()) {
-            if (it.resultCode == Activity.RESULT_OK){
-                musicViewModel.update(this,music)
-                Toast.makeText(this,getString(R.string.item_update),Toast.LENGTH_SHORT).show()
-            }
+            if (it.resultCode == Activity.RESULT_OK) updateItem()
         }
         permissionContract29 = registerForActivityResult(RequestPermission()){
-            if(it){
-                musicViewModel.update(this,music)
-                Toast.makeText(this,getString(R.string.item_update),Toast.LENGTH_SHORT).show()
-            }else showDialog()
+            if(it) updateItem() else showDialog()
         }
         initViews()
     }
@@ -78,7 +73,7 @@ class EditActivity : AppCompatActivity() {
     }
 
     private fun initViews(){
-        imageLoader.loadImage(music.artUri,Type.MUSIC,bind.imageView)
+        imageLoader.loadImage(music.artUri, Type.MUSIC,bind.imageView)
         bind.titleEditText.setText(music.title)
         bind.albumEditText.setText(music.album)
         bind.artistEditText.setText(music.artist)
@@ -94,19 +89,22 @@ class EditActivity : AppCompatActivity() {
                     update()
                 else{
                     if (ContextCompat.checkSelfPermission(this,WRITE_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_GRANTED){
-                            musicViewModel.update(this,music)
-                            Toast.makeText(this,getString(R.string.item_update),Toast.LENGTH_SHORT).show()
-                    }else
-                        permissionContract29.launch(WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED){ updateItem()
+                    }else permissionContract29.launch(WRITE_EXTERNAL_STORAGE)
                 }
             }
         }
     }
 
+    private fun updateItem(){
+        musicViewModel.update(this,music)
+        Toast.makeText(this,getString(R.string.item_update),Toast.LENGTH_SHORT).show()
+        onBackPressed()
+    }
+
     @RequiresApi(Build.VERSION_CODES.R)
     private fun update(){
-        val intent = MediaStore.createWriteRequest(contentResolver, listOf(music.getItemContentUri()))
+        val intent = MediaStore.createWriteRequest(contentResolver,listOf(Uri.parse(music.contentUri)))
         val request = IntentSenderRequest.Builder(intent).build()
         permissionContract.launch(request)
     }

@@ -247,6 +247,10 @@
     <string name="reset_history">Reset your history?</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="skip">Skip</string>
+    <string name="random_artist">Random Artists</string>
+    <string name="random_albums">Random Albums</string>
+    <string name="your_playlist">Your Playlist</string>
 
     <string-array name="theme_options">
         <item>Light</item>

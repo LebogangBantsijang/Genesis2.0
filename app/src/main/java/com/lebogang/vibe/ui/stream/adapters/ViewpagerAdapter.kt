@@ -22,8 +22,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.lebogang.vibe.online.stream.models.AbstractDetails
 import com.lebogang.vibe.ui.stream.fragments.DetailsInfoFragment
 import com.lebogang.vibe.ui.stream.fragments.DetailsVisualFragment
+import com.lebogang.vibe.utils.models.ArtistAbstract
 
-class ViewpagerAdapter(item:AbstractDetails?, activity:FragmentActivity):FragmentStateAdapter(activity) {
+class ViewpagerAdapter(item:ArtistAbstract?, activity:FragmentActivity):FragmentStateAdapter(activity) {
     private val list = listOf(DetailsVisualFragment(item),DetailsInfoFragment(item))
 
     override fun getItemCount(): Int = list.size

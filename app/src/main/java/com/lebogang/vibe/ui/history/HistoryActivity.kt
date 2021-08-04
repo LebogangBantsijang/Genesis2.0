@@ -24,21 +24,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.history.models.History
 import com.lebogang.vibe.databinding.ActivityHistoryBinding
-import com.lebogang.vibe.ui.DialogStyle
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.ModelFactory
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.DialogStyle
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.ModelFactory
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.ui.history.adapters.HistoryAdapter
 import com.lebogang.vibe.ui.history.dialogs.HistoryDialog
 import com.lebogang.vibe.ui.history.viewmodels.HistoryViewModel
 
 class HistoryActivity : AppCompatActivity() {
     private val bind:ActivityHistoryBinding by lazy{ActivityHistoryBinding.inflate(layoutInflater)}
-    private val app:GApplication by lazy {application as GApplication}
+    private val app:VibeApplication by lazy {application as VibeApplication}
     private val viewModel:HistoryViewModel by lazy { ModelFactory(app).getHistoryViewModel() }
     private val adapter = HistoryAdapter()
 
@@ -78,7 +78,7 @@ class HistoryActivity : AppCompatActivity() {
         bind.recyclerView.adapter = adapter
     }
 
-    private fun getItemClickInterface() = object:ItemClickInterface{
+    private fun getItemClickInterface() = object: ItemClickInterface {
         override fun onItemClick(view: View, item: Any?, type: Type) {
             val history = item as History
             val dialog = HistoryDialog()

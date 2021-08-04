@@ -23,21 +23,21 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.databinding.ActivityMusicBinding
-import com.lebogang.vibe.ui.Colors
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemOptionsInterface
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.ui.utils.Colors
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemOptionsInterface
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.ui.local.adapters.MusicAdapter
 import com.lebogang.vibe.ui.local.dialogs.MusicOptionsDialog
 import com.lebogang.vibe.ui.local.viewmodel.MusicViewModel
 import com.lebogang.vibe.utils.SortHelper
 
 class MusicActivity : AppCompatActivity() {
-    private val app:GApplication by lazy { application as GApplication }
+    private val app:VibeApplication by lazy { application as VibeApplication }
     private val bind:ActivityMusicBinding by lazy{ActivityMusicBinding.inflate(layoutInflater)}
     private val musicViewModel:MusicViewModel by lazy{ ModelFactory(app).getMusicViewModel()}
     private val adapter = MusicAdapter()
@@ -92,7 +92,7 @@ class MusicActivity : AppCompatActivity() {
         registerForContextMenu(bind.recyclerView)
     }
 
-    private fun getFavouriteInterface() = object : ItemOptionsInterface{
+    private fun getFavouriteInterface() = object : ItemOptionsInterface {
         override fun onOptionsClick(item: Any) {
             val music = item as Music
             music.isFavourite = !music.isFavourite
@@ -100,7 +100,7 @@ class MusicActivity : AppCompatActivity() {
         }
     }
 
-    private fun getOptionClickInterface() = object :ItemOptionsInterface{
+    private fun getOptionClickInterface() = object : ItemOptionsInterface {
         override fun onOptionsClick(item: Any) {
             val musicOptionsDialog = MusicOptionsDialog()
             musicOptionsDialog.music = item as Music

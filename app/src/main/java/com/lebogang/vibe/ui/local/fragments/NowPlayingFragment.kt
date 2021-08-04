@@ -26,12 +26,12 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lebogang.vibe.R
 import com.lebogang.vibe.databinding.FragmentNowPlayingBinding
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.Type
 
 class NowPlayingFragment: Fragment() {
     private lateinit var bind:FragmentNowPlayingBinding
-    private val imageLoader:ImageLoader by lazy { ImageLoader(requireActivity()) }
+    private val imageLoader: ImageLoader by lazy { ImageLoader(requireActivity()) }
     private var url:String? = null
     private val preference:SharedPreferences by lazy{requireContext()
         .getSharedPreferences("",Context.MODE_PRIVATE)}
@@ -56,7 +56,7 @@ class NowPlayingFragment: Fragment() {
         this.url = url
         val loadGif = preference.getBoolean("gif", false)
         if (loadGif) imageLoader.loadGif(bind.imageView)
-        else imageLoader.loadImage(url,Type.PLAYER,bind.imageView)
+        else imageLoader.loadImage(url, Type.PLAYER,bind.imageView)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

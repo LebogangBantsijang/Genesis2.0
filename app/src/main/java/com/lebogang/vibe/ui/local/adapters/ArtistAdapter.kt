@@ -25,24 +25,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Artist
 import com.lebogang.vibe.databinding.ItemArtistBinding
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.ItemOptionsInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.*
 
 class ArtistAdapter:RecyclerView.Adapter<ArtistAdapter.Holder>() {
-    private val asyncListDiffer = AsyncListDiffer(this, DiffCallback)
+    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilArtist)
     lateinit var imageLoader: ImageLoader
     lateinit var itemOptionsInterface: ItemOptionsInterface
     lateinit var itemClickInterface: ItemClickInterface
 
     fun setData(list: List<Artist>) = asyncListDiffer.submitList(list)
-
-    companion object DiffCallback:DiffUtil.ItemCallback<Artist>(){
-        override fun areItemsTheSame(o: Artist, n: Artist): Boolean = o.id == n.id
-
-        override fun areContentsTheSame(o: Artist, n: Artist): Boolean = o == n
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
@@ -53,11 +44,11 @@ class ArtistAdapter:RecyclerView.Adapter<ArtistAdapter.Holder>() {
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val artist = asyncListDiffer.currentList[position]
-        holder.bind.titleTextView.text = artist.title
-        holder.bind.countTextView.text = "songs: " + artist.trackCount
-        holder.bind.durationTextView.text = artist.duration + " - " + artist.size
-        imageLoader.loadImage(artist.artUri, Type.ARTIST, holder.bind.imageView)
-        if (artist.isFavourite)
+        holder.bind.titleTextView.text = artist.getItemTitle()
+        holder.bind.countTextView.text = artist.getAudioCount()
+        holder.bind.durationTextView.text = artist.getItemDuration() + " - " + artist.getItemSize()
+        imageLoader.loadImage(artist.getItemArt(), Type.ARTIST, holder.bind.imageView)
+        if (artist.getIsItemFavourite())
             holder.bind.favouriteImageView.setImageResource(R.drawable.ic_melting_heart_filled_ios)
         else
             holder.bind.favouriteImageView.setImageResource(R.drawable.ic_melting_heart_ios)
@@ -70,7 +61,7 @@ class ArtistAdapter:RecyclerView.Adapter<ArtistAdapter.Holder>() {
             bind.favouriteImageView.setOnClickListener { itemOptionsInterface
                 .onOptionsClick(asyncListDiffer.currentList[bindingAdapterPosition]) }
             bind.root.setOnClickListener { itemClickInterface.onItemClick(itemView
-                ,asyncListDiffer.currentList[bindingAdapterPosition],Type.ALBUM) }
+                ,asyncListDiffer.currentList[bindingAdapterPosition], Type.ALBUM) }
         }
     }
 }

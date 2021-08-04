@@ -24,22 +24,22 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.database.local.models.Playlist
-import com.lebogang.vibe.ui.DialogStyle
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.DialogStyle
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.ui.local.adapters.PlaylistAdapter
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.ui.local.viewmodel.PlaylistViewModel
 import com.lebogang.vibe.utils.Keys
 
 class AddToPlaylistDialog: DialogFragment() {
     var music: Music? = null
     private val playlistViewModel: PlaylistViewModel by lazy {
-        ModelFactory(requireActivity().application as GApplication).getPlaylistViewModel()}
+        ModelFactory(requireActivity().application as VibeApplication).getPlaylistViewModel()}
     private val adapter = PlaylistAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +71,7 @@ class AddToPlaylistDialog: DialogFragment() {
         recyclerView?.adapter = adapter
     }
 
-    private fun getItemClickInterface():ItemClickInterface = object :ItemClickInterface{
+    private fun getItemClickInterface(): ItemClickInterface = object : ItemClickInterface {
         override fun onItemClick(view: View, item: Any?, type: Type) {
             music?.let {
                 val playlist = item as Playlist

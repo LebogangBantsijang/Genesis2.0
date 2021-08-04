@@ -21,9 +21,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.databinding.ItemQueueBinding
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.ItemOptionsInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.ItemOptionsInterface
+import com.lebogang.vibe.ui.utils.Type
 
 class MusicAdapter:RecyclerView.Adapter<MusicAdapter.Holder>() {
     private var list = mutableListOf<Music>()
@@ -57,7 +57,7 @@ class MusicAdapter:RecyclerView.Adapter<MusicAdapter.Holder>() {
     inner class Holder(val bind:ItemQueueBinding):RecyclerView.ViewHolder(bind.root){
         init {
             itemView.setOnClickListener {
-                itemClickInterface.onItemClick(itemView,list[bindingAdapterPosition],Type.MUSIC) }
+                itemClickInterface.onItemClick(itemView,list[bindingAdapterPosition], Type.MUSIC) }
             bind.removeButton.setOnClickListener {
                 itemOptionsInterface.onOptionsClick(list[bindingAdapterPosition]) }
         }

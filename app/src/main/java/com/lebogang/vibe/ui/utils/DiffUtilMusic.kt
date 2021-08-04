@@ -14,17 +14,15 @@
  *    limitations under the License.
  */
 
-package com.lebogang.vibe.ui
+package com.lebogang.vibe.ui.utils
 
-import android.content.Context
-import android.content.Intent
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.recyclerview.widget.DiffUtil
+import com.lebogang.vibe.utils.models.MusicAbstract
 
-class ImageRequestContract : ActivityResultContracts.GetContent() {
-    override fun createIntent(context: Context, input: String): Intent {
-        return super.createIntent(context, input).apply {
-            putExtra(Intent.EXTRA_LOCAL_ONLY, true)
-            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
-        }
-    }
+object DiffUtilMusic: DiffUtil.ItemCallback<MusicAbstract>(){
+    override fun areItemsTheSame(o: MusicAbstract, n: MusicAbstract):Boolean =
+        o.getItemId() == n.getItemId()
+
+    override fun areContentsTheSame(o: MusicAbstract, n: MusicAbstract): Boolean = false
+
 }

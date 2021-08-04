@@ -19,6 +19,7 @@ package com.lebogang.vibe.online.spotify.models
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.lebogang.vibe.utils.models.MusicAbstract
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -34,4 +35,34 @@ class Music(
     @SerializedName(value = "preview_url")
     val preview:String,
     @Expose
-    val artists:List<Artist>):Parcelable
+    val artists:List<Artist>):MusicAbstract(){
+
+    override fun getItemId(): Any = id
+
+    override fun getItemTitle(): String = title
+
+    override fun getItemAlbum(): String = "Explicit"
+
+    override fun getItemArtist(): String {
+        var names = ""
+        artists.forEachIndexed { index, artist ->
+            if (index == (artists.size -1)){
+                names += artist.title
+                return@forEachIndexed
+            }
+            names += artist.title + ", "
+        }
+        return names
+    }
+
+    override fun getItemDuration(): Long  = 0
+
+    override fun getItemContent(): String = preview
+
+    override fun getItemArt(): String  = artists.first().title
+
+    override fun getItemDate(): Long = 0
+
+    override fun getIsItemFavourite(): Boolean = false
+
+}

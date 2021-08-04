@@ -24,7 +24,7 @@ import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.database.local.MusicRepository
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.database.local.scan.LocalContent
@@ -37,7 +37,7 @@ class MusicViewModel(private val musicRepository: MusicRepository): ViewModel() 
 
     private val mediaStoreObserver = object : MediaStoreObserver(){
         override fun onContentChanged() {
-            localContent.initDatabase()
+            localContent.reset()
         }
     }
 
@@ -73,13 +73,13 @@ class MusicViewModel(private val musicRepository: MusicRepository): ViewModel() 
         }
     }
 
-    fun registerObserver(application: GApplication){
+    fun registerObserver(application: VibeApplication){
         localContent = application.localContent
         application.contentResolver.registerContentObserver(LocalContent.ResolverConstants.MUSIC_URI
             ,true,mediaStoreObserver)
     }
 
-    fun unregisterObserver(application: GApplication){
+    fun unregisterObserver(application: VibeApplication){
         application.contentResolver.unregisterContentObserver(mediaStoreObserver)
     }
 

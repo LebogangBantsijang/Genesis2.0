@@ -16,31 +16,28 @@
 
 package com.lebogang.vibe.ui.charts.spotify.adapters
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.R
 import com.lebogang.vibe.databinding.ItemMusicOnlineBinding
 import com.lebogang.vibe.online.spotify.models.Music
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.ui.utils.DiffUtilMusic
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 
 class MusicAdapter :RecyclerView.Adapter<MusicAdapter.Holder>(){
-    private var list = listOf<Music>()
+    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilMusic)
     lateinit var imageLoader: ImageLoader
     lateinit var itemClickInterface: ItemClickInterface
     var artUrl:String? = null
-    @ColorInt
-    private var explicitColor:Int = -1
+    @ColorInt private var explicitColor:Int = -1
 
-    fun setData(list: List<Music>){
-        this.list =  list
-        notifyDataSetChanged()
-    }
+    fun setData(list: List<Music>) = asyncListDiffer.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         if (explicitColor<0)
@@ -50,25 +47,25 @@ class MusicAdapter :RecyclerView.Adapter<MusicAdapter.Holder>(){
         return Holder(bind)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val music = list[position]
-        holder.bind.titleView.text = music.title
-        holder.bind.subtitleView.text = music.artists.random().title
-        holder.bind.albumTitleTextView.text = "Explicit"
-        if (music.explicit)
+        val music = asyncListDiffer.currentList[position]
+        holder.bind.titleView.text = music.getItemTitle()
+        holder.bind.subtitleView.text = music.getItemArtist()
+        holder.bind.albumTitleTextView.text = music.getItemAlbum()
+        imageLoader.loadImage(artUrl, Type.MUSIC,holder.bind.imageView)
+        if ((music as Music).explicit)
             holder.bind.albumTitleTextView.setTextColor(explicitColor)
         else
             holder.bind.albumTitleTextView.setTextColor(Color.LTGRAY)
-        imageLoader.loadImage(artUrl,Type.MUSIC,holder.bind.imageView)
     }
 
-    override fun getItemCount():Int = list.size
+    override fun getItemCount():Int = asyncListDiffer.currentList.size
 
     inner class Holder(val bind:ItemMusicOnlineBinding):RecyclerView.ViewHolder(bind.root){
         init {
             itemView.setOnClickListener {
-                itemClickInterface.onItemClick(itemView,list[bindingAdapterPosition],Type.MUSIC) }
+                itemClickInterface.onItemClick(itemView
+                    ,asyncListDiffer.currentList[bindingAdapterPosition], Type.MUSIC) }
         }
     }
 

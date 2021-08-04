@@ -25,25 +25,20 @@ import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.databinding.ItemMusicPlaylistAddBinding
 import com.lebogang.vibe.ui.local.Sort
+import com.lebogang.vibe.ui.utils.DiffUtilMusic
 import com.lebogang.vibe.utils.SortHelper
 
 class MusicAddAdapter:RecyclerView.Adapter<MusicAddAdapter.Holder>(){
-    private val asyncListDiffer = AsyncListDiffer(this,DiffCallback)
+    private val asyncListDiffer = AsyncListDiffer(this,DiffUtilMusic)
     var selectedItems = mutableListOf<Long>()
     var selectableBackground:Int = 0
 
     fun sort(sort: Sort) {
-        val list = SortHelper.sortList(sort,asyncListDiffer.currentList)
+        val list = SortHelper.sortListAbstract(sort,asyncListDiffer.currentList)
         asyncListDiffer.submitList(list)
     }
 
-    fun setData(list:MutableList<Music>) = asyncListDiffer.submitList(list)
-
-    companion object DiffCallback: DiffUtil.ItemCallback<Music>(){
-        override fun areItemsTheSame(o: Music, n: Music):Boolean = o.id == n.id
-
-        override fun areContentsTheSame(o: Music, n: Music): Boolean = o == n
-    }
+    fun setData(list:List<Music>) = asyncListDiffer.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
@@ -53,9 +48,9 @@ class MusicAddAdapter:RecyclerView.Adapter<MusicAddAdapter.Holder>(){
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val music = asyncListDiffer.currentList[position]
-        holder.bind.titleTextView.text = music.title
-        holder.bind.subtitleView.text = music.artist
-        highlight(holder,selectedItems.contains(music.id))
+        holder.bind.titleTextView.text = music.getItemTitle()
+        holder.bind.subtitleView.text = music.getItemArtist()
+        highlight(holder,selectedItems.contains(music.getItemId()))
     }
 
     private fun highlight(holder: Holder, isSelected:Boolean){
@@ -75,11 +70,11 @@ class MusicAddAdapter:RecyclerView.Adapter<MusicAddAdapter.Holder>(){
         init {
             itemView.setOnClickListener {
                 val music = asyncListDiffer.currentList[bindingAdapterPosition]
-                val alreadyAdded = selectedItems.contains(music.id)
+                val alreadyAdded = selectedItems.contains(music.getItemId())
                 if (alreadyAdded)
-                    selectedItems.remove(music.id)
+                    selectedItems.remove(music.getItemId())
                 else
-                    selectedItems.add(music.id)
+                    selectedItems.add(music.getItemId() as Long)
                 onBindViewHolder(this,bindingAdapterPosition)
             }
         }

@@ -19,7 +19,7 @@ package com.lebogang.vibe.ui.local.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.database.local.GenreRepository
 import com.lebogang.vibe.database.local.scan.LocalContent
 import com.lebogang.vibe.database.local.scan.MediaStoreObserver
@@ -29,7 +29,7 @@ class GenreViewModel(private val genreRepository: GenreRepository) : ViewModel()
 
     private val mediaStoreObserver = object : MediaStoreObserver(){
         override fun onContentChanged() {
-            localContent.initDatabase()
+            localContent.reset()
         }
     }
 
@@ -40,13 +40,13 @@ class GenreViewModel(private val genreRepository: GenreRepository) : ViewModel()
     fun getGenreMusicIds(genreId:Long):LiveData<MutableList<Long>> =
         genreRepository.getGenreMusicIds(genreId).asLiveData()
 
-    fun registerObserver(application: GApplication){
+    fun registerObserver(application: VibeApplication){
         localContent = application.localContent
         application.contentResolver.registerContentObserver(LocalContent.ResolverConstants.GENRE_URI
             ,true,mediaStoreObserver)
     }
 
-    fun unregisterObserver(application: GApplication){
+    fun unregisterObserver(application: VibeApplication){
         application.contentResolver.unregisterContentObserver(mediaStoreObserver)
     }
 

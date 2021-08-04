@@ -18,15 +18,21 @@ package com.lebogang.vibe.ui.stream.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.lebogang.vibe.databinding.ItemArtistOnlineBinding
 import com.lebogang.vibe.online.stream.models.Album
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.Type
+import com.lebogang.vibe.online.stream.models.Artist
+import com.lebogang.vibe.ui.utils.DiffUtilArtist
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.Type
 
 class ArtistAdapter:RecyclerView.Adapter<ArtistAdapter.Holder>(){
+    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilArtist)
     private var list = listOf<Album>()
     lateinit var itemClickInterface: ItemClickInterface
+
+    fun setData(list:List<Artist>) = asyncListDiffer.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
@@ -38,12 +44,13 @@ class ArtistAdapter:RecyclerView.Adapter<ArtistAdapter.Holder>(){
         val artist = list[position]
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = asyncListDiffer.currentList.size
 
     inner class Holder(val bind:ItemArtistOnlineBinding):RecyclerView.ViewHolder(bind.root){
         init {
             itemView.setOnClickListener {
-                itemClickInterface.onItemClick(itemView,list[bindingAdapterPosition],Type.ARTIST) }
+                itemClickInterface.onItemClick(itemView,
+                    asyncListDiffer.currentList[bindingAdapterPosition], Type.ARTIST) }
         }
     }
 }

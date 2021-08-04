@@ -16,37 +16,37 @@
 
 package com.lebogang.vibe.ui.charts.spotify
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.databinding.ActivitySpotifyDetailsBinding
 import com.lebogang.vibe.online.spotify.models.Album
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemClickInterface
-import com.lebogang.vibe.ui.ModelFactory
-import com.lebogang.vibe.ui.Type
 import com.lebogang.vibe.ui.charts.spotify.adapters.MusicAdapter
 import com.lebogang.vibe.ui.charts.viewmodels.SpotifyViewModel
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemClickInterface
+import com.lebogang.vibe.ui.utils.ModelFactory
+import com.lebogang.vibe.ui.utils.Type
 import com.lebogang.vibe.utils.Keys
 
 class SpotifyDetailsActivity : AppCompatActivity() {
     private val bind:ActivitySpotifyDetailsBinding by lazy{
         ActivitySpotifyDetailsBinding.inflate(layoutInflater)}
-    private val app: GApplication by lazy{application as GApplication }
+    private val app: VibeApplication by lazy{application as VibeApplication }
     private val spotifyViewModel: SpotifyViewModel by lazy{ ModelFactory(app).getSpotifyViewModel()}
     private var album:Album? = null
     private val adapter = MusicAdapter()
-    private val imageLoader:ImageLoader by lazy{ImageLoader(this)}
+    private val imageLoader: ImageLoader by lazy{ ImageLoader(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         album = intent.getParcelableExtra(Keys.ALBUM_KEY)
         setContentView(bind.root)
         initToolbar()
-        initAlbums()
+        initAlbum()
         initRecyclerView()
     }
 
@@ -55,22 +55,14 @@ class SpotifyDetailsActivity : AppCompatActivity() {
         bind.toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
-    private fun initAlbums(){
+    private fun initAlbum(){
         album?.let{
-            var names = ""
-            it.artists.forEachIndexed{index, artist ->
-                if (index == (it.artists.size-1)){
-                    names += artist.title
-                    return@forEachIndexed
-                }
-                names += artist.title + ", "
-            }
-            bind.artistTextView.text = names
-            bind.titleTextView.text = it.title
+            bind.artistTextView.text = it.getItemArtist()
+            bind.titleTextView.text = it.getItemTitle()
             bind.dateTextView.text = (getString(R.string.release_date_) + it.date)
             bind.countTextView.text = (getString(R.string.tracks_) + it.numberOfTracks)
-            imageLoader.loadImage(it.images.first().url,Type.ALBUM,bind.imageView)
-            adapter.artUrl = it.images.last().url
+            imageLoader.loadImage(it.getItemArt(), Type.ALBUM,bind.imageView)
+            adapter.artUrl = it.getItemArt()
         }
     }
 
@@ -85,8 +77,9 @@ class SpotifyDetailsActivity : AppCompatActivity() {
         bind.recyclerView.adapter = adapter
     }
 
-    private fun getItemClickInterface() = object :ItemClickInterface{
+    private fun getItemClickInterface() = object : ItemClickInterface {
         override fun onItemClick(view: View, item: Any?, type: Type) {
+            //play song
         }
     }
 

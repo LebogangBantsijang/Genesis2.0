@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.lebogang.vibe.ui
+package com.lebogang.vibe.ui.utils
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -46,56 +46,56 @@ object Colors {
         return typedValue.resourceId
     }
 
-    fun getControlNormalColor(theme: Resources.Theme,context: Context):Int{
+    fun getControlNormalColor(theme: Resources.Theme, context: Context):Int{
         val typedValue = TypedValue()
         theme.resolveAttribute(R.attr.colorControlNormal,typedValue, true)
         val color = if (typedValue.resourceId != 0) typedValue.resourceId else typedValue.data
         return context.getColor(color)
     }
 
-    fun getTextColorPrimary(theme: Resources.Theme,context: Context):Int{
+    fun getTextColorPrimary(theme: Resources.Theme, context: Context):Int{
         val typedValue = TypedValue()
         theme.resolveAttribute(android.R.attr.textColorPrimary,typedValue, true)
         val color = if (typedValue.resourceId != 0) typedValue.resourceId else typedValue.data
         return context.getColor(color)
     }
 
-    fun getTextColorSecondary(theme: Resources.Theme,context: Context):Int{
+    fun getTextColorSecondary(theme: Resources.Theme, context: Context):Int{
         val typedValue = TypedValue()
         theme.resolveAttribute(android.R.attr.textColorSecondary,typedValue, true)
         val color = if (typedValue.resourceId != 0) typedValue.resourceId else typedValue.data
         return context.getColor(color)
     }
 
-    fun getTextColorTertiary(theme: Resources.Theme,context: Context):Int{
+    fun getTextColorTertiary(theme: Resources.Theme, context: Context):Int{
         val typedValue = TypedValue()
         theme.resolveAttribute(android.R.attr.textColorTertiary,typedValue, true)
         val color = if (typedValue.resourceId != 0) typedValue.resourceId else typedValue.data
         return context.getColor(color)
     }
 
-    fun getControlNormalColorInverse(theme: Resources.Theme,context: Context):Int{
+    fun getControlNormalColorInverse(theme: Resources.Theme, context: Context):Int{
         val typedValue = TypedValue()
         theme.resolveAttribute(R.attr.colorButtonNormal,typedValue, true)
         val color = if (typedValue.resourceId != 0) typedValue.resourceId else typedValue.data
         return context.getColor(color)
     }
 
-    fun getTextColorPrimaryInverse(theme: Resources.Theme,context: Context):Int{
+    fun getTextColorPrimaryInverse(theme: Resources.Theme, context: Context):Int{
         val typedValue = TypedValue()
         theme.resolveAttribute(android.R.attr.textColorPrimaryInverse,typedValue, true)
         val color = if (typedValue.resourceId != 0) typedValue.resourceId else typedValue.data
         return context.getColor(color)
     }
 
-    fun getTextColorSecondaryInverse(theme: Resources.Theme,context: Context):Int{
+    fun getTextColorSecondaryInverse(theme: Resources.Theme, context: Context):Int{
         val typedValue = TypedValue()
         theme.resolveAttribute(android.R.attr.textColorSecondaryInverse,typedValue, true)
         val color = if (typedValue.resourceId != 0) typedValue.resourceId else typedValue.data
         return context.getColor(color)
     }
 
-    fun getTextColorTertiaryInverse(theme: Resources.Theme,context: Context):Int{
+    fun getTextColorTertiaryInverse(theme: Resources.Theme, context: Context):Int{
         val typedValue = TypedValue()
         theme.resolveAttribute(android.R.attr.textColorTertiaryInverse,typedValue, true)
         val color = if (typedValue.resourceId != 0) typedValue.resourceId else typedValue.data
@@ -104,5 +104,6 @@ object Colors {
 
     fun getPrimaryColorTintList(context: Context) = ColorStateList.valueOf(getPrimaryColor(context))
 
-    fun getButtonNormalTintList(theme: Resources.Theme) = ColorStateList.valueOf(getColorButtonNormal(theme))
+    fun getButtonNormalTintList(theme: Resources.Theme) =
+        ColorStateList.valueOf(getColorButtonNormal(theme))
 }

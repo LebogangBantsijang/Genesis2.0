@@ -20,15 +20,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.R
 import com.lebogang.vibe.database.local.models.Genre
 import com.lebogang.vibe.database.local.models.Music
 import com.lebogang.vibe.databinding.ActivityGenreDetailsBinding
-import com.lebogang.vibe.ui.Colors
-import com.lebogang.vibe.ui.ImageLoader
-import com.lebogang.vibe.ui.ItemOptionsInterface
-import com.lebogang.vibe.ui.ModelFactory
+import com.lebogang.vibe.ui.utils.Colors
+import com.lebogang.vibe.ui.utils.ImageLoader
+import com.lebogang.vibe.ui.utils.ItemOptionsInterface
+import com.lebogang.vibe.ui.utils.ModelFactory
 import com.lebogang.vibe.ui.local.adapters.MusicAdapter
 import com.lebogang.vibe.ui.local.viewmodel.GenreViewModel
 import com.lebogang.vibe.ui.local.viewmodel.MusicViewModel
@@ -37,7 +37,7 @@ import com.lebogang.vibe.utils.Keys
 class GenreDetailsActivity : AppCompatActivity() {
     private val bind:ActivityGenreDetailsBinding by lazy{
         ActivityGenreDetailsBinding.inflate(layoutInflater)}
-    private val app:GApplication by lazy { application as GApplication }
+    private val app:VibeApplication by lazy { application as VibeApplication }
     private var genre:Genre? = null
     private val genreViewModel: GenreViewModel by lazy { ModelFactory(app).getGenreViewModel() }
     private val musicViewModel: MusicViewModel by lazy{ ModelFactory(app).getMusicViewModel()}

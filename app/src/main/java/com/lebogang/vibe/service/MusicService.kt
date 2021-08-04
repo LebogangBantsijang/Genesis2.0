@@ -25,7 +25,7 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
-import com.lebogang.vibe.GApplication
+import com.lebogang.vibe.VibeApplication
 import com.lebogang.vibe.data.models.Audio
 import com.lebogang.vibe.servicehelpers.PlaybackState
 import com.lebogang.vibe.servicehelpers.OnStateChangedListener
@@ -39,7 +39,7 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener, MediaPl
     private val managePlayers :ManagePlayers by lazy { ManagePlayers(this@MusicService
         , this@MusicService, this@MusicService) }
     private val broadcastMusicReceiver:MusicReceiver by lazy { MusicReceiver(this) }
-    private val statisticsRepo:StatisticsRepo by lazy { (application as GApplication).statisticsRepo }
+    private val statisticsRepo:StatisticsRepo by lazy { (application as VibeApplication).statisticsRepo }
     private val playerSettings:PlayerSettings by lazy{ PlayerSettings(this) }
     private val hashMap = HashMap<String, OnStateChangedListener>()
     private var playbackState = PlaybackState.NONE

@@ -18,9 +18,10 @@ package com.lebogang.vibe.ui.stream
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.viewpager2.widget.ViewPager2
 import com.lebogang.vibe.databinding.ActivityStreamDetailsBinding
-import com.lebogang.vibe.ui.Colors
+import com.lebogang.vibe.ui.utils.Colors
 import com.lebogang.vibe.ui.stream.adapters.ViewpagerAdapter
 
 class StreamDetailsActivity : AppCompatActivity() {

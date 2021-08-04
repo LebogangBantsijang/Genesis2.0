@@ -16,21 +16,41 @@
 
 package com.lebogang.vibe.online.stream.models
 
+import android.os.Parcelable
+import com.lebogang.vibe.utils.models.AlbumAbstract
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Album(
     val id:Long,
     val title:String,
+    val artist:String,
     val album:String,
-    val coverSmall:String,
     val coverMedium:String,
     val coverLarge:String,
     val releaseDate:Long,
-    val releaseType:String,
-    val nbTracks:Int,
+    val link:String,
+    val explicit:Boolean,
+    val trackCount:Int,
+    val rating:Int,
     val artistIds:List<Long>,
-    val genre:List<String>):AbstractDetails() {
+    val genre:List<String>):AlbumAbstract(){
 
-    override fun getImagePath(): String = coverMedium
+    override fun getItemId(): Any = id
+
+    override fun getItemTitle(): String = title
+
+    override fun getItemArtist(): String = artist
+
+    override fun getItemArt(): String = coverMedium
+
+    override fun getItemDuration(): String  = ""
+
+    override fun getItemSize(): String = "Songs: $trackCount"
+
+    override fun getIsItemFavourite(): Boolean = false
+
+    override fun getItemContent(): String = link
+
+    override fun getIsItemExplicit(): Boolean = explicit
 }
