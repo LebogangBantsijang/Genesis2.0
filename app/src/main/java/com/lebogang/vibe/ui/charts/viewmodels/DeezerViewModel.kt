@@ -57,20 +57,26 @@ class DeezerViewModel(private val deezerRepository: DeezerRepository): ViewModel
         override fun onResponse(call: Call<Music.Members>, response: Response<Music.Members>) {
             musicLiveData.postValue(response.body()?.data)
         }
-        override fun onFailure(call: Call<Music.Members>, t: Throwable) {}
+        override fun onFailure(call: Call<Music.Members>, t: Throwable) {
+            //failed
+        }
     }
 
     private fun getAlbumCallbacks() = object : Callback<Album.Members> {
         override fun onResponse(call: Call<Album.Members>, response: Response<Album.Members>) {
             albumLiveData.postValue(response.body()?.data)
         }
-        override fun onFailure(call: Call<Album.Members>, t: Throwable) {}
+        override fun onFailure(call: Call<Album.Members>, t: Throwable) {
+            //failed
+        }
     }
 
     private fun getArtistCallbacks() = object : Callback<Artist.Members> {
         override fun onResponse(call: Call<Artist.Members>, response: Response<Artist.Members>) {
             artistLiveData.postValue(response.body()?.data)
         }
-        override fun onFailure(call: Call<Artist.Members>, t: Throwable) {}
+        override fun onFailure(call: Call<Artist.Members>, t: Throwable) {
+            //failed
+        }
     }
 }

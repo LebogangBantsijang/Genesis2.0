@@ -113,7 +113,8 @@ abstract class PlayerHelper: AppCompatActivity() {
             return true
         }
 
-        override fun onResourceReady(bitmap: Bitmap?, m: Any?, t: Target<Bitmap>?, s: DataSource?, first: Boolean): Boolean {
+        override fun onResourceReady(bitmap: Bitmap?, m: Any?, t: Target<Bitmap>?, s: DataSource?,
+        first: Boolean): Boolean {
             if (bitmap != null){
                 Palette.Builder(bitmap).generate().dominantSwatch?.let {
                     bind.root.setBackgroundColor(it.rgb)

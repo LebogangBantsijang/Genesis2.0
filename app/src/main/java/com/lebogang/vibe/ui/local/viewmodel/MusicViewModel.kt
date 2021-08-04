@@ -63,14 +63,10 @@ class MusicViewModel(private val musicRepository: MusicRepository): ViewModel() 
             put(MediaStore.Audio.Media.ALBUM,music.album)
             put(MediaStore.Audio.Media.ARTIST,music.artist)
         }
-        try {
-            val results = context.contentResolver.update(uri,values, (MediaStore.Audio.Media._ID + " =?"),
-                arrayOf(music.id.toString()))
-            if (results>0)
-                musicRepository.addMusic(music)
-        }catch (e:NullPointerException){
-
-        }
+        val results = context.contentResolver.update(uri,values, (MediaStore.Audio.Media._ID + " =?"),
+            arrayOf(music.id.toString()))
+        if (results>0)
+            musicRepository.addMusic(music)
     }
 
     fun registerObserver(application: VibeApplication){

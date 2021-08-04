@@ -52,6 +52,7 @@ class QueueFragment: Fragment() {
 
     private fun getItemClickInterface() = object: ItemClickInterface {
         override fun onItemClick(view: View, item: Any?, type: Type) {
+            //finish later
         }
     }
 

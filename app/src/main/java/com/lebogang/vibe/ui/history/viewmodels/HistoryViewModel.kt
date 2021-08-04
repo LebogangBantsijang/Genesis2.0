@@ -37,11 +37,7 @@ class HistoryViewModel(private val historyRepository: HistoryRepository): ViewMo
 
     companion object fun addMusicHistory(music: Music) = CoroutineScope(Dispatchers.IO+SupervisorJob()).launch {
         var count = 1
-        try {
-            count += historyRepository.getCount(music.id)
-        }catch (e:Exception){
-
-        }
+        count += historyRepository.getCount(music.id)
         val date = Calendar.getInstance().time.toString()
         val history = History(0,music.id,music.title,music.artist
             ,music.album,date,count,music.date.toString(),music.contentUri)
