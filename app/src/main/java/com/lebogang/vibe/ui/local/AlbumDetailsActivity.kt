@@ -30,6 +30,7 @@ import com.lebogang.vibe.ui.local.viewmodel.AlbumViewModel
 import com.lebogang.vibe.ui.local.viewmodel.MusicViewModel
 import com.lebogang.vibe.ui.utils.*
 import com.lebogang.vibe.utils.Keys
+import kotlin.jvm.Throws
 
 class AlbumDetailsActivity : AppCompatActivity() {
     private val bind:ActivityAlbumDetailsBinding by lazy{ActivityAlbumDetailsBinding.inflate(layoutInflater)}
@@ -45,9 +46,12 @@ class AlbumDetailsActivity : AppCompatActivity() {
         setContentView(bind.root)
         val albumId = intent.extras?.getLong(Keys.ALBUM_KEY)!!
         initToolbar()
-        initData(albumId)
-        initMusic(albumId)
-
+        try {
+            initData(albumId)
+            initMusic(albumId)
+        }catch (e:NullPointerException){
+            onBackPressed()
+        }
     }
 
     private fun initToolbar(){
@@ -55,13 +59,10 @@ class AlbumDetailsActivity : AppCompatActivity() {
         bind.toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
+    @Throws(NullPointerException::class)
     private fun initData(id:Long){
         albumViewModel.getAlbums(id).observe(this,{
-            try{
-                bind.albumTitleTextView.text = it.getItemTitle()
-            }catch (e:NullPointerException){
-                onBackPressed()
-            }
+            bind.albumTitleTextView.text = it.getItemTitle()
             bind.albumArtistTextView.text = it.getItemArtist()
             val date:String = if (it.date > 0) it.date.toString() else "Unknown"
             val subTitle = date + " - " + it.getItemDuration() + " - " + it.getItemSize()

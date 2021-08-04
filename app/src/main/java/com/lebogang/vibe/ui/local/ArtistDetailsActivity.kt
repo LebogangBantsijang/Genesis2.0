@@ -30,6 +30,7 @@ import com.lebogang.vibe.ui.local.viewmodel.ArtistViewModel
 import com.lebogang.vibe.ui.local.viewmodel.MusicViewModel
 import com.lebogang.vibe.ui.utils.*
 import com.lebogang.vibe.utils.Keys
+import kotlin.jvm.Throws
 
 class ArtistDetailsActivity : AppCompatActivity() {
     private val bind: ActivityArtistDetailsBinding by lazy{ActivityArtistDetailsBinding.inflate(layoutInflater)}
@@ -45,8 +46,12 @@ class ArtistDetailsActivity : AppCompatActivity() {
         setContentView(bind.root)
         val artistId = intent.extras?.getLong(Keys.ARTIST_KEY)!!
         initToolbar()
-        initData(artistId)
-        initMusic(artistId)
+        try{
+            initData(artistId)
+            initMusic(artistId)
+        }catch (e:NullPointerException){
+            onBackPressed()
+        }
     }
 
     private fun initToolbar(){
@@ -54,6 +59,7 @@ class ArtistDetailsActivity : AppCompatActivity() {
         bind.toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
+    @Throws(NullPointerException::class)
     private fun initData(artistId:Long){
         artistViewModel.getArtist(artistId).observe(this,{
             try{

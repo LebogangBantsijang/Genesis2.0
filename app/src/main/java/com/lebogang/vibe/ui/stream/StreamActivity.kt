@@ -59,10 +59,6 @@ class StreamActivity : AppCompatActivity() {
         bind.recyclerViewAlbums.adapter = albumAdapter
     }
 
-    private fun initArtistRecyclerView(){
-
-    }
-
     private fun getItemClickInterface() = object:ItemClickInterface{
         override fun onItemClick(view: View, item: Any?, type: Type) {
             TODO("Not yet implemented")

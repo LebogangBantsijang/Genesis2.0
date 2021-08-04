@@ -84,7 +84,7 @@ class SearchAdapter:RecyclerView.Adapter<SearchAdapter.Holder>(),Filterable{
                 return FilterResults()
             }
             override fun publishResults(c: CharSequence?, r: FilterResults?){
-
+                //fix later
             }
         }
     }

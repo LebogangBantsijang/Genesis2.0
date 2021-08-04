@@ -16,14 +16,15 @@
 
 package com.lebogang.vibe.online.spotify
 
+import com.lebogang.vibe.ApiKeys
 import com.lebogang.vibe.online.spotify.models.Authentication
 import okhttp3.Credentials
 import retrofit2.Callback
 import java.nio.charset.Charset
 
 class SpotifyAuthentication(private val spotifyAuthenticationAccess: SpotifyAuthenticationAccess) {
-    private val authentication = Credentials.basic("845adac64a964500ae05d8132be829b8"
-        ,"1ea05c91aa3c4c30bdd669796392fbda", Charset.defaultCharset())
+    private val authentication = Credentials.basic(ApiKeys.SPOTIFY_USERNAME,ApiKeys.SPOTIFY_PASSWORD
+        , Charset.defaultCharset())
 
     fun authenticate(callBack: Callback<Authentication>){
         spotifyAuthenticationAccess.getAccessToken(authentication,"client_credentials")
